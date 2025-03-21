@@ -1,0 +1,88 @@
+/* Main.css */
+
+/* 맨 위 스와이퍼 */
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+  height: 450px;
+
+  display: flex;
+  justify-content: center; /* 가로 방향 가운데 정렬 */
+  align-items: center;     /* 세로 방향 가운데 정렬 */
+}
+
+/* 스와이퍼 이미지 */
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;  /* 이미지 비율 유지 및 컨테이너에 맞춤 */
+}
+
+/* 스와이퍼와 섹션 하단 여백 */
+.sw, .bt {
+  margin-bottom: 100px;
+}
+
+.card {
+  margin-bottom: 15px;
+}
+
+/* 메인 컨테이너 밑 여백 */
+.maincon {
+  margin-bottom: 100px;
+}
+
+/* 반응형 디자인 : 미디어 쿼리 */
+/* 최대 너비 567px */
+@media (max-width: 576px) {
+  .maincon {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .swiper-slide {
+    height: 300px; /* 슬라이드 높이  */
+  }
+
+  .oneCard > .col {
+    width: 100%; /* 1개 카드씩 배치 */
+    scrollbar-gutter: 10px;
+  }
+}
+
+/* 최대 너비 1170px */
+@media (max-width: 1170px) {
+  .maincon {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .maincon {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .row {
+    display: flex !important;
+    justify-content: center;
+  }
+  .oneCard > .col {
+    width: 50%; /* 2개 카드씩 배치 */
+    margin: 0 50px; /* 조절해서 */
+    flex: 0;
+  }
+}
+
+/* 최소 너비 1185px */
+@media (min-width: 1185px) {
+  .main-maincon {
+    margin-left: 50px;
+    margin-right: 50px;
+  }
+  .oneCard > .col {
+    width: 230px;
+    margin: 0 auto;
+    flex: 0;
+    /* width: 25%;  4개 카드씩 배치 */
+  } 
+}
