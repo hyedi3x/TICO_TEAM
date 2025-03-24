@@ -1,0 +1,58 @@
+/* --------------------------[chatbot 스타일 속성]---------------------------- */
+/* 챗봇 로고 위치 */
+.chatbot-logo {
+  position: fixed; /* 브라우저 화면 지정 위치 고정 */
+  bottom: 100px;
+  right: 30px;
+  width: 70px;
+  height: 70px;
+  z-index: 999;
+  cursor: pointer;
+  border-radius: 50%; /* 원형 로고 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+  transition: transform 0.3s ease; /* 호버 시 부드러운 효과 */
+}
+
+.chatbot-logo:hover {
+  transform: scale(1.1); /* 호버 시 약간 확대 */
+}
+
+/* 채팅창 위치 */
+.chatbot-window {
+  position: fixed;
+  top: 0; /* 전체 브라우저 높이로 설정 */
+  right: 0; /* 전체 브라우저 우측에 배치 */
+  width: 350px;
+  height: 100vh; /* 전체 브라우저 높이로 설정 */
+  border: 1px solid #ccc;
+  z-index: 1000; /* 투명 막 & 챗봇 로고보다 더 위로 위치하게 설정 */
+  background-color: #fff; /* 배경색 안주면 투명해짐*/
+  display: flex; /* flexbox 레이아웃 사용 */
+  flex-direction: column; /* 세로 방향으로 요소 배치 */
+}
+
+/* 투명 막 설정*/
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: calc(100% - 350px); /* 채팅창 제외한 나머지 영역 */
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* 반투명 검은색 */
+  z-index: 999; /* 채팅창보다 낮게 설정 */
+}
+
+/* 채팅창 닫기 버튼 */
+.close-button {
+  position: absolute; /* 채팅창 우측 상단에 배치 */
+  top: 10px;
+  right: 15px;
+  font-size: 20px;
+  cursor: pointer;
+  color: #666; /* 버튼 색상 */
+  transition: color 0.3s ease; /* 호버 시 부드러운 효과 */
+}
+
+.close-button:hover {
+  color: #a2d2ff; /* 호버 시 버튼 색상 변경 */
+}
