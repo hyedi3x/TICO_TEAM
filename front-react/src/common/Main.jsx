@@ -58,8 +58,8 @@ function Main() {
         {/* 스태프 선정 작품 섹션 */}
         <div className='bt'>
           {/* Card 컴포넌트 */}
-          <h1 classname='h1'>스태프 선정 작품</h1>
-          <p classname='p'>창의적이고 완성도가 높은 작품을 스태프가 직접 뽑아 소개해요.</p>
+          <h1 className='h1'>스태프 선정 작품</h1>
+          <p className='p'>창의적이고 완성도가 높은 작품을 스태프가 직접 뽑아 소개해요.</p>
           {/* 카드 목록 */}
           <Row className='oneCard'>
             {/* 각 카드 열 */}
@@ -123,7 +123,7 @@ function Main() {
         </div>
 
           {/* 인기 작품 섹션 */}
-        <div classname="bt1">
+        <div className="bt1">
           <h1>인기 작품</h1>
           <p>티코미들에게 이 작품들이 최근 주목 받고 있어요!</p>
             
