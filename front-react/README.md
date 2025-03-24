@@ -11,6 +11,7 @@
 # 서버 실행
 ```shell
 cd front-react
+npm install   # install 필수, node module 설치 과정, npm install --save 명령어 강제 설치
 npm start 
 ```
 <br/>
@@ -19,8 +20,8 @@ npm start
 # install
 ```shell
 # 기본 설정
-npm i react-router-dom
-npm i redux react-redux
+npm i react-router-dom    # React 애플리케이션에서 라우팅 기능을 제공, 페이지 간의 이동을 관리하는 데 사용
+npm i redux react-redux   # redux : React 애플리케이션에서 상태 관리/애플리케이션의 상태를 중앙 집중식으로 관리하여 컴포넌트 간의 상태 공유를 용이, react-redux : Redux 스토어에 접근할 수 있도록 도와주는 라이브러리
 
 # UI install(bootstrap, swiper, fortawsome)
 npm i react-bootstrap bootstrap  
