@@ -16,18 +16,27 @@ function MicRecord() {
   const inputChange = (e) => {
     setChats(e.target.value);
   };
-
+  
   // handleSend (채팅 전송 핸들러)
   const handleSend = () => {
+    setError(null); // 에러 메시지 초기화
     if (chats.trim()) {
       setChatList([...chatList, { text: chats, sender: 'user' }]); // 메시지 목록에 사용자 메시지 추가
       sendTextToSpring(chats, 'N'); // 스프링 부트로 텍스트 데이터 전송
       setChats('');
     }
   };
+  
+  // Enter 키 이벤트 핸들러
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSend();
+    }
+  };
 
   // 녹음 시작
   const startRec = () => {
+    setError(null); // 에러 메시지 초기화
     navigator.mediaDevices.getUserMedia({ audio: true }) // 사용자 기기 장치 접근 권한 요청 (audio)
       .then(stream => {
         mediaRec.current = new MediaRecorder(stream, { mimeType: 'audio/webm' }); // 기기 녹음 객체 webm type으로 생성 
@@ -44,7 +53,7 @@ function MicRecord() {
         mediaRec.current.start(); // 녹음 시작
         setRecState(true); // 녹음 상태 업데이트
       })
-      
+
       .catch((err) => {
         // 마이크 접근 실패 시 에러 메시지 설정
         if (err.name === 'NotAllowedError') {
@@ -146,6 +155,7 @@ function MicRecord() {
             type="text"
             value={chats}
             onChange={inputChange}
+            onKeyDown={handleKeyDown} // Enter 키 이벤트 핸들러 추가
             placeholder="메시지를 입력하세요..."
           />
           {/* 채팅 입력 or 마이크 음성 입력  */}
