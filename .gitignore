@@ -57,3 +57,6 @@ build/
 *.zip
 *.tar.gz
 *.rar
+
+# .env 파일 (api나 db 연동 코드가 담겨져 있음)
+.env

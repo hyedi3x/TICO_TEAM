@@ -11,7 +11,10 @@
 # 서버 실행
 ```shell
 cd front-react
-npm install   # install 필수, node module 설치 과정, npm install --save 명령어 강제 설치
+
+# install 필수, node module 설치 과정, npm install --save 명령어 강제 설치
+# package.json에 버전 설정을 git에 업로드 시, 모든 라이브러리 자동 설치
+npm install
 npm start 
 ```
 <br/>

@@ -1,5 +1,9 @@
 import React from 'react';
 
+// 스타일
+import './Main.css';
+import '../pages/chatbot/chatbot.css';
+
 // Swiper React 컴포넌트
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -18,8 +22,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 //이미지 파일
 import img1 from '../imgs/짱구1.jpg';
 
-// 스타일
-import './Main.css';
+// chatbot 객체 임포트
+import Chatbot from '../pages/chatbot/Chatbot';
 
 function Main() {
   return (
@@ -147,6 +151,9 @@ function Main() {
           </Row>
         </div>
       </div>
+            
+      {/* Chatbot 임포트 */}
+      <Chatbot />
     </div>
   );
 }
