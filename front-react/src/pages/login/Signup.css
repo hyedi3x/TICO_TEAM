@@ -53,7 +53,7 @@
 }
 
 .progress-step.active {
-  background-color: purple; /* 활성화된 스텝 색상 */
+  background-color: #f30807; /* 활성화된 스텝 색상 */
   color: white;
 }
 
@@ -79,7 +79,7 @@
 }
 
 .check_btn {
-  accent-color: purple;
+  accent-color: #f30807;
   margin-right: 10px;
 }
 
