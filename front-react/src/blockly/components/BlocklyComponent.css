@@ -1,0 +1,48 @@
+/* 전체 컨테이너 스타일 */
+.blockly-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 20px;
+}
+
+/* Blockly 작업 영역 */
+.blockly-workspace {
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+    max-width: 600px;
+}
+
+/* Blockly div 스타일 */
+.blockly-div {
+    height: 500px;
+    width: 100%;
+}
+
+/* 실행 버튼 스타일 */
+.run-button {
+    margin-top: 10px;
+    width: 50%;
+    align-self: center;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* 실행 버튼 hover 효과 */
+.run-button:hover {
+    background-color: #26722a;
+}
+
+#sprite {
+    width: 70px;
+    height: 90px;
+    z-index: 90;
+    transform: translate(600px, 300px);
+}
