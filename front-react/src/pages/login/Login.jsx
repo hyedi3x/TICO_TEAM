@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import './login.css';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Link } from "react-router-dom";
+import LoginButton from "../login/social/components/LoginButton"; // 카카오 로그인 버튼 추가
 
 function Login(){
 
@@ -85,9 +86,7 @@ function Login(){
           <Link to='/'>
             <button className="social-button naver">네이버로 로그인</button>
           </Link>
-          <Link to='/'>
-            <button className="social-button kakao">카카오로 로그인</button>
-          </Link>
+          <LoginButton /> {/* 기존 카카오 로그인 버튼을 LoginButton 컴포넌트로 변경 */}
           <Link to='/'>
             <button className="social-button google">구글로 로그인</button>
           </Link>
