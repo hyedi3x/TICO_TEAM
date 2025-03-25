@@ -1,13 +1,13 @@
 # Blockly
 ```
-npm i blockly(blockly 패키지 설치 명령어)
+npm install blockly(blockly 패키지 설치 명령어)
 ```
 <br/>
 
 # package.json
 ```
 package.json에 이렇게 들어가면 성공
-"blockly": "^11.2.1"
+"blockly": "^11.2.2"
 ```
 <br/>
 
