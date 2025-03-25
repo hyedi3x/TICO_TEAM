@@ -21,7 +21,7 @@
 }
 
 /* 실행 버튼 스타일 */
-.run-button {
+.run-button, .save-button {
     margin-top: 10px;
     width: 50%;
     align-self: center;
@@ -36,9 +36,10 @@
 }
 
 /* 실행 버튼 hover 효과 */
-.run-button:hover {
+.run-button:hover, .save-button:hover {
     background-color: #26722a;
 }
+
 
 #sprite {
     width: 70px;

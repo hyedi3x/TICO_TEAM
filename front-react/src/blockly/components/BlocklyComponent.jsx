@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import * as Blockly from "blockly";
+import { saveBlocklyWorkspaceAsJSON, loadBlocklyWorkspaceFromJSON } from '../utils/saveAndLoad';
 import * as ko from "blockly/msg/ko";
 import { defineCustomBlocks } from '../blocks/customBlocks';
 import { registerBlockGenerators } from '../blocks/blockGenerators';
@@ -50,6 +51,9 @@ const BlocklyComponent = () => {
             });
 
             Blockly.setLocale(ko);  // 한국어 설정
+
+            // 저장된 작업공간 불러오기
+            loadBlocklyWorkspaceFromJSON(workspace.current);
         }
     }, []);
 
@@ -60,6 +64,9 @@ const BlocklyComponent = () => {
                 <div className='blockly-div' ref={blocklyDiv} />
                 <button className='run-button' onClick={() => runGeneratedCode(workspace.current)}>
                     실행하기
+                </button>
+                <button className='save-button' onClick={() => saveBlocklyWorkspaceAsJSON(workspace.current)}>
+                    저장하기
                 </button>
             </div>
         </div>
