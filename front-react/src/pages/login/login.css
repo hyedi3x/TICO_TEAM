@@ -1,0 +1,166 @@
+/* 전체 로그인 페이지 컨테이너 */
+.login-container {
+  display: flex;
+  justify-content: center;   /* 가로 방향으로 중앙 정렬 */
+  align-items: center;       /* 세로 방향으로 중앙 정렬 */
+  padding: 100px;
+}
+
+/*  로그인 박스 */
+.login-box {
+  width: 540px;
+  padding: 40px;
+  border-radius: 8px;  /* 로그인 박스 모서리 둥글게 처리 */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);  /* 미세한 그림자 효과 */
+}
+
+/* 로그인 제목 */
+.login-box h2 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* 입력 필드 그룹 */
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  margin-bottom: 5px;
+}
+
+/* 입력 필드 */
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #e2e2e2;
+  box-sizing: border-box;
+}
+
+.password-input {
+  position: relative;
+}
+
+/* 비밀번호 보이기/숨기기 버튼 */
+.password-toggle {
+  position: absolute;
+  font-size: 20px;
+  right: 15px;
+  top: 47%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #afafaf;
+}
+
+/* 체크박스 그룹 */
+.checkbox-group {
+  display: flex;
+  justify-content: space-between; /* 체크박스 간의 공간을 일정하게 배치 */
+  margin-bottom: 20px;
+}
+
+.check_btn {
+  accent-color: purple;
+  margin-right: 10px;
+}
+
+/* 로그인 버튼 */
+.login-button {
+  width: 100%;
+  padding: 12px;
+  background: #20c997;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.login-button:hover {
+  background-color: #1e8e72;  /* 아이디로 회원가입 버튼 */
+}
+
+/* 소셜 로그인 버튼들 */
+.social-login {
+  display: flex;
+  flex-direction: row;  /* 버튼들을 한 행으로 배치 */
+  justify-content: space-between;
+}
+
+.social-button {
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 145px; /* 버튼 너비 고정 */
+}
+
+.social-button.naver, .social-button.kakao, 
+.social-button.google {
+  color: #fff;
+  transition: transform 0.3s ease;
+}
+
+.social-button.naver:hover, .social-button.kakao:hover, 
+.social-button.google:hover {
+  background: #fff;
+  color: #000000;
+  transform: scale(1.1);
+}
+
+.social-button.naver {
+  background: #19ce60;
+}
+
+.social-button.naver:hover {
+  border: 1px solid #19ce60;
+}
+
+.social-button.kakao {
+  background: #ffd900;
+}
+
+.social-button.kakao:hover {
+  border: 1px solid #ffd900;
+}
+
+.social-button.google {
+  background: #4285f4;
+}
+
+.social-button.google:hover {
+  border: 1px solid #4285f4;
+}
+
+/* 로그인 하단 링크 */
+.login-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.login-footer a {
+  color: #495057;
+  text-decoration: none;
+}
+
+/* 반응형 설정(화면 크기가 750px 이하일 때 적용 */
+@media (max-width: 750px) {
+  .login-container {
+    padding: 40px;
+  }
+  .login-box {
+    padding: 20px;
+  }
+
+  .social-login{
+    flex-direction: column;
+  }
+
+  .social-button {
+    width:500px;
+    margin-bottom: 10px;
+  }
+}

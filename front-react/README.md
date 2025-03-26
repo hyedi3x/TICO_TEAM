@@ -37,6 +37,8 @@ npm install --save @fortawesome/free-solid-svg-icons    # 채워진 아이콘 ex
 npm install --save @fortawesome/free-regular-svg-icons  # 보통의 아이콘
 npm install --save @fortawesome/free-brands-svg-icons   # 브랜트 아이콘 ex) 페이스북
 
+npm install react-icons # 아이콘 모음
+
 ```
 
 <br/>
