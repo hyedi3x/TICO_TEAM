@@ -39,6 +39,7 @@ npm install --save @fortawesome/free-brands-svg-icons   # 브랜트 아이콘 ex
 
 npm install react-icons # 아이콘 모음
 
+npm install axios   # 비동기 처리(fetch랑 같은 기능)
 ```
 
 <br/>
