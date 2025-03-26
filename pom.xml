@@ -58,12 +58,27 @@
          <optional>true</optional>
       </dependency>
       
-      <!-- oracle driver -->
+      <!-- Lombok -->
       <dependency>
-         <groupId>com.oracle.database.jdbc</groupId>
-         <artifactId>ojdbc11</artifactId>
-         <scope>runtime</scope>
+          <groupId>org.projectlombok</groupId>
+          <artifactId>lombok</artifactId>
+          <optional>true</optional>
       </dependency>
+      
+      <!-- kakaopropertise @ConfigurationProperties 사용을 위해 추가 -->
+	  <dependency>
+		  <groupId>org.springframework.boot</groupId>
+		  <artifactId>spring-boot-configuration-processor</artifactId>
+		  <scope>provided</scope>
+	  </dependency>
+      
+       <!-- Oracle JDBC 드라이버 -->
+        <dependency>
+            <groupId>com.oracle.database.jdbc</groupId>
+            <artifactId>ojdbc11</artifactId>
+         <scope>runtime</scope>
+        </dependency>
+        
       <!-- done -->
        
       <dependency>
