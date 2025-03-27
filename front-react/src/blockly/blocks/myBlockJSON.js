@@ -1,9 +1,33 @@
 import * as Blockly from 'blockly';
 
-// 사용자 정의 블록 정의
-export const defineCustomBlocks = () => {
-  Blockly.defineBlocksWithJsonArray([
+const defineMyBlocks = ()=>{
 
+    Blockly.defineBlocksWithJsonArray([
+
+      // 시작 관련 블록들
+      // 시작하기 블록
+      {
+        "type": "start_btn",
+        "message0": "시작하기",
+        "colour": "#FF6666",
+        "nextStatement": null
+      },
+
+      // 버튼을 눌러서 시작하기 블록
+      {
+        "type": "start_with_q",
+        "message0": "%1 버튼을 눌러 시작하기",
+        "args0": [
+            {
+                "type": "field_label",
+                "name": "KEY_OPTION",
+                "text": "q"
+            }
+        ],
+        "colour": "#FF6666",
+        "nextStatement": null
+      },
+        
       // 움직임 관련 블록들
       // 이동 방향과 거리 블록
       {
@@ -11,59 +35,81 @@ export const defineCustomBlocks = () => {
         "message0": "%1° 방향으로 %2만큼 이동하기",
         "args0": [
           {
-            "type": "input_value",
-            "name": "ANGLE",
+            "type": "field_input",
+            "name": "angle",
             "check": "Number",
             "align": "RIGHT"
           },
           {
-            "type": "input_value",
-            "name": "DISTANCE",
+            "type": "field_input",
+            "name": "distance",
             "check": "Number",
             "align": "RIGHT"
           }
         ],
         "previousStatement": null,
         "nextStatement": null,
-        "colour": "#19baea",
+        "colour": "#FFCC66",
         "tooltip": "입력한 방향의 각도와 거리만큼 요소를 이동시킵니다.",
         "helpUrl": ""
       },
 
       // X좌표 바꾸기 블록
       {
-        "type": "move_coordX",
-        "message0": "X좌표를 %1만큼 이동하기",
+        "type": "move_obj_toX",
+        "message0": "x 좌표로 %1 만큼 움직이기",
         "args0": [
-          {
-            "type": "input_value",
-            "name": "COORDX",
-            "check": "Number"
-          }
+            {
+                "type": "field_input",
+                "name": "x",
+                "text": "10", // 기본값
+            }
         ],
         "previousStatement": null,
         "nextStatement": null,
-        "colour": "#19baea",
-        "tooltip": "입력한 정수만큼 요소의 X좌표가 바뀝니다.",
+        "colour": "#FFCC66",
+        "tooltip": "x 좌표를 지정된 값만큼 움직입니다.",
         "helpUrl": ""
+     },
+    
+    // Y좌표 바꾸기 블록
+    { 
+      "type": "move_obj_toY",
+      "message0": "y 좌표로 %1 만큼 움직이기",
+      "args0": [
+          {
+              "type": "field_input",
+              "name": "y",
+              "text": "10", // 기본값
+          }
+      ],
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": "#FFCC66",
+      "tooltip": "y 좌표를 지정된 값만큼 움직입니다.",
+      "helpUrl": ""
     },
-
-      // y좌표 바꾸기 블록
-      {
-        "type": "move_coordY",
-        "message0": "Y좌표를 %1만큼 이동하기",
-        "args0": [
+    
+    { // x,y축
+      "type": "move_obj_toXY",
+      "message0": "x 좌표로 %1 만큼, y 좌표로 %2만큼 움직이기",
+      "args0": [
           {
-            "type": "input_value",
-            "name": "COORDY",
-            "check": "Number"
-          }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#19baea",
-        "tooltip": "입력한 정수만큼 요소의 Y좌표가 바뀝니다.",
-        "helpUrl": ""
+              "type": "field_input",
+              "name": "x",
+              "text": "10", // 기본값
+          },
+          {
+            "type": "field_input",
+            "name": "y",
+            "text": "10", // 기본값
+        }
+      ],
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": "#FFCC66",
+      "tooltip": "x,y 좌표를 지정된 값만큼 움직입니다.",
+      "helpUrl": ""
     },
 
     // 해당 X좌표로 이동하기 블록
@@ -72,15 +118,15 @@ export const defineCustomBlocks = () => {
       "message0": "x: %1 위치로 이동하기",
       "args0": [
         {
-          "type": "input_value",
-          "name": "X",
+          "type": "field_input",
+          "name": "x",
           "check": "Number",
           "align": "RIGHT"
         }
       ],
       "previousStatement": null,
       "nextStatement": null,
-      "colour": "#19baea",
+      "colour": "#FFCC66",
       "tooltip": "입력한 x좌표로 요소를 이동시킵니다.",
       "helpUrl": ""
     },
@@ -91,35 +137,57 @@ export const defineCustomBlocks = () => {
       "message0": "y: %1 위치로 이동하기",
       "args0": [
         {
-          "type": "input_value",
-          "name": "Y",
+          "type": "field_input",
+          "name": "y",
           "check": "Number",
           "align": "RIGHT"
         }
       ],
       "previousStatement": null,
       "nextStatement": null,
-      "colour": "#19baea",
+      "colour": "#FFCC66",
       "tooltip": "입력한 y좌표로 요소를 이동시킵니다.",
       "helpUrl": ""
     },
 
-    // 요소를 회전하기 블록
-    {
-      "type": "rotate_element",
-      "message0": "방향을 %1°만큼 회전하기",
+    // 요소 회전시키기 블록
+    { 
+      "type": "rotate_obj",
+      "message0": "시계방향으로 %1 만큼 회전하기",
       "args0": [
-        {
-          "type": "input_value",
-          "name": "ROTATE",
-          "check": "Number",
-          "align": "RIGHT"
+          {
+              "type": "field_input",
+              "name": "angle",
+              "text": "0", // 기본값
+          }
+      ],
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": "#FFCC66",
+      "tooltip": "시계방향으로 angle만큼 회전합니다.",
+      "helpUrl": ""
+    },
+
+    // 일정 시간 동안 회전시키기 블록
+    { 
+      "type": "rotate_obj_inTime",
+      "message0": "시계방향으로 %1 만큼 %2초 동안 회전하기",
+      "args0": [
+          {
+              "type": "field_input",
+              "name": "angle",
+              "text": "0", // 기본값
+          },
+          {
+            "type": "field_input",
+            "name": "duration",
+            "text": "0", // 기본값
         }
       ],
       "previousStatement": null,
       "nextStatement": null,
-      "colour": "#19baea",
-      "tooltip": "입력한 각도만큼 요소를 회전시킵니다.",
+      "colour": "#FFCC66",
+      "tooltip": "시계방향으로 angle만큼 회전합니다.",
       "helpUrl": ""
     },
 
@@ -130,7 +198,7 @@ export const defineCustomBlocks = () => {
       "message0": "모양 보이기",
       "previousStatement": null,
       "nextStatement": null,
-      "colour": "#9C27B0",
+      "colour": "#99CC66",
       "tooltip": "오브젝트를 화면에 보이게 합니다.",
       "helpUrl": ""
     },
@@ -141,49 +209,8 @@ export const defineCustomBlocks = () => {
       "message0": "모양 숨기기",
       "previousStatement": null,
       "nextStatement": null,
-      "colour": "#9C27B0",
+      "colour": "#99CC66",
       "tooltip": "오브젝트를 화면에서 숨깁니다.",
-      "helpUrl": ""
-    },
-
-    // 요소에 말풍선 띄우기
-    {
-      "type": "show_bubble",
-      "message0": "%1을(를) 말하기",
-      "args0": [
-        {
-          "type": "input_value",
-          "name": "TEXT",
-          "align": "RIGHT"
-        }
-      ],
-      "previousStatement": null,
-      "nextStatement": null,
-      "colour": "#9C27B0",
-      "tooltip": "특정 요소 위에 말풍선을 표시합니다.",
-      "helpUrl": ""
-    },
-
-    // 요소에 일정 시간 동안 말풍선 띄우기
-    {
-      "type": "show_bubble_duration",
-      "message0": "%1을(를) %2초 동안 말하기",
-      "args0": [
-        {
-          "type": "input_value",
-          "name": "TEXT",
-          "align": "RIGHT"
-        },
-        {
-          "type": "input_value",
-          "name": "DURATION",
-          "check": "Number"
-        }
-      ],
-      "previousStatement": null,
-      "nextStatement": null,
-      "colour": "#9C27B0",
-      "tooltip": "특정 요소 위에 일정 시간 동안 말풍선을 표시합니다.",
       "helpUrl": ""
     },
 
@@ -194,7 +221,7 @@ export const defineCustomBlocks = () => {
       "args0": [
         {
           "type": "field_dropdown",
-          "name": "PROPERTY",
+          "name": "property",
           "options": 
           [
             ["색상", "color"],
@@ -203,15 +230,15 @@ export const defineCustomBlocks = () => {
           ]
         },
         {
-          "type": "input_value",
-          "name": "VALUE",
+          "type": "field_input",
+          "name": "value",
           "check": "Number",
           "align": "RIGHT"
         }
       ],
       "previousStatement": null,
       "nextStatement": null,
-      "colour": "#9C27B0",
+      "colour": "#99CC66",
       "tooltip": "색상, 밝기, 투명도를 변경합니다.",
       "helpUrl": ""
     },
@@ -222,15 +249,15 @@ export const defineCustomBlocks = () => {
       "message0": "크기를 %1만큼 변경하기",
       "args0": [
         {
-          "type": "input_value",
-          "name": "SIZE",
+          "type": "field_input",
+          "name": "size",
           "check": "Number",
           "align": "RIGHT"
         }
       ],
       "previousStatement": null,
       "nextStatement": null,
-      "colour": "#9C27B0",
+      "colour": "#99CC66",
       "tooltip": "요소의 크기를 지정한 값만큼 증가/감소합니다.",
       "helpUrl": ""
     },
@@ -241,15 +268,15 @@ export const defineCustomBlocks = () => {
       "message0": "크기를 %1(으)로 정하기",
       "args0": [
         {
-          "type": "input_value",
-          "name": "SIZE",
+          "type": "field_input",
+          "name": "size",
           "check": "Number",
           "align": "RIGHT"
         }
       ],
       "previousStatement": null,
       "nextStatement": null,
-      "colour": "#9C27B0",
+      "colour": "#99CC66",
       "tooltip": "요소의 크기를 지정한 값으로 변경합니다.",
       "helpUrl": ""
     },
@@ -261,7 +288,7 @@ export const defineCustomBlocks = () => {
       "args0": [
         {
           "type": "field_dropdown",
-          "name": "FLIP_DIRECTION",
+          "name": "direction",
           "options": [
             ["좌우", "horizontal"],
             ["상하", "vertical"]
@@ -270,7 +297,7 @@ export const defineCustomBlocks = () => {
       ],
       "previousStatement": null,
       "nextStatement": null,
-      "colour": "#9C27B0",
+      "colour": "#99CC66",
       "tooltip": "오브젝트를 좌우 또는 상하로 반전시킵니다.",
       "helpUrl": ""
     },
@@ -281,15 +308,15 @@ export const defineCustomBlocks = () => {
       "message0": "모양을 %1로 바꾸기",
       "args0": [
         {
-          "type": "input_value",
-          "name": "ANOTHER_SHAPE",
+          "type": "field_input",
+          "name": "shape",
           "check": "String",
           "align": "RIGHT"
         }
       ],
       "previousStatement": null,
       "nextStatement": null,
-      "colour": "#9C27B0",
+      "colour": "#99CC66",
       "tooltip": "지정된 이미지 URL로 이미지를 변경합니다.",
       "helpUrl": ""
     },
@@ -301,14 +328,14 @@ export const defineCustomBlocks = () => {
       "message0": "소리 %1를 재생",
       "args0": [
         {
-          "type": "input_value",
-          "name": "SOUND",
+          "type": "field_input",
+          "name": "sound",
           "align": "RIGHT"
         }
       ],
       "previousStatement": null,
       "nextStatement": null,
-      "colour": "#F44336",
+      "colour": "#6699FF",
       "tooltip": "주어진 소리 파일을 재생합니다.",
       "helpUrl": ""
     },
@@ -319,20 +346,20 @@ export const defineCustomBlocks = () => {
       "message0": "소리 %1를 %2초 동안 재생",
       "args0": [
         {
-          "type": "input_value",
-          "name": "SOUND",
+          "type": "field_input",
+          "name": "sound",
           "align": "RIGHT"
         },
         {
-          "type": "input_value",
-          "name": "DURATION",
+          "type": "field_input",
+          "name": "duration",
           "check": "Number",
           "align": "RIGHT"
         }
       ],
       "previousStatement": null,
       "nextStatement": null,
-      "colour": "#F44336",
+      "colour": "#6699FF",
       "tooltip": "주어진 소리 파일을 특정 시간 동안 재생합니다.",
       "helpUrl": ""
     },
@@ -343,26 +370,26 @@ export const defineCustomBlocks = () => {
       "message0": "소리 %1를 %2초부터 %3초까지 재생",
       "args0": [
         {
-          "type": "input_value",
-          "name": "SOUND",
+          "type": "field_input",
+          "name": "sound",
           "align": "RIGHT"
         },
         {
-          "type": "input_value",
-          "name": "START",
+          "type": "field_input",
+          "name": "start",
           "check": "Number",
           "align": "RIGHT"
         },
         {
-          "type": "input_value",
-          "name": "END",
+          "type": "field_input",
+          "name": "end",
           "check": "Number",
           "align": "RIGHT"
         }
       ],
       "previousStatement": null,
       "nextStatement": null,
-      "colour": "#F44336",
+      "colour": "#6699FF",
       "tooltip": "주어진 소리 파일을 특정 구간에서만 재생합니다.",
       "helpUrl": ""
     },
@@ -374,7 +401,7 @@ export const defineCustomBlocks = () => {
       "args0": [
         {
           "type": "field_dropdown",
-          "name": "STOP_OPTION",
+          "name": "option",
           "options": 
           [
             ["전체 멈추기", "ALL"],
@@ -384,28 +411,30 @@ export const defineCustomBlocks = () => {
       ],
       "previousStatement": null,
       "nextStatement": null,
-      "colour": "#F44336",
+      "colour": "#6699FF",
       "tooltip": "소리를 멈춥니다. 전체를 멈추거나 하나만 멈출 수 있습니다.",
       "helpUrl": ""
     },
     
     // 소리 빠르기 배수 설정 블록
     {
-      "type": "multiple_soundspeed",
+      "type": "multiple_sound_speed",
       "message0": "소리 빠르기를 %1배로 설정",
       "args0": [
         {
-          "type": "input_value",
-          "name": "MULTIPLE",
+          "type": "field_input",
+          "name": "multiple",
           "check": "Number",
           "align": "RIGHT"
         }
       ],
       "previousStatement": null,
       "nextStatement": null,
-      "colour": "#F44336",
+      "colour": "#6699FF",
       "tooltip": "주어진 소리 파일의 재생 속도를 몇 배로 설정합니다.",
       "helpUrl": ""
     }
+
   ]);
 };
+export default defineMyBlocks;
