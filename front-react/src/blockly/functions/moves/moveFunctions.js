@@ -1,4 +1,4 @@
-import { imgArr, callImgArr } from '../../blocks/BlockGenerator'; // 전역변수 스코프
+import { imgArr, callImgArr } from '../../blocks/blockGenerator'; // 전역변수 스코프
 
 // 방향과 거리로 이동
 const moveInDirection = function (angle, distance, index) {

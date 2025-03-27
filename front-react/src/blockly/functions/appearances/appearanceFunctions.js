@@ -1,4 +1,4 @@
-import { callImgArr, imgArr } from "../../blocks/BlockGenerator";
+import { callImgArr, imgArr } from "../../blocks/blockGenerator";
 
 // 요소 보이기
 const showObject = function(index){
