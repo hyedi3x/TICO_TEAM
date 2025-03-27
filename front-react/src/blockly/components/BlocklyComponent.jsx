@@ -3,7 +3,7 @@ import * as Blockly from "blockly"; // npm install Blockly
 import * as ko from 'blockly/msg/ko';  // 한글 번역 모듈
 import { javascriptGenerator } from "blockly/javascript"; // JavaScript 코드 생성기 가져오기
 import toolboxXML from '../blocks/myBlocks';
-import RegisterBlockGenerator from '../blocks/BlockGenerator';
+import RegisterBlockGenerator from '../blocks/blockGenerator';
 import defineMyBlocks from '../blocks/myBlockJSON';
 import runGeneratedCode from '../blocks/codeRunner';
 import '../components/BlocklyComponent.css'
@@ -297,15 +297,10 @@ function Canvas() {
           <div ref={blocklyDiv}>
               {/* 클릭할 때 마다 컨테이너에 담기는 작업공간이 변경된다. */}
           </div>
-          
-          
-            <input type="file" id="imgInput" accept="image/*" style={{display:'none'}} 
-                onChange={selectimg}/>
-            <button className='run-button' onClick={()=> document.querySelector('#imgInput').click()}>오브젝트 추가하기</button>
-            <button className='run-button' onClick={runCode}>실행하기</button>
-            
-          
-          
+          <input type="file" id="imgInput" accept="image/*" style={{display:'none'}} 
+              onChange={selectimg}/>
+          <button className='run-button' onClick={()=> document.querySelector('#imgInput').click()}>오브젝트 추가하기</button>
+          <button className='run-button' onClick={runCode}>실행하기</button>
       </div>
     </div>
       );
