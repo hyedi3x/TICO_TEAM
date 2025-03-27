@@ -15,10 +15,10 @@
 }
 
 /* Blockly div 스타일 */
-.blockly-div {
+/* .blockly-div {
     height: 500px;
     width: 100%;
-}
+} */
 
 /* 실행 버튼 스타일 */
 .run-button, .save-button {
