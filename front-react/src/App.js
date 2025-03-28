@@ -7,7 +7,7 @@ import Login from './pages/login/Login';
 import Signup from './pages/login/Signup';
 import SignUpId from './pages/login/SignUpId';
 import KakaoLogin from './pages/login/social/pages/KakaoLogin';
-
+import ErpMain from './erp/ErpMain';
 
 function App() {
   return (
@@ -20,6 +20,7 @@ function App() {
           <Route path="/signUp" element={<Signup/>} />
           <Route path="/signUp/id" element={<SignUpId/>}/>
           <Route path="/kakaoLogin" element={<KakaoLogin />} />
+          <Route path="/erpMain" element={<ErpMain/>} />
         </Routes>
         <Footer/>
       </BrowserRouter>
