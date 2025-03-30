@@ -1,6 +1,6 @@
 import pandas as pd
-import pymysql  # pip install pymysql
-from dotenv import load_dotenv
+import pymysql  # conda install -c anaconda pymysql
+from dotenv import load_dotenv  # env 파일 로드, pip install
 import io  # 파일 입출력
 import sys
 import os  # 운영체제
