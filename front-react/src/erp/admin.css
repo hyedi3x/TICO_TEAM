@@ -1,0 +1,44 @@
+.admin-form-container {
+  max-width: 1014px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.panel-container {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.result-panel {
+  margin-top: 20px;
+}
+
+.rsuite-panel .rs-panel-header {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.rsuite-panel .rs-panel-body {
+  padding-bottom: 20px !important;
+}
+
+.rsuite-button {
+  width: 100%;
+  display: block;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.form-row > div {
+  flex: 1;
+  min-width: 240px;
+  margin-bottom: 10px;
+}
+
+.form-row > div:last-child {
+  margin-right: 0;
+}

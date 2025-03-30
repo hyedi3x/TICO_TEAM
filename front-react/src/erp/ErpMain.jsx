@@ -14,7 +14,9 @@ import { TbPlayCardStarFilled } from "react-icons/tb";
 import { FaGear } from "react-icons/fa6";
 
 import Home from "./Home";
-import Admin from "./Admin";
+import AdminRegister from "./AdminRegister";
+import AdminInfo from "./AdminInfo";
+
 
 
 function ErpMain() {
@@ -30,8 +32,12 @@ function ErpMain() {
         setContent(<Home />);
         break;
       case '2-1':
-        setContent(<Admin />);
+        setContent(<AdminRegister />);
         break;
+      case '2-2':
+        setContent(<AdminInfo />);
+        break;
+          
       // ... 다른 메뉴 항목에 대한 콘텐츠 설정 ...
       default:
         setContent(null); // 기본적으로 null 설정
@@ -57,7 +63,8 @@ function ErpMain() {
                 Home
               </Nav.Item>
               <Nav.Menu placement="rightStart" eventKey="2" title="인사팀(HR)" icon={<Icon as={BsFillPeopleFill}/>}>
-                <Nav.Item eventKey="2-1">관리자 조회</Nav.Item>
+                <Nav.Item eventKey="2-1">관리자 등록</Nav.Item>
+                <Nav.Item eventKey="2-2">관리자 조회</Nav.Item>
               </Nav.Menu>
 
               <Nav.Menu placement="rightStart" eventKey="3" title="고객 관리팀(CM)" icon={<Icon as={FaPeopleRobbery}/>}>
