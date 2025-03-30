@@ -297,10 +297,15 @@ function Canvas() {
           <div ref={blocklyDiv}>
               {/* 클릭할 때 마다 컨테이너에 담기는 작업공간이 변경된다. */}
           </div>
-          <input type="file" id="imgInput" accept="image/*" style={{display:'none'}} 
-              onChange={selectimg}/>
-          <button className='run-button' onClick={()=> document.querySelector('#imgInput').click()}>오브젝트 추가하기</button>
-          <button className='run-button' onClick={runCode}>실행하기</button>
+          
+          
+            <input type="file" id="imgInput" accept="image/*" style={{display:'none'}} 
+                onChange={selectimg}/>
+            <button className='run-button' onClick={()=> document.querySelector('#imgInput').click()}>오브젝트 추가하기</button>
+            <button className='run-button' onClick={runCode}>실행하기</button>
+            
+          
+          
       </div>
     </div>
       );
