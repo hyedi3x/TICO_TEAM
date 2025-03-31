@@ -64,7 +64,7 @@ function Header() {
                 </NavDropdown>
 
                 <NavDropdown title="만들기" id="offcanvasNavbarDropdown">
-                  <NavDropdown.Item href="#action3">작품 만들기</NavDropdown.Item>
+                  <NavDropdown.Item href="createBlock">작품 만들기</NavDropdown.Item>
                   <NavDropdown.Item href="#action5">스터디 만들기</NavDropdown.Item>
                 </NavDropdown>
 
