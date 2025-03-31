@@ -4,11 +4,18 @@ import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.*;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+//@NoArgsConstructor : 기본 생성자, @AllArgsConstructor: 모든 필드를 파라미터로 받는 생성자
+//@Data : @Getter, @Setter, @RequiredArgsConstructor, @EqualsAndHashCode, @ToString 포함
 
 @Entity
 @Table(name = "EMPLOYEES")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class EmpDTO {
     @Id
     @Column(name = "emp_id")
@@ -53,22 +60,4 @@ public class EmpDTO {
     @Column(name = "termination_date")
     private Date terminationDate;
 
-    @Override
-    public String toString() {
-        return "EmpDTO{" +
-                "empId='" + empId + '\'' +
-                ", empName='" + empName + '\'' +
-                ", depId='" + depId + '\'' +
-                ", jobId='" + jobId + '\'' +
-                ", empEmail='" + empEmail + '\'' +
-                ", empPhone='" + empPhone + '\'' +
-                ", empHome='" + empHome + '\'' +
-                ", empBirth=" + empBirth +
-                ", salary=" + salary +
-                ", annualSalary=" + annualSalary +
-                ", netAnnualSalary=" + netAnnualSalary +
-                ", hireDate=" + hireDate +
-                ", terminationDate=" + terminationDate +
-                '}';
-    }
 }

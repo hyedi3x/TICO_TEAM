@@ -1,27 +1,80 @@
 package com.boot.tico.erp.service;
 
-import java.util.List;
-
+import com.boot.tico.erp.dto.DepDTO;
+import com.boot.tico.erp.dto.EmpDTO;
+import com.boot.tico.erp.dto.JobDTO;
+import com.boot.tico.erp.repo.DepRepository;
+import com.boot.tico.erp.repo.EmpRepository;
+import com.boot.tico.erp.repo.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.boot.tico.erp.dto.EmpDTO;
-import com.boot.tico.erp.repo.EmpRepository;
+import java.util.List;
 
 @Service
 public class ErpService {
-    @Autowired
-    private EmpRepository empRepo;
 
-    // 전체 데이터를 반환하는 메서드
-    public List<EmpDTO> getAllEmployees() {
-        return empRepo.findAll(); // 전체 데이터를 반환
+    @Autowired private EmpRepository empRepo;
+    @Autowired private DepRepository depRepo;
+    @Autowired private JobRepository jobRepo;
+
+    // 부서 전체 조회
+    public List<DepDTO> getAllDep() {
+        return depRepo.findAll();
+    }
+    
+    // 부서명 검색
+    public List<DepDTO> searchDep(String keyword) {
+        return depRepo.findByDepNameContainingIgnoreCase(keyword); 
+    }
+    
+    // 직무 전체 조회
+    public List<JobDTO> getAllJobs() {
+        return jobRepo.findAll(); 
+    }
+    
+    // 사원 등록 (empId 자동 생성)
+    public EmpDTO saveEmp(EmpDTO emp) {
+    	// empId가 없으면, generateNextEmpId() 호출 (input이 없기 때문에 무조건 null)
+        if (emp.getEmpId() == null || emp.getEmpId().isEmpty()) {
+            String nextEmpId = generateNextEmpId();
+            emp.setEmpId(nextEmpId);
+        }
+        return empRepo.save(emp);  // empId 저장
     }
 
-    // empId로 특정 직원 찾는 메서드
-    public List<EmpDTO> getEmployeeByEmpId(String empId) {
-    	List<EmpDTO> result = empRepo.findByEmpId(empId);
-        System.out.println("조회된 데이터: " + result);  // 결과를 출력
-        return result;
+    // 사번 자동 증가(empId +1 생성)
+    public String generateNextEmpId() {
+        String maxIdStr = empRepo.findMaxEmpId(); // 현재 가장 큰 사번 가져오기
+        // 사번이 존재하지 않으면 10001부터 시작
+        int nextId = (maxIdStr != null && maxIdStr.matches("\\d+")) ? Integer.parseInt(maxIdStr) + 1 : 10001;
+        return String.valueOf(nextId);
+    }
+
+    // 전체 사원 조회
+    public List<EmpDTO> getAllEmp() {
+        return empRepo.findAll();
+    }
+    
+    // 사원 검색 (조건별 분기)
+    public List<EmpDTO> getEmployees(String empId, String empName) {
+    	// empId + empName 둘 다 있으면
+        if (empId != null && !empId.isEmpty() && empName != null && !empName.isEmpty()) {
+            return empRepo.findByEmpIdAndEmpName(empId, empName);
+        } 
+        
+        // empId만 있으면
+        else if (empId != null && !empId.isEmpty()) {
+            return empRepo.findByEmpId(empId);
+        } 
+        
+        // empName만 있으면
+        else if (empName != null && !empName.isEmpty()) {
+            return empRepo.findByEmpNameContaining(empName);
+        } 
+        
+        // 아무 것도 없으면 
+        else {
+            return empRepo.findAll();
+        }
     }
 }
