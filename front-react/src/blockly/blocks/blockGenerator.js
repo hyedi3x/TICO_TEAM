@@ -18,10 +18,9 @@ const RegisterBlockGenerator = (props) => {
   javascriptGenerator.forBlock['start_btn'] = function(block) {
     return 'start_btn();\n'; // 함수를 호출하는 문자열 반환
   };
+  
   javascriptGenerator.forBlock['start_with_q'] = function(block) {
-
-    const key = block.getFieldValue('KEY_OPTION'); // 선택한 키
-    return 'start_with_q(${key});\n'; // 함수를 호출하는 문자열 반환
+    return 'start_with_q();\n'; // 함수를 호출하는 문자열 반환
   };
 
   // 방향과 거리로 이동 (예: 45도 방향으로 50만큼)
@@ -92,6 +91,12 @@ const RegisterBlockGenerator = (props) => {
   // 요소 숨기기
   javascriptGenerator.forBlock['hide_object'] = function() {
     return `hideObject(index);\n`;
+  };
+
+  // 말풍선 보이기
+  javascriptGenerator.forBlock['show_bubble'] = function(block) {
+    const text = block.getFieldValue("text");
+    return `showBubble('${text}', index);\n`;
   };
 
   // 색상/밝기/투명도 변경

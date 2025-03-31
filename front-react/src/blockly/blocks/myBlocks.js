@@ -64,6 +64,11 @@ const toolboxXML = ()=>{
                 <!-- 요소 숨기기 -->
                 <block type="hide_object"></block>
 
+                <!-- 말풍선 띄우기 -->
+                <block type="show_bubble">
+                    <field name="text">안녕</field>
+                </block>
+
                 <!-- 오브젝트 색상, 밝기, 투명도 조정 -->
                 <block type="change_appearance">
                     <field name="value">10</field>
@@ -97,13 +102,13 @@ const toolboxXML = ()=>{
 
                 <!-- 일정 시간 동안 재생 -->
                 <block type="play_sound_duration">
-                    <field name="sound">밤을 달리다</field>
+                    <field name="sound">개 짖는 소리</field>
                     <field name="duration">10</field>
                 </block>
 
                 <!-- 특정 구간만 재생 -->
                 <block type="play_sound_range">
-                    <field name="sound">DRIP</field>
+                    <field name="sound">개 짖는 소리</field>
                     <field name="start">5</field>
                     <field name="end">30</field>
                 </block>

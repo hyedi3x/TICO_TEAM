@@ -16,6 +16,13 @@ const hideObject = function(index){
     }
 };
 
+// 말풍선 보이기
+const showBubble = function(text, index){
+  if (!imgArr.current[index]) return;
+  imgArr.current[index].bubbleText = text;
+  callImgArr();
+};
+
 // 요소 색상, 밝기, 투명도 조정
 const changeAppearance = function(property, value, index){
     const item = imgArr.current[index];
@@ -105,6 +112,7 @@ const changeShape = function(url, index){
 export default {
     showObject,
     hideObject,
+    showBubble,
     changeAppearance,
     changeObject,
     resizeObject,
@@ -115,6 +123,7 @@ export default {
 // ✅ window 객체 등록
 window.showObject = showObject;
 window.hideObject = hideObject;
+window.showBubble = showBubble;
 window.changeAppearance = changeAppearance;
 window.changeObject = changeObject;
 window.resizeObject = resizeObject;

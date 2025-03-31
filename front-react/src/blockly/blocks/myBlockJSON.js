@@ -226,6 +226,24 @@ const defineMyBlocks = ()=>{
       "helpUrl": ""
     },
 
+    // 요소에 말풍선 띄우기
+    {
+      "type": "show_bubble",
+      "message0": "%1을(를) 말하기",
+      "args0": [
+        {
+          "type": "field_input",
+          "name": "text",
+          "align": "RIGHT"
+        }
+      ],
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": "#99CC66",
+      "tooltip": "특정 요소 위에 말풍선을 표시합니다.",
+      "helpUrl": ""
+    },
+
     // 요소 색상, 밝기, 투명도 조정
     {
       "type": "change_appearance",
