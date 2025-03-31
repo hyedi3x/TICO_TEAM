@@ -12,18 +12,30 @@ const defineMyBlocks = ()=>{
         "colour": "#FF6666",
         "nextStatement": null
       },
-
-      // 버튼을 눌러서 시작하기 블록
       {
         "type": "start_with_q",
         "message0": "%1 버튼을 눌러 시작하기",
         "args0": [
-            {
-                "type": "field_label",
-                "name": "KEY_OPTION",
-                "text": "q"
-            }
-        ],
+        {
+          "type": "field_dropdown",
+          "name": "KEY_OPTION",
+          "options": [
+            ["q", "q"],
+            ["w", "w"],
+            ["a", "a"],
+            ["s", "s"],
+            ["d", "d"],
+            ["↑", "ArrowUp"],
+            ["↓", "ArrowDown"],
+            ["←", "ArrowLeft"],
+            ["→", "ArrowRight"],
+            ["Ctrl", "Control"],
+            ["Enter", "Enter"],
+            ["Space", " "],
+            ["Shift", "Shift"]
+          ]
+        }
+      ],
         "colour": "#FF6666",
         "nextStatement": null
       },

@@ -10,7 +10,7 @@ const RegisterBlockGenerator = (props) => {
   // 1
   // 이미지 별로 구분해서 실행하기 위해
   imgArr = props.imgArr;
-  const workspaceIndex = props.workspaceIndex;
+  // const workspaceIndex = props.workspaceIndex;
   callImgArr = props.callImgArr;
 
   // Blockly 블록 생성 코드를 등록
@@ -19,45 +19,47 @@ const RegisterBlockGenerator = (props) => {
     return 'start_btn();\n'; // 함수를 호출하는 문자열 반환
   };
   javascriptGenerator.forBlock['start_with_q'] = function(block) {
-    return 'start_with_q();\n'; // 함수를 호출하는 문자열 반환
+
+    const key = block.getFieldValue('KEY_OPTION'); // 선택한 키
+    return 'start_with_q(${key});\n'; // 함수를 호출하는 문자열 반환
   };
 
   // 방향과 거리로 이동 (예: 45도 방향으로 50만큼)
   javascriptGenerator.forBlock['move_in_direction'] = function (block) {
     let angle = block.getFieldValue('angle');
     let distance = block.getFieldValue('distance');
-    return `moveInDirection(${angle}, ${distance}, ${workspaceIndex});\n`;
+    return `moveInDirection(${angle}, ${distance}, index);\n`;
   };
 
   // x축 이동
   javascriptGenerator.forBlock['move_obj_toX'] = function (block) {
     const x = block.getFieldValue('x');
-    return `moveImgToX(${x}, ${workspaceIndex});\n`;
+    return `moveImgToX(${x}, index);\n`;
   };
 
   // y축 이동
   javascriptGenerator.forBlock['move_obj_toY'] = function (block) {
     let y = block.getFieldValue('y');
-    return `moveImgToY(${y}, ${workspaceIndex});\n`;
+    return `moveImgToY(${y}, index);\n`;
   };
 
   // x,y축 이동
   javascriptGenerator.forBlock['move_obj_toXY'] = function (block) {
     const x = block.getFieldValue('x');
     const y = block.getFieldValue('y');
-    return `moveImgToXY(${x}, ${y}, ${workspaceIndex});\n`;
+    return `moveImgToXY(${x}, ${y}, index);\n`;
   };
 
   // 요소 X좌표 입력값으로 변경하기
   javascriptGenerator.forBlock['change_coordX'] = function(block){
     const valueX = block.getFieldValue('x');
-    return `changeCoordX(${valueX}, ${workspaceIndex});\n`;
+    return `changeCoordX(${valueX}, index);\n`;
   };
 
   // 요소 Y좌표 입력값으로 변경하기
   javascriptGenerator.forBlock['change_coordY'] = function(block){
       const valueY = block.getFieldValue('y');
-      return `changeCoordY(${valueY}, ${workspaceIndex});\n`;
+      return `changeCoordY(${valueY}, index);\n`;
   };
 
   // 일정 시간 이동 애니메이션
@@ -66,61 +68,61 @@ const RegisterBlockGenerator = (props) => {
     const x = block.getFieldValue('x');
     const y = block.getFieldValue('y');
     const duration = block.getFieldValue('duration');
-    return `moveImgToXYInTime(${x}, ${y}, ${duration}, ${workspaceIndex});\n`;
+    return `moveImgToXYInTime(${x}, ${y}, ${duration}, index);\n`;
   };
 
   // 시계방향 회전
   javascriptGenerator.forBlock['rotate_obj'] = function(block){
     const angle = block.getFieldValue('angle');
-    return `rotateImage(${angle}, ${workspaceIndex});\n`;
+    return `rotateImage(${angle}, index);\n`;
   };
 
   // 일정시간 회전 애니메이션
   javascriptGenerator.forBlock['rotate_obj_inTime'] = function(block){
     const angle = block.getFieldValue('angle');
     const duration = block.getFieldValue('duration');
-    return `rotateImageInTime(${angle}, ${duration}, ${workspaceIndex});\n`;
+    return `await rotateImageInTime(${angle}, ${duration}, index);\n`;
   };
 
   // 요소 보이기
   javascriptGenerator.forBlock['show_object'] = function() {
-    return `showObject(${workspaceIndex});\n`;
+    return `showObject(index);\n`;
   };
 
   // 요소 숨기기
   javascriptGenerator.forBlock['hide_object'] = function() {
-    return `hideObject(${workspaceIndex});\n`;
+    return `hideObject(index);\n`;
   };
 
   // 색상/밝기/투명도 변경
   javascriptGenerator.forBlock['change_appearance'] = function(block) {
     const property = block.getFieldValue('property'); // 'color', 'brightness', 'opacity'
     const value = block.getFieldValue('value');
-    return `changeAppearance('${property}', ${value}, ${workspaceIndex});\n`;
+    return `changeAppearance('${property}', ${value}, index);\n`;
   };
 
   // 크기 증가/감소
   javascriptGenerator.forBlock['change_object'] = function(block) {
     const sizeChange = block.getFieldValue('size');
-    return `changeObject(${sizeChange}, ${workspaceIndex});\n`;
+    return `changeObject(${sizeChange}, index);\n`;
   };
 
   // 크기 재설정
   javascriptGenerator.forBlock['resize_object'] = function(block) {
     const size = block.getFieldValue('size');
-    return `resizeObject(${size}, ${workspaceIndex});\n`;
+    return `resizeObject(${size}, index);\n`;
   };
 
   // 좌우/상하 반전
   javascriptGenerator.forBlock['flip_object'] = function(block) {
     const direction = block.getFieldValue('direction'); // 'horizontal' or 'vertical'
-    return `flipObject('${direction}', ${workspaceIndex});\n`;
+    return `flipObject('${direction}', index);\n`;
   };
 
   // 이미지 변경
   javascriptGenerator.forBlock['change_shape'] = function(block) {
     const shape = block.getFieldValue('shape'); // URL or 경로 문자열
-    return `changeShape('${shape}', ${workspaceIndex});\n`;
+    return `changeShape('${shape}', index);\n`;
   };
 
   // 소리 재생
