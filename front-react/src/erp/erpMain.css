@@ -44,7 +44,7 @@
 /* 콘텐츠 영역 , 확장 상태에 따라 영역 크기 동적으로 변경 */
 .main-content {
   padding: 20px;
-  background-color: #f4f4f4;
+  background-color: #f7f7fa;
   transition: margin-left 0.3s ease; /* transition 추가 */
 }
 
