@@ -161,8 +161,24 @@ df["emp_birth"] = pd.to_datetime(df["emp_birth"], errors="coerce").fillna(pd.NaT
 df["hire_date"] = pd.to_datetime(df["hire_date"], errors="coerce").fillna(pd.NaT)   # 사원 입사일
 df["termination_date"] = pd.to_datetime(df["termination_date"], errors="coerce").fillna(pd.NaT)  # 사원 퇴사일 
 
-print("날짜 변환 후 데이터 확인:")
-print(df.head())
+# 생년월일에서 1900년대가 아닌 2000년대가 들어간 데이터를 수정하는 함수
+def correct_birth_year(df):
+    current_year = pd.to_datetime('today').year  # 현재 년도를 불러옴
+    for idx, row in df.iterrows():       # 한 행씩 순회하면서 인덱스(idx)와 행 데이터(row)를 반환
+        if pd.notna(row['emp_birth']):   # 생년월일 값이 존재할 때만 진행
+            birth_year = row['emp_birth'].year
+            # 생년월일 연도가 2000년대(2000년 이상, 2100년 미만)에 해당하면 잘못된 값으로 판단
+            if birth_year >= 2000 and birth_year < 2100:
+                corrected_birth = row['emp_birth'].replace(year=birth_year - 100)
+                df.at[idx, 'emp_birth'] = corrected_birth  # 수정된 생년월일 값을 원본 데이터프레임의 해당 행에 업데이트
+    return df  # 모든 행을 순회한 후 수정된 데이터프레임을 반환
+
+# 생년월일 데이터 수정
+df = correct_birth_year(df)
+
+# 수정된 데이터 확인
+print("수정된 생년월일 데이터:")
+print(df[['emp_id', 'emp_name', 'emp_birth']].head())
 print("--------------------------------------------------------------")
 
 # 연봉 계산 (월급 * 12)
@@ -188,14 +204,12 @@ def connect_to_mariadb():
             port=DB_PORT,
             user=DB_USER,
             password=DB_PASSWORD,
-            database=DB_NAME,
-            charset='utf8mb4',   # 4바이트 문자 인코딩을 사용하는 문자 집합
-            cursorclass=pymysql.cursors.DictCursor # 결과를 딕셔너리 형식으로 반환, 기본적으로 PyMySQL은 쿼리 결과를 튜플 형식으로 반환
+            database=DB_NAME
         )
-        print("✓ PyMySQL로 MariaDB 연결 성공")
+        print("✓ MariaDB에 연결되었습니다.")
         return connection
     except Exception as e:
-        print(f"※ MariaDB 연결 오류: {e}")
+        print(f"※ MariaDB 연결에 실패했습니다: {e}")
         return None
 
 # JOBS 테이블에 직무 데이터 삽입 함수 (중복 여부 확인 후 삽입)
@@ -205,13 +219,18 @@ def insert_job_data_to_mariadb(df, conn):
     for _, row in df.iterrows():
         job_id = row["job_id"]
         job_title = row["job_title"]
+        dep_id = row["dep_id"]  # 부서 ID 포함
+
         # cursor.execute :  SQL 쿼리를 실행하는 메서드
         # JOBS 테이블에서 job_id 컬럼이 존재하는지 확인 
         cursor.execute("SELECT COUNT(*) as cnt FROM JOBS WHERE job_id = %s", (job_id,))
         result = cursor.fetchone()  # fetchone() : 쿼리 결과 중 첫 번째 행을 반환
-        if result["cnt"] == 0:
-            insert_query = "INSERT INTO JOBS (job_id, job_title) VALUES (%s, %s)"
-            cursor.execute(insert_query, (job_id, job_title))
+        if result[0] == 0:  # result[0]으로 튜플의 첫 번째 요소를 접근
+            insert_query = "INSERT INTO JOBS (job_id, job_title, dep_id) VALUES (%s, %s, %s)"
+            cursor.execute(insert_query, (job_id, job_title, dep_id))
+        else:
+            update_query = "UPDATE JOBS SET job_title = %s, dep_id = %s WHERE job_id = %s"
+            cursor.execute(update_query, (job_title, dep_id, job_id))
     conn.commit() # conn.commit() : 데이터베이스에 변경사항을 적용하는 메서드
     print("✓ 직무 데이터 삽입 완료")
     cursor.close()
@@ -230,7 +249,7 @@ def insert_or_update_employee(df, conn):
         # 이메일이 이미 존재하는지 확인(UNIQUE 에러)
         cursor.execute("SELECT COUNT(*) as cnt FROM EMPLOYEES WHERE emp_email = %s", (emp_email,))
         result = cursor.fetchone()
-        if result["cnt"] == 0:
+        if result[0] == 0:  # result[0]으로 튜플의 첫 번째 요소를 접근
             # 이메일이 없으면 삽입
             insert_query = """
             INSERT INTO EMPLOYEES (emp_id, emp_name, dep_id, job_id, emp_email, emp_birth, salary, annual_salary, net_annual_salary, hire_date, termination_date) 
