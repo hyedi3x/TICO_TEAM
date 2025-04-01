@@ -23,6 +23,7 @@ export const handleSaveProject = async (imgArr, blocklyArr, projectId) => {
       width: item.width,
       height: item.height,
       angle: item.angle,
+      hidden: item.hidden,
       hue: item.hue ?? 0,
       brightness: item.brightness ?? 100,
       opacity: item.opacity ?? 1,

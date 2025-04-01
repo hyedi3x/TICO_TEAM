@@ -48,6 +48,7 @@ export const loadProjectToCanvas = async (
           width: obj.width,
           height: obj.height,
           angle: obj.angle,
+          hidden: obj.hidden,
           hue: obj.hue,
           brightness: obj.brightness,
           opacity: obj.opacity,

@@ -72,6 +72,7 @@ function Canvas() {
         height: 100,
         angle: 0, 
         index: imgArr.current.length, // index 할당
+        hidden: false,  // 이미지 숨김 여부
       })
       
       callImgArr(); // 이미지 추가 후 전체 다시 그리기
@@ -116,7 +117,11 @@ function Canvas() {
     
     const updatedPositions = []; // 좌표 모아서 한 번에 setState
 
-    imgArr.current.forEach((item,index) => {
+    imgArr.current.forEach((item, index) => {
+
+      // 👉 먼저 updatedPositions에 push (hidden 정보 포함)
+      updatedPositions.push({ x: item.x, y: item.y, hidden: item.hidden });
+
       // 숨김 처리
       if (item.hidden) return;
   
@@ -132,7 +137,7 @@ function Canvas() {
       const scaleX = item.flipX ? -1 : 1;
       const scaleY = item.flipY ? -1 : 1;
       context.scale(scaleX, scaleY);
-  
+
       // 필터 적용
       context.globalAlpha = item.opacity ?? 1;
       context.filter = `hue-rotate(${item.hue ?? 0}deg) brightness(${item.brightness ?? 100}%)`;
@@ -152,7 +157,6 @@ function Canvas() {
       if (item.bubbleText) {
         drawSpeechBubble(context, item);  // 👉 이 부분이 있어야 함
       }
-      updatedPositions.push({ x: item.x, y: item.y });
     });
 
     // 💡 여기서 한 번만 setState
@@ -327,10 +331,12 @@ useEffect(() => {
           
           <div className='coord-info'>
             <p> 🖱 마우스좌표  ( x좌표 : {coordinates.x} &nbsp; y좌표 : {coordinates.y})</p>
-            {imagePosition.map((pos, index)=>(
-              pos? (
-                <p key={index}> 🌟 이미지 {index + 1} 좌표 : x좌표 : {pos.x} &nbsp; y좌표 : {pos.y} </p>
-              ): null
+            {imagePosition.map((pos, index) => (
+              pos && !pos.hidden ? (
+                <p key={index}>🌟 이미지 {index + 1} 좌표: x: {pos.x}, y: {pos.y}</p>
+              ) : (
+                <p key={index} style={{ color: 'gray' }}>🙈 이미지 {index + 1} (숨김 상태)</p>
+              )
             ))}
             </div>
         </div>
