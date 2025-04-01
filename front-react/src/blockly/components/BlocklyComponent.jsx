@@ -370,7 +370,7 @@ function Canvas() {
       </div>
   
       {/* 버튼 영역 */}
-      <div className="button-group">
+      <div className="button-blockly">
         <input type="file" id="imgInput" accept="image/*" style={{ display: 'none' }} onChange={selectimg} />
         <button onClick={() => document.querySelector('#imgInput').click()}>
           ➕ 요소 추가

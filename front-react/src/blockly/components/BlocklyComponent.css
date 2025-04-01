@@ -42,7 +42,7 @@
 }
 
 /* 버튼들을 감싸는 버튼 그룹 */
-.button-group {
+.button-blockly {
   margin-top: 30px;
   display: flex;
   justify-content: center;
@@ -51,7 +51,7 @@
 }
 
 /* 버튼 스타일 */
-.button-group button {
+.button-blockly button {
   background-color: #4CAF50;
   color: white;
   border: none;
@@ -63,6 +63,6 @@
 }
 
 /* 각 버튼 hover 시 배경 색 변경 */
-.button-group button:hover {
+.button-blockly button:hover {
   background: #45a049;
 }
