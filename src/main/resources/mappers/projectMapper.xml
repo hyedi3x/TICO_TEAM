@@ -29,11 +29,11 @@
 	<insert id="insertProjectObject">
 	  INSERT INTO project_object_tb (
 	    object_id, project_id, object_index, url, x, y,
-	    width, height, angle, hue, brightness, opacity,
+	    width, height, angle, hidden, hue, brightness, opacity,
 	    flip_x, flip_y, bubble_text, block_xml, created_at
 	  ) VALUES (
 	    #{object_id}, #{project_id}, #{object_index}, #{url}, #{x}, #{y},
-	    #{width}, #{height}, #{angle}, #{hue}, #{brightness}, #{opacity},
+	    #{width}, #{height}, #{angle}, #{hidden}, #{hue}, #{brightness}, #{opacity},
 	    #{flip_x}, #{flip_y}, #{bubble_text}, #{block_xml}, NOW()
 	  )
 	</insert>

@@ -20,6 +20,7 @@ public class ProjectObjectDTO {
 	private double width;
 	private double height;
 	private double angle;
+	private Boolean hidden;
 	private double hue;
 	private double brightness;
 	private double opacity;
@@ -82,6 +83,12 @@ public class ProjectObjectDTO {
 	public void setAngle(double angle) {
 		this.angle = angle;
 	}
+	public Boolean getHidden() {
+		return hidden;
+	}
+	public void setHidden(Boolean hidden) {
+		this.hidden = hidden;
+	}
 	public double getHue() {
 		return hue;
 	}
@@ -134,8 +141,8 @@ public class ProjectObjectDTO {
 	public String toString() {
 		return "ProjectObjectDTO [object_id=" + object_id + ", project_id=" + project_id + ", object_index="
 				+ object_index + ", url=" + url + ", x=" + x + ", y=" + y + ", width=" + width + ", height=" + height
-				+ ", angle=" + angle + ", hue=" + hue + ", brightness=" + brightness + ", opacity=" + opacity
-				+ ", flip_x=" + flip_x + ", flip_y=" + flip_y + ", bubble_text=" + bubble_text + ", block_xml="
-				+ block_xml + ", created_at=" + created_at + "]";
+				+ ", angle=" + angle + ", hidden=" + hidden + ", hue=" + hue + ", brightness=" + brightness
+				+ ", opacity=" + opacity + ", flip_x=" + flip_x + ", flip_y=" + flip_y + ", bubble_text=" + bubble_text
+				+ ", block_xml=" + block_xml + ", created_at=" + created_at + "]";
 	}
 }
