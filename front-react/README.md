@@ -37,6 +37,14 @@ npm install --save @fortawesome/free-solid-svg-icons    # 채워진 아이콘 ex
 npm install --save @fortawesome/free-regular-svg-icons  # 보통의 아이콘
 npm install --save @fortawesome/free-brands-svg-icons   # 브랜트 아이콘 ex) 페이스북
 
+npm install react-icons # 아이콘 모음
+
+npm install rsuite --save   # react suite
+import 'rsuite/dist/rsuite.min.css';    # CSS재설정이 포함되어 있음.
+import 'rsuite/dist/rsuite-no-reset.min.css';   # 자신의 CSS 재설정을 사용하기 위해서
+import 'rsuite/Button/styles/index.css';    # 필요에 따라 일부 구성 요소의 스타일만 필요한 경우
+
+npm install axios   # 비동기 처리(fetch랑 같은 기능)
 ```
 
 <br/>

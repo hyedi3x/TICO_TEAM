@@ -21,19 +21,21 @@ body {
   margin-left: auto;    
   margin-right: auto;    
   padding-left: 20px;     
-  padding-right: 20px; 
+  padding-right: 20px;
 }
 
 /* 4. 타이포그래피 기본 설정 */
 h1, h2, h3, h4, h5, h6 {
   margin-bottom: 1rem; /* 제목 하단에 여백 추가 */
   font-weight: bold;   /* 제목 글꼴 두께 */
+  text-align: center;
 }
 
 p {
   margin-bottom: 1.5rem;    /* 문단 하단에 여백 추가 */
   font-size: 1rem;          /* 본문 글꼴 크기 */
   color: #555;            /* 본문 글자 색 */
+  text-align: center;
 }
 
 h1 {
@@ -54,4 +56,3 @@ h2 {
 .navbar a:hover {
   color: #555;          /* 링크 hover 시 색상 변경 */
 }
-
