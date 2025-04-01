@@ -8,7 +8,7 @@ const showObject = function(index){
     }
 };
 
-// 요소 보이기
+// 요소 숨기기
 const hideObject = function(index){
     if (imgArr.current[index]) {
       imgArr.current[index].hidden = true;
