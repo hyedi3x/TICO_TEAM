@@ -24,6 +24,19 @@
   font-size: 14px;
 }
 
+.button2{
+  box-sizing: border-box;
+  width: 135px;
+  height: 36px;
+  border: 1px solid #e2e2e2;
+  border-radius: 18px;
+  background-color: #fff;
+  color: #000;
+  text-align: center;
+  margin-left: 10px;
+  font-size: 14px;
+}
+
 .button:hover,
 .button1:hover {
   background-color: #e2e2e2; /* 연한 회색 배경 */

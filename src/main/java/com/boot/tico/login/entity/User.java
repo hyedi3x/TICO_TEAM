@@ -1,43 +1,55 @@
 package com.boot.tico.login.entity;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import lombok.Data; // JPA 어노테이션 (Spring Boot 3.x)
-import javax.persistence.*; // javax → jakarta 자바 버젼 변경으로 인한 수정(2.7.4 -> 3.1.0)
-import java.time.LocalDateTime;// LocalDateTime 클래스
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
-
-// 버젼 2.7.4의 경우에는 import persistence 필수 
 @Entity
-@Data
-@Table(name = "tico_users")
+@Getter
+@Setter
+@NoArgsConstructor
+@Table(name = "users")
 public class User {
+    // 사용자 ID: UUID 사용 (고유값 자동생성)
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_seq_generator")
-    @SequenceGenerator(name = "users_seq_generator", sequenceName = "USERS_SEQ", allocationSize = 1)
-    private Long id;
+    @Column(columnDefinition = "VARCHAR(36)")
+    private String id = java.util.UUID.randomUUID().toString();
 
-    @Column(unique = true)
-    private String kakaoId;
-
-    private String nickname;
-
-    @Column(nullable = true, unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    @Column(length = 255)
+    private String password;
 
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
+    @Column(length = 20)
+    private String phone;
+
+    @Column(nullable = false, length = 100)
+    private String name;
+
+    @Column(length = 100)
+    private String nickname;
+
+    @Column(length = 50)
+    private String provider;
+
+    @Column(name = "provider_id", length = 255)
+    private String providerId;
+
+    @Column(nullable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    // DB의 UNIQUE 제약 조건 (provider, provider_id) 사용
+    @Column(unique = true)
+    private String providerWithId;
 
     @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
+    public void prePersist() {
+        if (provider != null && providerId != null) {
+            providerWithId = provider + "_" + providerId;
+        }
     }
 }

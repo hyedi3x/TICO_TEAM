@@ -1,20 +1,28 @@
-// config/CorsConfig.java
 package com.boot.tico.login.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
-
-// cors 설정
 @Configuration
-public class CorsConfig implements WebMvcConfigurer {
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**") // 모든경로에 cors 설정
-                .allowedOrigins("http://localhost:3000") // react에서 주소 허용
-                .allowedMethods("GET", "POST", "PUT", "DELETE") // 허용할 http 메서드 지정
-                .allowedHeaders("*") // 모든 헤더 허용
-                .allowCredentials(true); // 쿠키,자격증명 허용
+public class CorsConfig {
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true); // 쿠키/세션 사용 시 필요
+        config.addAllowedOrigin("http://localhost:3000"); // 프론트엔드 주소
+        config.addAllowedHeader("*"); // 모든 헤더 허용
+        config.addAllowedMethod("*"); // 모든 HTTP 메서드 허용
+        source.registerCorsConfiguration("/**", config); // 모든 경로에 적용
+        return new CorsFilter(source);
     }
 }
+
+
+
+// CORS 설정 (CorsConfig)
+// http://localhost:3000에서 오는 요청을 허용.
+// 모든 헤더 및 메서드를 허용
