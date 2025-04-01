@@ -61,6 +61,13 @@ function FAQList() {
                     </Accordion.Item>
                 </Accordion>
             ))}
+
+            <div className="text-center my-4">
+                <Button variant="success" size="lg" onClick={() => navigate('/faqpost')}>
+                    ➕ FAQ 등록하기
+                </Button>
+            </div>
+
         </div>
     );
 }
