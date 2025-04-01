@@ -323,6 +323,7 @@ function Canvas() {
     blocklyArr.current.splice(index,1)
     callImgArr();
   }
+
   /** ─────────────── 렌더링 ─────────────── **/
   return (
     <div className="blockly-container">
