@@ -43,7 +43,6 @@ export const handleSaveProject = async (imgArr, blocklyArr, projectId) => {
         objects
       });
       alert(`저장 완료! 새 projectId : ${res.data}`);
-      window.location.reload();
     } 
     else {
       // UPDATE (기존 작품 수정)
@@ -52,7 +51,6 @@ export const handleSaveProject = async (imgArr, blocklyArr, projectId) => {
         objects
       });
       alert(`업데이트 완료! projectId : ${projectId}`);
-      window.location.reload();
     }
   } catch (err) {
     console.error("저장 실패:", err);
