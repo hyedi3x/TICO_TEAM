@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Header from './common/Header';
 import Main from './common/Main';
 import Footer from './common/Footer';
+import BlocklyComponent from './blockly/components/BlocklyComponent'
 import Login from './pages/login/Login';
 import Signup from './pages/login/Signup';
 import SignUpId from './pages/login/SignUpId';
@@ -13,8 +14,9 @@ function App() {
   return (
     <div>
       <BrowserRouter>
-        <Header/>
+        <Header />
         <Routes>
+          <Route path="/createBlock" exact={true} element={<BlocklyComponent />} />
           <Route path="/" element={<Main/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/signUp" element={<Signup/>} />
@@ -22,7 +24,7 @@ function App() {
           <Route path="/kakaoLogin" element={<KakaoLogin />} />
           <Route path="/erpMain" element={<ErpMain/>} />
         </Routes>
-        <Footer/>
+        <Footer />
       </BrowserRouter>
     </div>
   );

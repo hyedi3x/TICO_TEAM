@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.boot.tico.project.dao.ProjectMapper">
+  
+  	<!-- 최신 프로젝트 ID 가져오기 (신규 삽입 시 ID 생성을 위한 용도) -->
+  	<select id="getLatestProjectId" resultType="int">
+  		SELECT IFNULL(MAX(project_id), 0) FROM project_tb
+  	</select>
+  	
+  	<!-- 최신 요소 ID 가져오기 (신규 삽입 시 ID 생성을 위한 용도) -->
+  	<select id="getLatestObjectId" resultType="int">
+	  	SELECT IFNULL(MAX(object_id), 0) FROM project_object_tb
+	</select>
+  
+  	<!-- 프로젝트 직접 insert (서브쿼리로 project_id 생성) -->
+  	<insert id="insertProject">
+	  INSERT INTO project_tb (
+	    project_id, title, category, thumbnail_url, introduction, guide
+	  ) VALUES (
+	    #{project_id}, #{title}, #{category}, #{thumbnail_url}, #{introduction}, #{guide}
+	  )
+	</insert>
+
+  	
+  	<!-- 오브젝트 직접 insert (서브쿼리로 object_id 생성) -->
+	<insert id="insertProjectObject">
+	  INSERT INTO project_object_tb (
+	    object_id, project_id, object_index, url, x, y,
+	    width, height, angle, hidden, hue, brightness, opacity,
+	    flip_x, flip_y, bubble_text, block_xml, created_at
+	  ) VALUES (
+	    #{object_id}, #{project_id}, #{object_index}, #{url}, #{x}, #{y},
+	    #{width}, #{height}, #{angle}, #{hidden}, #{hue}, #{brightness}, #{opacity},
+	    #{flip_x}, #{flip_y}, #{bubble_text}, #{block_xml}, NOW()
+	  )
+	</insert>
+	
+	<!-- 전체 작품 조회 -->
+	<select id="findAllProjects" resultType="com.boot.tico.project.dto.ProjectDTO">
+	  SELECT *
+	    FROM project_tb
+	   WHERE isdelete = 'N'
+	   ORDER BY project_id
+	</select>
+	
+	<!-- project_id로 작품 정보 조회 -->
+	<select id="findProjectById" resultType="com.boot.tico.project.dto.ProjectDTO">
+	  SELECT * 
+	    FROM project_tb 
+	   WHERE project_id = #{project_id} 
+	     AND isdelete = 'N'
+	</select>
+	
+	<!-- 해당 작품의 오브젝트들 조회 -->
+	<select id="findObjectsByProjectId" resultType="com.boot.tico.project.dto.ProjectObjectDTO">
+	  SELECT * 
+	    FROM project_object_tb 
+	   WHERE project_id = #{project_id}
+	   ORDER BY object_id
+	</select>
+	
+	<!-- 작품 정보 수정 -->
+	<update id="updateProject">
+	  UPDATE project_tb
+	     SET title = #{title},
+	         category = #{category},
+	         thumbnail_url = #{thumbnail_url},
+	         introduction = #{introduction},
+	         guide = #{guide}
+	   WHERE project_id = #{project_id}
+	</update>
+	
+	<!-- 해당 프로젝트의 오브젝트 전체 삭제 (update, delete 시 사용) -->
+	<delete id="deleteObjectsByProjectId">
+	  DELETE FROM project_object_tb
+	   WHERE project_id = #{project_id}
+	</delete>
+	
+	<!-- 작품 삭제 처리(delete 시 사용) -->
+	<update id="deleteProject">
+	  UPDATE project_tb 
+	     SET isdelete = 'Y' 
+	   WHERE project_id = #{projectId}
+	</update>
+  </mapper>
