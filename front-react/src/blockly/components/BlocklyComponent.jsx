@@ -249,64 +249,80 @@ function Canvas() {
     }
   }
 
-  // 1. 실행하기 버튼 핸들러
-const runStartBtnCode = () => {
-  blocklyArr.current.forEach((workspace, index) => {
-    generateStart(workspace, imgArr, index, 'start_btn');
-    const code = imgArr.current[index]?.code;
-    if (code) {
-      runGeneratedCode(code, index);
-    }
-  });
-};
-
-// 2. 키보드 q 키 핸들러
-useEffect(() => {
-  const handleKeyPress = (e) => {
-    
-    const pressedKey = e.key;
-    // 기본 동작 막아야 할 키 목록
-    const keysToPrevent = [
-      'ArrowUp', // 방향키
-      'ArrowDown',
-      'ArrowLeft',
-      'ArrowRight',
-      ' ', // 스페이스바
-      'Enter',
-      'Control',
-      'Shift'
-    ];
-    
-    if (keysToPrevent.includes(pressedKey)) { // 배열 중 키가 포함된다면
-      e.preventDefault();
-    }
-
+    // 1. 실행하기 버튼 핸들러
+  const runStartBtnCode = () => {
     blocklyArr.current.forEach((workspace, index) => {
-      // 워크스페이스에 있는 모든 블록을 가져옴
-      const blocks = workspace.getAllBlocks();
-
-      blocks.forEach((block) => {
-        if (block.type === 'start_with_q') {
-          const selectedKey = block.getFieldValue('KEY_OPTION'); // 사용자가 선택한 키
-          if (pressedKey === selectedKey) {
-            // 코드 생성 및 실행
-            generateStartKey(block, imgArr, index);
-            const code = imgArr.current[index]?.code;
-            if (code) {
-              runGeneratedCode(code, index);
-            }
-          }
-        }
-      });
+      generateStart(workspace, imgArr, index, 'start_btn');
+      const code = imgArr.current[index]?.code;
+      if (code) {
+        runGeneratedCode(code, index);
+      }
     });
   };
 
-  window.addEventListener('keydown', handleKeyPress); 
-  return () => { // useEffect 훅에서 반환되는 함수는 컴포넌트가 언마운트될 때 실행
-    window.removeEventListener('keydown', handleKeyPress);
-  };
-}, []);
+  // 2. 키보드 q 키 핸들러
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      
+      const pressedKey = e.key;
+      // 기본 동작 막아야 할 키 목록
+      const keysToPrevent = [
+        'ArrowUp', // 방향키
+        'ArrowDown',
+        'ArrowLeft',
+        'ArrowRight',
+        ' ', // 스페이스바
+        'Enter',
+        'Control',
+        'Shift'
+      ];
+      
+      if (keysToPrevent.includes(pressedKey)) { // 배열 중 키가 포함된다면
+        e.preventDefault();
+      }
+
+      blocklyArr.current.forEach((workspace, index) => {
+        // 워크스페이스에 있는 모든 블록을 가져옴
+        const blocks = workspace.getAllBlocks();
+
+        blocks.forEach((block) => {
+          if (block.type === 'start_with_q') {
+            const selectedKey = block.getFieldValue('KEY_OPTION'); // 사용자가 선택한 키
+            if (pressedKey === selectedKey) {
+              // 코드 생성 및 실행
+              generateStartKey(block, imgArr, index);
+              const code = imgArr.current[index]?.code;
+              if (code) {
+                runGeneratedCode(code, index);
+              }
+            }
+          }
+        });
+      });
+    };
+
+    window.addEventListener('keydown', handleKeyPress); 
+    return () => { // useEffect 훅에서 반환되는 함수는 컴포넌트가 언마운트될 때 실행
+      window.removeEventListener('keydown', handleKeyPress);
+    };
+  }, []);
   
+  // 이미지, 작업공간 삭제
+  function imgDel(index){
+    console.log('삭제할 인덱스 : ',index);
+    // 이미지 제거
+    imgArr.current.splice(index,1) // .splice(시작,갯수), 배열에서 잘라내기(삭제)
+    // 작업공간 제거
+    blocklyArr.current[index].dispose(); // blockly 내부 데이터 제거 (해당 작업공간(블록들, 이벤트 핸들러 등 포함)이 메모리에서 완전히 제거)
+    // DOM에서 제거
+    const blocklyDivElement = document.getElementById(`blockly${index}`);
+    if (blocklyDivElement) {
+      blocklyDivElement.remove(); // DOM에서 제거
+    }
+    // 배열에서 제거
+    blocklyArr.current.splice(index,1)
+    callImgArr();
+  }
   /** ─────────────── 렌더링 ─────────────── **/
   return (
     <div className="blockly-container">
@@ -331,12 +347,17 @@ useEffect(() => {
           
           <div className='coord-info'>
             <p> 🖱 마우스좌표  ( x좌표 : {coordinates.x} &nbsp; y좌표 : {coordinates.y})</p>
+
             {imagePosition.map((pos, index) => (
               pos && !pos.hidden ? (
-                <p key={index}>🌟 이미지 {index + 1} 좌표: x: {pos.x}, y: {pos.y}</p>
+                <div key={index} style={{display:"flex", justifyContent: "space-between"}}>
+                  <p>🌟 이미지 {index + 1} 좌표 : x좌표 : {pos.x} &nbsp; y좌표 : {pos.y}</p>
+                  <button onClick={() => imgDel(index)}>이미지 {index + 1} 삭제</button>
+                </div>
               ) : (
                 <p key={index} style={{ color: 'gray' }}>🙈 이미지 {index + 1} (숨김 상태)</p>
               )
+
             ))}
             </div>
         </div>

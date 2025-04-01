@@ -11,7 +11,7 @@ const runGeneratedCode = (code, index)=>{
           })();
         `
         );
-    
+        // async을 사용한 이유는 js는 기본적으로 비동기로 함수를 실행하기에 await (promise)로 내부에서 기다림 처리를 해주기 위해
         asyncFunc(index); // 즉시 실행
       } catch (err) {
         console.error('실행 오류:', err);
