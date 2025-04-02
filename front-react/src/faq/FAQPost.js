@@ -36,22 +36,46 @@ function FAQPost() {
   };
 
   return (
-    <div className="container mt-4">
-      <Form onSubmit={handleSubmit}>
-        <Form.Group className="mb-3">
-          <Form.Label>질문</Form.Label>
-          <Form.Control type="text" value={question} onChange={(e) => setQuestion(e.target.value)} required  />
-        </Form.Group>
+    <div className="container mt-5 mb-5">
+      <div className="row justify-content-center">
+        <div className="col-lg-8">
+          <div className="card shadow-sm rounded p-4">
+            <h2 className="text-center fw-bold mb-4">FAQ 등록</h2>
+            <p className="text-muted text-center mb-4">자주 묻는 질문과 답변을 입력해주세요.</p>
 
-        <Form.Group className="mb-3">
-          <Form.Label>답변</Form.Label>
-          <Form.Control as="textarea" rows={3} value={answer} onChange={(e) => setAnswer(e.target.value)} required />
-        </Form.Group>
+            <Form onSubmit={handleSubmit}>
+              <Form.Group className="mb-3">
+                <Form.Label className="fw-semibold">질문</Form.Label>
+                <Form.Control 
+                  type="text" 
+                  value={question} 
+                  onChange={(e) => setQuestion(e.target.value)} 
+                  required 
+                  placeholder="예: 회원가입은 어떻게 하나요?" 
+                />
+              </Form.Group>
 
-        <Button variant="primary" type="submit">
-          등록
-        </Button>
-      </Form>
+              <Form.Group className="mb-4">
+                <Form.Label className="fw-semibold">답변</Form.Label>
+                <Form.Control 
+                  as="textarea" 
+                  rows={4} 
+                  value={answer} 
+                  onChange={(e) => setAnswer(e.target.value)} 
+                  required 
+                  placeholder="예: 상단 메뉴에서 회원가입 버튼을 클릭하신 후, 정보를 입력해 주세요." 
+                />
+              </Form.Group>
+
+              <div className="text-center">
+                <Button variant="success" type="submit" size="lg">
+                  등록하기
+                </Button>
+              </div>
+            </Form>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

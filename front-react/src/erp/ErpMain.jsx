@@ -16,6 +16,7 @@ import { FaGear } from "react-icons/fa6";
 import Home from "./Home";
 import AdminRegister from "./AdminRegister";
 import AdminInfo from "./AdminInfo";
+import FAQPut from "../faq/FAQPut";
 
 
 
@@ -37,7 +38,11 @@ function ErpMain() {
       case '2-2':
         setContent(<AdminInfo />);
         break;
-          
+      
+        
+      case '6-4':
+      setContent(<FAQPut />);
+      break;
       // ... 다른 메뉴 항목에 대한 콘텐츠 설정 ...
       default:
         setContent(null); // 기본적으로 null 설정
@@ -93,6 +98,7 @@ function ErpMain() {
                 <Nav.Item eventKey="6-1">결제 관련 문의 관리</Nav.Item>
                 <Nav.Item eventKey="6-2">환불/취소 문의 관리</Nav.Item>
                 <Nav.Item eventKey="6-3">공지사항 관리</Nav.Item>
+                <Nav.Item eventKey="6-4">FAQ 관리</Nav.Item>
               </Nav.Menu>
 
               <Nav.Menu placement="rightStart" eventKey="7" title="콘텐츠 관리팀(MO)" icon={<Icon as={TbPlayCardStarFilled}/>}>

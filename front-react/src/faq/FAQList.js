@@ -24,50 +24,62 @@ function FAQList() {
 
         fetchFaqData();
     }, []);
-
-    const deleteCheck = async (id) => {
-        if (window.confirm(`정말 [${id}번] 항목을 삭제하시겠습니까?`)) {
-            try {
-                const response = await fetch(`http://localhost:8081/api/faqDelete/${id}`, { method: 'DELETE' });
-                if (!response.ok) {
-                    throw new Error('FAQ 삭제에 실패했습니다.');
-                }
-                alert('삭제되었습니다.');
-                // 삭제 성공 시 재렌더링을 위한 상태 업데이트
-                setFaqData((prevData) => prevData.filter((dto) => dto.qa_id !== id));
-            } catch (error) {
-                console.error('FAQ 삭제 중 오류 발생:', error);
-                alert('FAQ 삭제 중 오류가 발생했습니다.');
-            }
-        }
-    };
-
     return (
-        <div className="container mt-4">
-            {faqData.map((dto) => (
-                <Accordion key={dto.qa_id}>
-                    <Accordion.Item eventKey={dto.qa_id}>
-                        <Accordion.Header>
-                            {dto.qa_id}. {dto.question}
-                        </Accordion.Header>
-                        <Accordion.Body>
-                            {dto.answer}
-                            <div>
-                                <p> - 관리자 메뉴 - </p>
-                                <Button variant="primary" size="sm" onClick={() => navigate(`/FAQPut/${dto.qa_id}`)}>수정</Button>
-                                <Button variant="secondary" size="sm" onClick={() => deleteCheck(dto.qa_id)}>삭제</Button>
-                            </div>
-                        </Accordion.Body>
-                    </Accordion.Item>
-                </Accordion>
+        <div className="container mt-5">
+          <h2 className="text-center mb-5 fw-bold">자주 묻는 질문 (FAQ)</h2>
+
+          <Accordion alwaysOpen  style={{ marginTop: '20px' }}>
+            {faqData.map((dto,index) => (
+              <Accordion.Item
+              key={dto.qa_id}
+              eventKey={dto.qa_id}
+              style={{
+                marginBottom: '15px',
+                border: '1px solid #ddd',
+                borderRadius: '10px',
+                overflow: 'hidden', // 내부 둥글게 잘리도록 설정
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)',
+              }}
+            >
+              <Accordion.Header
+                style={{
+                  fontWeight: 'bold',
+                  backgroundColor: '#fff',
+                }}
+              >
+                {index+1}. {dto.question}
+              </Accordion.Header>
+            
+              <Accordion.Body
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: '16px',
+                  backgroundColor: '#f9f9f9',
+                  padding: '20px',
+                }}
+              >
+                {dto.answer}
+              </Accordion.Body>
+            </Accordion.Item>
             ))}
+          </Accordion>
 
-            <div className="text-center my-4">
-                <Button variant="success" size="lg" onClick={() => navigate('/faqpost')}>
-                    ➕ FAQ 등록하기
-                </Button>
-            </div>
-
+          <div className="text-center my-5">
+            <Button
+              variant="success"
+              size="lg"
+              onClick={() => navigate('/faqpost')}
+              style={{
+                padding: '12px 30px',
+                fontSize: '18px',
+                fontWeight: 'bold',
+                borderRadius: '8px',
+                boxShadow: '0 4px 10px rgba(0, 128, 0, 0.2)',
+              }}
+            >
+                FAQ 등록하기
+            </Button>
+          </div>
         </div>
     );
 }
