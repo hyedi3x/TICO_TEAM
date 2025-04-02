@@ -1,0 +1,71 @@
+/* 전체 컨테이너 */
+.mypage-main-container {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* 사이드바와 메인 콘텐츠 영역을 감싸는 영역 */
+  .content-wrapper {
+    display: flex;
+    flex: 1;
+    margin-top: 10px;
+  }
+  
+  /* 사이드바: 확장/축소 상태에 따른 너비 변경 및 애니메이션 적용 */
+  .sideBar {
+    transition: width 0.3s;
+    background-color: #ffffff;
+    border-right: 1px solid #e2e2e2;
+  }
+  
+  .sideBar.expanded {
+    width: 240px;
+  }
+  
+  .sideBar.collapsed {
+    width: 60px;
+  }
+  
+  /* 메인 콘텐츠 영역: flex 컨테이너로 남은 공간 채움 */
+  .main-content {
+    flex: 1;
+    padding: 20px;
+    transition: width 0.3s;
+  }
+  
+  /* 내부 콘텐츠 박스 스타일 */
+  .main-content-inner {
+    background-color: #ffffff;
+    padding: 20px;
+    min-height: 400px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* 공통 콘텐츠 스타일 */
+  .mypage-content h2 {
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 600;
+    border-bottom: 1px solid #e2e2e2;
+    padding-bottom: 10px;
+    color: #333;
+  }
+  
+  /* 회원 탈퇴 버튼 스타일 */
+  .delete-button {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 15px;
+  }
+  
+  .delete-button:hover {
+    background-color: #c82333;
+  }
+  

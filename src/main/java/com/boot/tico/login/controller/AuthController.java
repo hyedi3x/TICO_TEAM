@@ -82,6 +82,26 @@ public class AuthController {
             .orElseThrow(() -> new RuntimeException("User not found"));
         return ResponseEntity.ok(createUserResponse(user));
     }
+    
+    // 회원정보 수정 
+    @PutMapping("/user")
+    public ResponseEntity<?> updateUser(@RequestBody UserDto.Request request, Principal principal) {
+        String email = principal.getName();
+        log.debug("회원정보 수정 요청 이메일: {}", email);
+        User user = userService.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // 수정 가능한 필드 업데이트 
+        user.setNickname(request.getNickname());
+        user.setPhone(request.getPhone());
+        // 필요 시 추가 필드 업데이트
+
+        // UserService 수정 로직 추가
+        userService.saveUser(user);
+
+        return ResponseEntity.ok(createUserResponse(user));
+    }
+    
 
     // 로그아웃 API
     @PostMapping("/logout")
