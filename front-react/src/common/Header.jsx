@@ -70,11 +70,15 @@ function Header() {
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Nav className="justify-content-end flex-grow-1 pe-3">
+                <NavDropdown title="관리자ERP" id="offcanvasNavbarDropdown">
+                  <NavDropdown.Item href="erpMain">관리자 ERP</NavDropdown.Item>
+                </NavDropdown>
+
                 <NavDropdown title="생각하기" id="offcanvasNavbarDropdown">
                   <NavDropdown.Item href="#action3">티코 학습하기</NavDropdown.Item>
                 </NavDropdown>
                 <NavDropdown title="만들기" id="offcanvasNavbarDropdown">
-                  <NavDropdown.Item href="#action3">작품 만들기</NavDropdown.Item>
+                  <NavDropdown.Item href="createBlock">작품 만들기</NavDropdown.Item>
                   <NavDropdown.Item href="#action5">스터디 만들기</NavDropdown.Item>
                 </NavDropdown>
                 <NavDropdown title="공유하기" id="offcanvasNavbarDropdown">

@@ -1,0 +1,68 @@
+/* 전체 Blockly 컴포넌트를 감싸는 최상위 컨테이너 */
+.blockly-container {
+    padding: 40px;
+    background: #f9f9f9;
+  }
+  
+/* 캔버스와 블록 영역을 나란히 배치하는 영역 */
+.editor-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+/* 캔버스와 마우스좌표 정보를 감싸는 영역 */
+.canvas-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 마우스 좌표 및 이미지 좌표 표시 박스 */
+.coord-info {
+  margin: 10px auto 0 auto;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #c1ddee;
+  color: #333;
+  font-size: 14px;
+  width: 100%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* blockly 작업 공간 스타일 */
+.blockly-area {
+  background: #fff;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+}
+
+/* 버튼들을 감싸는 버튼 그룹 */
+.button-blockly {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+/* 버튼 스타일 */
+.button-blockly button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+/* 각 버튼 hover 시 배경 색 변경 */
+.button-blockly button:hover {
+  background: #45a049;
+}
