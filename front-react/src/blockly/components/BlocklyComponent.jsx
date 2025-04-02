@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
+// eslint-disable-next-line
 import * as Blockly from "blockly"; // npm install Blockly 
 import * as ko from 'blockly/msg/ko';  // 한글 번역 모듈
 import { javascriptGenerator } from "blockly/javascript"; // JavaScript 코드 생성기 가져오기
@@ -46,6 +47,7 @@ function Canvas() {
    /** ─────────────── 캔버스 그리기 ─────────────── **/
   const draw = () => {
     const canvas = canvasRef.current;
+    // eslint-disable-next-line
     canvas.width = canvas.width;// 캔버스의 너비를 다시 할당, 캔버스 내부 내용 지워짐
   };
 
@@ -444,14 +446,14 @@ function Canvas() {
         onSelect={async (project) => {
           try {
             await loadProjectToCanvas(
-              project.project_id,
+              project.projectId,
               imgArr,
               blocklyArr,
               blocklyDiv,
               callImgArr,
               setWorkspaceReady
             );
-            currentProjectId.current = project.project_id;
+            currentProjectId.current = project.projectId;
             setShowProjectModal(false);
           } catch (err) {
             alert('불러오기 실패!');
