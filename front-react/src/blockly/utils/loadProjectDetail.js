@@ -34,12 +34,12 @@ export const loadProjectToCanvas = async (
 
   for (const obj of objects) {
     const img = new Image();
-    
     if(obj.url === 'http://i.namu.wiki/i/CmGNSPeYt7cloH3uYZ_XTlfknRtDrjYtFVCF5zuvzWLAeaTGqnsW9kDC6iLHjGoF9OamAkLNkxGxpxFHhYd_pQ.svg'){
       img.src = obj.url;
     } else {
       img.src = `http://localhost:8081${obj.url}`;
     }
+
     await new Promise((resolve) => {
       img.onload = () => {
 
@@ -56,17 +56,17 @@ export const loadProjectToCanvas = async (
           hue: obj.hue,
           brightness: obj.brightness,
           opacity: obj.opacity,
-          flipX: obj.flip_x === -1 ? true : false,
-          flipY: obj.flip_y === -1 ? true : false,
-          bubbleText: obj.bubble_text || '',
-          index: obj.object_index,
+          flipX: obj.flipX === -1 ? true : false,
+          flipY: obj.flipY === -1 ? true : false,
+          bubbleText: obj.bubbleText || '',
+          index: obj.objectIndex,
         };
 
-        imgArr.current[obj.object_index] = imgObject;
+        imgArr.current[obj.objectIndex] = imgObject;
 
         // 블록 작업공간 div 생성
         const div = document.createElement('div');
-        div.id = `blockly${obj.object_index}`;
+        div.id = `blockly${obj.objectIndex}`;
         div.style.height = '700px';
         div.style.width = '800px';
         blocklyDiv.current.appendChild(div);
@@ -90,10 +90,10 @@ export const loadProjectToCanvas = async (
           },
         });
         blocklyArr.current.push(workspace); // 작업공간 담기, 작업 공간을 제어가능
-        workspace.index = obj.object_index;
+        workspace.index = obj.objectIndex;
 
         // XML 블록 로드
-        const xmlDom = Blockly.utils.xml.textToDom(obj.block_xml);
+        const xmlDom = Blockly.utils.xml.textToDom(obj.blockXml);
         Blockly.Xml.domToWorkspace(xmlDom, workspace);
 
         workspace.addChangeListener(() => {
@@ -104,7 +104,7 @@ export const loadProjectToCanvas = async (
         // 선택된 인덱스만 표시
         blocklyArr.current.forEach((_, index) => {
           const div = document.getElementById(`blockly${index}`);
-          div.style.display = index === obj.object_index ? 'block' : 'none';
+          div.style.display = index === obj.objectIndex ? 'block' : 'none';
         });
 
         callImgArr();
