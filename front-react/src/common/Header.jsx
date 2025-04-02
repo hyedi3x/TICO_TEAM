@@ -7,22 +7,44 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import logo from '../imgs/TICO_logo_icon.png';
 import logo1 from '../imgs/TICO_logo.png';
 import './Header.css';
+import axiosInstance from '../pages/login/social/utils/axiosInstance';
 
 function Header() {
-  const accessToken = localStorage.getItem('access_token'); // 변수 추출
-  const [isLoggedIn, setIsLoggedIn] = useState(!!accessToken);
+  const token = localStorage.getItem('accessToken');
+  const [isLoggedIn, setIsLoggedIn] = useState(!!token);
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    setIsLoggedIn(!!accessToken);
-  }, [accessToken]); // 추출한 변수 사용
+    setIsLoggedIn(!!localStorage.getItem('accessToken'));
+    if (localStorage.getItem('accessToken')) {
+      axiosInstance.get('/auth/user')
+        .then((response) => {
+          setUser(response.data);
+        })
+        .catch((error) => {
+          console.error('사용자 정보 조회 실패:', error);
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('refreshToken');
+          setIsLoggedIn(false);
+          navigate('/login');
+        });
+    }
+  }, [navigate]);
 
   const handleLogout = () => {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
-    localStorage.removeItem('nickname');
-    setIsLoggedIn(false);
-    navigate('/');
+    axiosInstance.post('/auth/logout')
+      .then(() => {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        setIsLoggedIn(false);
+        setUser(null);
+        navigate('/login');
+      })
+      .catch((error) => {
+        console.error('로그아웃 실패:', error);
+        alert('로그아웃에 실패했습니다.');
+      });
   };
 
   const handleLogin = () => {
@@ -77,10 +99,15 @@ function Header() {
                   <FontAwesomeIcon icon={faMagnifyingGlass} />
                 </Button>
               </Form>
+              {/* 로그인 상태에 따라 로그인/로그아웃 버튼 전환 */}
               {isLoggedIn ? (
-                <Button className='button1' variant="outline-danger" onClick={handleLogout}>
-                  로그아웃
-                </Button>
+                <>
+                  {/* user가 있을 경우, 이메일 표시 */}
+                  <span style={{ marginRight: '10px' }}>{user?.email}</span>
+                  <Button className='button2' variant="outline-danger" onClick={handleLogout}>
+                    로그아웃
+                  </Button>
+                </>
               ) : (
                 <Button className='button1' variant="outline-success" onClick={handleLogin}>
                   로그인

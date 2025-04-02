@@ -29,13 +29,41 @@
   margin-bottom: 5px;
 }
 
+/* 폼 자체를 세로 배치하고 간격을 줄 수 있습니다. */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* 입력란 사이 간격 증가 */
+  padding: 25px 30px;
+  background: #f8f9fa; /* 밝은 배경색 */
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
 /* 입력 필드 */
-.input-group input {
+.input-input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 16px;
+  color: #333;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-input:focus {
+  outline: none;
+  border-color: #20c997;
+  box-shadow: 0 0 8px rgba(32, 201, 151, 0.3);
+}
+/* .input-group input {
   width: 100%;
   padding: 10px;
   border: 1px solid #e2e2e2;
   box-sizing: border-box;
-}
+} */
 
 .password-input {
   position: relative;

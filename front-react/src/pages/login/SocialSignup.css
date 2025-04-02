@@ -1,0 +1,72 @@
+/* SocialSignup.css */
+
+/* 에러 메시지 */
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  
+  /* 전체 컨테이너 */
+  .social-signup-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 100px;
+  }
+  
+  /* 타이틀 스타일 */
+  .social-signup-container h1 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  /* 폼 박스 */
+  .social-signup-container form {
+    width: 540px;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+  }
+  
+  /* 폼 내부 각 항목 그룹 */
+  .social-signup-container form > div {
+    margin-bottom: 20px;
+  }
+  
+  /* 레이블 스타일 */
+  .social-signup-container label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  /* 입력 필드 스타일 */
+  .social-signup-container input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    height: 40px;
+  }
+  
+  /* 제출 버튼 스타일 */
+  .social-signup-container button {
+    width: 100%;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    background-color: #20c997;
+    color: white;
+  }
+  
+  /* 버튼 호버 효과 */
+  .social-signup-container button:hover {
+    background-color: #1e8e72;
+  }
+  

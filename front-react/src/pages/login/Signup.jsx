@@ -1,42 +1,48 @@
 import React, { useState } from 'react';
-import './signup.css'
+import './signup.css';
 import { useNavigate } from 'react-router-dom';
 
 function Signup() {
-
   const [termsAgree, setTermsAgree] = useState(false);
   const [privacyAgree, setPrivacyAgree] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const navigate = useNavigate(); // 페이지 이동을 위한 네비게이션 훅
+  const navigate = useNavigate();
 
-  // 약관 및 개인정보 처리 방침 동의 유효성 검사를 위한 함수
+  // 약관 및 개인정보 처리 방침 동의 유효성 검사 함수
   const validateAgreement = () => {
-    if (!termsAgree && !privacyAgree){
-      setErrorMessage('약관 및 개인정보 처리 방침에 동의해야 합니다.');
+    if (!termsAgree && !privacyAgree) {
+      setErrorMessage('약관 및 개인정보 처리 방침에 모두 동의해야 합니다.');
       return false;
     } else if (!termsAgree) {
       setErrorMessage('이용 약관에 동의해야 합니다.');
       return false;
-    } else if (!privacyAgree){
+    } else if (!privacyAgree) {
       setErrorMessage('개인정보 처리 방침에 동의해야 합니다.');
       return false;
     }
-    setErrorMessage('');  //유효성 검사 통과 시 오류 메시지 초기화
-     return true;
-    };
+    setErrorMessage('');
+    return true;
+  };
 
-    // 회원가입 제출 버튼 클릭 시 호출되는 함수
-    const signUpSubmit = (type) => (e) => {
-      e.preventDefault();
-      if(validateAgreement()){  //약관 동의 여부 유효성 검사
-        // 동의 여부를 로컬 스토리지에 저장 (다음 페이지에서 참조 가능)
-        localStorage.setItem('termsAgree', termsAgree);
-        localStorage.setItem('privacyAgree', privacyAgree);
+  // 회원가입 버튼 클릭 시 호출되는 함수
+  // 일반 회원가입은 /signUp/id, 소셜 회원가입은 해당 소셜 로그인 API로 리다이렉트
+  const signUpSubmit = (type) => (e) => {
+    e.preventDefault();
+    // 동의 체크가 안되었으면 이동하지 않음
+    if (!validateAgreement()) return;
 
-        // 약관 동의가 완료되면, 다음 페이지로 이동(회원가입 타입에 따라)
-        navigate(`/signUp/${type}`); 
-      }
-    };
+    // 약관 동의 정보를 로컬스토리지에 저장 (필요시 다른 페이지에서 사용)
+    localStorage.setItem('termsAgree', termsAgree);
+    localStorage.setItem('privacyAgree', privacyAgree);
+
+    if (type === 'id') {
+      // 일반 회원가입: 가입 페이지로 이동
+      navigate(`/signUp/${type}`);
+    } else {
+      // 소셜 회원가입: 해당 소셜 로그인 API 호출 → 소셜 사이트에서 개인정보 동의 후 OAuth2SuccessHandler에서 SocialSignup.js로 리다이렉트
+      window.location.href = `http://localhost:8081/oauth2/authorization/${type}?flow=signup`;
+    }
+  };
 
   return (
     <div className="welcome-container">
@@ -95,27 +101,44 @@ function Signup() {
         </div>
       </div>
 
-      {/* 오류 메시지 표시 */}
+      {/* 오류 메시지 출력 영역 */}
       {errorMessage && <div className="error-message">{errorMessage}</div>}
 
-        {/* 회원가입 버튼 */}
-        <button className="signup-button id" onClick={signUpSubmit('id')}>
-          아이디로 회원가입
+      {/* 일반 회원가입 버튼 */}
+      <button 
+        className="signup-button id" 
+        onClick={signUpSubmit('id')}
+        disabled={!termsAgree || !privacyAgree}
+      >
+        아이디로 회원가입
+      </button>
+
+      {/* 소셜 회원가입 버튼 영역 */}
+      <div className="social-signUp">
+        <button 
+          className="social-signUpLink naver" 
+          onClick={signUpSubmit('naver')}
+          disabled={!termsAgree || !privacyAgree}
+        >
+          네이버로 회원가입
+        </button>
+  
+        <button 
+          className="social-signUpLink kakao" 
+          onClick={signUpSubmit('kakao')}
+          disabled={!termsAgree || !privacyAgree}
+        >
+          카카오로 회원가입
         </button>
 
-        <div className="social-signUp">
-            <button className="social-signUpLink naver" onClick={signUpSubmit('naver')}>
-              네이버로 회원가입
-            </button>
-      
-            <button className="social-signUpLink kakao" onClick={signUpSubmit('kakao')}>
-              카카오로 회원가입
-            </button>
-
-            <button className="social-signUpLink google" onClick={signUpSubmit('google')}>
-              구글로 회원가입
-            </button>
-        </div>
+        <button 
+          className="social-signUpLink google" 
+          onClick={signUpSubmit('google')}
+          disabled={!termsAgree || !privacyAgree}
+        >
+          구글로 회원가입
+        </button>
+      </div>
     </div>
   );
 }

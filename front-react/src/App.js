@@ -7,8 +7,9 @@ import BlocklyComponent from './blockly/components/BlocklyComponent'
 import Login from './pages/login/Login';
 import Signup from './pages/login/Signup';
 import SignUpId from './pages/login/SignUpId';
-import KakaoLogin from './pages/login/social/pages/KakaoLogin';
-import ErpMain from './erp/ErpMain';
+import Callback from './pages/login/social/components/Callback';
+import SocialSignup from './pages/login/SocialSignup';
+import Welcome from './pages/login/Welcome';
 
 function App() {
   return (
@@ -19,10 +20,11 @@ function App() {
           <Route path="/createBlock" exact={true} element={<BlocklyComponent />} />
           <Route path="/" element={<Main/>}/>
           <Route path="/login" element={<Login/>}/>
+          <Route path="/callback" element={<Callback />} />
           <Route path="/signUp" element={<Signup/>} />
           <Route path="/signUp/id" element={<SignUpId/>}/>
-          <Route path="/kakaoLogin" element={<KakaoLogin />} />
-          <Route path="/erpMain" element={<ErpMain/>} />
+          <Route path="/social-signup" element={<SocialSignup/>}/>
+          <Route path="/Welcome" element={<Welcome/>}/>
         </Routes>
         <Footer />
       </BrowserRouter>
