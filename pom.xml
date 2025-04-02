@@ -65,20 +65,55 @@
           <optional>true</optional>
       </dependency>
       
-      <!-- kakaopropertise @ConfigurationProperties 사용을 위해 추가 -->
-	  <dependency>
-		  <groupId>org.springframework.boot</groupId>
-		  <artifactId>spring-boot-configuration-processor</artifactId>
-		  <scope>provided</scope>
-	  </dependency>
+	  <!-- social login OAuth2 + JWT 사용 dependency -->   
+      <!-- Spring Boot Security -->
+       <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-security</artifactId>
+      </dependency>
+    
+      <!-- OAuth2 Client -->
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-oauth2-client</artifactId>
+      </dependency>
+    
+      <!-- JWT (jjwt) -->
+     <dependency> <!-- JWT의 핵심 API를 제공 -->
+         <groupId>io.jsonwebtoken</groupId>
+         <artifactId>jjwt-api</artifactId>
+         <version>0.11.5</version>
+     </dependency>
+     
+     <dependency> <!-- 구현체로, 런타임에 필요 -->
+         <groupId>io.jsonwebtoken</groupId>
+         <artifactId>jjwt-impl</artifactId>
+         <version>0.11.5</version>
+         <scope>runtime</scope>
+     </dependency>
+     
+     <dependency> <!-- Jackson을 사용해 JWT의 클레임(claims)을 JSON으로 처리 -->
+         <groupId>io.jsonwebtoken</groupId>
+         <artifactId>jjwt-jackson</artifactId>
+         <version>0.11.5</version>
+         <scope>runtime</scope>
+     </dependency>
+     
+     <!-- H2 Database (테스트용, 실제 DB로 교체 가능) -->
+     <!-- yml 파일에 h2 추가 -->
+     <dependency>
+         <groupId>com.h2database</groupId>
+         <artifactId>h2</artifactId>
+         <scope>runtime</scope>
+     </dependency>
+    
+      <!-- MariaDB Driver -->
+      <dependency>
+          <groupId>org.mariadb.jdbc</groupId>
+          <artifactId>mariadb-java-client</artifactId>
+          <scope>runtime</scope>
+      </dependency>
       
-       <!-- MariaDB JDBC 드라이버 -->
-		<dependency>
-		    <groupId>org.mariadb.jdbc</groupId>
-		    <artifactId>mariadb-java-client</artifactId>
-		    <version>3.3.2</version> <!-- 최신 버전 사용 -->
-		</dependency>
-        
       <!-- done -->
        
       <dependency>
