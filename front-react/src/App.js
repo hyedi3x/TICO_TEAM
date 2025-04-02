@@ -10,6 +10,7 @@ import SignUpId from './pages/login/SignUpId';
 import Callback from './pages/login/social/components/Callback';
 import SocialSignup from './pages/login/SocialSignup';
 import Welcome from './pages/login/Welcome';
+import ErpMain from "./erp/ErpMain";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/signUp/id" element={<SignUpId/>}/>
           <Route path="/social-signup" element={<SocialSignup/>}/>
           <Route path="/Welcome" element={<Welcome/>}/>
+          <Route path="/erpMain" element={<ErpMain/>} />
         </Routes>
         <Footer />
       </BrowserRouter>
