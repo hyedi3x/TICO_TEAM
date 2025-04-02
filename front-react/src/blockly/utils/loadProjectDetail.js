@@ -34,8 +34,12 @@ export const loadProjectToCanvas = async (
 
   for (const obj of objects) {
     const img = new Image();
-    img.src = obj.url;
-
+    
+    if(obj.url === 'http://i.namu.wiki/i/CmGNSPeYt7cloH3uYZ_XTlfknRtDrjYtFVCF5zuvzWLAeaTGqnsW9kDC6iLHjGoF9OamAkLNkxGxpxFHhYd_pQ.svg'){
+      img.src = obj.url;
+    } else {
+      img.src = `http://localhost:8081${obj.url}`;
+    }
     await new Promise((resolve) => {
       img.onload = () => {
 

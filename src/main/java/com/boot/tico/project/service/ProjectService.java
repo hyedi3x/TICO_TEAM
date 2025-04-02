@@ -1,5 +1,7 @@
 package com.boot.tico.project.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.boot.tico.project.dao.ProjectMapper;
 import com.boot.tico.project.dto.ProjectDTO;
@@ -98,4 +101,26 @@ public class ProjectService {
 		projectMapper.deleteObjectsByProjectId(projectId);
 		projectMapper.deleteProject(projectId);
 	}
+	
+	
+	// 이미지 서버에 저장
+	private final String uploadDir = System.getProperty("user.dir") + "/uploads/";
+	
+	public String saveFile(MultipartFile file) throws IOException {
+
+		String originalFilename = file.getOriginalFilename();
+
+	    // 디렉토리 없으면 생성
+        File folder = new File(uploadDir);
+        if (!folder.exists()) {
+        	folder.mkdirs();
+	    }
+
+	    // 저장
+        File dest = new File(uploadDir + originalFilename);
+        file.transferTo(dest);
+
+        // 반환 URL (정적 파일 접근 경로)
+        return "/uploads/" + originalFilename;
+    }
 }
