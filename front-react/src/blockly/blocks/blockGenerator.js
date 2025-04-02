@@ -1,7 +1,11 @@
-import { javascriptGenerator, Order } from 'blockly/javascript';
+import { javascriptGenerator } from 'blockly/javascript';
+// eslint-disable-next-line
 import { start_btn, start_with_q } from '../functions/starts/startFunctions';
+// eslint-disable-next-line
 import { moveImgToX, moveImgToY, moveImgToXY, rotateImage, rotateImageInTime } from '../functions/moves/moveFunctions';
+// eslint-disable-next-line
 import { showObject, hideObject, changeAppearance, changeObject, resizeObject, flipObject, changeShape } from "../functions/appearances/appearanceFunctions";
+// eslint-disable-next-line
 import { playSound, playSoundDuration, playSoundRange, stopSounds, multipleSoundSpeed } from "../functions/sounds/soundFunctions";
 
 export let imgArr = null; // 백틱은 객체가 잘 안넘어가서 export로 넘겨준다.
