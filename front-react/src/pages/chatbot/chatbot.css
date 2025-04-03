@@ -1,58 +1,59 @@
-/* --------------------------[chatbot 스타일 속성]---------------------------- */
-/* 챗봇 로고 위치 */
+/* 챗봇 로고 (화면 우측 하단에 둥근 버튼처럼 띄우는 경우) */
 .chatbot-logo {
-  position: fixed; /* 브라우저 화면 지정 위치 고정 */
-  bottom: 100px;
-  right: 30px;
+  position: fixed;
+  bottom: 50px;
+  right: 20px;
   width: 70px;
   height: 70px;
-  z-index: 999;
+  padding: 8px;
   cursor: pointer;
-  border-radius: 50%; /* 원형 로고 */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-  transition: transform 0.3s ease; /* 호버 시 부드러운 효과 */
+  z-index: 1000;
+  border-radius: 50%; /* 동그란 모양 */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* 그림자 추가 */
+  background-color: white; /* 배경 흰색이면 더 또렷하게 보임 */
 }
 
-.chatbot-logo:hover {
-  transform: scale(1.1); /* 호버 시 약간 확대 */
-}
-
-/* 채팅창 위치 */
-.chatbot-window {
-  position: fixed;
-  top: 0; /* 전체 브라우저 높이로 설정 */
-  right: 0; /* 전체 브라우저 우측에 배치 */
-  width: 350px;
-  height: 100vh; /* 전체 브라우저 높이로 설정 */
-  border: 1px solid #ccc;
-  z-index: 1000; /* 투명 막 & 챗봇 로고보다 더 위로 위치하게 설정 */
-  background-color: #fff; /* 배경색 안주면 투명해짐*/
-  display: flex; /* flexbox 레이아웃 사용 */
-  flex-direction: column; /* 세로 방향으로 요소 배치 */
-}
-
-/* 투명 막 설정*/
-.overlay {
+/* 오버레이 (팝업 뒤 어두운 반투명 배경) */
+.chatbot-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: calc(100% - 350px); /* 채팅창 제외한 나머지 영역 */
+  width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5); /* 반투명 검은색 */
-  z-index: 999; /* 채팅창보다 낮게 설정 */
+  background-color: rgba(0,0,0,0.3);
+  z-index: 1001;
 }
 
-/* 채팅창 닫기 버튼 */
+/* 실제 채팅창 컨테이너 */
+.chatbot-window {
+  position: fixed;
+  bottom: 0;
+  right: 20px;
+  width: 350px;
+  height: 500px; /* 채팅창 전체 높이 */
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 15px; /* 둥근 모서리 */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15); /* 그림자 */
+  z-index: 1002; /* 오버레이보다 위 */
+  overflow: hidden; /* 모서리 둥근 부분에 내용 삐져나오지 않도록 */
+}
+
+/* 닫기 버튼 (채팅창 상단 우측) */
 .close-button {
-  position: absolute; /* 채팅창 우측 상단에 배치 */
+  position: absolute; 
   top: 10px;
-  right: 15px;
-  font-size: 20px;
+  right: 10px;
   cursor: pointer;
-  color: #666; /* 버튼 색상 */
-  transition: color 0.3s ease; /* 호버 시 부드러운 효과 */
+  font-weight: bold;
+  font-size: 16px;
+  color: #999;
+  background: transparent;
+  border: none;
 }
 
 .close-button:hover {
-  color: #a2d2ff; /* 호버 시 버튼 색상 변경 */
+  color: #333;
 }
