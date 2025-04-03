@@ -44,7 +44,7 @@ function Login() {
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
       localStorage.setItem("autoLogin", "true");
-      localStorage.setItem("user_uuId", user_uuid); 
+      localStorage.setItem("user_uuid", user_uuid); 
 
       setIsLoggedIn(true);
       navigate("/");
@@ -79,7 +79,7 @@ function Login() {
         setUserInfo(null);
   
         console.log('accessToken:', localStorage.getItem("accessToken"));
-        console.log('user_uuId:', localStorage.getItem("user_uuId"));
+        console.log('user_uuid:', localStorage.getItem("user_uuid"));
         console.log('autoLogin:', localStorage.getItem("autoLogin"));
           
         // navigate를 약간 지연시켜서 alert 먼저 보이게 함
