@@ -64,22 +64,6 @@ function FAQList() {
             ))}
           </Accordion>
 
-          <div className="text-center my-5">
-            <Button
-              variant="success"
-              size="lg"
-              onClick={() => navigate('/faqpost')}
-              style={{
-                padding: '12px 30px',
-                fontSize: '18px',
-                fontWeight: 'bold',
-                borderRadius: '8px',
-                boxShadow: '0 4px 10px rgba(0, 128, 0, 0.2)',
-              }}
-            >
-                FAQ 등록하기
-            </Button>
-          </div>
         </div>
     );
 }
