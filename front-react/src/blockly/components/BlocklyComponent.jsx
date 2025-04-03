@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, useState } from 'react';
-// eslint-disable-next-line
 import * as Blockly from "blockly"; // npm install Blockly 
 import * as ko from 'blockly/msg/ko';  // 한글 번역 모듈
 import { javascriptGenerator } from "blockly/javascript"; // JavaScript 코드 생성기 가져오기
@@ -55,6 +54,7 @@ function Canvas() {
   useEffect(() => {
     defineMyBlocks(); // 사용자 정의 블록 등록
     callimage('http://i.namu.wiki/i/CmGNSPeYt7cloH3uYZ_XTlfknRtDrjYtFVCF5zuvzWLAeaTGqnsW9kDC6iLHjGoF9OamAkLNkxGxpxFHhYd_pQ.svg');
+    // eslint-disable-next-line
   }, []);
   
   /** ─────────────── 이미지 및 Blockly 생성 ─────────────── **/
