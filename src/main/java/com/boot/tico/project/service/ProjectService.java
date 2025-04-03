@@ -36,9 +36,6 @@ public class ProjectService {
 
        projectRepository.save(project);
 
-       // 2️⃣ object_id 직접 생성 (하나씩 증가)
-       int baseObjectId = objectRepository.getLatestObjectId();
-
        for (ProjectObjectDTO obj : objectList) {
     	   int newObjectId = objectRepository.getLatestObjectId() + 1;
            obj.setObjectId(newObjectId);  // 순차적으로 증가
