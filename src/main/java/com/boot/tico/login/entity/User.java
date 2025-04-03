@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 @Table(name = "users")
 public class User {
     @Id
-    @Column(name = "user_id", columnDefinition = "VARCHAR(36)")
-    private String user_id = java.util.UUID.randomUUID().toString();
+    @Column(name = "user_uuid", columnDefinition = "VARCHAR(36)")
+    private String user_uuid = java.util.UUID.randomUUID().toString();
 
     @Column(nullable = false, unique = true)
     private String email;

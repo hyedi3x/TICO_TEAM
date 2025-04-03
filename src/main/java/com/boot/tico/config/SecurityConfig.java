@@ -28,15 +28,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, OAuth2SuccessHandler successHandler) throws Exception {
         http
+        .cors() // 자체적으로 CORS 필터 체인을 다루기 때문에, SecurityFilterChain에 .cors() 설정이 추가되어야 함
+        .and()
         .csrf().disable()
           .authorizeRequests()
-            .antMatchers("/auth/**", "/login/**", "/oauth2/**", "/error", "/project/**", "/api/**", "/").permitAll()
+            .antMatchers("/auth/**", "/auth/login/**", "/oauth2/**", "/error", "/project/**", "/api/**", "/").permitAll()
             .anyRequest().authenticated()
         .and()
-        .oauth2Login()
-            .loginPage("/login")
-            .successHandler(successHandler)
-            .failureUrl("/login?error=true");
+           .oauth2Login()
+           // .loginPage("/auth/login")
+           .successHandler(successHandler)
+            .failureUrl("/auth/login?error=true");
         // 로그아웃 설정은 제거하여 AuthController의 /auth/logout이 사용되도록 함.
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 

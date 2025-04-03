@@ -37,6 +37,8 @@ function Header() {
       .then(() => {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
+        localStorage.removeItem('user_uuid');
+        localStorage.removeItem('autoLogin');
         setIsLoggedIn(false);
         setUser(null);
         navigate('/login');

@@ -31,7 +31,7 @@ public class UserDto {
     @Getter
     @Setter
     public static class Response {
-        private String user_id;
+        private String user_uuid;
         private String email;
         private String name;
         private String nickname;

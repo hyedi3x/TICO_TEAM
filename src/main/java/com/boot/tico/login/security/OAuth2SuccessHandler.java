@@ -54,11 +54,11 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         Optional<User> optionalUser = userService.findOAuth2User(email, provider);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            Map<String, Object> claims = Map.of("email", user.getEmail(), "user_id", user.getUser_id());
+            Map<String, Object> claims = Map.of("email", user.getEmail(), "user_uuid", user.getUser_uuid());
             String accessToken = jwtTokenizer.generateAccessToken(claims);
             String refreshToken = jwtTokenizer.generateRefreshToken();
     
-            String redirectFullUrl = redirectUrl + "?accessToken=" + accessToken + "&refreshToken=" + refreshToken;
+            String redirectFullUrl = redirectUrl + "?accessToken=" + accessToken + "&refreshToken=" + refreshToken + "&user_uuid=" + user.getUser_uuid();
             log.info("리다이렉트 URL: {}", redirectFullUrl);
             getRedirectStrategy().sendRedirect(request, response, redirectFullUrl);
         } else {

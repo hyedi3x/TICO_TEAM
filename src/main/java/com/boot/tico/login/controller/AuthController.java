@@ -65,14 +65,14 @@ public class AuthController {
             .orElseThrow(() -> new RuntimeException("User not found"));
         // 인증 성공 시, 이메일을 db에서 정보 조회
 
-        Map<String, Object> claims = Map.of("email", user.getEmail(), "user_id", user.getUser_id());
+        Map<String, Object> claims = Map.of("email", user.getEmail(), "user_uuid", user.getUser_uuid());
         String accessToken = jwtTokenizer.generateAccessToken(claims);
         String refreshToken = jwtTokenizer.generateRefreshToken();
         // email,id를 claims에 담아서 jwtToken을 이용해 새로운 accessToken,refreshToken 발급
         
        
         UserDto.Response response = new UserDto.Response();
-        response.setUser_id(user.getUser_id());
+        response.setUser_uuid(user.getUser_uuid());
         response.setEmail(user.getEmail());
         response.setAccessToken(accessToken);
         response.setRefreshToken(refreshToken);
@@ -117,10 +117,14 @@ public class AuthController {
     
 
     // 로그아웃 API
+    // 사용자가 로그아웃할 때, 현재 세션을 무효화하여 로그아웃 처리
     @PostMapping("/logout")
+    
     public ResponseEntity<String> logout(HttpServletRequest request) {
-        request.getSession().invalidate();
+        request.getSession().invalidate(); 
+        // HttpServletRequest의 getSession().invalidate()를 호출하여 현재 세션을 종료
         return ResponseEntity.ok("로그아웃 성공");
+        // 로그아웃 성공 메세지를 클라이언트에 전달
     }
     
     // 회원 탈퇴 API
@@ -153,12 +157,12 @@ public class AuthController {
 
     // JWT 토큰을 포함한 응답 객체 생성 메서드
     private UserDto.Response createUserResponse(User user) {
-        Map<String, Object> claims = Map.of("email", user.getEmail(), "user_id", user.getUser_id());
+        Map<String, Object> claims = Map.of("email", user.getEmail(), "user_uuid", user.getUser_uuid());
         String accessToken = jwtTokenizer.generateAccessToken(claims);
         String refreshToken = jwtTokenizer.generateRefreshToken();
 
         UserDto.Response response = new UserDto.Response();
-        response.setUser_id(user.getUser_id());
+        response.setUser_uuid(user.getUser_uuid());
         response.setEmail(user.getEmail());
         response.setName(user.getName());
         response.setNickname(user.getNickname());
