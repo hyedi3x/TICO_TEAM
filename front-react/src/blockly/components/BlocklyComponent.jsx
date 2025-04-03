@@ -368,7 +368,9 @@ function Canvas() {
     const elements = document.querySelectorAll('[id*="blockly"][style="display: block;"]'); // *=은 부분일치
     if(elements.length === 0){
       const firstBlock = document.getElementById("blockly0");
-      firstBlock.style.display = "block";
+      if (firstBlock) {
+        firstBlock.style.display = "block";
+      }
     }
     // 6. 전체 다시 렌더링
     callImgArr();
