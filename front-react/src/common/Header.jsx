@@ -41,7 +41,7 @@ function Header() {
         localStorage.removeItem('autoLogin');
         setIsLoggedIn(false);
         setUser(null);
-        navigate('/login');
+        navigate('/');
       })
       .catch((error) => {
         console.error('로그아웃 실패:', error);
