@@ -92,6 +92,7 @@ function Header() {
                   <NavDropdown.Item href="#action4">노하우&팁</NavDropdown.Item>
                   <NavDropdown.Item href="#action4">티코 이야기</NavDropdown.Item>
                   <NavDropdown.Item href="#action4">공지사항</NavDropdown.Item>
+                  <NavDropdown.Item href="faqlist">FAQ</NavDropdown.Item>
                   <NavDropdown.Item href="#action5">탐험하기</NavDropdown.Item>
                 </NavDropdown>
               </Nav>

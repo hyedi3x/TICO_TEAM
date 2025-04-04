@@ -1,0 +1,173 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { Button, Form, Row, Col, Card } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+
+function FAQList() {
+  const [faqData, setFaqData] = useState([]); // JSON 객체를 담을 배열
+  const navigate = useNavigate();
+ 
+  const modCheck = useRef(0); // 변경사항 확인
+
+  useEffect(() => {
+    const fetchFaqData = async () => {
+      try {
+        const response = await fetch('http://localhost:8081/api/faqGet');
+        if (!response.ok) throw new Error('FAQ 데이터를 불러오는 데 실패했습니다.');
+        const data = await response.json();
+        setFaqData(data);
+      } catch (error) {
+        console.error('FAQ 데이터를 불러오는 중 오류 발생:', error);
+        alert('FAQ 데이터를 불러오는 중 오류가 발생했습니다.');
+      }
+    };
+    fetchFaqData();
+    modCheck.current = 0;
+  }, []);
+
+  // FAQ 수정용 핸들러
+  const handleChange = (index, field, value) => {
+    const updated = [...faqData]; // spread 연산자
+    updated[index][field] = value; // 해당 객체의 key값을 변경
+    setFaqData(updated);
+    modCheck.current = 1;
+  };
+
+  // 삭제
+  const deleteCheck = async (id) => {
+    if (window.confirm(`정말 [${id}번] 항목을 삭제하시겠습니까?`)) {
+      try {
+        const response = await fetch(`http://localhost:8081/api/faqDelete/${id}`, {
+          method: 'DELETE',
+        });
+        if (!response.ok) throw new Error('FAQ 삭제에 실패했습니다.');
+        alert('삭제되었습니다.');
+        setFaqData((prev) => prev.filter((dto) => dto.qa_id !== id));
+      } catch (error) {
+        console.error('FAQ 삭제 중 오류 발생:', error);
+        alert('FAQ 삭제 중 오류가 발생했습니다.');
+      }
+    }
+  };
+
+  // 개별수정
+  const handleUpdate = async (qa_id, question, answer, index) => {
+    
+    if (!question.trim() || !answer.trim()) { // 공백을 지우고 유효검사
+        alert('질문과 답변은 모두 입력해야 합니다.');
+        return;
+    }
+    
+    const confirmed = window.confirm(`${qa_id}번 FAQ를 수정하시겠습니까?`);
+    if (!confirmed) return;
+    
+    try {
+      const response = await fetch(`http://localhost:8081/api/faqPut/${qa_id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question, answer }),
+      });
+      
+      // 상태만 갱신해서 리렌더링
+      setFaqData((prev) =>
+        prev.map((item) =>
+          item.qa_id === qa_id
+            ? { ...item, question, answer }
+            : item
+        )
+      );
+
+      if (!response.ok) throw new Error('FAQ 수정 실패');
+      alert(`FAQ ${qa_id}번 항목이 성공적으로 수정되었습니다.`);
+      
+  
+    } catch (error) {
+      console.error('FAQ 수정 중 오류:', error);
+      alert(`FAQ ${qa_id} 수정 중 오류가 발생했습니다.`);
+    }
+  };
+
+  // 등록화면으로 넘어가기
+  const postChek = ()=>{
+    if (modCheck.current === 1) {
+        if(window.confirm("변경사항이 있습니다. 등록하기 화면으로 넘어가시겠습니까?.")){
+            navigate('/faqpost')
+        } else return false
+    } else navigate('/faqpost')
+  }
+  return (
+    <div className="container mt-5 mb-5">
+  <h2 className="text-center mb-3">자주 묻는 질문 (FAQ)</h2>
+  <p className="text-muted text-center mb-4">수정 / 삭제</p>
+
+  {/* overflowY: auto는 내부 내용이 넘치면 자동으로 세로 스크롤이 생기게 함 */}
+  <div style={{ maxHeight: '650px', overflowY: 'auto', paddingRight: '8px' }}> 
+    {faqData.map((dto, index) => (
+      <Card key={dto.qa_id} className="mb-4 shadow-sm">
+        <Card.Body>
+          <Row className="align-items-center mb-3">
+            <Col>
+              <b>{index + 1}.</b>
+              <Form.Control
+                type="text"
+                value={dto.question}
+                onChange={(e) => handleChange(index, 'question', e.target.value)}
+                placeholder="질문을 입력하세요"
+                className="fw-bold"
+              />
+            </Col>
+            <Col xs="auto">
+              <Button
+                variant="warning"
+                size="sm"
+                onClick={() =>
+                  handleUpdate(dto.qa_id, dto.question, dto.answer, index)
+                }
+              >
+                수정
+              </Button>
+            </Col>
+            <Col xs="auto">
+              <Button
+                variant="outline-danger"
+                size="sm"
+                onClick={() => deleteCheck(dto.qa_id)}
+                className="me-1"
+              >
+                ❌
+              </Button>
+            </Col>
+          </Row>
+          <Form.Control
+            as="textarea"
+            rows={3}
+            value={dto.answer}
+            onChange={(e) => handleChange(index, 'answer', e.target.value)}
+            placeholder="답변을 입력하세요"
+            style={{ backgroundColor: '#f9f9f9' }}
+          />
+        </Card.Body>
+      </Card>
+    ))}
+  </div>
+
+  <div className="d-flex justify-content-center mt-4">
+    <Button
+      variant="primary"
+      size="lg"
+      onClick={() => postChek()}
+      style={{
+        padding: '12px 30px',
+        fontSize: '18px',
+        fontWeight: 'bold',
+        borderRadius: '8px',
+        boxShadow: '0 4px 10px rgba(0, 123, 255, 0.2)',
+      }}
+    >
+      FAQ 새로 등록하기
+    </Button>
+  </div>
+</div>
+  );
+}
+
+export default FAQList;

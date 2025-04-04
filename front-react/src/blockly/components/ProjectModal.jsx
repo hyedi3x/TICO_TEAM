@@ -4,7 +4,7 @@ import { Modal, Button, Card, Row, Col } from 'react-bootstrap';
 
 function ProjectModal({ show, onClose, projectList, onSelect }) {
   return (
-    <Modal show={show} size="lg">
+    <Modal show={show} onHide={onClose} size="lg">
       <Modal.Header>
         <div style={{ width: '100%', textAlign: 'center' }}>
           <Modal.Title>저장된 작품 목록</Modal.Title>
@@ -14,7 +14,7 @@ function ProjectModal({ show, onClose, projectList, onSelect }) {
         <Row>
           {projectList.map((project) => (
             <Col 
-                key={project.project_id}
+                key={project.projectId}
                 xs={6} 
                 md={4} 
                 lg={3} 
@@ -26,7 +26,7 @@ function ProjectModal({ show, onClose, projectList, onSelect }) {
               <Card style={{ height: '100%', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
               <Card.Img
                   variant="top"
-                  src={project.thumbnail_url}
+                  src={project.thumbnailUrl}
                   style={{objectFit: 'cover' }}
                 />
                 <Card.Footer className="d-flex justify-content-between text-muted" style={{ fontSize: '0.8rem' }}>
@@ -34,7 +34,7 @@ function ProjectModal({ show, onClose, projectList, onSelect }) {
                   <div>❤️ {project.likes || 0}</div>
                   <div>💬 {project.comments || 0}</div>
                 </Card.Footer>
-                <Card.Title className="text-truncate" style={{"textAlign": "center"}}>{project.title}</Card.Title>
+                <Card.Title className="text-truncate" style={{"textAlign": "center"}}>{project.title}{project.projectId}</Card.Title>
               </Card>
             </Col>
           ))}

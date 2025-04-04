@@ -1,5 +1,7 @@
 package com.boot.tico.project.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,95 +9,97 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.boot.tico.project.dao.ProjectMapper;
 import com.boot.tico.project.dto.ProjectDTO;
 import com.boot.tico.project.dto.ProjectObjectDTO;
+import com.boot.tico.project.repo.ProjectObjectRepository;
+import com.boot.tico.project.repo.ProjectRepository;
 
 @Service
 public class ProjectService {
 
-	@Autowired
-	private ProjectMapper projectMapper;
-	
-	// 작품 + 그 작품의 요소 정보 저장(블록, 요소의 위치 등등)
-	@Transactional
-	public int saveProject(ProjectDTO project, List<ProjectObjectDTO> objectList) {
-		System.out.println("ProjectService - saveProject()");
-		
-		int latestProjectId = projectMapper.getLatestProjectId() + 1; // max + 1
-	    project.setProject_id(latestProjectId); // 수동 지정
-	    
-		projectMapper.insertProject(project);
-		
-		for(ProjectObjectDTO obj : objectList) {
-			int nextObjectId = projectMapper.getLatestObjectId() + 1;
-		    obj.setObject_id(nextObjectId);
-			obj.setProject_id(latestProjectId);
-			System.out.println(obj.getUrl());
-			projectMapper.insertProjectObject(obj);
-		}
-		
-		return latestProjectId;
-	}
-	
-	// 모든 작품들 정보를 조회(작품 목록)
-	@Transactional
-	public List<ProjectDTO> getAllProjects(){
-		System.out.println("ProjectService - getAllprojects()()");
-		
-		return projectMapper.findAllProjects();
-	}
-	
-	// 작품 상세 조회(1건)
-	@Transactional(readOnly = true)
-	public Map<String, Object> getProjectDetail(int projectId) {
-		System.out.println("ProjectService - getProjectDetail()");
-		
-	    ProjectDTO project = projectMapper.findProjectById(projectId);
-	    List<ProjectObjectDTO> objects = projectMapper.findObjectsByProjectId(projectId);
+   @Autowired
+   private ProjectRepository projectRepository;
 
-	    Map<String, Object> result = new HashMap<>();
-	    result.put("project", project);
-	    result.put("objects", objects);
-	    return result;
-	}
-	
-	// 작품 수정 처리
-	@Transactional
-	public void updateProject(ProjectDTO project, List<ProjectObjectDTO> objectList) {
-		System.out.println("ProjectService - updateProject()");
-		
-		int projectId = project.getProject_id();
-		if(projectId == 0) {
-			throw new IllegalArgumentException("프로젝트 ID가 없습니다. 업데이트 불가");
-		}
-		
-		// 1. 작품 정보 업데이트
-	    projectMapper.updateProject(project);
+   @Autowired
+   private ProjectObjectRepository objectRepository;
 
-	    // 2. 해당 작품의 존재하는 요소 전부 delete(요소가 추가될 수 있기 때문)
-	    projectMapper.deleteObjectsByProjectId(project.getProject_id());
+   /** 저장 **/
+   @Transactional
+   public int saveProject(ProjectDTO project, List<ProjectObjectDTO> objectList) {
+       System.out.println("ProjectService - saveProject()");
 
-	    // 3. 요소들 insert
-	    for (ProjectObjectDTO obj : objectList) {
-	        int nextObjectId = projectMapper.getLatestObjectId() + 1;
-	        obj.setObject_id(nextObjectId);
-	        obj.setProject_id(project.getProject_id());
-	        projectMapper.insertProjectObject(obj);
-	    }
-	}
-	
-	// 작품 삭제 처리(요소는 DB에서 DELETE, 작품은 UPDATE로 is_delete='Y')
-	@Transactional
-	public void deleteProject(int projectId) {
-		System.out.println("ProjectService - deleteProject()");
-		
-		if(projectId == 0) {
-			throw new IllegalArgumentException("프로젝트 ID가 없습니다. 삭제 불가");
-		}
-		
-		projectMapper.deleteObjectsByProjectId(projectId);
-		projectMapper.deleteProject(projectId);
-	}
+       // 1️⃣ project_id 직접 생성
+       int newProjectId = projectRepository.getLatestProjectId() + 1;
+       project.setProjectId(newProjectId);
+
+       projectRepository.save(project);
+
+       for (ProjectObjectDTO obj : objectList) {
+    	   int newObjectId = objectRepository.getLatestObjectId() + 1;
+           obj.setObjectId(newObjectId);  // 순차적으로 증가
+           obj.setProjectId(newProjectId);        // FK 지정
+           objectRepository.save(obj);
+       }
+
+       return newProjectId;
+   }
+   
+   /** 목록 조회 **/
+   public List<ProjectDTO> getAllProjects() {
+       return projectRepository.findByIsDelete("N");
+   }
+
+   /** 상세 조회 **/
+   public Map<String, Object> getProjectDetail(int projectId) {
+       ProjectDTO project = projectRepository.findById(projectId).orElse(null);
+       List<ProjectObjectDTO> objects = objectRepository.findByProjectId(projectId);
+
+       Map<String, Object> result = new HashMap<>();
+       result.put("project", project);
+       result.put("objects", objects);
+       return result;
+   }
+
+   /** 수정 **/
+   @Transactional
+   public void updateProject(ProjectDTO project, List<ProjectObjectDTO> objectList) {
+       if (project.getProjectId() == 0) throw new IllegalArgumentException("프로젝트 ID 없음");
+
+       projectRepository.save(project);
+       objectRepository.deleteByProjectId(project.getProjectId());
+       for (ProjectObjectDTO obj : objectList) {
+    	   int newObjectId = objectRepository.getLatestObjectId() + 1;
+    	   obj.setObjectId(newObjectId);
+           obj.setProjectId(project.getProjectId());
+           objectRepository.save(obj);
+       }
+   }
+
+   /** 삭제 **/
+   @Transactional
+   public void deleteProject(int project_id) {
+       ProjectDTO project = projectRepository.findById(project_id).orElse(null);
+       if (project == null) throw new IllegalArgumentException("삭제할 프로젝트 없음");
+
+       objectRepository.deleteByProjectId(project_id);
+       project.setIsDelete("Y");
+       projectRepository.save(project);
+   }
+
+   /** 이미지 저장 **/
+   private final String uploadDir = System.getProperty("user.dir") + "/uploads/";
+
+   public String saveFile(MultipartFile file) throws IOException {
+       String originalFilename = file.getOriginalFilename();
+
+       File folder = new File(uploadDir);
+       if (!folder.exists()) folder.mkdirs();
+
+       File dest = new File(uploadDir + originalFilename);
+       file.transferTo(dest);
+
+       return "/uploads/" + originalFilename;
+   }
 }

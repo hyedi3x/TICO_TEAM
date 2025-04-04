@@ -1,7 +1,11 @@
 package com.boot.tico.project.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.boot.tico.project.dto.ProjectDTO;
@@ -12,8 +16,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/project")
@@ -122,5 +129,17 @@ public class ProjectController {
 		service.deleteProject(projectId);
 		return ResponseEntity.ok().build();
 	}
-
+	
+	
+	// 이미지 서버에 업로드
+	@PostMapping("/uploadImage")
+	public ResponseEntity<Map<String, String>> uploadImage(@RequestParam("file") MultipartFile file) {
+	    try {
+	        String imageUrl = service.saveFile(file);  // 💡 로직을 서비스에 위임
+	        return ResponseEntity.ok(Map.of("imageUrl", imageUrl));
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                             .body(Map.of("error", "파일 업로드 실패"));
+	    }
+	}
 }

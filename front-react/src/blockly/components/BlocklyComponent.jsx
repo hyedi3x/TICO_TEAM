@@ -46,6 +46,7 @@ function Canvas() {
    /** ─────────────── 캔버스 그리기 ─────────────── **/
   const draw = () => {
     const canvas = canvasRef.current;
+    // eslint-disable-next-line
     canvas.width = canvas.width;// 캔버스의 너비를 다시 할당, 캔버스 내부 내용 지워짐
   };
 
@@ -53,13 +54,18 @@ function Canvas() {
   useEffect(() => {
     defineMyBlocks(); // 사용자 정의 블록 등록
     callimage('http://i.namu.wiki/i/CmGNSPeYt7cloH3uYZ_XTlfknRtDrjYtFVCF5zuvzWLAeaTGqnsW9kDC6iLHjGoF9OamAkLNkxGxpxFHhYd_pQ.svg');
+    // eslint-disable-next-line
   }, []);
   
   /** ─────────────── 이미지 및 Blockly 생성 ─────────────── **/
   const callimage= (imgUrl)=>{  
     const img = new Image();
     // onload와 분리해서 처리할 것(src로 로드 된 후 onload가 실행되기 때문)
-    img.src = imgUrl;
+    if(imgUrl === 'http://i.namu.wiki/i/CmGNSPeYt7cloH3uYZ_XTlfknRtDrjYtFVCF5zuvzWLAeaTGqnsW9kDC6iLHjGoF9OamAkLNkxGxpxFHhYd_pQ.svg'){
+      img.src = imgUrl;
+    } else {
+      img.src = `http://localhost:8081${imgUrl}`;
+    }
       
     // 객체 로드시 배열에 js객체로 변수와 속성값을 추가
     img.onload = () =>{
@@ -74,7 +80,8 @@ function Canvas() {
         index: imgArr.current.length, // index 할당
         hidden: false,  // 이미지 숨김 여부
       })
-      
+      console.log("이미지 URL:", imgUrl);
+      console.log("이미지 객체:", img);
       callImgArr(); // 이미지 추가 후 전체 다시 그리기
       
       // Blockly 작업공간 DOM 생성 및 주입
@@ -106,6 +113,10 @@ function Canvas() {
         const blocklyDivElement = document.getElementById(`blockly${index}`);
         blocklyDivElement.style.display = (index === (blocklyArr.current.length-1) ? 'block' : 'none');
       });
+    };
+    img.onerror = (error) => {
+      console.error('이미지 로드 실패:', error);
+      alert('이미지 로드에 실패했습니다.');
     };
   };
 
@@ -237,17 +248,33 @@ function Canvas() {
   };
   
   // 이미지 파일 선택
-  const selectimg = (event) =>{
-    const file = event.target.files[0]; //multi 타입이 아니면 항상 1개
-    if(file){
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const imgUrl = e.target.result;
-        callimage(imgUrl); // url 전달
-      };
-      reader.readAsDataURL(file);
+  const selectimg = async (event) => {
+    const file = event.target.files[0]; // 한 개만 선택
+    if (!file) return;
+  
+    const formData = new FormData(); // 파일 전송용 객체 생성, JSON과 다른 파일 전송 가능, Content-Type 자동 설정
+    formData.append('file', file);   // key: "file", value: 파일 객체
+  
+    try {
+      const response = await fetch('http://localhost:8081/project/uploadImage', {
+        method: 'POST',
+        body: formData,
+      });
+  
+      if (!response.ok) {
+        throw new Error('이미지 업로드 실패');
+      }
+  
+      const { imageUrl } = await response.json(); // 백엔드가 준 URL 추출
+      console.log('콘솔',imageUrl);
+      callimage(imageUrl); // 정적 URL로 이미지 호출 함수 실행
+    } catch (err) {
+      console.error('업로드 중 오류 발생:', err);
+      alert('이미지 업로드 중 오류가 발생했습니다.');
     }
-  }
+    // 파일 처리 후 input reset
+    event.target.value = '';  // value를 비워서 리셋, 동일파일도 onChange가 적용되도록
+  };
 
     // 1. 실행하기 버튼 핸들러
   const runStartBtnCode = () => {
@@ -308,21 +335,47 @@ function Canvas() {
   }, []);
   
   // 이미지, 작업공간 삭제
-  function imgDel(index){
-    console.log('삭제할 인덱스 : ',index);
-    // 이미지 제거
-    imgArr.current.splice(index,1) // .splice(시작,갯수), 배열에서 잘라내기(삭제)
-    // 작업공간 제거
-    blocklyArr.current[index].dispose(); // blockly 내부 데이터 제거 (해당 작업공간(블록들, 이벤트 핸들러 등 포함)이 메모리에서 완전히 제거)
-    // DOM에서 제거
+  function imgDel(index) {
+    console.log('삭제할 인덱스 : ', index);
+  
+    // 1. 이미지 배열에서 제거
+    imgArr.current.splice(index, 1);
+  
+    // 2. Blockly 작업공간 제거
+    const workspaceToRemove = blocklyArr.current[index];
+    if (workspaceToRemove) {
+      workspaceToRemove.dispose(); // 내부 블록, 이벤트 등 메모리 제거
+    }
+  
+    // 3. DOM에서 블록리 작업공간 div 제거
     const blocklyDivElement = document.getElementById(`blockly${index}`);
     if (blocklyDivElement) {
-      blocklyDivElement.remove(); // DOM에서 제거
+      blocklyDivElement.remove(); // 실제 DOM 제거
     }
-    // 배열에서 제거
-    blocklyArr.current.splice(index,1)
+  
+    // 4. 배열에서도 제거
+    blocklyArr.current.splice(index, 1);
+  
+    // 5. 🔁 남은 작업공간들 인덱스 및 DOM ID 재정렬
+    blocklyArr.current.forEach((workspace, newIndex) => { // 마우스 클릭시, 아이디 사용, 아래 보이는 작업공간 처리를 위해서도 id 재할당 필요
+      const oldId = `blockly${workspace.index}`; // 작업공간별 저장했던 인덱스
+      const newId = `blockly${newIndex}`;
+      const div = document.getElementById(oldId); // 옛날 id 갱신
+      if (div) {
+        div.id = newId; // id 갱신
+      }
+    });
+    const elements = document.querySelectorAll('[id*="blockly"][style="display: block;"]'); // *=은 부분일치
+    if(elements.length === 0){
+      const firstBlock = document.getElementById("blockly0");
+      if (firstBlock) {
+        firstBlock.style.display = "block";
+      }
+    }
+    // 6. 전체 다시 렌더링
     callImgArr();
   }
+
 
   /** ─────────────── 렌더링 ─────────────── **/
   return (
@@ -395,14 +448,14 @@ function Canvas() {
         onSelect={async (project) => {
           try {
             await loadProjectToCanvas(
-              project.project_id,
+              project.projectId,
               imgArr,
               blocklyArr,
               blocklyDiv,
               callImgArr,
               setWorkspaceReady
             );
-            currentProjectId.current = project.project_id;
+            currentProjectId.current = project.projectId;
             setShowProjectModal(false);
           } catch (err) {
             alert('불러오기 실패!');

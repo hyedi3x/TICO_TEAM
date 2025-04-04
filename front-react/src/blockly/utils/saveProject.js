@@ -1,12 +1,12 @@
 import axios from 'axios';
 import * as Blockly from 'blockly';
 
-export const handleSaveProject = async (imgArr, blocklyArr, projectId) => {
+export const handleSaveProject = async (imgArr, blocklyArr, project_id) => {
   const projectInfo = {
-    project_id: projectId,
+    projectId: project_id,
     title: "내 작품",
     category: "기타",
-    thumbnail_url: imgArr.current[0].url || '',
+    thumbnailUrl: imgArr.current[0].url || '',
     introduction: "이건 소개입니다",
     guide: "사용법을 입력하세요",
   };
@@ -16,7 +16,7 @@ export const handleSaveProject = async (imgArr, blocklyArr, projectId) => {
     const xml = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(workspace));
 
     return {
-      object_index: index,
+      objectIndex: index,
       url: item.url,
       x: item.x,
       y: item.y,
@@ -27,16 +27,16 @@ export const handleSaveProject = async (imgArr, blocklyArr, projectId) => {
       hue: item.hue ?? 0,
       brightness: item.brightness ?? 100,
       opacity: item.opacity ?? 1,
-      flip_x: item.flipX ? -1 : 1,
-      flip_y: item.flipY ? -1 : 1,
-      bubble_text: item.bubbleText ?? '',
-      block_xml: xml
+      flipX: item.flipX ? -1 : 1,
+      flipY: item.flipY ? -1 : 1,
+      bubbleText: item.bubbleText ?? '',
+      blockXml: xml
     };
   });
   
   try {
     let res;
-    if (!projectId) {
+    if (!project_id) {
       // INSERT (신규 저장)
       res = await axios.post('http://localhost:8081/project/saveProject', {
         projectInfo,
@@ -50,7 +50,7 @@ export const handleSaveProject = async (imgArr, blocklyArr, projectId) => {
         projectInfo,
         objects
       });
-      alert(`업데이트 완료! projectId : ${projectId}`);
+      alert(`업데이트 완료! projectId : ${project_id}`);
     }
   } catch (err) {
     console.error("저장 실패:", err);
