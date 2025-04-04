@@ -1,57 +1,84 @@
-import React, { useState, useRef, useEffect } from 'react';
-import MicRecord from './MicRecord';                   // MicRecord 객체 임포트
-import robotImage from '../../imgs/chatbot_logo.png';
+import React, { useState, useEffect, useRef } from "react";
+import MicRecord from "./MicRecord"; // MicRecord 컴포넌트
+import robotImage from "../../imgs/chatbot_logo.png"; // 챗봇 로고
+import "./chatbot.css"; // 아래에서 예시로 제공할 CSS를 임포트
 
 function Chatbot() {
-  const [showChat, setShowChat] = useState(false);   // showChat: 채팅창 화면 표출 여부
-  const chatRef = useRef(null);   // chatRef: 채팅창 div 요소에 대한 참조를 저장
+  const [showChat, setShowChat] = useState(false); // 채팅창 열기/닫기 상태
+  const chatRef = useRef(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // 로봇 이미지 클릭 시 호출
-  const toggleChat  = () => {
-    setShowChat(true);     // 채팅창 표시(true : 표시, false : 거짓)
+  // 로그인 상태 체크
+  useEffect(() => {
+    const checkLoginStatus = () => {
+      const user_uuid = localStorage.getItem("user_uuid");
+      setIsLoggedIn(!!user_uuid);
+    };
+    checkLoginStatus();
+
+    window.addEventListener("storage", checkLoginStatus);
+    const interval = setInterval(checkLoginStatus, 500);
+
+    return () => {
+      window.removeEventListener("storage", checkLoginStatus);
+      clearInterval(interval);
+    };
+  }, []);
+
+  // 로봇 아이콘 클릭 시
+  const toggleChat = () => {
+    if (!isLoggedIn) {
+      alert("로그인을 먼저 해주세요.");
+      return;
+    }
+    setShowChat(true);
   };
 
-  // 투명 레이어 클릭 시 호출 
+  // 오버레이(투명 배경) 클릭 시
   const closeOverlay = () => {
     setShowChat(false);
   };
 
-  // 닫기 버튼 클릭 시 호출
+  // 닫기 버튼 클릭 시
   const closeChat = () => {
     setShowChat(false);
   };
 
+  // 바깥 영역 클릭 시 닫기
   useEffect(() => {
-    // 외부 클릭 처리 함수 
     const mouseDown = (event) => {
-      // 채팅창 외부 클릭 시에만 닫기
       if (chatRef.current && !chatRef.current.contains(event.target)) {
         closeOverlay();
       }
     };
-
-    document.addEventListener('mousedown', mouseDown);   // 외부 클릭 이벤트 리스너 등록
-    return () => {
-      document.removeEventListener('mousedown', mouseDown);  // 컴포넌트 언마운트 시 리스너 제거
-    };
-  }, []);   // 마운트 시 1회 실행
+    document.addEventListener("mousedown", mouseDown);
+    return () => document.removeEventListener("mousedown", mouseDown);
+  }, []);
 
   return (
     <>
+      {/* 챗봇 로고 (오른쪽 하단 열기용) */}
       <img
         src={robotImage}
         alt="로봇 이미지"
         className="chatbot-logo"
-        onClick={ toggleChat }
+        onClick={toggleChat}
       />
+
       {showChat && (
         <>
-          <div className="overlay" onClick={closeOverlay}></div>
+          {/* 반투명 오버레이 */}
+          <div className="chatbot-overlay" onClick={closeOverlay}></div>
+
+          {/* 채팅창 래퍼 */}
           <div ref={chatRef} className="chatbot-window">
+            {/* 닫기 버튼 */}
             <span className="close-button" onClick={closeChat}>
               X
             </span>
-            <MicRecord />
+
+            {/* 실제 채팅 영역 (MicRecord) */}
+            <MicRecord showChat={showChat} />
           </div>
         </>
       )}
