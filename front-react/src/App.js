@@ -10,6 +10,7 @@ import SignUpId from './pages/login/SignUpId';
 import Callback from './pages/login/social/components/Callback';
 import SocialSignup from './pages/login/SocialSignup';
 import Welcome from './pages/login/Welcome';
+import MypageMain from './mypage/MypageMain';
 import ErpMain from "./erp/ErpMain";
 import FAQList from './faq/FAQList';
 import FAQPut from './faq/FAQPut';
@@ -29,6 +30,7 @@ function App() {
           <Route path="/signUp/id" element={<SignUpId/>}/>
           <Route path="/social-signup" element={<SocialSignup/>}/>
           <Route path="/Welcome" element={<Welcome/>}/>
+          <Route path="/MypageMain" element={<MypageMain/>}/>
           <Route path="/erpMain" element={<ErpMain/>} />
           <Route path="/faqlist" element={<FAQList/>} />
           <Route path="/faqput/:qa_id" element={<FAQPut/>} />

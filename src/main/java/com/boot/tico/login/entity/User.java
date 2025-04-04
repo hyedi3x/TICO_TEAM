@@ -13,10 +13,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Table(name = "users")
 public class User {
-    // 사용자 ID: UUID 사용 (고유값 자동생성)
     @Id
-    @Column(columnDefinition = "VARCHAR(36)")
-    private String id = java.util.UUID.randomUUID().toString();
+    @Column(name = "user_uuid", columnDefinition = "VARCHAR(36)")
+    private String user_uuid = java.util.UUID.randomUUID().toString();
 
     @Column(nullable = false, unique = true)
     private String email;

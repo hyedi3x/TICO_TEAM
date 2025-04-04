@@ -37,6 +37,8 @@ function Header() {
       .then(() => {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
+        localStorage.removeItem('user_uuid');
+        localStorage.removeItem('autoLogin');
         setIsLoggedIn(false);
         setUser(null);
         navigate('/login');
@@ -103,6 +105,16 @@ function Header() {
               {/* 로그인 상태에 따라 로그인/로그아웃 버튼 전환 */}
               {isLoggedIn ? (
                 <>
+                <Button
+                  className="button-mapage"
+                  variant="outline-primary"
+                  onClick={() => navigate('/MypageMain')}
+                  style={{ marginRight: '10px'}}
+                  >
+                    Mypage
+                  </Button>
+
+
                   {/* user가 있을 경우, 이메일 표시 */}
                   <span style={{ marginRight: '10px' }}>{user?.email}</span>
                   <Button className='button2' variant="outline-danger" onClick={handleLogout}>

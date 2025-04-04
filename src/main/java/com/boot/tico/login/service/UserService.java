@@ -55,6 +55,11 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
     
+    // 회원 정보 수정
+    public User saveUser(User user) {
+        return userRepository.save(user);
+    }
+    
     // 회원 탈퇴 처리
     public void deleteUser(String email) {
         userRepository.findByEmail(email).ifPresent(userRepository::delete);

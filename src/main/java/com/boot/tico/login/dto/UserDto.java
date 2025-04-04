@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 /*
-  UserDto 클래스는 일반 회원가입과 소셜 회원가입 모두에서 사용되고,
-  소셜 가입 시 추가적으로 provider와 providerId 필드를 전달함
+  UserDto 클래스는 일반 회원가입과 소셜 회원가입 모두에서 사용되며,
+  소셜 가입 시 추가적으로 provider와 providerId 필드를 전달합니다.
 */
 public class UserDto {
     @Getter
@@ -31,7 +31,7 @@ public class UserDto {
     @Getter
     @Setter
     public static class Response {
-        private String id;
+        private String user_uuid;
         private String email;
         private String name;
         private String nickname;

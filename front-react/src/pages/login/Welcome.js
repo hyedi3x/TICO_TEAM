@@ -16,7 +16,7 @@ function Welcome() {
         <h1>환영합니다</h1>
         <p>
           코딩 학습을 주도하는 TICO 입니다.<br />
-          TICO와 함께 즐거운 코디을 시작해볼까요?
+          TICO와 함께 즐거운 코딩을 시작해볼까요?
         </p>
         <button onClick={handleNext} className="welcome-next-button">다음</button>
       </div>

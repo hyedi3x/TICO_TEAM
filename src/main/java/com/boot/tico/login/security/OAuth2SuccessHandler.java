@@ -53,18 +53,15 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         Optional<User> optionalUser = userService.findOAuth2User(email, provider);
         if (optionalUser.isPresent()) {
-            // 이미 등록된 사용자는 로그인 처리
             User user = optionalUser.get();
-            Map<String, Object> claims = Map.of("email", user.getEmail(), "id", user.getId());
+            Map<String, Object> claims = Map.of("email", user.getEmail(), "user_uuid", user.getUser_uuid());
             String accessToken = jwtTokenizer.generateAccessToken(claims);
             String refreshToken = jwtTokenizer.generateRefreshToken();
     
-            String redirectFullUrl = redirectUrl + "?accessToken=" + accessToken + "&refreshToken=" + refreshToken;
+            String redirectFullUrl = redirectUrl + "?accessToken=" + accessToken + "&refreshToken=" + refreshToken + "&user_uuid=" + user.getUser_uuid();
             log.info("리다이렉트 URL: {}", redirectFullUrl);
             getRedirectStrategy().sendRedirect(request, response, redirectFullUrl);
         } else {
-            // 신규 소셜 사용자: 추가 정보 입력 페이지로 리다이렉트
-            // URL 인코딩하여 email, provider, providerId, name 전달
             String socialSignupUrl = redirectUrl.replace("/callback", "/social-signup") +
                     "?email=" + URLEncoder.encode(email, StandardCharsets.UTF_8.toString()) +
                     "&provider=" + URLEncoder.encode(provider, StandardCharsets.UTF_8.toString()) +

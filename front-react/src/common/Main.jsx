@@ -29,28 +29,6 @@ import Chatbot from '../pages/chatbot/Chatbot';
 
 function Main() {
   const navigate = useNavigate();
-  const accessToken = localStorage.getItem('accessToken'); // 로그인 상태 확인
-
-  // 로그아웃 처리 함수
-  const handleLogout = () => {
-    axios
-      .post('http://localhost:8081/auth/logout', {}, { withCredentials: true })
-      .then(() => {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('autoLogin');
-        navigate('/login');
-      })
-      .catch((error) => {
-        console.error('로그아웃 실패:', error);
-        navigate('/login');
-      });
-  };
-
-  // 로그인 버튼 클릭 시 로그인 페이지로 이동
-  const handleLogin = () => {
-    navigate('/login');
-  };
 
   return (
     <div className='main-container'>
