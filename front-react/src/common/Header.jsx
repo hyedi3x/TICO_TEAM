@@ -8,11 +8,13 @@ import logo from '../imgs/TICO_logo_icon.png';
 import logo1 from '../imgs/TICO_logo.png';
 import './Header.css';
 import axiosInstance from '../pages/login/social/utils/axiosInstance';
+import {jwtDecode} from 'jwt-decode';
 
 function Header() {
   const token = localStorage.getItem('accessToken');
   const [isLoggedIn, setIsLoggedIn] = useState(!!token);
   const [user, setUser] = useState(null);
+  const [userRole, setUserRole] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -72,10 +74,12 @@ function Header() {
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Nav className="justify-content-end flex-grow-1 pe-3">
+                {userRole === "EMPLOYEE" && (
                 <NavDropdown title="관리자ERP" id="offcanvasNavbarDropdown">
                   <NavDropdown.Item href="erpMain">관리자 ERP</NavDropdown.Item>
                 </NavDropdown>
-
+              )}
+              
                 <NavDropdown title="생각하기" id="offcanvasNavbarDropdown">
                   <NavDropdown.Item href="#action3">티코 학습하기</NavDropdown.Item>
                 </NavDropdown>

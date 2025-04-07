@@ -9,6 +9,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
+import com.boot.tico.erp.dto.EmpDTO;
+import com.boot.tico.erp.service.EmployeeAuthService;
 import com.boot.tico.login.dto.UserDto;
 import com.boot.tico.login.entity.User;
 import com.boot.tico.login.security.JwtTokenizer;
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import java.security.Principal;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j // 로깅 쉽게 확인할 수 있는 Lombok 어노테이션
 @RestController  // 메서드들이 JSON 형태의 응답을 클라이언트에 반환 (인코딩된 코드)
@@ -28,8 +31,11 @@ public class AuthController {
     private final UserService userService; // 회원 관련 로직(회원가입, 조회, 수정, 탈퇴 등)을 처리
     private final JwtTokenizer jwtTokenizer; // JWT 토큰을 생성하고, 검증하는 역할
     private final AuthenticationManager authenticationManager; // 회원 로그인 처리 담당
+    
+    // 기존 EmployeeService 대신 인증용 EmployeeAuthService 주입
+    private final EmployeeAuthService employeeAuthService;
 
-    // 일반 회원가입 API
+    // 일반 사용자 회원가입
     // 사용자가 회원가입할 때 입력한 정보를 받아 DB에 저장
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserDto.Request request) {
@@ -52,10 +58,10 @@ public class AuthController {
         }
     }
 
-    // 로그인 API (일반 로그인)
+    // 일반 로그인 (이메일 + 비밀번호)
     // 사용자가 로그인할 때 이메일과 비밀번호를 받아서 인증한 후, JWT 토큰(Access Token, Refresh Token)을 발급합
-    @PostMapping("/login")
-    public ResponseEntity<UserDto.Response> login(@RequestBody UserDto.LoginRequest request) {
+    @PostMapping("/login/customer")
+    public ResponseEntity<UserDto.Response> loginCustomer(@RequestBody UserDto.LoginRequest request) {
         UsernamePasswordAuthenticationToken authToken = // 사용자가 입력한 이메일과 비밀번호를 담은 인증 토큰을 만듬
             new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());
         authenticationManager.authenticate(authToken); 
@@ -65,7 +71,11 @@ public class AuthController {
             .orElseThrow(() -> new RuntimeException("User not found"));
         // 인증 성공 시, 이메일을 db에서 정보 조회
 
-        Map<String, Object> claims = Map.of("email", user.getEmail(), "user_uuid", user.getUser_uuid());
+        Map<String, Object> claims = Map.of(
+        		"email", user.getEmail(), 
+        		"user_uuid", user.getUser_uuid(),
+        		"userType","CUSTOMER"
+        );
         String accessToken = jwtTokenizer.generateAccessToken(claims);
         String refreshToken = jwtTokenizer.generateRefreshToken();
         // email,id를 claims에 담아서 jwtToken을 이용해 새로운 accessToken,refreshToken 발급
@@ -81,20 +91,66 @@ public class AuthController {
         return ResponseEntity.ok(response); // 성공 시 반환
     }
     
-    // 로그인한 사용자 정보 조회 (JWT의 principal 사용)
+    // 사원 로그인 (사전에 DB에 등록되어 있는 정보 기반 / 비밀번호 암호화 x)
+    // 내부 DTO를 사용하지 않고, ERP 모듈의 EmpDTO를 @RequestBody로 직접 받습니다.
+    @PostMapping("/login/employee")
+    public ResponseEntity<UserDto.Response> loginEmployee(@RequestBody EmpDTO empRequest) {
+        // empRequest에 empId와 empPassword가 포함되어 있어야 합니다.
+        Optional<EmpDTO> empOpt = employeeAuthService.authenticate(empRequest.getEmpId(), empRequest.getEmp_pwd());
+        if (empOpt.isEmpty()) {
+            throw new RuntimeException("Employee not found or invalid credentials");
+        }
+        EmpDTO emp = empOpt.get();
+        Map<String, Object> claims = Map.of(
+            "empId", emp.getEmpId(),
+            "userType", "EMPLOYEE"
+        );
+        String accessToken = jwtTokenizer.generateAccessToken(claims);
+        String refreshToken = jwtTokenizer.generateRefreshToken();
+
+        UserDto.Response response = new UserDto.Response();
+        response.setUser_uuid(emp.getEmpId());
+        response.setEmail(emp.getEmpEmail());
+        response.setAccessToken(accessToken);
+        response.setRefreshToken(refreshToken);
+
+        return ResponseEntity.ok(response);
+    }
+    
+    
+    
+    // 로그인 사용자 정보 조회 (고객,사원 통합 처리 / JWT의 principal 사용)
     @GetMapping("/user")
     public ResponseEntity<UserDto.Response> getUser(Principal principal) {
-        String email = principal.getName(); // 현재 로그인한 사용자의 이메일을 얻음
-        // Principal principal : Security에서 인증된 사용자 정보를 담은 객체
-        log.debug("컨트롤러에서 받은 사용자 이메일: {}", email);
-        if (email == null) {
-            throw new RuntimeException("이메일이 null입니다! SecurityContext에 등록되지 않았습니다.");
+        String identity = principal.getName();
+        log.debug("현재 인증된 사용자: {}", identity);
+
+        // 일반 유저 찾기 (email로 찾기)
+        Optional<User> userOpt = userService.findByEmail(identity);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            return ResponseEntity.ok(createUserResponse(user));
         }
-        User user = userService.findByEmail(email)
-            .orElseThrow(() -> new RuntimeException("User not found"));
-        return ResponseEntity.ok(createUserResponse(user));
-        // 조회된 정보를 createUserResponse를 통해 jwt 토큰과 함께 응답 객체로 만들어 반환함
+
+        // 사원 찾기 (employee empId로 찾기)
+        Optional<EmpDTO> empOpt = employeeAuthService.findByEmpId(identity);
+        if (empOpt.isPresent()) {
+            EmpDTO emp = empOpt.get();
+
+            UserDto.Response res = new UserDto.Response();
+            res.setUser_uuid(emp.getEmpId());
+            res.setEmail(emp.getEmpEmail());
+            res.setName(emp.getEmpName());
+            res.setPhone(emp.getEmpPhone());
+            res.setProvider("employee"); // 선택사항
+
+            return ResponseEntity.ok(res);
+        }
+
+        // 3. 아무것도 못 찾으면 예외
+        throw new RuntimeException("User not found");
     }
+
     
     // 회원정보 수정 
     @PutMapping("/user")
@@ -116,7 +172,7 @@ public class AuthController {
     }
     
 
-    // 로그아웃 API
+    // 로그아웃 처리
     // 사용자가 로그아웃할 때, 현재 세션을 무효화하여 로그아웃 처리
     @PostMapping("/logout")
     
@@ -157,7 +213,12 @@ public class AuthController {
 
     // JWT 토큰을 포함한 응답 객체 생성 메서드
     private UserDto.Response createUserResponse(User user) {
-        Map<String, Object> claims = Map.of("email", user.getEmail(), "user_uuid", user.getUser_uuid());
+        Map<String, Object> claims = Map.of(
+        		"email", user.getEmail(),
+        		"user_uuid", user.getUser_uuid(),
+        		"userType", "CUSTOMER"
+        );
+        		
         String accessToken = jwtTokenizer.generateAccessToken(claims);
         String refreshToken = jwtTokenizer.generateRefreshToken();
 
