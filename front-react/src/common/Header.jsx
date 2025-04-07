@@ -18,8 +18,15 @@ function Header() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setIsLoggedIn(!!localStorage.getItem('accessToken'));
-    if (localStorage.getItem('accessToken')) {
+    const accessToken = localStorage.getItem('accessToken');
+    setIsLoggedIn(!!accessToken);
+    if (accessToken) {
+      try {
+        const decodedToken = jwtDecode(accessToken);
+        setUserRole(decodedToken.userType); // "CUSTOMER" 또는 "EMPLOYEE" 값
+      } catch (error) {
+        console.error('토큰 디코딩 실패:', error);
+      }
       axiosInstance.get('/auth/user')
         .then((response) => {
           setUser(response.data);
@@ -33,6 +40,21 @@ function Header() {
         });
     }
   }, [navigate]);
+  //   setIsLoggedIn(!!localStorage.getItem('accessToken'));
+  //   if (localStorage.getItem('accessToken')) {
+  //     axiosInstance.get('/auth/user')
+  //       .then((response) => {
+  //         setUser(response.data);
+  //       })
+  //       .catch((error) => {
+  //         console.error('사용자 정보 조회 실패:', error);
+  //         localStorage.removeItem('accessToken');
+  //         localStorage.removeItem('refreshToken');
+  //         setIsLoggedIn(false);
+  //         navigate('/login');
+  //       });
+  //   }
+  // }, [navigate]);
 
   const handleLogout = () => {
     axiosInstance.post('/auth/logout')
