@@ -36,6 +36,7 @@ public class FAQServiceImpl {
 	public List<FAQDTO> findAll() {
 		return repo.findAll();
 		
+		
 	}
 	// 삭제
 	@Transactional  // 작업의 단위, 메서드 정상 종료시 트랜젝션이 DB로 커밋, 예외 발생시 롤백

@@ -1,0 +1,23 @@
+.quiz-wrapper {
+    padding: 32px;
+  }
+  
+  .quiz-count {
+    font-weight: bold;
+    margin-bottom: 16px;
+  }
+  
+  .quiz-title {
+    font-weight: 600;
+  }
+  
+  .quiz-category {
+    font-size: 14px; 
+    color: gray;
+  }
+  
+  .quiz-table {
+    width: 1000px;
+    margin: 0 auto;
+  }
+  

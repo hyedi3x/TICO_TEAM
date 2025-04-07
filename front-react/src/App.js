@@ -15,6 +15,7 @@ import ErpMain from "./erp/ErpMain";
 import FAQList from './faq/FAQList';
 import FAQPut from './faq/FAQPut';
 import FAQPost from './faq/FAQPost';
+import EduList from './pages/blockedu/EduList';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           <Route path="/faqlist" element={<FAQList/>} />
           <Route path="/faqput/:qa_id" element={<FAQPut/>} />
           <Route path="/faqpost" element={<FAQPost/>} />
+          <Route path="/eduList" element={<EduList/>} />
         </Routes>
         <Footer />
       </BrowserRouter>
