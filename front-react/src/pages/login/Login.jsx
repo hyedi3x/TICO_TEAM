@@ -6,7 +6,7 @@ import axiosInstance from "../login/social/utils/axiosInstance";
 function Login() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태를 저장합니다. (로그인 되었으면 true, 아니면 false)
   const [userInfo, setUserInfo] = useState(null); // 로그인한 사용자의 정보를 저장합니다. (예: 이메일, 닉네임)
-  const [email, setEmail] = useState(""); // 로그인 폼에 입력하는 이메일 저장
+  const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState(""); // 로그인 폼에 입력하는 비밀번호 저장
   const navigate = useNavigate();
 
@@ -35,10 +35,19 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      console.log("baseURL:", axiosInstance.defaults.baseURL);
-      console.log("로그인 요청:", email);
-      const response = await axiosInstance.post("/auth/login", { email, password });
-
+      console.log("로그인 요청 ID:", loginId);
+      let endpoint = "";
+      let payload = {};
+      // 입력값에 '@'가 있으면 고객 로그인, 없으면 사원 로그인으로 분기
+      if (loginId.includes("@")) {
+        endpoint = "/auth/login/customer";
+        payload = { email: loginId, password };
+      } else {
+        endpoint = "/auth/login/employee";
+        // 사원 로그인은 EmpDTO에 정의된 필드명 사용 (empId, empPassword)
+        payload = { empId: loginId, emp_pwd: password };
+      }
+      const response = await axiosInstance.post(endpoint, payload);
       const { accessToken, refreshToken, user_uuid } = response.data;
       console.log("로그인 성공, 토큰 저장:", accessToken);
       localStorage.setItem("accessToken", accessToken);
@@ -108,10 +117,10 @@ function Login() {
           <>
             <div className="login-form">
               <input
-                type="email"
-                placeholder="이메일"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                type="text"
+                placeholder="이메일 또는 사원번호"
+                value={loginId}
+                onChange={(e) => setLoginId(e.target.value)}
                 required
               />
               <input

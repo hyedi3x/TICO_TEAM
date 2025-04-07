@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -59,5 +61,10 @@ public class EmpDTO {
     @Temporal(TemporalType.DATE)
     @Column(name = "termination_date")
     private Date terminationDate;
+    
+    // 직원 로그인용 비밀번호 필드 (암호화된 값 저장)
+    @Column(name = "emp_pwd")
+    @JsonProperty("emp_pwd")
+    private String emp_pwd;
 
 }

@@ -8,16 +8,25 @@ import logo from '../imgs/TICO_logo_icon.png';
 import logo1 from '../imgs/TICO_logo.png';
 import './Header.css';
 import axiosInstance from '../pages/login/social/utils/axiosInstance';
+import {jwtDecode} from 'jwt-decode';
 
 function Header() {
   const token = localStorage.getItem('accessToken');
   const [isLoggedIn, setIsLoggedIn] = useState(!!token);
   const [user, setUser] = useState(null);
+  const [userRole, setUserRole] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    setIsLoggedIn(!!localStorage.getItem('accessToken'));
-    if (localStorage.getItem('accessToken')) {
+    const accessToken = localStorage.getItem('accessToken');
+    setIsLoggedIn(!!accessToken);
+    if (accessToken) {
+      try {
+        const decodedToken = jwtDecode(accessToken);
+        setUserRole(decodedToken.userType); // "CUSTOMER" 또는 "EMPLOYEE" 값
+      } catch (error) {
+        console.error('토큰 디코딩 실패:', error);
+      }
       axiosInstance.get('/auth/user')
         .then((response) => {
           setUser(response.data);
@@ -31,6 +40,21 @@ function Header() {
         });
     }
   }, [navigate]);
+  //   setIsLoggedIn(!!localStorage.getItem('accessToken'));
+  //   if (localStorage.getItem('accessToken')) {
+  //     axiosInstance.get('/auth/user')
+  //       .then((response) => {
+  //         setUser(response.data);
+  //       })
+  //       .catch((error) => {
+  //         console.error('사용자 정보 조회 실패:', error);
+  //         localStorage.removeItem('accessToken');
+  //         localStorage.removeItem('refreshToken');
+  //         setIsLoggedIn(false);
+  //         navigate('/login');
+  //       });
+  //   }
+  // }, [navigate]);
 
   const handleLogout = () => {
     axiosInstance.post('/auth/logout')
@@ -72,10 +96,12 @@ function Header() {
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Nav className="justify-content-end flex-grow-1 pe-3">
+                {userRole === "EMPLOYEE" && (
                 <NavDropdown title="관리자ERP" id="offcanvasNavbarDropdown">
                   <NavDropdown.Item href="erpMain">관리자 ERP</NavDropdown.Item>
                 </NavDropdown>
-
+              )}
+              
                 <NavDropdown title="생각하기" id="offcanvasNavbarDropdown">
                   <NavDropdown.Item href="#action3">티코 학습하기</NavDropdown.Item>
                 </NavDropdown>

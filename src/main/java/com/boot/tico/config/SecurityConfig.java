@@ -13,6 +13,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.boot.tico.login.security.JwtAuthenticationFilter;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 import com.boot.tico.login.security.OAuth2SuccessHandler;
 import com.boot.tico.login.security.UserDetailsServiceImpl;
 
@@ -23,23 +25,29 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig {
     
+	// JWT 필터 주입 (AccessToken 검증 필터)
     private final JwtAuthenticationFilter jwtFilter;
     
+    // Security 필터 체인 설정
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, OAuth2SuccessHandler successHandler) throws Exception {
-        http
-        .cors() // 자체적으로 CORS 필터 체인을 다루기 때문에, SecurityFilterChain에 .cors() 설정이 추가되어야 함
-        .and()
-        .csrf().disable()
-          .authorizeRequests()
-            .antMatchers("/auth/**", "/auth/login/**", "/oauth2/**", "/error", "/project/**", "/api/**", "/uploads/**", "/").permitAll()
-            .anyRequest().authenticated()
-        .and()
-           .oauth2Login()
-           // .loginPage("/auth/login")
-           .successHandler(successHandler)
-            .failureUrl("/auth/login?error=true");
-        // 로그아웃 설정은 제거하여 AuthController의 /auth/logout이 사용되도록 함.
+        http	
+        		// CORS 설정 활성화
+                .cors(withDefaults())
+                // CSRF 비활성화 (JWT 기반 API 인증에 필요 없음)
+                .csrf(csrf -> csrf.disable())
+                // 요청 권한 설정
+                .authorizeRequests(requests -> requests
+                		// 인증 없이 접근 허용할 경로들 (이외의 요청은 인증 필요)
+                        .antMatchers("/auth/**", "/auth/login/emp;oyee**", "/auth/login/customer**", "/oauth2/**", "/error", "/project/**", "/api/**", "/uploads/**", "/").permitAll()
+                        .anyRequest().authenticated())
+                // 소셜 로그인 설정
+                .oauth2Login(login -> login
+                        // 로그인 성공 시 커스텀 SuccessHandler 실행 (JWT 발급 등 처리)
+                        .successHandler(successHandler)
+                        // 실패시 리디랙션
+                        .failureUrl("/auth/login?error=true"));
+        // UsernamePasswordAuthenticationFilter 앞에 JWT 필터 삽입
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

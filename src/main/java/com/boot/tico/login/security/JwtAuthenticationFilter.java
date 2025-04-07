@@ -37,13 +37,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (StringUtils.hasText(token)) {
             try {
                 Claims claims = jwtTokenizer.parseClaims(token);
-                String email = claims.get("email", String.class);
-                log.debug("토큰에서 추출된 이메일: {}", email);
+                // 우선 email 클레임이 있는지 먼저 확인하고, 없으면 empId 클레임 사용
+                String principal;
+                if(claims.containsKey("email")) {
+                	principal = claims.get("email", String.class);
+                } else if(claims.containsKey("empId")) {
+                	principal = claims.get("empId", String.class);
+                } else {
+                	principal = null;
+                }
+                
+                log.debug("토큰에서 추출된 이메일: {}", principal);
 
-                if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                    log.debug("JWT 필터에서 추출한 이메일: {}", email); 
+                if (principal != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                    log.debug("JWT 필터에서 추출한 이메일: {}", principal); 
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                            email, null, Collections.emptyList());
+                    		principal, null, Collections.emptyList());
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             } catch (ExpiredJwtException e) {
