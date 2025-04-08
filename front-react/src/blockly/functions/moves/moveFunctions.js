@@ -78,28 +78,16 @@ const rotateImage = function (angle, index) {
     }
 };
 
-//const animationQueues = {}; // animationQueue를 함수 내부에서 초기화하면, rotateImageInTime 함수가 호출될 때마다 새로운 큐가 생성되고 이전 큐는 덮어씌워진다.
-                           // 이미지 index별 고유한 큐를 생성해 독립적 시행
 // 입력시간 동안 이미지 회전
 const rotateImageInTime= function (angle, duration, index) {
-  //if(!animationQueues[index]) animationQueues[index]=[]; // js객체 key에 접근해서 없으면 빈배열
     
   return new Promise((resolve)=>{
     console.log('애니메이션 시작됨');
-    //animationQueues[index].push({angle, duration, index, resolve}) //resolve는 작업 끝나면 호출, 이미지 별 큐
-
-    //if(animationQueues[index].length === 1){ // 큐의 인덱스에 주입되는 순간 실행 (.shift()로 다음 작업 처리해줌)
       runAnimation(angle, duration,index,resolve); // await rotateImageInTime(...)로 사용가능
-    //}
   })
 
   function runAnimation(angle, duration,index,resolve) {
-      //if (animationQueues[index].length === 0) { // shift 후 길이가 0이면 종료
-      //return;
-      //}
-      // animationQueues[0]	index=0 이미지의 큐 (배열)
-      // animationQueues[0][0]	현재 실행 중인 첫 번째 작업
-      //const { angle, duration, resolve } = animationQueues[index][0]; // 구조 분해 할당, 첫번째 작업을 가져옴
+      
       const img = imgArr.current[index];
       const startTime = performance.now();
       const endTime = startTime + duration * 1000;
@@ -111,18 +99,14 @@ const rotateImageInTime= function (angle, duration, index) {
         if (now  >= endTime) { // 애니메이션 완료
             img.angle = endAngle;
             callImgArr();
-            //animationQueues[index].shift();// 큐에서 현재 애니메이션 제거, 
             console.log('애니메이션 완료');
             resolve(); // promise 완료
-            // .shift() :  배열의 첫 번째 요소를 제거하고, 제거된 요소를 반환
         } else { // 진행중
             
             const progress = (now  - startTime) / (duration * 1000); //  현재-시작시간/총 시간 = 진행률 (0~1사이의 값)
             img.angle = startAngle + (endAngle - startAngle) * progress; // 시작 + 입력각 * 진행률
             callImgArr();
             requestAnimationFrame(animateFrame); // 다음 프레임에서 animate 함수 다시 호출
-            // requestAnimationFrame : 프레임마다 함수를 호출
-            // setTimeout이나 setInterval도 쓸 수 있지만, 브라우저 최적화 측면에선 requestAnimationFrame()이 압도적으로 좋음
           }
     }
     animateFrame();  // 첫 실행
