@@ -39,7 +39,26 @@ const defineMyBlocks = ()=>{
         "colour": "#FF6666",
         "nextStatement": null
       },
-        
+
+      // 흐름 관련 블록들
+      // 조건이 참이 될 때까지 반복하는 블록
+      {
+        "type": "wait_until_true",
+        "message0": "%1 이(가) 될 때까지 기다리기",
+        "args0": [
+          {
+            "type": "input_value",
+            "name": "CONDITION",
+            "check": "Boolean"
+          }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF9966",
+        "tooltip": "조건이 참이 될 때까지 기다립니다.",
+        "helpUrl": ""
+      },
+
       // 움직임 관련 블록들
       // 이동 방향과 거리 블록
       {
@@ -463,8 +482,38 @@ const defineMyBlocks = ()=>{
       "colour": "#6699FF",
       "tooltip": "주어진 소리 파일의 재생 속도를 몇 배로 설정합니다.",
       "helpUrl": ""
-    }
+    },
 
+    // 계산 관련 블록들
+    // 초시계 생성 블록
+    {
+      "type": "control_timer",
+      "message0": "초시계 %1",
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "action",
+          "options": [
+            ["시작하기", "start"],
+            ["정지하기", "stop"]
+          ]
+        }
+      ],
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": "#668493",
+      "tooltip": "초시계를 시작하거나 정지합니다.",
+      "helpUrl": ""
+    },
+    {
+      "type": "get_timer_value",
+      "message0": "초시계 값",
+      "output": "Number",
+      "colour": "#668493",
+      "tooltip": "현재 초시계 값을 반환합니다.",
+      "helpUrl": ""
+    }
   ]);
 };
+
 export default defineMyBlocks;

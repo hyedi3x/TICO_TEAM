@@ -7,9 +7,12 @@ import { moveImgToX, moveImgToY, moveImgToXY, rotateImage, rotateImageInTime } f
 import { showObject, hideObject, changeAppearance, changeObject, resizeObject, flipObject, changeShape } from "../functions/appearances/appearanceFunctions";
 // eslint-disable-next-line
 import { playSound, playSoundDuration, playSoundRange, stopSounds, multipleSoundSpeed } from "../functions/sounds/soundFunctions";
+// eslint-disable-next-line
+import { startTimer, stopTimer, elapsedTime } from "../functions/cals/calFunctions";
 
 export let imgArr = null; // 백틱은 객체가 잘 안넘어가서 export로 넘겨준다.
 export let callImgArr = null;
+export let __cloneEvents = [];
 const RegisterBlockGenerator = (props) => {
   // 1
   // 이미지 별로 구분해서 실행하기 위해
@@ -25,6 +28,18 @@ const RegisterBlockGenerator = (props) => {
   
   javascriptGenerator.forBlock['start_with_q'] = function(block) {
     return 'start_with_q();\n'; // 함수를 호출하는 문자열 반환
+  };
+
+  javascriptGenerator.forBlock['wait_until_true'] = function(block) {
+  const condition = javascriptGenerator.valueToCode(block, 'CONDITION', javascriptGenerator.ORDER_NONE) || 'false';
+    return `await new Promise((resolve) => {
+      const interval = setInterval(() => {
+        if (${condition}) {
+          clearInterval(interval);
+          resolve();
+        }
+      }, 50);
+    });\n`;
   };
 
   // 방향과 거리로 이동 (예: 45도 방향으로 50만큼)
@@ -185,6 +200,21 @@ const RegisterBlockGenerator = (props) => {
     return `multipleSoundSpeed(${multiple});\n`;
   };
 
+  // 초시계
+  javascriptGenerator.forBlock['control_timer'] = function(block) {
+    const action = block.getFieldValue('action');
+  
+    if (action === 'start') {
+      return `startTimer();\n`;
+    } else if (action === 'stop') {
+      return `stopTimer();\n`;
+    }
+  };
+  
+  // 초시계 값
+  javascriptGenerator.forBlock['get_timer_value'] = function(block){
+    return [`elapsedTime`, javascriptGenerator.ORDER_ATOMIC];
+  }
 };
 
 export default RegisterBlockGenerator;
