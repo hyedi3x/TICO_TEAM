@@ -1,9 +1,13 @@
 package com.boot.tico.quiz.dto;
 
+import java.sql.Timestamp;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +30,7 @@ import lombok.ToString;
 public class SolvedDTO {
 	
 	@Id
+	@Column(name = "id")
 	private int id;                   // 풀이 기록 고유 ID
     private String user_uuid;         // 사용자 UUID
     private int quiz_id;              // 문제 ID
