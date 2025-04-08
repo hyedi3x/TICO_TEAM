@@ -11,8 +11,12 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "users")
+@Table(name = "users",
+	   uniqueConstraints = @UniqueConstraint(columnNames = {"provider", "provider_id"})
+)
+
 public class User {
+	
     @Id
     @Column(name = "user_uuid", columnDefinition = "VARCHAR(36)")
     private String user_uuid = java.util.UUID.randomUUID().toString();
@@ -40,15 +44,4 @@ public class User {
 
     @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
-
-    // DB의 UNIQUE 제약 조건 (provider, provider_id) 사용
-    @Column(unique = true)
-    private String providerWithId;
-
-    @PrePersist
-    public void prePersist() {
-        if (provider != null && providerId != null) {
-            providerWithId = provider + "_" + providerId;
-        }
-    }
 }

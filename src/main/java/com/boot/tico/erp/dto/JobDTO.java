@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 //@Data : @Getter, @Setter, @RequiredArgsConstructor, @EqualsAndHashCode, @ToString 포함
 
 @Entity
-@Table(name = "JOBS")
+@Table(name = "jobs")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
