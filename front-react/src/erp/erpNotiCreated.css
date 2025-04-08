@@ -1,0 +1,52 @@
+/* 기업 공지사항 추가 css(ErpNotiCreated.jsx) */
+
+/* 기업 공지사항 추가 폼 전체 영역 */
+.notice-create-container {
+  width: 650px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* 입력 필드 (input, textarea, select) 공통 스타일 */
+.notice-create-container input,
+.notice-create-container textarea,
+.notice-create-container select {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+  box-sizing: border-box;   /* padding 포함한 전체 너비 계산 */
+}
+
+/* 등록 버튼 스타일 */
+.notice-create-container button {
+  padding: 10px 15px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.notice-create-container button:hover {
+  background-color: #45a049;
+}
+
+/* 각 입력 필드 그룹(라벨 + 입력) */
+.form-group {
+  margin-bottom: 15px;
+}
+
+/* 입력 라벨 스타일 */
+.form-group label {
+  display: block;
+  font-weight: bold;
+}
+
+/* 라벨 아래에 오는 input, textarea, select 스타일 */
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+}
