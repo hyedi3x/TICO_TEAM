@@ -9,7 +9,7 @@ function ErpNotiDetail({ id, onBack, onEdit }) {
     // 공지사항 ID가 변경될 때마다 상세 데이터 요청
     useEffect(() => {
         if (id) {   // id가 null 또는 undefined가 아니면 실행
-            axios.get(`http://localhost:8081/api/notices/${id}`)    // GET 요청으로 해당 ID의 공지사항 조회
+            axios.get(`http://localhost:8081/api/notices/notice/${id}`)    // GET 요청으로 해당 ID의 공지사항 조회
                 .then(response => setNotice(response.data))         // 데이터 수신 → 상태 업데이트
                 .catch(error => console.error('Error loading detail:', error));
         }
