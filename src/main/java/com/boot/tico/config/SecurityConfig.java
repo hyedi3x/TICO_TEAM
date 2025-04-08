@@ -1,5 +1,7 @@
 package com.boot.tico.config;
 
+import javax.servlet.http.HttpServletResponse;  // 추가
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,11 +15,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.boot.tico.login.security.JwtAuthenticationFilter;
-
-import static org.springframework.security.config.Customizer.withDefaults;
 import com.boot.tico.login.security.OAuth2SuccessHandler;
 import com.boot.tico.login.security.UserDetailsServiceImpl;
 
+import static org.springframework.security.config.Customizer.withDefaults;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -25,17 +26,27 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig {
     
-	// JWT 필터 주입 (AccessToken 검증 필터)
+    // JWT 필터 주입 (AccessToken 검증 필터)
     private final JwtAuthenticationFilter jwtFilter;
     
     // Security 필터 체인 설정
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, OAuth2SuccessHandler successHandler) throws Exception {
-        http	
+        http
         		// CORS 설정 활성화
                 .cors(withDefaults())
                 // CSRF 비활성화 (JWT 기반 API 인증에 필요 없음)
                 .csrf(csrf -> csrf.disable())
+                // 폼 로그인 비활성화 (리다이렉트 제거)
+                .formLogin(form -> form.disable())
+                // HTTP Basic 인증 비활성화 (토큰 인증 방식 사용)
+                .httpBasic(httpBasic -> httpBasic.disable())
+                // 인증 실패 시 401 에러 반환 설정 추가 (설정안하면 비밀번호 잘못 입력시 302코드 반환하여 500 오류발생)
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+                        })
+                )
                 // 요청 권한 설정
                 .authorizeRequests(requests -> requests
                 		// 인증 없이 접근 허용할 경로들 (이외의 요청은 인증 필요)
@@ -45,8 +56,9 @@ public class SecurityConfig {
                 .oauth2Login(login -> login
                         // 로그인 성공 시 커스텀 SuccessHandler 실행 (JWT 발급 등 처리)
                         .successHandler(successHandler)
-                        // 실패시 리디랙션
+                        // 실패시 리디렉션
                         .failureUrl("/auth/login?error=true"));
+
         // UsernamePasswordAuthenticationFilter 앞에 JWT 필터 삽입
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 

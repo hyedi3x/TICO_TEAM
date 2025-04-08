@@ -122,6 +122,10 @@ public class AuthController {
     // 로그인 사용자 정보 조회 (고객,사원 통합 처리 / JWT의 principal 사용)
     @GetMapping("/user")
     public ResponseEntity<UserDto.Response> getUser(Principal principal) {
+    	if (principal == null) {
+    		throw new RuntimeException("인증 정보가 없습니다 (토큰 만료 또는 미인증)");
+    	}
+    	
         String identity = principal.getName();
         log.debug("현재 인증된 사용자: {}", identity);
 
@@ -176,7 +180,11 @@ public class AuthController {
     // 사용자가 로그아웃할 때, 현재 세션을 무효화하여 로그아웃 처리
     @PostMapping("/logout")
     
-    public ResponseEntity<String> logout(HttpServletRequest request) {
+    public ResponseEntity<String> logout(HttpServletRequest request, Principal principal) {
+    	if (principal == null) {
+    		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증 정보가 없습니다(이미 로그아웃 이거나 토큰 만료)");
+    	}
+    	
         request.getSession().invalidate(); 
         // HttpServletRequest의 getSession().invalidate()를 호출하여 현재 세션을 종료
         return ResponseEntity.ok("로그아웃 성공");

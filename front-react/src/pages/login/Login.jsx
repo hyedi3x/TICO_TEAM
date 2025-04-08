@@ -47,8 +47,10 @@ function Login() {
         // 사원 로그인은 EmpDTO에 정의된 필드명 사용 (empId, empPassword)
         payload = { empId: loginId, emp_pwd: password };
       }
+
       const response = await axiosInstance.post(endpoint, payload);
       const { accessToken, refreshToken, user_uuid } = response.data;
+
       console.log("로그인 성공, 토큰 저장:", accessToken);
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
@@ -59,9 +61,22 @@ function Login() {
       navigate("/");
     } catch (error) {
       console.error("로그인 실패:", error);
-      alert("로그인 실패. 이메일 또는 비밀번호를 확인하세요.");
+
+      // 로그인 실패 시, 관련 토큰 및 플래그 제거 안하면 500 error 발생
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      localStorage.removeItem("autoLogin");
+      localStorage.removeItem("user_uuid"); 
+
+    if (error.response?.status === 401) {
+      alert("로그인 실패. 이메일 또는 비밀번호가 잘못되었습니다.");
+    } else if (error.response?.status === 404) {
+      alert("존재하지 않는 사용자입니다.");
+    } else {
+      alert("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
     }
-  };
+  }
+};
 
   const handleSocialLogin = (provider) => {
     const url = `http://localhost:8081/oauth2/authorization/${provider}?flow=login`;
@@ -98,7 +113,14 @@ function Login() {
       })
       .catch((error) => {
         console.error("로그아웃 실패:", error);
-        alert("로그아웃 실패");
+  
+        if (error.response?.status === 401) {
+          alert("이미 로그아웃된 상태입니다.");
+        } else if (error.response?.status === 500) {
+          alert("서버 오류로 로그아웃에 실패했습니다.");
+        } else {
+          alert("로그아웃 처리 중 문제가 발생했습니다.");
+        }
       });
   };
 
@@ -132,7 +154,7 @@ function Login() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
               />
-              <button className="login-button" onClick={handleLogin}>로그인</button>
+                <button className="login-button" onClick={handleLogin}>로그인</button>
             </div>
 
             <div className="social-login">
