@@ -1,0 +1,153 @@
+/* 기업 공지사항 목록 css(ErpNotices.jsx) */
+
+/* 전체 레이아웃 */
+.notice-list-container {
+  padding: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  overflow-x: auto;
+}
+
+/* 검색 바 스타일 */
+.search-bar {
+  margin-bottom: 20px;
+}
+
+.search-bar select,
+.search-bar input,
+.search-bar button {
+  margin-right: 10px;
+  padding: 8px;
+}
+
+/* 테이블 기본 설정 */
+table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+/* 테이블 내부 select 필터 */
+th select {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* 테이블 줄무늬 및 호버 효과 */
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #f0f0f0;
+}
+
+/* 링크 스타일 */
+td a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+td a:hover {
+  text-decoration: underline;
+}
+
+/* 삭제 버튼 스타일 */
+td button {
+  background-color: #d9534f;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+td button:hover {
+  background-color: #c9302c;
+}
+
+/* 초기화 버튼 스타일 추가 */
+.reset-button {
+  background-color: #f0ad4e;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.reset-button:hover {
+  background-color: #ec971f;
+}
+
+/* 수정 버튼 스타일 */
+.edit-button {
+  background-color: #0275d8;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-button:hover {
+  background-color: #025aa5;
+}
+
+/* 페이징 버튼 영역 */
+.pagination {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.pagination button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  background-color: white;
+  cursor: pointer;
+}
+
+.pagination button.active {
+  font-weight: bold;
+  background-color: #007bff;
+  color: white;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 내용 열 - 말줄임 처리 */
+.ellipsis-cell {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 250px; /* 너비는 테이블에 맞게 조절 */
+}
+
+/* 제목/내용 클릭 링크 스타일 */
+.notice-link {
+  color: #007bff;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.notice-link:hover {
+  color: #0056b3;
+}
+
+
