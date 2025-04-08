@@ -1,0 +1,46 @@
+/* 기업 공지사항 수정 css(ComNotiUpdate.jsx) */
+
+/* 공지사항 수정 전체 컨테이너 */
+.notice-update-container {
+  padding: 20px;
+}
+
+/* 각 입력 필드 그룹 */
+.form-group {
+  margin-bottom: 15px;
+}
+
+/* 입력 필드 레이블 스타일 */
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* 인풋/텍스트박스/셀렉트 공통 스타일 */
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* 텍스트 영역 전용 높이 지정 */
+.form-group textarea {
+  height: 150px;
+}
+
+/* 저장 버튼 기본 스타일 */
+button[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: #45a049;
+}
