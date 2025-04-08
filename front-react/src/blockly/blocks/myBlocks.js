@@ -15,6 +15,7 @@ const toolboxXML = ()=>{
                 <block type="controls_forEach"></block>
                 <block type="controls_flow_statements"></block>
                 <block type="wait_until_true"></block>
+                <block type="wait_seconds"></block>
             </category>
             
             <!-- 움직임 -->

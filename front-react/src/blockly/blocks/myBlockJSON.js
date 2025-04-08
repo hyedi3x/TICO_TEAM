@@ -59,6 +59,25 @@ const defineMyBlocks = ()=>{
         "helpUrl": ""
       },
 
+      // 입력값만큼 기다리기 블록
+      {
+        "type": "wait_seconds",
+        "message0": "%1초 동안 기다리기",
+        "args0": [
+          {
+            "type": "field_input",
+            "name": "seconds",
+            "check": "Number",
+            "align": "RIGHT"
+          }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF9966",
+        "tooltip": "설정한 시간(초)만큼 기다립니다.",
+        "helpUrl": ""
+      },      
+
       // 움직임 관련 블록들
       // 이동 방향과 거리 블록
       {

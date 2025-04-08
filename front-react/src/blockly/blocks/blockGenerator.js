@@ -30,6 +30,7 @@ const RegisterBlockGenerator = (props) => {
     return 'start_with_q();\n'; // 함수를 호출하는 문자열 반환
   };
 
+  // 조건이 참이 될 때까지 계속 실행하기
   javascriptGenerator.forBlock['wait_until_true'] = function(block) {
   const condition = javascriptGenerator.valueToCode(block, 'CONDITION', javascriptGenerator.ORDER_NONE) || 'false';
     return `await new Promise((resolve) => {
@@ -40,6 +41,12 @@ const RegisterBlockGenerator = (props) => {
         }
       }, 50);
     });\n`;
+  };
+
+  // 몇 초 동안 기다리기
+  javascriptGenerator.forBlock['wait_seconds'] = function(block) {
+    const seconds = block.getFieldValue('seconds');
+    return `await new Promise(resolve => setTimeout(resolve, ${seconds} * 1000));\n`;
   };
 
   // 방향과 거리로 이동 (예: 45도 방향으로 50만큼)
