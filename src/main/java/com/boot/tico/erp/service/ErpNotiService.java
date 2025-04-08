@@ -19,7 +19,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.boot.tico.erp.dto.EmpDTO;
 import com.boot.tico.erp.dto.ErpNotiDTO;
+import com.boot.tico.erp.repo.EmpRepository;
 import com.boot.tico.erp.repo.ErpNotiRepository;
 
 @Service
@@ -27,10 +29,18 @@ public class ErpNotiService {
 
     @Autowired
     private ErpNotiRepository notiRepo;
+    
+    @Autowired 
+    private EmpRepository empRepo;
 
     @Value("${file.upload-dir}")	// 파일이 저장될 경로. application.yml에서 주입받음.
     private String UPLOAD_DIR;
 
+    // 관리자 회원 정보 단건 조회
+    public EmpDTO getEmployeeById(String empId) {
+        return empRepo.findFirstByEmpId(empId).orElse(null);
+    }
+    
     // 공지사항 목록 검색 + 필터링 + 페이징 처리
     // Page<T> 타입으로 리턴. 페이지 처리된 결과를 포함한 객체. (현재 페이지 데이터 목록 getContent(), 전체 페이지 수 getTotalPages(), 전체 데이터 개수 getTotalElements(), 현재 페이지 번호 getNumber()) 
     public Page<ErpNotiDTO> searchNoticesWithPaging(String keyword, String searchType, String category, String status, Pageable pageable) {
