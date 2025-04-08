@@ -40,6 +40,7 @@ function Header() {
         });
     }
   }, [navigate]);
+
   //   setIsLoggedIn(!!localStorage.getItem('accessToken'));
   //   if (localStorage.getItem('accessToken')) {
   //     axiosInstance.get('/auth/user')
@@ -64,6 +65,7 @@ function Header() {
         localStorage.removeItem('user_uuid');
         localStorage.removeItem('autoLogin');
         setIsLoggedIn(false);
+        setUserRole(null);
         setUser(null);
         navigate('/');
       })
