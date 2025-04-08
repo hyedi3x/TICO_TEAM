@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { Table } from "react-bootstrap";
 import "./eduList.css";
-import { set } from "rsuite/esm/internals/utils/date";
 
 const EduList = () => {
 
+  const navigate = useNavigate();
   const [quizzes, setQuizzes] = useState([]);
   const [user, setUser] = useState([]);
 
@@ -15,7 +16,10 @@ const EduList = () => {
         if (!response.ok) throw new Error("퀴즈 데이터를 불러오는 데 실패했습니다.");
         const data = await response.json();
         setQuizzes(data.quizDTO);
+        console.log('quizDTO:', data.quizDTO);
         setUser(data.solvedDTO);
+        console.log('solvedDTO:', data.solvedDTO);
+
       } catch (error) {
         console.error("퀴즈 데이터를 불러오는 중 오류 발생:", error);
         alert("퀴즈 데이터를 불러오는 중 오류가 발생했습니다.");
@@ -24,13 +28,13 @@ const EduList = () => {
     fetchQuizzes();
   }, []);
 
-  const isSolvedByUser = (quizId) => {
+  const isSolvedByUser = (quiz_id) => {
     const result = user.some((item) => {
       // .some() 메서드는 배열을 돌면서 조건을 만족하는 값이 하나라도 있으면 true를 반환
       
-      const isMatchingId = item.quizId === quizId; // 받아올 때 _는 카멜표기법 대문자로 바뀜
-      const isMatchingUser = item.userUuid === "0523931d-ada4-4e38-8eaf-a54c9e36ada1";
-      const isMatch = isMatchingId && isMatchingUser;
+      const isMatchingId = item.quiz_id === quiz_id; // 받아올 때 _는 카멜표기법 대문자로 바뀜
+      const isMatchingUser = item.user_uuid === "1753fb32-6820-4840-9abc-ac5711f0ea5f";
+      const isMatch = isMatchingId && isMatchingUser; // 참, 거짓 반환
 
       return isMatch;
     });
@@ -49,7 +53,7 @@ const EduList = () => {
             <th>난이도</th>
             <th>링크</th>
             <th>완료 여부</th>
-            <th>정답률</th>
+            <th>문제 푼 횟수</th>
           </tr>
         </thead>
         <tbody>
@@ -59,12 +63,16 @@ const EduList = () => {
               <td className="title-col">{dto.quiz_title}</td>
               <td>{dto.quiz_level}</td>
               <td>
-              <a href={`/quiz${index+1}`} className="btn btn-sm btn-outline-primary">
-                풀러가기
-              </a>
+                <button
+                  onClick={() => navigate(`/quiz/${dto.quiz_id}`)}
+                  className="btn btn-sm btn-outline-primary"
+                >
+                  {dto.quiz_id}번 풀러가기
+                </button>
               </td>
               <td>{isSolvedByUser(dto.quiz_id) ? "✅ 완료" : "❌ 미완료"}</td>
-              <td>{dto.accuracy}</td>
+              <td>{user.find(item => item.quiz_id === dto.quiz_id)?.solved_count || "-"}</td>
+              {/* 찾은 항목이 존재할 경우에만 solved_count에 접근 */}
             </tr>
           ))}
         </tbody>

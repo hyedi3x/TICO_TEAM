@@ -31,4 +31,26 @@ public class QuizService {
 	public List<SolvedDTO> findAllSolved(){
 		return solvRepo.findAll();
 	}
+	// 상세조회 (퀴즈 정답용)
+	public QuizDTO findByQuizId(int quiz_id){
+		return quizRepo.findById(quiz_id)
+				.orElseThrow(() -> new IllegalArgumentException("조회 오류")); 
+	}
+	// 업데이트
+	public String solvedQuizPut(SolvedDTO dto) {
+		int quiz_id = dto.getQuiz_id();
+		String user_uuid = dto.getUser_uuid();
+		
+		SolvedDTO existing = solvRepo.findByUserUuidAndQuizId(user_uuid, quiz_id);
+		int maxId = solvRepo.selectMaxId();
+		
+		if(existing != null) {
+			solvRepo.updateSolvedCount(user_uuid, quiz_id);
+			return "수정";
+		} else {
+			solvRepo.insertSolvedRecord(maxId, user_uuid, quiz_id);
+			return "등록";
+		}
+		
+	}
 }

@@ -73,27 +73,28 @@ function Header() {
             <Offcanvas.Body>
               <Nav className="justify-content-end flex-grow-1 pe-3">
                 <NavDropdown title="관리자ERP" id="offcanvasNavbarDropdown">
-                  <NavDropdown.Item href="erpMain">관리자 ERP</NavDropdown.Item>
+                  <NavDropdown.Item href="/erpMain">관리자 ERP</NavDropdown.Item>
                 </NavDropdown>
 
                 <NavDropdown title="생각하기" id="offcanvasNavbarDropdown">
-                  <NavDropdown.Item href="#action3">티코 학습하기</NavDropdown.Item>
+                  <NavDropdown.Item href="/#action3">티코 학습시키기</NavDropdown.Item>
+                  <NavDropdown.Item href="/eduList">블럭 학습하기</NavDropdown.Item>
                 </NavDropdown>
                 <NavDropdown title="만들기" id="offcanvasNavbarDropdown">
-                  <NavDropdown.Item href="createBlock">작품 만들기</NavDropdown.Item>
-                  <NavDropdown.Item href="#action5">스터디 만들기</NavDropdown.Item>
+                  <NavDropdown.Item href="/createBlock">작품 만들기</NavDropdown.Item>
+                  <NavDropdown.Item href="/#action5">학습 하기</NavDropdown.Item>
                 </NavDropdown>
                 <NavDropdown title="공유하기" id="offcanvasNavbarDropdown">
-                  <NavDropdown.Item href="#action3">작품 공유하기</NavDropdown.Item>
-                  <NavDropdown.Item href="#action4">스터디 공유하기</NavDropdown.Item>
+                  <NavDropdown.Item href="/#action3">작품 공유하기</NavDropdown.Item>
+                  <NavDropdown.Item href="/#action4">스터디 공유하기</NavDropdown.Item>
                 </NavDropdown>
                 <NavDropdown title="커뮤니티" id="offcanvasNavbarDropdown">
-                  <NavDropdown.Item href="#action3">묻고 답하기</NavDropdown.Item>
-                  <NavDropdown.Item href="#action4">노하우&팁</NavDropdown.Item>
-                  <NavDropdown.Item href="#action4">티코 이야기</NavDropdown.Item>
-                  <NavDropdown.Item href="#action4">공지사항</NavDropdown.Item>
-                  <NavDropdown.Item href="faqlist">FAQ</NavDropdown.Item>
-                  <NavDropdown.Item href="#action5">탐험하기</NavDropdown.Item>
+                  <NavDropdown.Item href="/#action3">묻고 답하기</NavDropdown.Item>
+                  <NavDropdown.Item href="/#action4">노하우&팁</NavDropdown.Item>
+                  <NavDropdown.Item href="/#action4">티코 이야기</NavDropdown.Item>
+                  <NavDropdown.Item href="/#action4">공지사항</NavDropdown.Item>
+                  <NavDropdown.Item href="/faqlist">FAQ</NavDropdown.Item>
+                  <NavDropdown.Item href="/#action5">탐험하기</NavDropdown.Item>
                 </NavDropdown>
               </Nav>
               <Form className="d-flex">

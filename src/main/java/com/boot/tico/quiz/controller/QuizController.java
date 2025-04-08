@@ -11,11 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.boot.tico.quiz.dto.QuizDTO;
 import com.boot.tico.quiz.dto.SolvedDTO;
@@ -45,5 +45,17 @@ public class QuizController {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 	                .body(Map.of("error", "데이터 조회에 실패했습니다."));
 		}
+	}
+	
+	@GetMapping("/answer")
+	public ResponseEntity<?> getAnswerXml(@RequestParam("quizId") int quizId) {
+		logger.info("<<< Controller - getAnswerXml() >>>");
+	    return new ResponseEntity<>(service.findByQuizId(quizId), HttpStatus.CREATED);
+	}
+	
+	@PutMapping("/eduQuiz")
+	public ResponseEntity<?> putSolvedQuiz(@RequestBody SolvedDTO dto){
+		logger.info("<<< Controller - putSolvedQuiz() >>>");
+		return new ResponseEntity<>(service.solvedQuizPut(dto), HttpStatus.OK);
 	}
 }

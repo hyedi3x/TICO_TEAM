@@ -16,6 +16,7 @@ import FAQList from './faq/FAQList';
 import FAQPut from './faq/FAQPut';
 import FAQPost from './faq/FAQPost';
 import EduList from './pages/blockedu/EduList';
+import BlockEduComponent from './pages/blockedu/BlockEduComponent';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
           <Route path="/faqput/:qa_id" element={<FAQPut/>} />
           <Route path="/faqpost" element={<FAQPost/>} />
           <Route path="/eduList" element={<EduList/>} />
+          <Route path="/quiz/:quizId" element={<BlockEduComponent/>} />
         </Routes>
         <Footer />
       </BrowserRouter>

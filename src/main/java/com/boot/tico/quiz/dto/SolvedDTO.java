@@ -1,6 +1,8 @@
 package com.boot.tico.quiz.dto;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -25,8 +27,8 @@ public class SolvedDTO {
 	
 	@Id
 	private int id;                   // 풀이 기록 고유 ID
-    private String userUuid;         // 사용자 UUID
-    private int quizId;              // 문제 ID
-    private int solvedCount;         // 푼 횟수
-    private String solvedAt;
+    private String user_uuid;         // 사용자 UUID
+    private int quiz_id;              // 문제 ID
+    private int solved_count;         // 푼 횟수
+    private String solved_at;
 }
