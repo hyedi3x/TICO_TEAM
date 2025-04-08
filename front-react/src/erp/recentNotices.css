@@ -1,0 +1,39 @@
+/* recentNotices.css */
+
+/* 최근 공지사항 전체 컨테이너 */
+.recent-notice-container {
+  padding: 10px;
+}
+
+/* 공지사항 리스트 ul (불릿 제거) */
+.recent-notice-list {
+  list-style: none;    /* 목록 점 제거 */
+  padding: 0;
+  margin: 0;
+}
+
+/* 공지사항 항목 하나 (li) */
+.recent-notice-item {
+  display: flex;    /* 제목과 날짜를 나란히 */
+  justify-content: space-between; /* 좌우로 분산 정렬 */
+  padding: 6px 12px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  color: #333;
+}
+
+.recent-notice-item:hover {
+  background-color: #f9f9f9;
+  color: #007bff;
+}
+
+/* 공지 제목 */
+.notice-title {
+  font-weight: bold;
+}
+
+/* 공지 등록일 */
+.notice-date {
+  font-size: 0.85em;
+  color: #888;
+}
