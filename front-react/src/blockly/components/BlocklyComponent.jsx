@@ -162,19 +162,6 @@ function Canvas() {
         item.width,
         item.height
       );
-
-      // 🔽 선택된 이미지 테두리 강조
-      if (index === selectedImageIndex) {
-        context.strokeStyle = '#0d6efd';
-        context.lineWidth = 2;
-        context.strokeRect
-        (
-          -item.width / 2 - 2,
-          -item.height / 2 - 2,
-          item.width + 4,
-          item.height + 4
-        );
-      }
   
       context.restore();
 
