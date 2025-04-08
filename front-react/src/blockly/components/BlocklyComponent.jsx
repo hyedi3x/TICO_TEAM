@@ -13,6 +13,7 @@ import { handleLoadClick } from '../utils/loadProjects';
 import { loadProjectToCanvas } from '../utils/loadProjectDetail';
 import ProjectModal from './ProjectModal';
 import { handleDeleteProject } from '../utils/deleteProject';
+import ObjectControlPanel from './ObjectControl';
 import "../components/BlocklyComponent.css";
 
 Blockly.setLocale(ko); // Blockly 언어를 한국어로 설정
@@ -24,7 +25,7 @@ function Canvas() {
   const blocklyArr = useRef([]);// 블록클리 객체를 배열로 관리
   const blocklyDiv = useRef(null);
   
-  const selectedImageIndex = useRef(null); // 선택된 이미지 인덱스
+  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
   
   // 마우스 이동 관련 상태 및 참조값
   const INITIAL_POSITION = { x: 0, y: 0 }; // 초기 위치
@@ -161,6 +162,19 @@ function Canvas() {
         item.width,
         item.height
       );
+
+      // 🔽 선택된 이미지 테두리 강조
+      if (index === selectedImageIndex) {
+        context.strokeStyle = '#0d6efd';
+        context.lineWidth = 2;
+        context.strokeRect
+        (
+          -item.width / 2 - 2,
+          -item.height / 2 - 2,
+          item.width + 4,
+          item.height + 4
+        );
+      }
   
       context.restore();
 
@@ -200,7 +214,7 @@ function Canvas() {
         offsetY >= refItem.y &&
         offsetY <= refItem.y+refItem.height
       ){
-        selectedImageIndex.current = index; // 선택된 인덱스를 참조 객체 할당
+        setSelectedImageIndex(index); // ✅ 상태 업데이트
         startPosRef.current = { x: offsetX - refItem.x, y: offsetY - refItem.y }; // 이미지 내부 클릭 위치 저장      
         if( index > imgIndex){
           imgIndex = index;
@@ -222,12 +236,13 @@ function Canvas() {
         };
       };
     });
+   
   };
   
   // handleMouseUp: 마우스 업 이벤트를 처리하고 패닝을 종료
   const handleMouseUp = () => { 
     panningRef.current = false;
-    selectedImageIndex.current = null; // 선택 해제
+    // setSelectedImageIndex(null); // 선택 해제
   };
 
   // handleMouseMove: 마우스 이동 이벤트를 처리하고 캔버스를 이동
@@ -237,11 +252,14 @@ function Canvas() {
     setCoordinates({ x:  offsetX, y:  offsetY, });
     
     // 선택 상태이면
-    if (selectedImageIndex.current !== null) { 
+    if (selectedImageIndex !== null &&
+      panningRef.current && // ✅ 마우스를 누르고 있을 때만
+      e.target === canvasRef.current // ✅ 캔버스에서만
+    ) { 
       
       // 선택된 인덱스의 좌표를 업데이트
-      imgArr.current[selectedImageIndex.current].x = offsetX - startPosRef.current.x;
-      imgArr.current[selectedImageIndex.current].y = offsetY - startPosRef.current.y;
+      imgArr.current[selectedImageIndex].x = offsetX - startPosRef.current.x;
+      imgArr.current[selectedImageIndex].y = offsetY - startPosRef.current.y;
       callImgArr(); // 이미지 이동후 다시 그리기
       
     }
@@ -385,83 +403,99 @@ function Canvas() {
       )}
   
       <div className="editor-wrapper">
-        {/* 캔버스 영역 */}
-        <div
-          className="canvas-area"
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-        >
-          <canvas // 스타일과 마우스 핸들러 연결
-            ref={canvasRef}
-            width="500"
-            height="500"
-            style={{ border: '1px solid' }}
-          />
-          
-          <div className='coord-info'>
-            <p> 🖱 마우스좌표  ( x좌표 : {coordinates.x} &nbsp; y좌표 : {coordinates.y})</p>
+        {/* 캔버스 + 오브젝트 속성 묶기 */}
+        <div className='canvas-and-objects'>
+          {/* 캔버스 영역 */}
+          <div
+            className="canvas-area"
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            >
+            <h6> 🖱 마우스좌표  ( x좌표 : {coordinates.x} &nbsp; y좌표 : {coordinates.y})</h6>
+            <canvas // 스타일과 마우스 핸들러 연결
+              ref={canvasRef}
+              width="500"
+              height="500"
+              style={{ border: '1px solid' }}
+              />
+          </div>
 
-            {imagePosition.map((pos, index) => (
-              pos && !pos.hidden ? (
-                <div key={index} style={{display:"flex", justifyContent: "space-between"}}>
-                  <p>🌟 이미지 {index + 1} 좌표 : x좌표 : {pos.x} &nbsp; y좌표 : {pos.y}</p>
-                  <button onClick={() => imgDel(index)}>이미지 {index + 1} 삭제</button>
+          {/* 아래에 전체 오브젝트 속성 나열 */}
+          <div className="object-panel-container" style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', marginTop: '1rem' }}>
+            {imgArr.current.map((obj, index) => (
+                <div key={index} className="object-panel-item">
+                  <ObjectControlPanel
+                    object={obj}
+                    onUpdate={(updatedObj) => {
+                      imgArr.current[index] = updatedObj;
+                      callImgArr();
+                    }}
+                    i={index}
+                    onDelete={imgDel}
+                    isSelected={selectedImageIndex === index}
+                    onClick={() => {
+                      setSelectedImageIndex(index);
+                    
+                      // ✅ 선택된 오브젝트의 blockly 작업공간 보여주기
+                      blocklyArr.current.forEach((workspace) => {
+                        const blocklyDivElement = document.getElementById(`blockly${workspace.index}`);
+                        if (blocklyDivElement) {
+                          blocklyDivElement.style.display = (workspace.index === index ? 'block' : 'none');
+                        }
+                      });
+                    }}
+                    />
                 </div>
-              ) : (
-                <p key={index} style={{ color: 'gray' }}>🙈 이미지 {index + 1} (숨김 상태)</p>
-              )
-
             ))}
-            </div>
+          </div>
         </div>
   
         {/* Blockly 작업공간 */}
         <div className="blockly-area">
           <div ref={blocklyDiv}></div>
+          {/* 버튼 영역 */}
+          <div className="button-blockly">
+            <input type="file" id="imgInput" accept="image/*" style={{ display: 'none' }} onChange={selectimg} />
+            <button onClick={() => document.querySelector('#imgInput').click()}>
+              ➕ 요소 추가
+            </button>
+            <button onClick={runStartBtnCode}>▶️ 실행하기</button>
+            <button onClick={() => handleSaveProject(imgArr, blocklyArr, currentProjectId.current)}>
+              💾 저장하기
+            </button>
+            <button onClick={() => handleLoadClick(setProjectList, setShowProjectModal)}>
+              📂 불러오기
+            </button>
+            <button onClick={() => handleDeleteProject(currentProjectId.current)}>
+              🗑️ 삭제하기
+            </button>
+          </div>
+      
+          {/* 모달 */}
+          <ProjectModal
+            show={showProjectModal}
+            onClose={() => setShowProjectModal(false)}
+            projectList={projectList}
+            onSelect={async (project) => {
+              try {
+                await loadProjectToCanvas(
+                  project.projectId,
+                  imgArr,
+                  blocklyArr,
+                  blocklyDiv,
+                  callImgArr,
+                  setWorkspaceReady
+                );
+                currentProjectId.current = project.projectId;
+                setShowProjectModal(false);
+              } catch (err) {
+                alert('불러오기 실패!');
+              }
+            }}
+          />
         </div>
       </div>
-  
-      {/* 버튼 영역 */}
-      <div className="button-blockly">
-        <input type="file" id="imgInput" accept="image/*" style={{ display: 'none' }} onChange={selectimg} />
-        <button onClick={() => document.querySelector('#imgInput').click()}>
-          ➕ 요소 추가
-        </button>
-        <button onClick={runStartBtnCode}>▶️ 실행하기</button>
-        <button onClick={() => handleSaveProject(imgArr, blocklyArr, currentProjectId.current)}>
-          💾 저장하기
-        </button>
-        <button onClick={() => handleLoadClick(setProjectList, setShowProjectModal)}>
-          📂 불러오기
-        </button>
-        <button onClick={() => handleDeleteProject(currentProjectId.current)}>
-          🗑️ 삭제하기
-        </button>
-      </div>
-  
-      {/* 모달 */}
-      <ProjectModal
-        show={showProjectModal}
-        onClose={() => setShowProjectModal(false)}
-        projectList={projectList}
-        onSelect={async (project) => {
-          try {
-            await loadProjectToCanvas(
-              project.projectId,
-              imgArr,
-              blocklyArr,
-              blocklyDiv,
-              callImgArr,
-              setWorkspaceReady
-            );
-            currentProjectId.current = project.projectId;
-            setShowProjectModal(false);
-          } catch (err) {
-            alert('불러오기 실패!');
-          }
-        }}
-      />
     </div>
   );
 }
