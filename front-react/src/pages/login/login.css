@@ -1,17 +1,17 @@
 /* 전체 로그인 페이지 컨테이너 */
 .login-container {
   display: flex;
-  justify-content: center;   /* 가로 방향으로 중앙 정렬 */
-  align-items: center;       /* 세로 방향으로 중앙 정렬 */
+  justify-content: center;
+  align-items: center;
   padding: 100px;
 }
 
-/*  로그인 박스 */
+/* 로그인 박스 */
 .login-box {
   width: 540px;
   padding: 40px;
-  border-radius: 8px;  /* 로그인 박스 모서리 둥글게 처리 */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);  /* 미세한 그림자 효과 */
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* 로그인 제목 */
@@ -20,77 +20,35 @@
   margin-bottom: 30px;
 }
 
-/* 입력 필드 그룹 */
-.input-group {
-  margin-bottom: 20px;
-}
-
-.input-group label {
-  margin-bottom: 5px;
-}
-
-/* 폼 자체를 세로 배치하고 간격을 줄 수 있습니다. */
+/* 로그인 폼 */
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 15px; /* 입력란 사이 간격 증가 */
+  gap: 15px;
   padding: 25px 30px;
-  background: #f8f9fa; /* 밝은 배경색 */
+  background: #f8f9fa;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
 }
 
-/* 입력 필드 */
-.input-input {
+/* 새롭게 적용할 입력 필드 스타일 */
+.styled-input {
   width: 100%;
   padding: 12px 15px;
-  border: 1px solid #e2e2e2;
-  border-radius: 4px;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  font-size: 15px;
+  background-color: #fff;
   box-sizing: border-box;
-  font-size: 16px;
-  color: #333;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: all 0.2s ease-in-out;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-.input-input:focus {
-  outline: none;
+.styled-input:focus {
   border-color: #20c997;
-  box-shadow: 0 0 8px rgba(32, 201, 151, 0.3);
-}
-/* .input-group input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #e2e2e2;
-  box-sizing: border-box;
-} */
-
-.password-input {
-  position: relative;
-}
-
-/* 비밀번호 보이기/숨기기 버튼 */
-.password-toggle {
-  position: absolute;
-  font-size: 20px;
-  right: 15px;
-  top: 47%;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #afafaf;
-}
-
-/* 체크박스 그룹 */
-.checkbox-group {
-  display: flex;
-  justify-content: space-between; /* 체크박스 간의 공간을 일정하게 배치 */
-  margin-bottom: 20px;
-}
-
-.check_btn {
-  accent-color: purple;
-  margin-right: 10px;
+  box-shadow: 0 0 0 3px rgba(32, 201, 151, 0.2);
+  outline: none;
 }
 
 /* 로그인 버튼 */
@@ -106,13 +64,13 @@
 }
 
 .login-button:hover {
-  background-color: #1e8e72;  /* 아이디로 회원가입 버튼 */
+  background-color: #1e8e72;
 }
 
 /* 소셜 로그인 버튼들 */
 .social-login {
   display: flex;
-  flex-direction: row;  /* 버튼들을 한 행으로 배치 */
+  flex-direction: row;
   justify-content: space-between;
 }
 
@@ -121,42 +79,34 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  width: 145px; /* 버튼 너비 고정 */
-}
-
-.social-button.naver, .social-button.kakao, 
-.social-button.google {
+  width: 145px;
   color: #fff;
   transition: transform 0.3s ease;
-}
-
-.social-button.naver:hover, .social-button.kakao:hover, 
-.social-button.google:hover {
-  background: #fff;
-  color: #000000;
-  transform: scale(1.1);
 }
 
 .social-button.naver {
   background: #19ce60;
 }
-
-.social-button.naver:hover {
-  border: 1px solid #19ce60;
-}
-
 .social-button.kakao {
   background: #ffd900;
+  color: #000;
 }
-
-.social-button.kakao:hover {
-  border: 1px solid #ffd900;
-}
-
 .social-button.google {
   background: #4285f4;
 }
 
+.social-button:hover {
+  background: #fff;
+  color: #000;
+  transform: scale(1.1);
+}
+
+.social-button.naver:hover {
+  border: 1px solid #19ce60;
+}
+.social-button.kakao:hover {
+  border: 1px solid #ffd900;
+}
 .social-button.google:hover {
   border: 1px solid #4285f4;
 }
@@ -174,7 +124,7 @@
   text-decoration: none;
 }
 
-/* 반응형 설정(화면 크기가 750px 이하일 때 적용 */
+/* 반응형 */
 @media (max-width: 750px) {
   .login-container {
     padding: 40px;
@@ -183,12 +133,12 @@
     padding: 20px;
   }
 
-  .social-login{
+  .social-login {
     flex-direction: column;
   }
 
   .social-button {
-    width:500px;
+    width: 100%;
     margin-bottom: 10px;
   }
 }

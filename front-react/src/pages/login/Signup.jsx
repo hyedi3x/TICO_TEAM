@@ -102,13 +102,13 @@ function Signup() {
       </div>
 
       {/* 오류 메시지 출력 영역 */}
-      {errorMessage && <div className="error-message">{errorMessage}</div>}
+      {errorMessage && <div className="error-message">{errorMessage}</div>} 
+      {/* 개인정보 처리동의 하지 않은 경우 회원가입 클릭시 오류 메세지 표출 */}
 
       {/* 일반 회원가입 버튼 */}
       <button 
         className="signup-button id" 
         onClick={signUpSubmit('id')}
-        disabled={!termsAgree || !privacyAgree}
       >
         아이디로 회원가입
       </button>
@@ -118,7 +118,6 @@ function Signup() {
         <button 
           className="social-signUpLink naver" 
           onClick={signUpSubmit('naver')}
-          disabled={!termsAgree || !privacyAgree}
         >
           네이버로 회원가입
         </button>
@@ -126,7 +125,7 @@ function Signup() {
         <button 
           className="social-signUpLink kakao" 
           onClick={signUpSubmit('kakao')}
-          disabled={!termsAgree || !privacyAgree}
+          // disabled={!termsAgree || !privacyAgree} 아예 클릭을 못하게 하는 기능
         >
           카카오로 회원가입
         </button>
@@ -134,7 +133,6 @@ function Signup() {
         <button 
           className="social-signUpLink google" 
           onClick={signUpSubmit('google')}
-          disabled={!termsAgree || !privacyAgree}
         >
           구글로 회원가입
         </button>

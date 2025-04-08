@@ -141,3 +141,36 @@
     font-size: 1.5rem;
     color: #333;
   }
+
+  .email-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+  }
+
+
+  .email-local {
+    flex: 2;
+    padding: 10px;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+/* @ 기호를 가운데에 보이게 하기 위한 스타일 */
+.at-symbol {
+  flex: 0;
+  width: 20px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.email-domain {
+  flex: 2;
+  padding: 10px;
+  height: 40px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}

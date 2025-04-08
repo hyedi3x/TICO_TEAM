@@ -33,7 +33,7 @@ function Login() {
   }, []);
 
   const handleLogin = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // 로그인 버튼 클릭 시 디폴트로 페이지 새로고침 막아주는 기능
     try {
       console.log("로그인 요청 ID:", loginId);
       let endpoint = "";
@@ -79,7 +79,7 @@ function Login() {
 
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
-        localStorage.claerItem("autoLogin");
+        localStorage.removeItem("autoLogin");
 
         // 로그아웃 처리 상태 저장 (리렌더링을 막기 위한 상태)
         sessionStorage.setItem("loggedOut", "true");
@@ -117,18 +117,20 @@ function Login() {
           <>
             <div className="login-form">
               <input
-                type="text"
-                placeholder="이메일 또는 사원번호"
-                value={loginId}
-                onChange={(e) => setLoginId(e.target.value)}
-                required
+                  type="text"
+                  className="styled-input"
+                  placeholder="이메일 또는 사원번호"
+                  value={loginId}
+                  onChange={(e) => setLoginId(e.target.value)}
+                  required
               />
               <input
-                type="password"
-                placeholder="비밀번호"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
+                  type="password"
+                  className="styled-input"
+                  placeholder="비밀번호"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
               />
               <button className="login-button" onClick={handleLogin}>로그인</button>
             </div>

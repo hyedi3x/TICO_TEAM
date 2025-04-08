@@ -134,8 +134,8 @@ function SignUpId() {
         </div>
       )}
       <div className="signup-box">
-        <h2>아이디/비밀번호</h2>
-        <p className="signup-des">티코에서 사용할 아이디와 비밀번호를 입력해주세요.</p>
+        <h2>이메일/비밀번호</h2>
+        <p className="signup-des">티코에서 사용할 이메일과 비밀번호를 입력해주세요.</p>
 
         <div className="progress-bar">
           <div className="progress-step">1</div>
@@ -149,22 +149,20 @@ function SignUpId() {
           {/* 이메일 입력란: 앞자리와 도메인 선택 */}
           <div className="input-group">
             <label htmlFor="emailLocal" className="input-label">이메일 (필수)</label>
-            <div style={{ display: 'flex' }}>
+            <div className="email-wrapper">
               <input 
                 type="text"
                 id="emailLocal"
-                className="input-field"
+                className="email-local"   // 여기!
                 placeholder="이메일 앞자리"
                 value={emailLocal}
                 onChange={(e) => setEmailLocal(e.target.value)}
-                style={{ width: '50%' }}
               />
-              @
+              <span className="at-symbol">@</span>
               <select 
                 value={emailDomain}
                 onChange={(e) => setEmailDomain(e.target.value)}
-                className="input-field"
-                style={{ width: '50%' }}
+                className="email-domain"  // 여기!
               >
                 <option value="gmail.com">gmail.com</option>
                 <option value="naver.com">naver.com</option>
