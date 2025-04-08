@@ -6,9 +6,9 @@ const moveInDirection = function (angle, distance, index) {
       const radians = (Math.PI / 180) * (angle-90); // 0도 = 위쪽
       const dx = distance * Math.cos(radians);
       const dy = distance * Math.sin(radians);
-  
-      imgArr.current[index].x += dx;
-      imgArr.current[index].y += dy;
+
+      imgArr.current[index].x = Number((imgArr.current[index].x + dx).toFixed(2));
+      imgArr.current[index].y = Number((imgArr.current[index].y + dy).toFixed(2));
       callImgArr();
     } else {
       console.error('moveInDirection 실패: 유효하지 않은 index');
