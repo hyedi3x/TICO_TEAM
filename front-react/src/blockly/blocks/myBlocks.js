@@ -14,6 +14,7 @@ const toolboxXML = ()=>{
                 <block type="controls_for"></block>
                 <block type="controls_forEach"></block>
                 <block type="controls_flow_statements"></block>
+                <block type="wait_until_true"></block>
             </category>
             
             <!-- 움직임 -->
@@ -144,12 +145,23 @@ const toolboxXML = ()=>{
                 <block type="math_round"></block>
                 <block type="math_on_list"></block>
                 <block type="math_modulo"></block>
-                <block type="math_random_int"></block>
                 <block type="math_random_float"></block>
+                <block type="math_random_int">
+                    <value name="FROM">
+                        <shadow type="math_number">
+                            <field name="NUM">1</field>
+                        </shadow>
+                    </value>
+                    <value name="TO">
+                        <shadow type="math_number">
+                            <field name="NUM">100</field>
+                        </shadow>
+                    </value>
+                </block>
+                <block type="control_timer"></block>
+                <block type="get_timer_value"></block>
             </category>
         </xml>
-            
     `
-    
 }
 export default toolboxXML;
