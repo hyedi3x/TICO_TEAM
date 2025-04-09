@@ -170,7 +170,7 @@ function Login() {
             </div>
 
             <div className="login-footer">
-              <Link to="/find-id-password">아이디 / 비밀번호 찾기</Link>
+              <Link to="/FindIdPassword">아이디 / 비밀번호 찾기</Link>
               <Link to="/signUp">회원가입 하기</Link>
             </div>
           </>
