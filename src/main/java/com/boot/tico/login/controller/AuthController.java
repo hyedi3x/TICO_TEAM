@@ -14,11 +14,15 @@ import com.boot.tico.erp.service.EmployeeAuthService;
 import com.boot.tico.login.dto.UserDto;
 import com.boot.tico.login.entity.User;
 import com.boot.tico.login.security.JwtTokenizer;
+import com.boot.tico.login.service.EmailService;
 import com.boot.tico.login.service.UserService;
+import com.boot.tico.login.service.VerificationCodeService;
 
 import javax.servlet.http.HttpServletRequest;
 
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -27,14 +31,90 @@ import java.util.Optional;
 @RequestMapping("/auth")
 @RequiredArgsConstructor // final 필드들에 대해 생성자를 자동 생성해준다.
 public class AuthController {
+	
 	// final "한 번 결정된 값은 바꿀 수 없다"는 것을 명시하여, 코드의 안정성과 예측 가능성을 높이는 역할
     private final UserService userService; // 회원 관련 로직(회원가입, 조회, 수정, 탈퇴 등)을 처리
     private final JwtTokenizer jwtTokenizer; // JWT 토큰을 생성하고, 검증하는 역할
-    private final AuthenticationManager authenticationManager; // 회원 로그인 처리 담당
+    private final AuthenticationManager authenticationManager; // 회원 로그인 처리 담당 
+    private final EmployeeAuthService employeeAuthService; // 기존 EmployeeService 대신 인증용 EmployeeAuthService 주입
     
-    // 기존 EmployeeService 대신 인증용 EmployeeAuthService 주입
-    private final EmployeeAuthService employeeAuthService;
+    // email/pwd 찾기
+    private final EmailService emailService;
+    private final VerificationCodeService codeService;
+    
+ // [이메일(아이디) 찾기] : 이름과 전화번호로 사용자 조회하여 이메일 반환
+    @PostMapping("/find-id")
+    public ResponseEntity<?> findId(@RequestBody Map<String, String> payload) {
+        String name = payload.get("name");
+        String phone = payload.get("phone");
+        List<User> users = userService.findByNameAndPhone(name, phone);
 
+        if (users.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                 .body("해당 정보로 가입된 사용자를 찾을 수 없습니다.");
+        }
+        if (users.size() > 1) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                                 .body("같은 이름, 전화번호로 2명 이상이 가입되었습니다.");
+        }
+        // 유일하게 1명 찾았을 때:
+        User user = users.get(0);
+        Map<String, String> res = new HashMap<>();
+        res.put("email", user.getEmail());
+        return ResponseEntity.ok(res);
+    }
+    
+    // [인증 코드 발송] : 가입된 이메일을 대상으로 인증 코드 생성 및 메일 발송
+    @PostMapping("/send-code")
+    public ResponseEntity<?> sendCode(@RequestBody Map<String, String> payload) {
+        String email = payload.get("email");
+        Optional<User> userOpt = userService.findByEmail(email);
+        if (userOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                 .body("가입된 이메일이 아닙니다.");
+        }
+        
+        User user = userOpt.get();
+        // 소셜 로그인 계정이면 즉시 에러 응답
+        if (!"local".equals(user.getProvider())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                 .body("소셜 로그인 계정은 비밀번호 재설정이 불가능합니다.");
+        }
+        
+        String code = codeService.generateCode(email);
+        emailService.sendMail(email, "인증 코드 안내", "인증 코드: " + code);
+        return ResponseEntity.ok("인증 코드 발송 완료");
+    }
+    
+    // [인증 코드 검증] : 전달받은 인증 코드와 저장된 코드를 비교
+    @PostMapping("/verify-code")
+    public ResponseEntity<?> verifyCode(@RequestBody Map<String, String> payload) {
+        String email = payload.get("email");
+        String code = payload.get("code");
+        boolean result = codeService.verifyCode(email, code);
+        if (!result) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                 .body("인증 코드가 틀렸거나 만료되었습니다.");
+        }
+        return ResponseEntity.ok("인증 성공");
+    }
+    
+    // [비밀번호 재설정] : 인증된 이메일과 새 비밀번호로 업데이트 진행
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> payload) {
+        String email = payload.get("email");
+        String newPassword = payload.get("newPassword");
+        try {
+            userService.updatePassword(email, newPassword);
+            return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다.");
+        } catch (RuntimeException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+    }
+    
+    
+    
+    
     // 일반 사용자 회원가입
     // 사용자가 회원가입할 때 입력한 정보를 받아 DB에 저장
     @PostMapping("/register")

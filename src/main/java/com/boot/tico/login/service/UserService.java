@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -48,11 +49,33 @@ public class UserService {
             throw new RuntimeException("소셜 회원가입은 /auth/social/register API를 사용하세요.");
         }
     }
-
+    
+    // email 찾기 
+    public List<User> findByNameAndPhone(String name, String phone) {
+    	return userRepository.findByNameAndPhone(name,phone);
+    }
+    
+    
     // 이메일로 사용자 조회
     public Optional<User> findByEmail(String email) {
         log.debug("DB에서 조회할 이메일: {}", email);
         return userRepository.findByEmail(email);
+    }
+    
+    // 비밀번호 찾기 (소셜 로그인아이디는 비밀번호 재설정 불가하도록 provider local만 가능하도록 구현)
+    public void updatePassword(String email, String rawNewPassword) {
+        Optional<User> opt = userRepository.findByEmail(email);
+        if (opt.isPresent()) {
+            User user = opt.get();
+            // 소셜 로그인 계정이면 비밀번호 재설정 불가
+            if (!"local".equals(user.getProvider())) {
+                throw new RuntimeException("소셜 로그인 계정은 비밀번호 재설정이 불가능합니다.");
+            }
+            user.setPassword(passwordEncoder.encode(rawNewPassword));
+            userRepository.save(user);
+        } else {
+            throw new RuntimeException("해당 이메일의 사용자를 찾을 수 없습니다.");
+        }
     }
     
     // 회원 정보 수정

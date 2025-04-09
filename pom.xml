@@ -114,6 +114,12 @@
           <scope>runtime</scope>
       </dependency>
       
+      <!-- JavaMailSender 메일발송을 위해 추가 -->
+      <dependency>
+	      <groupId>org.springframework.boot</groupId>
+	      <artifactId>spring-boot-starter-mail</artifactId>
+	  </dependency>
+      
       <!-- done -->
        
       <dependency>
