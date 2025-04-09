@@ -1,9 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { List, Grid, Row, Col, Tabs } from 'rsuite';
 import MyCalendar from './MyCalendar';
 import RecentNotices from './RecentNotices';
-import { IoPersonCircle } from "react-icons/io5";
 import './home.css';
+import ErpDTO from './ErpDTO';
 
 const Home = ({ onNoticeClick }) => {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -24,7 +24,7 @@ const Home = ({ onNoticeClick }) => {
           <div className="tabs-content">
             <Tabs defaultActiveKey="1">
               <Tabs.Tab eventKey="1" title="회원 정보">
-                <UserInfo />
+                <ErpDTO/>
               </Tabs.Tab>
               <Tabs.Tab eventKey="2" title="회사 공지">
                 <RecentNotices onNoticeClick={onNoticeClick} />
@@ -41,65 +41,6 @@ const Home = ({ onNoticeClick }) => {
 };
 
 export default Home;
-
-const UserInfo = () => {
-  const [userInfo, setUserInfo] = useState({
-    profileImage: null,
-    emp_id: 'hongkil',
-    emp_name: '홍길동',
-    dep_id: 'DEP003',
-    job_id: '개발자',
-    emp_email: 'hongkildong@naver.com',
-    emp_phone: '010-7777-7777',
-    emp_home: '서울시 용산구',
-    emp_birth: '2001-11-07'
-  });
-
-  const fileInputRef = useRef(null);
-
-  const imgChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setUserInfo({ ...userInfo, profileImage: reader.result });
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  return (
-    <div className="user-info">
-      <h2>회원 정보</h2>
-      <div className="profile-image-container">
-        {userInfo.profileImage ? (
-          <img src={userInfo.profileImage} alt="프로필 사진" className="profile-image" />
-        ) : (
-          <div className="icon-placeholder" onClick={() => fileInputRef.current.click()}>
-            <IoPersonCircle size="10em" />
-          </div>
-        )}
-        <input
-          type="file"
-          accept="image/*"
-          onChange={imgChange}
-          ref={fileInputRef}
-          style={{ display: 'none' }}
-        />
-      </div>
-      <div className="userInfoText">
-        ID : {userInfo.emp_id}<br />
-        이름 : {userInfo.emp_name}<br />
-        부서 ID : {userInfo.dep_id}<br />
-        직무 ID : {userInfo.job_id}<br />
-        이메일 : {userInfo.emp_email}<br />
-        전화번호 : {userInfo.emp_phone}<br />
-        주소 : {userInfo.emp_home}<br />
-        생년월일 : {userInfo.emp_birth}
-      </div>
-    </div>
-  );
-};
 
 const Notifications = () => {
   const notifications = [

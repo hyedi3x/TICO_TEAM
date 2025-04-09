@@ -1,5 +1,6 @@
 package com.boot.tico.erp.controller;
 
+import com.boot.tico.erp.dto.EmpDTO;
 import com.boot.tico.erp.dto.ErpNotiDTO;
 import com.boot.tico.erp.service.ErpNotiService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,19 @@ public class ErpNotiController {
     @Autowired
     private ErpNotiService notiService;
 
+    // 관리자 회원 정보 단건 조회
+    @GetMapping("/employee/{empId}")
+    public ResponseEntity<EmpDTO> getEmpInfo(@PathVariable String empId) {
+        EmpDTO emp = notiService.getEmployeeById(empId);
+        if (emp != null) {
+            return ResponseEntity.ok(emp);		// HTTP 200 + body에 emp 반환
+        } else {
+            return ResponseEntity.notFound().build();	 // HTTP 404 반환
+        }
+    }
+    
     // ID 기준 단건 조회
-    @GetMapping("/{id}")
+    @GetMapping("/notice/{id}")
     public ErpNotiDTO getNoticeById(@PathVariable Long id) {	
         return notiService.getComNotiById(id);
     }
