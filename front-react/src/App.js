@@ -11,6 +11,7 @@ import Callback from './pages/login/social/components/Callback';
 import SocialSignup from './pages/login/SocialSignup';
 import Welcome from './pages/login/Welcome';
 import ErpMain from "./erp/ErpMain";
+import FindIdPassword from './pages/login/FindIdPassword';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/social-signup" element={<SocialSignup/>}/>
           <Route path="/Welcome" element={<Welcome/>}/>
           <Route path="/erpMain" element={<ErpMain/>} />
+          <Route path="/FindIdPassword" element={<FindIdPassword/>} />
         </Routes>
         <Footer />
       </BrowserRouter>
