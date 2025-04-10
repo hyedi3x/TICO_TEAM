@@ -17,12 +17,12 @@ import { FaGear } from "react-icons/fa6";
 // 각 화면 컴포넌트 불러오기
 import Home from "./Home";
 import ErpNotices from "./ErpNotices";
-import AdminRegister from "./AdminRegister";
-import AdminInfo from "./AdminInfo";
+import AdminRegister from "./HR_Team/AdminRegister";
+import AdminInfo from "./HR_Team/AdminInfo";
 import ErpNotiCreated from "./ErpNotiCreated";
 import ErpNotiDetail from "./ErpNotiDetail";
 import ErpNotiUpdate from "./ErpNotiUpdate";
-import FAQPut from '../faq/FAQPut';
+import FAQPut from '../../faq/FAQPut';
 
 function ErpMain() {
   const [expanded, setExpanded] = useState(true);     // 사이드바 확장 여부

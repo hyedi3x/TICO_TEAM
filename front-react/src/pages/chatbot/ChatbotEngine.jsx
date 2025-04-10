@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMicrophone, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
-import "./micRecord.css";
+import "./chatbotEngine.css";
 
-function MicRecord({ showChat }) {
+function ChatbotEngine({ showChat }) {
   const [recState, setRecState] = useState(false); // 녹음 상태 (true: 녹음 중, false: 중지)
   const mediaRec = useRef(null); // 녹음 객체
   const audioChunks = useRef([]); // 오디오 데이터 저장
@@ -182,6 +182,7 @@ function MicRecord({ showChat }) {
   return (
     <div className="chat-wrap">
       <div className="messages">
+        {/* 채팅 목록 불러오기 */}
         {Array.isArray(chatList) ? (
           chatList.map((message, index) => (
             <div key={index} className={`message ${message.sender}`}>
@@ -202,6 +203,7 @@ function MicRecord({ showChat }) {
         {loading && <div className="loading">텍스트 변환 중...</div>}
         {error && <div className="error">오류: {error}</div>}
 
+        {/* 채팅창 기본 멘트 */}
         <div className="input-row">
           <input
             type="text"
@@ -211,6 +213,7 @@ function MicRecord({ showChat }) {
             placeholder="메시지를 입력하세요..."
           />
 
+          {/* 마이크 사용 여부 & 텍스트 입력 여부로 아이콘 변경 */}
           {chats.trim() ? (
             <div className="send-btn" onClick={handleSend}>
               <FontAwesomeIcon icon={faPaperPlane} />
@@ -229,4 +232,4 @@ function MicRecord({ showChat }) {
   );
 }
 
-export default MicRecord;
+export default ChatbotEngine;

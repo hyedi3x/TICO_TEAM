@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import {Panel, Grid, Row, Col, Input, DatePicker, SelectPicker, Button,} from "rsuite";
 import { useNavigate } from "react-router-dom";
 import "./adminRegister.css";
-import "./admin.css";
+import "./adminContainer.css";
 
 function AdminRegister() {
   const navigate = useNavigate(); // 페이지 이동용 훅

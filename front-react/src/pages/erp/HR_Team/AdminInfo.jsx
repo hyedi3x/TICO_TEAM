@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Table, Button, Input, Panel, Grid, Row, Col } from "rsuite";
 import "./adminInfo.css";
-import "./admin.css";
+import "./adminContainer.css";
 
 const { Column, HeaderCell, Cell } = Table;
 
