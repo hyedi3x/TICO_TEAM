@@ -19,19 +19,23 @@
 /* 사용자 메시지 스타일 */
 .message.user {
   background-color: #e0f7fa;
+  color: #333; 
   padding: 8px 12px;
   border-radius: 15px;
   margin-bottom: 5px;
   align-self: flex-end;
+  text-align: left;
 }
 
 /* 챗봇 메시지 스타일 */
 .message.bot {
   background-color: #f0f0f0;
+  color: #333; 
   padding: 8px 12px;
   border-radius: 15px;
   margin-bottom: 5px;
   align-self: flex-start;
+  text-align: left;
 }
 
 /* 채팅 입력 영역 (입력창 고정 위해 flex-shrink: 0 추가) */
