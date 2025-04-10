@@ -98,12 +98,6 @@ function Header() {
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Nav className="justify-content-end flex-grow-1 pe-3">
-                {userRole === "EMPLOYEE" && (
-                <NavDropdown title="관리자ERP" id="offcanvasNavbarDropdown">
-                  <NavDropdown.Item href="erpMain">관리자 ERP</NavDropdown.Item>
-                </NavDropdown>
-              )}
-              
                 <NavDropdown title="생각하기" id="offcanvasNavbarDropdown">
                   <NavDropdown.Item href="#action3">티코 학습하기</NavDropdown.Item>
                 </NavDropdown>
@@ -141,7 +135,6 @@ function Header() {
                   >
                     Mypage
                   </Button>
-
 
                   {/* user가 있을 경우, 이메일 표시 */}
                   <span style={{ marginRight: '10px' }}>{user?.email}</span>

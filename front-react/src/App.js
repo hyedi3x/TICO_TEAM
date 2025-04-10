@@ -10,7 +10,7 @@ import SignUpId from './pages/login/SignUpId';
 import Callback from './pages/login/social/components/Callback';
 import SocialSignup from './pages/login/SocialSignup';
 import Welcome from './pages/login/Welcome';
-import ErpMain from "./erp/ErpMain";
+import ErpMain from "./pages/erp/ErpMain";
 import FindIdPassword from './pages/login/FindIdPassword';
 
 function App() {
