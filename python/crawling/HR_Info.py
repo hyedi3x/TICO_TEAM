@@ -4,12 +4,19 @@ from dotenv import load_dotenv  # env 파일 로드, pip install
 import io  # 파일 입출력
 import sys
 import os  # 운영체제
+from pathlib import Path  # 경로를 객체처럼 다룰 수 있어서 더 직관적이고 플랫폼에 독립적인 코드 작성이 가능
+
+# 현재 스크립트 파일 기준으로 경로 설정
+base_path = Path(__file__).resolve().parent  # 현재 파이썬 파일의 디렉토리
 
 # python 표준 출력 스트림 인코딩 변경
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
-# .env 파일 로드
-load_dotenv()
+# 루트 경로 기준으로 .env 경로 설정 (상위 3단계로 올라감)
+env_path = Path(__file__).resolve().parents[2] / ".env"
+
+# 전역 .env 불러오기 + override 필수
+load_dotenv(dotenv_path=env_path, override=True)
 
 # 환경변수에서 DB 접속 정보 가져오기
 DB_HOST = os.getenv("DB_HOST")
@@ -28,10 +35,11 @@ print(f"DB_NAME: {DB_NAME}")
 # conda 환경이 아닌 pip 환경에서 run code 할 시, 디렉토리 위치 확인 중요
 print("현재 작업 디렉토리 출력:", os.getcwd())  # getcwd: 현재 작업 디렉토리 반환
 os.chdir(os.path.dirname(os.path.abspath(__file__))) # abspath : 주어진 경로의 절대 경로(absolute path)를 반환
-print("현재 작업 디렉토리 출력:", os.getcwd())
 
 # CSV 파일 읽기
-df = pd.read_csv("./../data_sets/HRDataset_v14.csv", encoding="utf-8")
+csv_path = base_path / "../data_sets/HRDataset_v14.csv"
+df = pd.read_csv(csv_path, encoding="utf-8")
+
 pd.set_option('display.max_columns', None)   # pandas에서 df.head시 컬럼 일부 생략됨, 모든 컬럼을 확인용 
 pd.set_option('display.max_rows', None)
 pd.set_option('display.colheader_justify', 'left')  # 기본 컬럼명 오른쪽 정렬, 왼쪽 정렬로 변경
@@ -150,9 +158,25 @@ mapped_df = df[df["dep_id"].notna()]
 print("job_id와 매핑된 부서 코드: \n", mapped_df[["job_id", "dep_id"]].drop_duplicates().sort_values(by="job_id", ascending=True))
 print("--------------------------------------------------------------")
 
-# emp_email 컬럼 생성 (emp_name을 기반으로, 공백 제거 후 소문자 + "@gmail.com")
-if "emp_email" not in df.columns:
-    df["emp_email"] = df["emp_name"].apply(lambda x: f"{x.lower().replace(' ', '')}@gmail.com")
+# 중복 방지를 위한 이메일 세트
+existing_emails = set()
+
+# 유일한 이메일 생성 함수
+def generate_unique_email(emp_name):  # 이메일 생성이 사원 이름 기반이므로 emp_name을 매개변수로 받아옴
+    base_name = emp_name.lower().replace(' ', '')  # 이름 전체를 소문자로 변경, 공백을 제거 (성+이름)
+    base_email = f"{base_name}@gmail.com"
+    email = base_email
+    suffix = 1  # 이름 중복 시 붙일 숫자를 위해 초기값 1 설정.
+
+    # 이미 존재하는 이메일이면, 중복이 없을 때까지 반복:
+    while email in existing_emails:
+        email = f"{base_name}{suffix}@gmail.com"
+        suffix += 1
+    existing_emails.add(email)   # 업데이트 된 이메일을 다시 set에 add 
+    return email 
+
+# DataFrame에 유일한 이메일 생성 적용
+df["emp_email"] = df["emp_name"].apply(generate_unique_email)
 
 # 날짜 변환
 # to_datetime : 날짜 형식의 데이터를 변환하는 함수, errors="coerce": 날짜로 변환할 수 없는 값 -> NaT(Not a Time)로 처리
@@ -180,6 +204,9 @@ df = correct_birth_year(df)
 print("수정된 생년월일 데이터:")
 print(df[['emp_id', 'emp_name', 'emp_birth']].head())
 print("--------------------------------------------------------------")
+
+# 이름 + 생년월일(MMDD) 조합으로 비밀번호 생성
+df["emp_pwd"] = df.apply(lambda row: f"{row['emp_name']}{row['emp_birth'].strftime('%m%d')}" if pd.notna(row['emp_birth']) else None, axis=1)
 
 # 연봉 계산 (월급 * 12)
 df["annual_salary"] = df["salary"] * 12
@@ -223,13 +250,13 @@ def insert_job_data_to_mariadb(df, conn):
 
         # cursor.execute :  SQL 쿼리를 실행하는 메서드
         # JOBS 테이블에서 job_id 컬럼이 존재하는지 확인 
-        cursor.execute("SELECT COUNT(*) as cnt FROM JOBS WHERE job_id = %s", (job_id,))
+        cursor.execute("SELECT COUNT(*) as cnt FROM jobs WHERE job_id = %s", (job_id,))
         result = cursor.fetchone()  # fetchone() : 쿼리 결과 중 첫 번째 행을 반환
         if result[0] == 0:  # result[0]으로 튜플의 첫 번째 요소를 접근
-            insert_query = "INSERT INTO JOBS (job_id, job_title, dep_id) VALUES (%s, %s, %s)"
+            insert_query = "INSERT INTO jobs (job_id, job_title, dep_id) VALUES (%s, %s, %s)"
             cursor.execute(insert_query, (job_id, job_title, dep_id))
         else:
-            update_query = "UPDATE JOBS SET job_title = %s, dep_id = %s WHERE job_id = %s"
+            update_query = "UPDATE jobs SET job_title = %s, dep_id = %s WHERE job_id = %s"
             cursor.execute(update_query, (job_title, dep_id, job_id))
     conn.commit() # conn.commit() : 데이터베이스에 변경사항을 적용하는 메서드
     print("✓ 직무 데이터 삽입 완료")
@@ -247,30 +274,35 @@ def insert_or_update_employee(df, conn):
         termination_date = row["termination_date"] if pd.notna(row["termination_date"]) else None
         
         # 이메일이 이미 존재하는지 확인(UNIQUE 에러)
-        cursor.execute("SELECT COUNT(*) as cnt FROM EMPLOYEES WHERE emp_email = %s", (emp_email,))
+        cursor.execute("SELECT COUNT(*) as cnt FROM employees WHERE emp_email = %s", (emp_email,))
         result = cursor.fetchone()
         if result[0] == 0:  # result[0]으로 튜플의 첫 번째 요소를 접근
             # 이메일이 없으면 삽입
             insert_query = """
-            INSERT INTO EMPLOYEES (emp_id, emp_name, dep_id, job_id, emp_email, emp_birth, salary, annual_salary, net_annual_salary, hire_date, termination_date) 
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            INSERT INTO employees (
+                emp_id, emp_pwd, emp_name, dep_id, job_id, emp_email,
+                emp_birth, salary, annual_salary, net_annual_salary,
+                hire_date, termination_date
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             """
             cursor.execute(insert_query, (
-                row["emp_id"], row["emp_name"], row["dep_id"], row["job_id"],
+                row["emp_id"], row["emp_pwd"], row["emp_name"], row["dep_id"], row["job_id"],
                 row["emp_email"], emp_birth, row["salary"], row["annual_salary"],
-                row["net_annual_salary"], hire_date, termination_date 
+                row["net_annual_salary"], hire_date, termination_date
             ))  # values는 튜플 형태로 전달
         else:
             # 이메일이 있으면 업데이트
             update_query = """
-            UPDATE EMPLOYEES
-            SET emp_name = %s, dep_id = %s, job_id = %s, emp_birth = %s, salary = %s, annual_salary = %s, net_annual_salary = %s, hire_date = %s, termination_date = %s
+            UPDATE employees
+            SET emp_name = %s, dep_id = %s, job_id = %s, emp_birth = %s,
+                salary = %s, annual_salary = %s, net_annual_salary = %s,
+                hire_date = %s, termination_date = %s, emp_pwd = %s
             WHERE emp_email = %s
             """
             cursor.execute(update_query, (
                 row["emp_name"], row["dep_id"], row["job_id"], emp_birth,
                 row["salary"], row["annual_salary"], row["net_annual_salary"],
-                hire_date, termination_date, row["emp_email"]
+                hire_date, termination_date, row["emp_pwd"], row["emp_email"]
             ))  # values는 튜플 형태로 전달
     conn.commit()
     print(f"✓ {cursor.rowcount}개의 사원 데이터 삽입/업데이트 완료")
@@ -294,5 +326,11 @@ def insert_data_to_mariadb(df):
             conn.close()
             print("✓ MariaDB 연결 종료")
 
-# 데이터프레임을 MariaDB에 삽입
-insert_data_to_mariadb(df)
+# 데이터프레임을 일정 단위로 분할하여 MariaDB에 삽입
+BATCH_SIZE = 50  # 원하는 배치 크기 지정
+
+for start in range(0, len(df), BATCH_SIZE):
+    end = start + BATCH_SIZE
+    batch_df = df.iloc[start:end]  # DataFrame의 부분 집합 추출
+    print(f"\n {start}번 ~ {end-1}번 인덱스 데이터 처리 중...")
+    insert_data_to_mariadb(batch_df)

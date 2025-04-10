@@ -185,7 +185,9 @@ function MicRecord({ showChat }) {
         {Array.isArray(chatList) ? (
           chatList.map((message, index) => (
             <div key={index} className={`message ${message.sender}`}>
-              {message.text || message.msg}
+              {/* answer에 HTML이 포함될 수 있도록 dangerouslySetInnerHTML 사용 */}
+              {/* 파이썬에서 응답받은 answer에 html 문자열 코드가 있기 때문에 이를 실제 html 처럼 렌더링해줌 */}
+              <div dangerouslySetInnerHTML={{ __html: message.text || message.msg }} />
             </div>
           ))
         ) : (
