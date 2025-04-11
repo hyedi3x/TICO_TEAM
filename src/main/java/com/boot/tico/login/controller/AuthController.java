@@ -157,7 +157,7 @@ public class AuthController {
         		"userType","CUSTOMER"
         );
         String accessToken = jwtTokenizer.generateAccessToken(claims);
-        String refreshToken = jwtTokenizer.generateRefreshToken();
+        String refreshToken = jwtTokenizer.generateRefreshToken(claims);
         // email,id를 claims에 담아서 jwtToken을 이용해 새로운 accessToken,refreshToken 발급
         
        
@@ -186,14 +186,13 @@ public class AuthController {
             "userType", "EMPLOYEE"
         );
         String accessToken = jwtTokenizer.generateAccessToken(claims);
-        String refreshToken = jwtTokenizer.generateRefreshToken();
+        String refreshToken = jwtTokenizer.generateRefreshToken(claims);
 
         UserDto.Response response = new UserDto.Response();
         response.setUser_uuid(emp.getEmpId());
         response.setEmail(emp.getEmpEmail());
         response.setAccessToken(accessToken);
         response.setRefreshToken(refreshToken);
-
         return ResponseEntity.ok(response);
     }
     
@@ -202,20 +201,19 @@ public class AuthController {
     // 로그인 사용자 정보 조회 (고객,사원 통합 처리 / JWT의 principal 사용)
     @GetMapping("/user")
     public ResponseEntity<UserDto.Response> getUser(Principal principal) {
-    	if (principal == null) {
-    		throw new RuntimeException("인증 정보가 없습니다 (토큰 만료 또는 미인증)");
-    	}
-    	
+        if (principal == null) {
+            // 401 Unauthorized 응답으로 처리하면, 프론트엔드 axios 인터셉터가 refresh 로직을 실행할 수 있습니다.
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        
         String identity = principal.getName();
-        log.debug("현재 인증된 사용자: {}", identity);
-
         // 일반 유저 찾기 (email로 찾기)
         Optional<User> userOpt = userService.findByEmail(identity);
         if (userOpt.isPresent()) {
             User user = userOpt.get();
             return ResponseEntity.ok(createUserResponse(user));
         }
-
+        
         // 사원 찾기 (employee empId로 찾기)
         Optional<EmpDTO> empOpt = employeeAuthService.findByEmpId(identity);
         if (empOpt.isPresent()) {
@@ -231,9 +229,10 @@ public class AuthController {
             return ResponseEntity.ok(res);
         }
 
-        // 3. 아무것도 못 찾으면 예외
-        throw new RuntimeException("User not found");
+        // 사용자 정보를 찾지 못한 경우도 404나 401로 처리할 수 있습니다.
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
+
 
     
     // 회원정보 수정 
@@ -308,7 +307,7 @@ public class AuthController {
         );
         		
         String accessToken = jwtTokenizer.generateAccessToken(claims);
-        String refreshToken = jwtTokenizer.generateRefreshToken();
+        String refreshToken = jwtTokenizer.generateRefreshToken(claims);
 
         UserDto.Response response = new UserDto.Response();
         response.setUser_uuid(user.getUser_uuid());

@@ -56,7 +56,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             User user = optionalUser.get();
             Map<String, Object> claims = Map.of("email", user.getEmail(), "user_uuid", user.getUser_uuid());
             String accessToken = jwtTokenizer.generateAccessToken(claims);
-            String refreshToken = jwtTokenizer.generateRefreshToken();
+            String refreshToken = jwtTokenizer.generateRefreshToken(claims);
     
             String redirectFullUrl = redirectUrl + "?accessToken=" + accessToken + "&refreshToken=" + refreshToken + "&user_uuid=" + user.getUser_uuid();
             log.info("리다이렉트 URL: {}", redirectFullUrl);

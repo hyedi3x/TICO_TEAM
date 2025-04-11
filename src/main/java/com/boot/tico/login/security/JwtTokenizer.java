@@ -34,8 +34,11 @@ public class JwtTokenizer {
     }
     
     // 리프레시 토큰 생성 (토큰 재발급)
-    public String generateRefreshToken() {
+    public String generateRefreshToken(Map<String, Object> claims) {
+    	String subject = claims.get("email") != null ? (String) claims.get("email") : (String) claims.get("empId");
         return Jwts.builder()
+        		.setSubject(subject)
+        		.setClaims(claims)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + refreshTokenExpiration))
                 .signWith(getSecretKey())
