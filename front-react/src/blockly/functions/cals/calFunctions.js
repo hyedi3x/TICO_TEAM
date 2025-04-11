@@ -1,6 +1,11 @@
 export let timerInterval;
 export let elapsedTime = 0;
 
+const mathRandomInt = function(min, max) {
+  if (min > max) [min, max] = [max, min];
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
 const startTimer = function () {
   elapsedTime = 0;
   window.elapsedTime = elapsedTime;
@@ -39,10 +44,12 @@ const stopTimer = function () {
 };
 
 export default {
+  mathRandomInt,
   startTimer,
   stopTimer
 };
 
+window.mathRandomInt = mathRandomInt;
 window.startTimer = startTimer;
 window.stopTimer = stopTimer;
 window.elapsedTime = elapsedTime;

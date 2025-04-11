@@ -1,26 +1,60 @@
-import { imgArr, callImgArr } from '../../blocks/blockGenerator'; // 전역변수 스코프
+import { imgArr, callImgArr, coordinates } from '../../blocks/blockGenerator'; // 전역변수 스코프
 
-// 방향과 거리로 이동
-const moveInDirection = function (angle, distance, index) {
-    if (typeof index === 'number' && imgArr.current[index]) {
-      const radians = (Math.PI / 180) * (angle-90); // 0도 = 위쪽
+// 이동 방향과 일치하는 방향으로 거리 이동
+const moveInDirection = function (distance, index, isClone=false) {
+    const targetArr = isClone ? window.cloneArr : imgArr.current;
+    const direction = targetArr[index].moveDirection;
+
+    if (typeof index === 'number' && targetArr[index]) {
+      const radians = (Math.PI / 180) * (direction-90); // 0도 = 위쪽
       const dx = distance * Math.cos(radians);
       const dy = distance * Math.sin(radians);
 
-      imgArr.current[index].x = Number((imgArr.current[index].x + dx).toFixed(2));
-      imgArr.current[index].y = Number((imgArr.current[index].y + dy).toFixed(2));
+      targetArr[index].x = Number((targetArr[index].x + dx).toFixed(2));
+      targetArr[index].y = Number((targetArr[index].y + dy).toFixed(2));
       callImgArr();
     } else {
       console.error('moveInDirection 실패: 유효하지 않은 index');
     }
 };
 
+// 이동 방향값 입력값으로 변경
+const changeMoveDirection = function (moveDir, index, isClone=false) {
+    const targetArr = isClone ? window.cloneArr : imgArr.current;
+    console.log('changeMoveDirection.targetArr : ', targetArr);
+    console.log('changeMoveDirection.moveDirection : ', targetArr[index].moveDirection);
+    
+    if (typeof index === 'number' && targetArr[index]) {
+      targetArr[index].moveDirection = Number(moveDir);
+      callImgArr();
+    } else {
+      console.error('changeMoveDirection 실패: 유효하지 않은 index');
+    }
+};
+
+// 방향과 거리로 이동
+const moveInDirectionAngle = function (angle, distance, index, isClone=false) {
+    const targetArr = isClone ? window.cloneArr : imgArr.current;
+
+    if (typeof index === 'number' && targetArr[index]) {
+      const radians = (Math.PI / 180) * (angle-90); // 0도 = 위쪽
+      const dx = distance * Math.cos(radians);
+      const dy = distance * Math.sin(radians);
+
+      targetArr[index].x = Number((targetArr[index].x + dx).toFixed(2));
+      targetArr[index].y = Number((targetArr[index].y + dy).toFixed(2));
+      callImgArr();
+    } else {
+      console.error('moveInDirectionAngle 실패: 유효하지 않은 index');
+    }
+};
+
 // X축 이미지 이동 함수 (인덱스 파라미터 유지)
-const moveImgToX= function (x, index) {
-    // imgArr.current[index]가 null이나 undefined가 아닌지 확인
-    // index 변수의 데이터 타입이 number인지 확인
-    if (typeof index === 'number' && imgArr.current[index]) {
-      imgArr.current[index].x = Number(imgArr.current[index].x) + Number(x);
+const moveImgToX= function (x, index, isClone=false) {
+    const targetArr = isClone ? window.cloneArr : imgArr.current;
+
+    if (typeof index === 'number' && targetArr[index]) {
+      targetArr[index].x = Number(targetArr[index].x) + Number(x);
       callImgArr();
     } else {
       console.error('이미지 이동 실패: 인덱스 또는 이미지 객체가 유효하지 않습니다.');
@@ -28,9 +62,11 @@ const moveImgToX= function (x, index) {
 };
 
 // Y축 이미지 이동 함수
-const moveImgToY= function (y, index) {
-    if (typeof index === 'number' && imgArr.current[index]) {
-        imgArr.current[index].y = Number(imgArr.current[index].y) + Number(y);
+const moveImgToY= function (y, index, isClone=false) {
+    const targetArr = isClone ? window.cloneArr : imgArr.current;
+
+    if (typeof index === 'number' && targetArr[index]) {
+        targetArr[index].y = Number(targetArr[index].y) + Number(y);
         callImgArr();
     } else {
         console.error('이미지 이동 실패: 인덱스 또는 이미지 객체가 유효하지 않습니다.');
@@ -38,10 +74,12 @@ const moveImgToY= function (y, index) {
 };
 
 // X,Y축 이미지 이동 함수
-const moveImgToXY= function (x, y, index) {
-    if (typeof index === 'number' && imgArr.current[index]) {
-        imgArr.current[index].x = Number(imgArr.current[index].x) + Number(x);
-        imgArr.current[index].y = Number(imgArr.current[index].y) + Number(y);
+const moveImgToXY= function (x, y, index, isClone=false) {
+    const targetArr = isClone ? window.cloneArr : imgArr.current;
+
+    if (typeof index === 'number' && targetArr[index]) {
+        targetArr[index].x = Number(targetArr[index].x) + Number(x);
+        targetArr[index].y = Number(targetArr[index].y) + Number(y);
         callImgArr();
     } else {
         console.error('이미지 이동 실패: 인덱스 또는 이미지 객체가 유효하지 않습니다.');
@@ -49,9 +87,11 @@ const moveImgToXY= function (x, y, index) {
 };
 
 // X좌표 직접 설정
-const changeCoordX = function (coordX, index) {
-    if (typeof index === 'number' && imgArr.current[index]) {
-      imgArr.current[index].x = Number(coordX);
+const changeCoordX = function (coordX, index, isClone=false) {
+    const targetArr = isClone ? window.cloneArr : imgArr.current;
+
+    if (typeof index === 'number' && targetArr[index]) {
+      targetArr[index].x = Number(coordX);
       callImgArr();
     } else {
       console.error('changeCoordX 실패');
@@ -59,9 +99,27 @@ const changeCoordX = function (coordX, index) {
   };
   
   // Y좌표 직접 설정
-  const changeCoordY = function (coordY, index) {
-    if (typeof index === 'number' && imgArr.current[index]) {
-      imgArr.current[index].y = Number(coordY);
+  const changeCoordY = function (coordY, index, isClone=false) {
+    const targetArr = isClone ? window.cloneArr : imgArr.current;
+
+    if (typeof index === 'number' && targetArr[index]) {
+      targetArr[index].y = Number(coordY);
+      callImgArr();
+    } else {
+      console.error('changeCoordY 실패');
+    }
+  };
+
+  // X, Y좌표 직접 설정
+  const changeCoordXY = function (coordX, coordY, index, isClone=false) {
+    const targetArr = isClone ? window.cloneArr : imgArr.current;
+    console.log('changeCoordXY.targetArr : ', targetArr);
+    console.log('changeCoordXY.x : ', targetArr[index].x);
+    console.log('changeCoordXY.y : ', targetArr[index].y);
+
+    if (typeof index === 'number' && targetArr[index]) {
+      targetArr[index].x = Number(coordX);
+      targetArr[index].y = Number(coordY);
       callImgArr();
     } else {
       console.error('changeCoordY 실패');
@@ -69,9 +127,11 @@ const changeCoordX = function (coordX, index) {
   };
 
 // 이미지 회전함수
-const rotateImage = function (angle, index) {
-    if (typeof index === 'number' && imgArr.current[index]) {
-        imgArr.current[index].angle = Number(imgArr.current[index].angle) + Number(angle);
+const rotateImage = function (angle, index, isClone=false) {
+    const targetArr = isClone ? window.cloneArr : imgArr.current;
+
+    if (typeof index === 'number' && targetArr[index]) {
+        targetArr[index].angle += Number(angle);
         callImgArr();
     } else {
         console.error('이미지 회전 실패: 인덱스 또는 이미지 객체가 유효하지 않습니다.');
@@ -79,7 +139,9 @@ const rotateImage = function (angle, index) {
 };
 
 // 입력시간 동안 이미지 회전
-const rotateImageInTime= function (angle, duration, index) {
+const rotateImageInTime= function (angle, duration, index, isClone=false) {
+
+  const targetArr = isClone ? window.cloneArr : imgArr.current;
     
   return new Promise((resolve)=>{
     console.log('애니메이션 시작됨');
@@ -88,7 +150,7 @@ const rotateImageInTime= function (angle, duration, index) {
 
   function runAnimation(angle, duration,index,resolve) {
       
-      const img = imgArr.current[index];
+      const img = targetArr[index];
       const startTime = performance.now();
       const endTime = startTime + duration * 1000;
       const startAngle = img.angle;
@@ -112,22 +174,44 @@ const rotateImageInTime= function (angle, duration, index) {
     animateFrame();  // 첫 실행
   }   
 };
-export {
+
+const moveToMouse = function(index, isClone = false) {
+  const targetArr = isClone ? window.cloneArr : imgArr.current;
+
+  if(typeof coordinates.x !== "number" || typeof coordinates.y !== "number") return;
+
+  if(targetArr[index]){
+    targetArr[index].x = coordinates.x - targetArr[index].width / 2;
+    targetArr[index].y = coordinates.y - targetArr[index].height / 2;
+    callImgArr();
+  }
+};
+
+
+export default {
+    moveInDirection,
+    changeMoveDirection,
+    moveInDirectionAngle,
     moveImgToX,
     moveImgToY,
     moveImgToXY,
-    moveInDirection,
     changeCoordX,
     changeCoordY,
+    changeCoordXY,
     rotateImage,
-    rotateImageInTime
-  };
+    rotateImageInTime,
+    moveToMouse
+};
   
+  window.moveInDirection = moveInDirection;
+  window.changeMoveDirection = changeMoveDirection;
+  window.moveInDirectionAngle = moveInDirectionAngle;
   window.moveImgToX = moveImgToX;
   window.moveImgToY = moveImgToY;
   window.moveImgToXY = moveImgToXY;
-  window.moveInDirection = moveInDirection;
   window.changeCoordX = changeCoordX;
   window.changeCoordY = changeCoordY;
+  window.changeCoordXY = changeCoordXY;
   window.rotateImage = rotateImage;
   window.rotateImageInTime = rotateImageInTime;
+  window.moveToMouse = moveToMouse;
