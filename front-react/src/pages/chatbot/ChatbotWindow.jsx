@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import MicRecord from "./MicRecord"; // MicRecord 컴포넌트
+import ChatbotEngine from "./ChatbotEngine"; // ChatbotEngine 컴포넌트
 import robotImage from "../../imgs/chatbot_logo.png"; // 챗봇 로고
-import "./chatbot.css"; // 아래에서 예시로 제공할 CSS를 임포트
+import "./chatbotWindow.css"; // 아래에서 예시로 제공할 CSS를 임포트
 
-function Chatbot() {
+function ChatbotWindow() {
   const [showChat, setShowChat] = useState(false); // 채팅창 열기/닫기 상태
   const chatRef = useRef(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -78,7 +78,7 @@ function Chatbot() {
             </span>
 
             {/* 실제 채팅 영역 (MicRecord) */}
-            <MicRecord showChat={showChat} />
+            <ChatbotEngine showChat={showChat} />
           </div>
         </>
       )}
@@ -86,4 +86,4 @@ function Chatbot() {
   );
 }
 
-export default Chatbot;
+export default ChatbotWindow;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Table, Button, Input, Panel, Grid, Row, Col } from "rsuite";
 import "./adminInfo.css";
-import "./admin.css";
+import "./adminContainer.css";
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -72,7 +72,7 @@ function AdminInfo() {
       </Panel>
 
       <Panel header="사원 조회 결과" className="panel-container">
-        <div className="table-wrapper">
+        <div className="table-wrapper" >
           <Table
             height={400}          // 테이블 높이 설정
             data={searchResult}   // 표시할 데이터 배열, 조회 결과

@@ -64,7 +64,6 @@ public class EmpDTO {
     
     // 직원 로그인용 비밀번호 필드 (암호화된 값 저장)
     @Column(name = "emp_pwd")
-    @JsonProperty("emp_pwd")
-    private String emp_pwd;
+    private String empPwd;
 
 }

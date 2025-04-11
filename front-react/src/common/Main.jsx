@@ -1,10 +1,10 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
+import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
 // 스타일
 import './Main.css';
-import '../pages/chatbot/chatbot.css';
+import '../pages/chatbot/chatbotWindow.css';
 
 // Swiper React 컴포넌트
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -25,11 +25,25 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import img1 from '../imgs/짱구1.jpg';
 
 // chatbot 객체 임포트
-import Chatbot from '../pages/chatbot/Chatbot';
+import ChatbotWindow from '../pages/chatbot/ChatbotWindow';
+
+// erp logo 객체 임포트
+import ErpLogo from '../pages/erp/ErpLogo';
 
 function Main() {
-  const navigate = useNavigate();
+  const [userRole, setUserRole] = useState(null);  // user Type(CUSTOMER/EMPLOYEE)을 구분
 
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');  // 로컬스토리지에서 accessToken을 가져옴
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);  // 토큰을 디코딩하여 JWT 내부 정보 추출
+        setUserRole(decoded.userType);     // 디코딩한 토큰에서 userType(CUSTOMER/EMPLOYEE)을 상태를 변경하여 저장
+      } catch (error) {
+        console.error("토큰 디코딩 실패:", error);  // 디코딩 실패 시 콘솔에 에러 출력
+      }
+    }
+  }, []);
   return (
     <div className='main-container'>
       {/* 스와이퍼 영역 */}
@@ -142,8 +156,14 @@ function Main() {
         </div>
       </div>
 
-      {/* Chatbot 임포트 */}
-      <Chatbot />
+      {/* 로그인 유저가 사원이면 ErpLogo, 일반 유저면 ChatbotWindow로 로고 변경 */}
+      <div>
+        {userRole === 'EMPLOYEE' ? (
+          <ErpLogo visible={true} />  /* visible props로 넘기기 */
+        ) : (
+          <ChatbotWindow />
+        )}
+      </div>
     </div>
   );
 }

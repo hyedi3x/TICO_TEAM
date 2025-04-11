@@ -113,7 +113,7 @@ function ComNotiUpdate({ id, onBack }) {
 
             {/* 버튼 영역 */}
             <div className="form-group" style={{ marginTop: '20px' }}>
-                <button type="submit" onClick={handleUpdate}>저장</button>
+                <button type="submit" className='notice-submit'onClick={handleUpdate}>저장</button>
                 <button onClick={onBack} style={{ marginLeft: '10px' }}>취소</button>
             </div>
         </div>

@@ -176,7 +176,7 @@ public class AuthController {
     @PostMapping("/login/employee")
     public ResponseEntity<UserDto.Response> loginEmployee(@RequestBody EmpDTO empRequest) {
         // empRequest에 empId와 empPassword가 포함되어 있어야 합니다.
-        Optional<EmpDTO> empOpt = employeeAuthService.authenticate(empRequest.getEmpId(), empRequest.getEmp_pwd());
+        Optional<EmpDTO> empOpt = employeeAuthService.authenticate(empRequest.getEmpId(), empRequest.getEmpPwd());
         if (empOpt.isEmpty()) {
             throw new RuntimeException("Employee not found or invalid credentials");
         }

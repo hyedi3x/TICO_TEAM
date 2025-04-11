@@ -1,15 +1,26 @@
 package com.boot.tico.erp.controller;
 
-import com.boot.tico.erp.dto.DepDTO;
-import com.boot.tico.erp.dto.EmpDTO;
-import com.boot.tico.erp.dto.JobResponseDTO;
-import com.boot.tico.erp.service.ErpService;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.boot.tico.erp.dto.DepDTO;
+import com.boot.tico.erp.dto.EmpDTO;
+import com.boot.tico.erp.dto.JobResponseDTO;
+import com.boot.tico.erp.service.ErpNotiService;
+import com.boot.tico.erp.service.ErpService;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -20,7 +31,10 @@ public class ErpController {
 
     @Autowired
     private ErpService erpService;
-
+    
+    @Autowired
+    private ErpNotiService erpNotiService;
+    
     // 부서 목록 전체
     @GetMapping("/departments")
     public List<DepDTO> getDepartments(@RequestParam(required = false) String keyword) {
@@ -57,4 +71,15 @@ public class ErpController {
                                         @RequestParam(required = false) String empName) {
         return erpService.getEmployees(empId, empName);
     }
-} 
+    
+    // 사원별 depId 조회
+    @GetMapping("/user/depId/{empId}")
+    public ResponseEntity<EmpDTO> getEmpInfo(@PathVariable String empId) {
+        EmpDTO emp = erpNotiService.getEmployeeById(empId);
+        if (emp != null) {
+            return ResponseEntity.ok(emp);		// HTTP 200 + body에 emp 반환
+        } else {
+            return ResponseEntity.notFound().build();	 // HTTP 404 반환
+        }
+    }
+}
