@@ -1,10 +1,31 @@
 import json
-import mysql.connector  # pip install mysql-connector-python
+import pymysql  # pip install pymysql
+from dotenv import load_dotenv  # pip install python-dotenv
+import os
 
-def insert_qa_into_mariadb_from_file(json_file_path, db_config, limit=20):
-    """JSON 파일에서 질문-답변 묶음을 최대 limit개까지 읽어 MariaDB 데이터베이스에 삽입합니다."""
+# .env 파일 로드
+load_dotenv()
+
+# 환경 변수에서 DB 설정 불러오기
+DB_HOST = os.getenv("DB_HOST")
+DB_PORT = int(os.getenv("DB_PORT", 3306))  # 기본값 3306
+DB_USER = os.getenv("DB_USER")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+DB_NAME = os.getenv("DB_NAME")
+
+
+def insert_qa_into_mariadb_from_file(json_file_path, limit=20):
+    """JSON 파일에서 질문-답변을 최대 limit개까지 읽어 MariaDB에 삽입"""
     try:
-        conn = mysql.connector.connect(**db_config)
+        # PyMySQL로 DB 연결
+        conn = pymysql.connect(
+            host=DB_HOST,
+            port=DB_PORT,
+            user=DB_USER,
+            password=DB_PASSWORD,
+            database=DB_NAME,
+            charset='utf8mb4'  # 한글 인코딩 대응
+        )
         cursor = conn.cursor()
 
         count = 0
@@ -17,38 +38,32 @@ def insert_qa_into_mariadb_from_file(json_file_path, db_config, limit=20):
                 question = item["question"]
                 answer = item["answer"]
 
-                # ON DUPLICATE KEY UPDATE 는 question이 UNIQUE여야 동작
+                # ON DUPLICATE KEY UPDATE 사용 (question은 UNIQUE로 설정되어 있어야 함)
                 cursor.execute(
-                    "INSERT INTO faq_tb (question, answer) VALUES (%s, %s) "
-                    "ON DUPLICATE KEY UPDATE answer = %s",
+                    """
+                    INSERT INTO faq_tb (question, answer)
+                    VALUES (%s, %s)
+                    ON DUPLICATE KEY UPDATE answer = %s
+                    """,
                     (question, answer, answer)
                 )
                 count += 1
 
         conn.commit()
-        print(f"{count}개의 질문-답변이 MariaDB에 성공적으로 삽입되었습니다.")
+        print(f"✓ {count}개의 질문-답변이 성공적으로 MariaDB에 삽입되었습니다.")
 
-    except mysql.connector.Error as e:
-        print(f"오류 발생: {e}")
+    except pymysql.MySQLError as e:
+        print(f"※ MariaDB 오류 발생: {e}")
     except FileNotFoundError:
-        print(f"오류: 파일을 찾을 수 없습니다: {json_file_path}")
+        print(f"※ 파일을 찾을 수 없습니다: {json_file_path}")
     except json.JSONDecodeError:
-        print(f"오류: 잘못된 JSON 형식입니다: {json_file_path}")
+        print(f"※ JSON 형식이 잘못되었습니다: {json_file_path}")
     finally:
-        if conn and conn.is_connected():
+        if conn:
             cursor.close()
             conn.close()
+            print("✓ MariaDB 연결 종료")
 
-# MariaDB 연결 설정, 여기 수정할 것
-db_config = {
-    "host": "호스트번호",
-    "user": "유저",
-    "password": "비밀번호",
-    "database": "db명",
-}
-
-# JSON 파일 경로
+# json 파일 경로 설정
 json_file_path = "./src/faq/Ecommerce_FAQ_Chatbot_dataset.json"
-
-# 함수 호출
-insert_qa_into_mariadb_from_file(json_file_path, db_config, limit=20)
+insert_qa_into_mariadb_from_file(json_file_path, limit=20)

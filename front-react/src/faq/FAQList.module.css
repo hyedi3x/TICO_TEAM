@@ -1,0 +1,43 @@
+/* FAQ 전체 컨테이너 */
+.f_container {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+  
+/* 제목 스타일 */
+.f_title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+  
+/* 아코디언 스타일 */
+.f_accordion {
+    margin-top: 20px;
+    width: 1000px;
+}
+  
+/* 아코디언 아이템 */
+.f_accordion-item {
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden; /* 내부 둥글게 잘리도록 설정 */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+  
+/* 아코디언 헤더 */
+.f_accordion-header {
+    font-weight: bold;
+    background-color: #fff;
+}
+  
+/* 아코디언 바디 */
+.f_accordion-body {
+    font-weight: bold;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    padding: 20px;
+}

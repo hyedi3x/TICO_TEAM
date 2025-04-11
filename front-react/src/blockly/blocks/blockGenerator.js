@@ -2,7 +2,7 @@ import { javascriptGenerator } from 'blockly/javascript';
 // eslint-disable-next-line
 import { start_btn, start_with_q } from '../functions/starts/startFunctions';
 // eslint-disable-next-line
-import { moveImgToX, moveImgToY, moveImgToXY, rotateImage, rotateImageInTime } from '../functions/moves/moveFunctions';
+import { moveImgToX, moveImgToY, moveImgToXY, rotateImage, rotateImageInTime, moveImageInTime } from '../functions/moves/moveFunctions';
 // eslint-disable-next-line
 import { showObject, hideObject, changeAppearance, changeObject, resizeObject, flipObject, changeShape } from "../functions/appearances/appearanceFunctions";
 // eslint-disable-next-line
@@ -102,6 +102,14 @@ const RegisterBlockGenerator = (props) => {
     return `await rotateImageInTime(${angle}, ${duration}, index);\n`;
   };
 
+  // 일정시간 이동 애니메이션
+  javascriptGenerator.forBlock['move_obj_inTime'] = function(block){
+    const x = block.getFieldValue('x');
+    const y = block.getFieldValue('y');
+    const duration = block.getFieldValue('duration');
+    return `await moveImageInTime(${x}, ${y}, ${duration}, index);\n`;
+  };
+    
   // 요소 보이기
   javascriptGenerator.forBlock['show_object'] = function() {
     return `showObject(index);\n`;

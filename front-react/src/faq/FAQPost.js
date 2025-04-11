@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-
+import styles from './FAQPost.module.css'; // 외부 CSS 모듈 추가
 
 function FAQPost() {
   const [question, setQuestion] = useState('');
@@ -35,49 +35,49 @@ function FAQPost() {
       });
   };
 
-  return (
-    <div className="container mt-5 mb-5">
-      <div className="row justify-content-center">
-        <div className="col-lg-8">
-          <div className="card shadow-sm rounded p-4">
-            <h2 className="text-center fw-bold mb-4">FAQ 등록</h2>
-            <p className="text-muted text-center mb-4">자주 묻는 질문과 답변을 입력해주세요.</p>
+return (
+  <div className={styles.f_container}>
+    <div className={styles.f_row}>
+      <div className={styles.f_col}>
+        <div className={styles.f_card}>
+          <h2 className={styles.f_title}>FAQ 등록</h2>
+          <p className={styles.f_subtitle}>자주 묻는 질문과 답변을 입력해주세요.</p>
 
-            <Form onSubmit={handleSubmit}>
-              <Form.Group className="mb-3">
-                <Form.Label className="fw-semibold">질문</Form.Label>
-                <Form.Control 
-                  type="text" 
-                  value={question} 
-                  onChange={(e) => setQuestion(e.target.value)} 
-                  required 
-                  placeholder="예: 회원가입은 어떻게 하나요?" 
-                />
-              </Form.Group>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className={styles["f_form-group"]}>
+              <Form.Label className={styles.f_label}>질문</Form.Label>
+              <Form.Control 
+                type="text" 
+                value={question} 
+                onChange={(e) => setQuestion(e.target.value)} 
+                required 
+                placeholder="예: 회원가입은 어떻게 하나요?" 
+              />
+            </Form.Group>
 
-              <Form.Group className="mb-4">
-                <Form.Label className="fw-semibold">답변</Form.Label>
-                <Form.Control 
-                  as="textarea" 
-                  rows={4} 
-                  value={answer} 
-                  onChange={(e) => setAnswer(e.target.value)} 
-                  required 
-                  placeholder="예: 상단 메뉴에서 회원가입 버튼을 클릭하신 후, 정보를 입력해 주세요." 
-                />
-              </Form.Group>
+            <Form.Group className={styles["f_form-group"]}>
+              <Form.Label className={styles.f_label}>답변</Form.Label>
+              <Form.Control 
+                as="textarea" 
+                rows={4} 
+                value={answer} 
+                onChange={(e) => setAnswer(e.target.value)} 
+                required 
+                placeholder="예: 상단 메뉴에서 회원가입 버튼을 클릭하신 후, 정보를 입력해 주세요." 
+              />
+            </Form.Group>
 
-              <div className="text-center">
-                <Button variant="success" type="submit" size="lg">
-                  등록하기
-                </Button>
-              </div>
-            </Form>
-          </div>
+            <div className={styles["f_btn-wrapper"]}>
+              <Button variant="success" type="submit" size="lg">
+                등록하기
+              </Button>
+            </div>
+          </Form>
         </div>
       </div>
     </div>
-  );
+  </div>
+);
 }
 
 export default FAQPost;

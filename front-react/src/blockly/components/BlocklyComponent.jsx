@@ -44,6 +44,8 @@ function Canvas() {
   const [showProjectModal, setShowProjectModal] = useState(false);
   const currentProjectId = useRef(null); // 현재 작업 중인 project_id
 
+  // 키보드 상태 트래킹
+  const [keysPressed, setKeysPressed] = useState({}); // 눌린 키 상태를 저장하는 객체
    /** ─────────────── 캔버스 그리기 ─────────────── **/
   const draw = () => {
     const canvas = canvasRef.current;
@@ -54,7 +56,7 @@ function Canvas() {
   /** ─────────────── 초기 로딩 ─────────────── **/
   useEffect(() => {
     defineMyBlocks(); // 사용자 정의 블록 등록
-    callimage('http://i.namu.wiki/i/CmGNSPeYt7cloH3uYZ_XTlfknRtDrjYtFVCF5zuvzWLAeaTGqnsW9kDC6iLHjGoF9OamAkLNkxGxpxFHhYd_pQ.svg');
+    callimage('https://i.namu.wiki/i/V9pfx_zcCCzlHxC-pmJsTRAgP_TJNX2UjEijSBb2orh2dzO9fwLAVYMARKOHY8XCjVojE_0t6UYJlSAPBLcAOg.svg');
     // eslint-disable-next-line
   }, []);
   
@@ -62,7 +64,7 @@ function Canvas() {
   const callimage= (imgUrl)=>{  
     const img = new Image();
     // onload와 분리해서 처리할 것(src로 로드 된 후 onload가 실행되기 때문)
-    if(imgUrl === 'http://i.namu.wiki/i/CmGNSPeYt7cloH3uYZ_XTlfknRtDrjYtFVCF5zuvzWLAeaTGqnsW9kDC6iLHjGoF9OamAkLNkxGxpxFHhYd_pQ.svg'){
+    if(imgUrl === 'https://i.namu.wiki/i/V9pfx_zcCCzlHxC-pmJsTRAgP_TJNX2UjEijSBb2orh2dzO9fwLAVYMARKOHY8XCjVojE_0t6UYJlSAPBLcAOg.svg'){
       img.src = imgUrl;
     } else {
       img.src = `http://localhost:8081${imgUrl}`;
@@ -305,6 +307,14 @@ function Canvas() {
     });
   };
 
+  const handleKeyDown = (e) => {
+    setKeysPressed((prev) => ({ ...prev, [e.key]: true }));
+  };
+  
+  const handleKeyUp = (e) => {
+    setKeysPressed((prev) => ({ ...prev, [e.key]: false }));
+  };
+
   // 2. 키보드 q 키 핸들러
   useEffect(() => {
     const handleKeyPress = (e) => {
@@ -347,8 +357,12 @@ function Canvas() {
     };
 
     window.addEventListener('keydown', handleKeyPress); 
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
     return () => { // useEffect 훅에서 반환되는 함수는 컴포넌트가 언마운트될 때 실행
       window.removeEventListener('keydown', handleKeyPress);
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
     };
   }, []);
   
@@ -393,7 +407,6 @@ function Canvas() {
     // 6. 전체 다시 렌더링
     callImgArr();
   }
-
 
   /** ─────────────── 렌더링 ─────────────── **/
   return (

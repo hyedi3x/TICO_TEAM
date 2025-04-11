@@ -34,7 +34,7 @@ export const loadProjectToCanvas = async (
 
   for (const obj of objects) {
     const img = new Image();
-    if(obj.url === 'http://i.namu.wiki/i/CmGNSPeYt7cloH3uYZ_XTlfknRtDrjYtFVCF5zuvzWLAeaTGqnsW9kDC6iLHjGoF9OamAkLNkxGxpxFHhYd_pQ.svg'){
+    if(obj.url === 'https://i.namu.wiki/i/V9pfx_zcCCzlHxC-pmJsTRAgP_TJNX2UjEijSBb2orh2dzO9fwLAVYMARKOHY8XCjVojE_0t6UYJlSAPBLcAOg.svg'){
       img.src = obj.url;
     } else {
       img.src = `http://localhost:8081${obj.url}`;

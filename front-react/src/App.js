@@ -17,7 +17,7 @@ import FAQPut from './faq/FAQPut';
 import FAQPost from './faq/FAQPost';
 import EduList from './pages/blockedu/EduList';
 import BlockEduComponent from './pages/blockedu/BlockEduComponent';
-
+import BlockEduComponentPost from './pages/blockedu/BlockEduComponentPost';
 function App() {
   return (
     <div>
@@ -39,6 +39,7 @@ function App() {
           <Route path="/faqpost" element={<FAQPost/>} />
           <Route path="/eduList" element={<EduList/>} />
           <Route path="/quiz/:quizId" element={<BlockEduComponent/>} />
+          <Route path="/blockedupost" element={<BlockEduComponentPost/>} />
         </Routes>
         <Footer />
       </BrowserRouter>
