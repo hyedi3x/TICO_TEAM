@@ -72,7 +72,7 @@ function AdminInfo() {
       </Panel>
 
       <Panel header="사원 조회 결과" className="panel-container">
-        <div className="table-wrapper">
+        <div className="table-wrapper" >
           <Table
             height={400}          // 테이블 높이 설정
             data={searchResult}   // 표시할 데이터 배열, 조회 결과

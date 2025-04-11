@@ -1,6 +1,11 @@
 /* 각 입력창 또는 버튼을 감싸는 컬럼 스타일 */
 .form-row > div {
   flex: 1;                  /* 공간을 균등하게 분할 */
-  min-width: 240px;         /* 한 요소가 최소 240px 이상 되도록 설정 */
+  min-width: 200px;         /* 입력창 요소 하나의 최소 200px 이상 되도록 설정 */
   margin-bottom: 10px;      /* 요소 간 세로 간격 확보 */
+}
+
+/* 각 입력창 기본 너비 */
+.rs-col-sm-6 {
+  width: 22% !important;
 }
