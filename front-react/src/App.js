@@ -12,6 +12,7 @@ import SocialSignup from './pages/login/SocialSignup';
 import Welcome from './pages/login/Welcome';
 import ErpMain from "./erp/ErpMain";
 import FindIdPassword from './pages/login/FindIdPassword';
+import MypageMain from '../src/mypage/MypageMain';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="/Welcome" element={<Welcome/>}/>
           <Route path="/erpMain" element={<ErpMain/>} />
           <Route path="/FindIdPassword" element={<FindIdPassword/>} />
+          <Route path="/MypageMain" element={<MypageMain/>} />
         </Routes>
         <Footer />
       </BrowserRouter>
