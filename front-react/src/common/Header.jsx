@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button, Container, Form, Nav, Navbar, NavDropdown, Offcanvas } from 'react-bootstrap';
+import { Button, Container, Dropdown, Form, Nav, Navbar, NavDropdown, Offcanvas } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
@@ -8,7 +8,7 @@ import logo from '../imgs/TICO_logo_icon.png';
 import logo1 from '../imgs/TICO_logo.png';
 import './Header.css';
 import axiosInstance from '../pages/login/social/utils/axiosInstance';
-import {jwtDecode} from 'jwt-decode';
+
 
 function Header() {
   const token = localStorage.getItem('accessToken');
@@ -18,15 +18,8 @@ function Header() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const accessToken = localStorage.getItem('accessToken');
-    setIsLoggedIn(!!accessToken);
-    if (accessToken) {
-      try {
-        const decodedToken = jwtDecode(accessToken);
-        setUserRole(decodedToken.userType); // "CUSTOMER" 또는 "EMPLOYEE" 값
-      } catch (error) {
-        console.error('토큰 디코딩 실패:', error);
-      }
+    setIsLoggedIn(!!localStorage.getItem('accessToken'));
+    if (localStorage.getItem('accessToken')) {
       axiosInstance.get('/auth/user')
         .then((response) => {
           setUser(response.data);
@@ -40,22 +33,6 @@ function Header() {
         });
     }
   }, [navigate]);
-
-  //   setIsLoggedIn(!!localStorage.getItem('accessToken'));
-  //   if (localStorage.getItem('accessToken')) {
-  //     axiosInstance.get('/auth/user')
-  //       .then((response) => {
-  //         setUser(response.data);
-  //       })
-  //       .catch((error) => {
-  //         console.error('사용자 정보 조회 실패:', error);
-  //         localStorage.removeItem('accessToken');
-  //         localStorage.removeItem('refreshToken');
-  //         setIsLoggedIn(false);
-  //         navigate('/login');
-  //       });
-  //   }
-  // }, [navigate]);
 
   const handleLogout = () => {
     axiosInstance.post('/auth/logout')
@@ -98,6 +75,7 @@ function Header() {
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Nav className="justify-content-end flex-grow-1 pe-3">
+               
                 <NavDropdown title="생각하기" id="offcanvasNavbarDropdown">
                   <NavDropdown.Item href="#action3">티코 학습하기</NavDropdown.Item>
                 </NavDropdown>
@@ -127,20 +105,31 @@ function Header() {
               {/* 로그인 상태에 따라 로그인/로그아웃 버튼 전환 */}
               {isLoggedIn ? (
                 <>
-                <Button
-                  className="button-mapage"
-                  variant="outline-primary"
-                  onClick={() => navigate('/MypageMain')}
-                  style={{ marginRight: '10px'}}
-                  >
-                    Mypage
-                  </Button>
+                  {/* 드롭다운을 사용하여 클릭 시 Mypage가 보이도록 구성 */}
+                  <Dropdown style={{ marginRight: '10px' }}>
+                    <Dropdown.Toggle
+                      variant="light"
+                      id="dropdown-basic"
+                      style={{ color: 'black' }}
+                    >
+                      { 
+                        user 
+                          ? (user.provider === 'employee' ? user.user_uuid : user.email) 
+                          : "My Account"
+                      }
+                    </Dropdown.Toggle>
 
-                  {/* user가 있을 경우, 이메일 표시 */}
-                  <span style={{ marginRight: '10px' }}>{user?.email}</span>
-                  <Button className='button2' variant="outline-danger" onClick={handleLogout}>
-                    로그아웃
-                  </Button>
+                    <Dropdown.Menu>
+                      <Dropdown.Item onClick={() => navigate('/MypageMain')}>
+                        Mypage
+                      </Dropdown.Item>
+                      {/* 필요시 추가 메뉴 아이템 */}
+                    </Dropdown.Menu>
+                  </Dropdown>
+                  
+                <Button className='button2' variant="outline-danger" onClick={handleLogout}>
+                  로그아웃
+                </Button>
                 </>
               ) : (
                 <Button className='button1' variant="outline-success" onClick={handleLogin}>
