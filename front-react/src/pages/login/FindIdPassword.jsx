@@ -2,10 +2,13 @@
 import React, { useState } from 'react';
 import axiosInstance from '../login/social/utils/axiosInstance';
 import './findIdPassword.css';
+import { useNavigate } from 'react-router-dom';
 
 function FindIdPassword() {
   // 탭 관리: "이메일 찾기"와 "비밀번호 재설정"
   const [mode, setMode] = useState('email'); // 'email' 또는 'pw'
+
+  const navigate = useNavigate();
 
   // [이메일 찾기]용 상태 (이메일 찾기는 이름 + 전화번호 기준)
   const [findName, setFindName] = useState('');
@@ -27,7 +30,7 @@ function FindIdPassword() {
 
   // 이메일(아이디) 찾기: 이름과 전화번호로 사용자 조회
   const handleFindEmail = async () => {
-    try {
+    try { // await는 응답이 올때까지 기다렸다가 다음 코드를 실행하게 하는 함수
       const response = await axiosInstance.post('/auth/find-id', {
         name: findName,
         phone: findPhone,
@@ -84,12 +87,14 @@ function FindIdPassword() {
         email: pwEmail,
         newPassword: newPassword,
       });
+      alert("비밀번호가 성공적으로 변경 되었습니다. 로그인 이후 이용 부탁드립니다")
       setMessage("비밀번호가 성공적으로 변경되었습니다.");
       // 성공 후 초기화
       setStep(1);
       setPwEmail('');
       setAuthCode('');
       setNewPassword('');
+      navigate("/login");
     } catch (error) {
       setMessage(error.response?.data || "비밀번호 재설정에 실패했습니다.");
     }
@@ -115,7 +120,7 @@ function FindIdPassword() {
         {/* 이메일 찾기 섹션 */}
         {mode === 'email' && (
           <div className="find-section">
-            <h3>이메일(아이디) 찾기</h3>
+            <h3>이메일 찾기</h3>
             <div className="input-group">
               <input
                 type="text"
