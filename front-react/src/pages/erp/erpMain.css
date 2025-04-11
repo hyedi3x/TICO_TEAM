@@ -78,3 +78,9 @@
   height: auto; /* ✅ 높이 자동으로 콘텐츠 따라가도록 */
   box-sizing: border-box;
 }
+
+/* disabled-menu 클래스 스타일 */
+.disabled-menu {
+  pointer-events: none;  /* 클릭 이벤트를 차단 */
+  opacity: 0.5;  /* 시각적으로 비활성화된 상태처럼 보이게 */
+}
