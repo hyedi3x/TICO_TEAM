@@ -1,14 +1,16 @@
 package com.boot.tico.erp.service;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.boot.tico.erp.dto.DepDTO;
 import com.boot.tico.erp.dto.EmpDTO;
 import com.boot.tico.erp.dto.JobDTO;
 import com.boot.tico.erp.repo.DepRepository;
 import com.boot.tico.erp.repo.EmpRepository;
 import com.boot.tico.erp.repo.JobRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import java.util.List;
 
 @Service
 public class ErpService {
