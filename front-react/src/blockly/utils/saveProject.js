@@ -11,9 +11,20 @@ export const handleSaveProject = async (imgArr, blocklyArr, project_id) => {
     guide: "사용법을 입력하세요",
   };
 
+  const cleanXml = (xmlText) => {
+    return xmlText
+      .replace(/ id="[^"]*"/g, '')       // 모든 id 제거
+      .replace(/ xmlns="[^"]*"/g, '')    // xmlns 제거
+      .replace(/\s{2,}/g, ' ')           // 과도한 공백 제거 (선택사항)
+      .trim();
+  };
+
   const objects = imgArr.current.map((item, index) => {
     const workspace = blocklyArr.current[index];
-    const xml = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(workspace));
+    const rawXml = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(workspace));
+    const xml = cleanXml(rawXml);
+
+    console.log("👉 저장되는 moveDirection 값:", item.moveDirection);
 
     return {
       objectIndex: index,
@@ -23,6 +34,7 @@ export const handleSaveProject = async (imgArr, blocklyArr, project_id) => {
       width: item.width,
       height: item.height,
       angle: item.angle,
+      moveDirection: item.moveDirection ?? 90,
       hidden: item.hidden,
       hue: item.hue ?? 0,
       brightness: item.brightness ?? 100,
