@@ -15,6 +15,7 @@ import ProjectModal from './ProjectModal';
 import { handleDeleteProject } from '../utils/deleteProject';
 import ObjectControlPanel from './ObjectControl';
 import "../components/BlocklyComponent.css";
+import ticoTheme from '../blocks/ticoTheme';
 
 Blockly.setLocale(ko); // Blockly 언어를 한국어로 설정
 
@@ -54,7 +55,7 @@ function Canvas() {
   /** ─────────────── 초기 로딩 ─────────────── **/
   useEffect(() => {
     defineMyBlocks(); // 사용자 정의 블록 등록
-    callimage('http://i.namu.wiki/i/CmGNSPeYt7cloH3uYZ_XTlfknRtDrjYtFVCF5zuvzWLAeaTGqnsW9kDC6iLHjGoF9OamAkLNkxGxpxFHhYd_pQ.svg');
+    callimage('http://i.namu.wiki/i/V9pfx_zcCCzlHxC-pmJsTRAgP_TJNX2UjEijSBb2orh2dzO9fwLAVYMARKOHY8XCjVojE_0t6UYJlSAPBLcAOg.svg');
     // eslint-disable-next-line
   }, []);
   
@@ -62,7 +63,7 @@ function Canvas() {
   const callimage= (imgUrl)=>{  
     const img = new Image();
     // onload와 분리해서 처리할 것(src로 로드 된 후 onload가 실행되기 때문)
-    if(imgUrl === 'http://i.namu.wiki/i/CmGNSPeYt7cloH3uYZ_XTlfknRtDrjYtFVCF5zuvzWLAeaTGqnsW9kDC6iLHjGoF9OamAkLNkxGxpxFHhYd_pQ.svg'){
+    if(imgUrl === 'http://i.namu.wiki/i/V9pfx_zcCCzlHxC-pmJsTRAgP_TJNX2UjEijSBb2orh2dzO9fwLAVYMARKOHY8XCjVojE_0t6UYJlSAPBLcAOg.svg'){
       img.src = imgUrl;
     } else {
       img.src = `http://localhost:8081${imgUrl}`;
@@ -78,6 +79,7 @@ function Canvas() {
         width: 50,
         height: 100,
         angle: 0, 
+        moveDirection: 90,
         index: imgArr.current.length, // index 할당
         hidden: false,  // 이미지 숨김 여부
       })
@@ -95,6 +97,7 @@ function Canvas() {
       // 작업공간 주입
       const workspace = Blockly.inject(blocklyDivElement, {
         toolbox: toolboxXML(),
+        theme: ticoTheme,
         move: { scrollbars: { horizontal: false, vertical: false }, drag: false, wheel: false },
         zoom: { controls: true, wheel: false, startScale: 1.0, maxScale: 3, minScale: 0.3, scaleSpeed: 1.2, pinch: true }
       });
@@ -129,7 +132,9 @@ function Canvas() {
     
     const updatedPositions = []; // 좌표 모아서 한 번에 setState
 
-    imgArr.current.forEach((item, index) => {
+    const allObjects = [...imgArr.current, ...(window.cloneArr || [])]; // ✅ 복제본 포함
+
+    allObjects.forEach((item, index) => {
 
       // 👉 먼저 updatedPositions에 push (hidden 정보 포함)
       updatedPositions.push({ x: item.x, y: item.y, hidden: item.hidden });
@@ -287,7 +292,7 @@ function Canvas() {
       generateStart(workspace, imgArr, index, 'start_btn');
       const code = imgArr.current[index]?.code;
       if (code) {
-        runGeneratedCode(code, index);
+        runGeneratedCode(code, index, false);
       }
     });
   };
@@ -325,7 +330,7 @@ function Canvas() {
               generateStartKey(block, imgArr, index);
               const code = imgArr.current[index]?.code;
               if (code) {
-                runGeneratedCode(code, index);
+                runGeneratedCode(code, index, false);
               }
             }
           }
@@ -337,6 +342,32 @@ function Canvas() {
     return () => { // useEffect 훅에서 반환되는 함수는 컴포넌트가 언마운트될 때 실행
       window.removeEventListener('keydown', handleKeyPress);
     };
+  }, []);
+
+  useEffect(() => {
+    const canvas = document.querySelector('canvas');
+    if(!canvas) return;
+
+    const handleCanvasClick = () => {
+      blocklyArr.current.forEach((workspace, index) => {
+        const blocks = workspace.getTopBlocks();
+        const hasMouseClickStart = blocks.some(block => block.type === 'start_mouse_clicked');
+  
+        if (hasMouseClickStart) {
+          // 시작 블록 기준 코드 생성
+          generateStart(workspace, imgArr, index, 'start_mouse_clicked');
+  
+          // 코드 실행
+          const code = imgArr.current[index]?.code;
+          if (code) {
+            runGeneratedCode(code, index, false);
+          }
+        }
+      });
+    };
+  
+    canvas.addEventListener("click", handleCanvasClick);
+    return () => canvas.removeEventListener("click", handleCanvasClick);
   }, []);
   
   // 이미지, 작업공간 삭제
@@ -386,7 +417,7 @@ function Canvas() {
   return (
     <div className="blockly-container">
       {workspaceReady && (
-        <RegisterBlockGenerator imgArr={imgArr} callImgArr={callImgArr} />
+        <RegisterBlockGenerator imgArr={imgArr} callImgArr={callImgArr} blocklyArr={blocklyArr} coordinates={coordinates} />
       )}
   
       <div className="editor-wrapper">
@@ -466,6 +497,7 @@ function Canvas() {
             projectList={projectList}
             onSelect={async (project) => {
               try {
+                window.cloneArr = [];
                 await loadProjectToCanvas(
                   project.projectId,
                   imgArr,
