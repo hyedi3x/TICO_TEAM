@@ -92,6 +92,15 @@ function ObjectControlPanel({  object, onUpdate, i, onDelete, isSelected, onClic
                   onChange={(e) => handleChange('angle', +e.target.value)}
                 />
               </Col>
+              <Col xs={2}>
+                <Form.Label style={{ fontSize: '12px' }}>이동 방향</Form.Label>
+                <Form.Control
+                  type="number"
+                  size="sm"
+                  value={object.moveDirection}
+                  onChange={(e) => handleChange('moveDirection', +e.target.value)}
+                />
+              </Col>
             </Row>
             {/* 👇 숨기기 / 보이기 스위치 추가 */}
             <Row className="mt-2">
