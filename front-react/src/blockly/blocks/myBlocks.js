@@ -2,13 +2,14 @@ const toolboxXML = ()=>{
     return`
         <xml>
             <!-- 시작 -->
-            <category name=" 시작" colour="#FF6666">
+            <category name=" 시작" categorystyle="start_category">
                 <block type="start_btn"></block>
                 <block type="start_with_q"></block> 
+                <block type="start_mouse_clicked"></block> 
             </category>
 
             <! -- 흐름 -->
-            <category name="흐름" colour="#FF9966">
+            <category name="흐름" categorystyle="loops_category">
                 <block type="controls_repeat_ext"></block>
                 <block type="controls_whileUntil"></block>
                 <block type="controls_for"></block>
@@ -16,11 +17,26 @@ const toolboxXML = ()=>{
                 <block type="controls_flow_statements"></block>
                 <block type="wait_until_true"></block>
                 <block type="wait_seconds"></block>
+                <block type="create_clone"></block>
+                <block type="on_clone_created"></block>
+                <block type="delete_this_clone"></block>
             </category>
             
             <!-- 움직임 -->
-            <category name="움직임" colour="#FFCC66">
+            <category name="움직임" categorystyle="move_category">
                 <block type="move_in_direction">
+                    <field name="distance">10</field>
+                </block>
+
+                <block type="change_move_direction">
+                    <value name="direction">
+                        <shadow type="math_number">
+                            <field name="NUM">90</field>
+                        </shadow>
+                    </value>
+                </block>
+
+                <block type="move_in_direction_angle">
                     <field name="angle">90</field>
                     <field name="distance">10</field>
                 </block>
@@ -46,20 +62,32 @@ const toolboxXML = ()=>{
                     <field name="y">10</field>
                 </block>
 
+                <block type="change_coordXY">
+                    <value name="x">
+                        <shadow type="math_number">
+                        <field name="NUM">10</field>
+                        </shadow>
+                    </value>
+                    <value name="y">
+                        <shadow type="math_number">
+                        <field name="NUM">10</field>
+                        </shadow>
+                    </value>
+                </block>
+
                 <block type="rotate_obj">
                     <field name="angle">90</field>
                 </block>
 
                 <block type="rotate_obj_inTime">
-                    <!-- XML 블록 정의가 JSON 블록 정의보다 우선 (text를 사용하던 <field>를 사용하던 택1) -->
                     <field name="angle">90</field>
                     <field name="duration">1</field>
                 </block>
-
+                <block type="move_to_mouse"></block>
             </category>
 
             <!-- 생김새 -->
-            <category name="생김새" colour="#99CC66">
+            <category name="생김새" categorystyle="looks_category">
                 <!-- 요소 보이기 -->
                 <block type="show_object"></block>
                 
@@ -96,7 +124,7 @@ const toolboxXML = ()=>{
             </category>
 
             <!-- 소리 -->
-            <category name="소리" colour="#6699FF">
+            <category name="소리" categorystyle="sound_category">
                 <!-- 기본 소리 재생 -->
                 <block type="play_sound">
                     <field name="sound">개 짖는 소리</field>
@@ -118,6 +146,9 @@ const toolboxXML = ()=>{
                 <!-- 소리 정지 -->
                 <block type="stop_sounds"></block>
 
+                <!-- 소리 크기 설정(%) -->
+                <block type="set_sound_volume"></block>
+                
                 <!-- 소리 속도 조절 -->
                 <block type="multiple_sound_speed">
                     <field name="multiple">1.3</field>
@@ -125,7 +156,7 @@ const toolboxXML = ()=>{
             </category>
 
             <!-- 판단 -->
-            <category name="판단" colour="#CC99CC">
+            <category name="판단" categorystyle="logic_category">
                 <block type="controls_if"></block>
                 <block type="logic_compare"></block>
                 <block type="logic_operation"></block>
@@ -133,10 +164,11 @@ const toolboxXML = ()=>{
                 <block type="logic_boolean"></block>
                 <block type="logic_null"></block>
                 <block type="logic_ternary"></block>
+                <block type="is_touching"></block>
             </category>
             
             <!-- 계산 -->
-            <category name="계산" colour="#668493">
+            <category name="계산" categorystyle="math_category">
                 <block type="math_number"></block>
                 <block type="math_arithmetic"></block>
                 <block type="math_single"></block>
@@ -162,6 +194,8 @@ const toolboxXML = ()=>{
                 <block type="control_timer"></block>
                 <block type="get_timer_value"></block>
             </category>
+
+            <category name="변수" custom="VARIABLE" categorystyle="variable_category"></category>
         </xml>
     `
 }
