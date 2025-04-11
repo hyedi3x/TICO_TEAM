@@ -24,6 +24,7 @@ import ErpNotiDetail from "./ErpNotiDetail";
 import ErpNotiUpdate from "./ErpNotiUpdate";
 import FAQPut from "../../faq/FAQPut";
 import axios from "axios";
+import MyInfoChk from "./MyPage/MyInfoChk";
 
 function ErpMain() {
   const [expanded, setExpanded] = useState(true); // 사이드바 확장 여부
@@ -68,7 +69,8 @@ function ErpMain() {
       case "1": setViewMode("home"); break;
       case "1-1": setViewMode("list"); break;
       case "1-2": setViewMode("create"); break;
-      case "2-1": setViewMode("mypage"); break;
+      case "2-1": setViewMode("myinfoModify"); break;
+      case "2-2": setViewMode("myinfoChk"); break;
       case "3-1": setViewMode("admin-register"); break;
       case "3-2": setViewMode("admin-info"); break;
       case "7-4": setViewMode("faq"); break;
@@ -100,6 +102,7 @@ function ErpMain() {
                   icon={<Icon as={BsFillPeopleFill} />}
                 >
                   <Nav.Item eventKey="2-1">나의 정보 수정</Nav.Item>
+                  <Nav.Item eventKey="2-2">나의 정보 조회</Nav.Item>
                 </Nav.Menu>
 
                 {/* 인사팀 메뉴 (DEP001 부서만 활성화) */}
@@ -229,6 +232,7 @@ function ErpMain() {
             {viewMode === "create" && (
               <ErpNotiCreated onRegisterSuccess={() => setViewMode("list")} />
             )}
+            
             {/* 기업 공지사항 상세보기 */}
             {viewMode === "detail" && comNotiId && (
               <ErpNotiDetail id={comNotiId} onBack={() => setViewMode("list")} onEdit={() => setViewMode("edit")}/>
@@ -238,15 +242,12 @@ function ErpMain() {
             {viewMode === "edit" && (
               <ErpNotiUpdate id={comNotiId} onBack={() => setViewMode("list")}/>
             )}
-
-            {/* 관리자 등록 */}
-            {viewMode === "admin-register" && <AdminRegister />}
-
-            {/* 관리자 조회 */}
-            {viewMode === "admin-info" && <AdminInfo />}
-
-            {/* FAQ 관리 */}
-            {viewMode === "faq" && <FAQPut />}
+            
+            {viewMode === "admin-register" && <AdminRegister />} {/* 관리자 등록 */}
+            {viewMode === "admin-info" && <AdminInfo />} {/* 관리자 정보 조회 */}
+            {viewMode === "myinfoChk" && <MyInfoChk />} {/* 관리자 정보 조회 */}
+            
+            {viewMode === "faq" && <FAQPut />} {/* FAQ 관리 */}
           </div>
         </Content>
       </div>

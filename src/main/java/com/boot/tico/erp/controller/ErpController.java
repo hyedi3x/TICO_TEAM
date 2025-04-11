@@ -72,8 +72,8 @@ public class ErpController {
         return erpService.getEmployees(empId, empName);
     }
     
-    // 사원별 depId 조회
-    @GetMapping("/user/depId/{empId}")
+    // 사원 정보 조회 (사원 id로 해당 사원의 전체 정보 조회)
+    @GetMapping({"/user/depId/{empId}", "/empId/{empId}"} )
     public ResponseEntity<EmpDTO> getEmpInfo(@PathVariable String empId) {
         EmpDTO emp = erpNotiService.getEmployeeById(empId);
         if (emp != null) {
