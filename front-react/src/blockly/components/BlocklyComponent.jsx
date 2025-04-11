@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as Blockly from "blockly"; // npm install Blockly 
 import * as ko from 'blockly/msg/ko';  // 한글 번역 모듈
 import { javascriptGenerator } from "blockly/javascript"; // JavaScript 코드 생성기 가져오기
@@ -14,6 +15,7 @@ import { loadProjectToCanvas } from '../utils/loadProjectDetail';
 import ProjectModal from './ProjectModal';
 import { handleDeleteProject } from '../utils/deleteProject';
 import "../components/BlocklyComponent.css";
+import ObjectSelectPage from './ObjectSelectPage';
 
 Blockly.setLocale(ko); // Blockly 언어를 한국어로 설정
 
@@ -42,6 +44,15 @@ function Canvas() {
   const [projectList, setProjectList] = useState([]);
   const [showProjectModal, setShowProjectModal] = useState(false);
   const currentProjectId = useRef(null); // 현재 작업 중인 project_id
+
+  //
+  const navigate = useNavigate(); // 페이지 이동 함수
+
+  const handleButtonClick = () => {
+    // ObjectSelectPage 경로로 이동
+    navigate('/select-object');
+  };
+
 
    /** ─────────────── 캔버스 그리기 ─────────────── **/
   const draw = () => {
@@ -424,8 +435,7 @@ function Canvas() {
   
       {/* 버튼 영역 */}
       <div className="button-blockly">
-        <input type="file" id="imgInput" accept="image/*" style={{ display: 'none' }} onChange={selectimg} />
-        <button onClick={() => document.querySelector('#imgInput').click()}>
+        <button onClick={handleButtonClick}>
           ➕ 요소 추가
         </button>
         <button onClick={runStartBtnCode}>▶️ 실행하기</button>
