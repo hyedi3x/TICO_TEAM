@@ -43,6 +43,9 @@ public class ProjectObjectDTO {
     private double width;
     private double height;
     private double angle;
+    
+    @Column(name= "move_direction")
+    private double moveDirection;
 
     private Boolean hidden;
     private double hue;
