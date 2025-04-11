@@ -45,7 +45,7 @@ function Login() {
       } else {
         endpoint = "/auth/login/employee";
         // 사원 로그인은 EmpDTO에 정의된 필드명 사용 (empId, empPassword)
-        payload = { empId: loginId, emp_pwd: password };
+        payload = { empId: loginId, empPwd: password };
       }
 
       const response = await axiosInstance.post(endpoint, payload);

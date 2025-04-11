@@ -23,7 +23,7 @@ public class EmployeeAuthService {
             EmpDTO emp = empOpt.get();
 
             // 👉 평문 비교
-            if (rawPassword.equals(emp.getEmp_pwd())) {
+            if (rawPassword.equals(emp.getEmpPwd())) {
                 return Optional.of(emp);
             } else {
                 log.warn("비밀번호 불일치: empId={}", empId);
