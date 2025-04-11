@@ -23,7 +23,7 @@
 .sideBar {
   width: 240px;
   overflow: auto;
-  background-color: #f4f4f4;
+  /* background-color: #f4f4f4; */
 }
 
 /* 사이드바 스크롤바 스타일 */
@@ -42,7 +42,7 @@
 }
 
 /* 콘텐츠 영역 */
-.main-content {
+.main-content2 {
   flex: 1;
   padding: 20px;
   background-color: #f7f7fa;
@@ -52,10 +52,10 @@
 }
 
 /* 확장/축소 애니메이션용 클래스 */
-.main-content.expanded {
+.main-content2.expanded {
   margin-left: 10px;
 }
-.main-content.collapsed {
+.main-content2.collapsed {
   margin-left: -170px;
 }
 
@@ -68,12 +68,12 @@
 .rsuite-sidebar.collapsed {
   width: 56px;
 }
-.rsuite-sidebar .rsuite-sidenav {
+/* .rsuite-sidebar .rsuite-sidenav {
   background-color: #f4f4f4;
-}
+} */
 
 /* 콘텐츠 내부 영역 (뷰 전환용 컴포넌트들 들어가는 곳) */
-.main-content-inner {
+.main-content-inner2 {
   width: 100%;
   height: auto; /* ✅ 높이 자동으로 콘텐츠 따라가도록 */
   box-sizing: border-box;
