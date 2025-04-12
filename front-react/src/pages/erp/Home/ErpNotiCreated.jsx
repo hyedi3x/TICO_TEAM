@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './erpNotiCreated.css';
 
@@ -14,6 +14,14 @@ const ErpNotiCreated = ({ onRegisterSuccess }) => {
     erpNotiExpiredAt: '',
     erpNotiFile: null,
   });
+
+  // 로그인된 사용자 ID 불러오기
+  useEffect(() => {
+    const savedEmpId = localStorage.getItem('user_uuid');
+    if (savedEmpId) {
+      setNotice(prev => ({ ...prev, empId: savedEmpId }));
+    }
+  }, []);
 
   // 입력 필드 변경 시 상태 업데이트
   const handleChange = (e) => {
@@ -69,7 +77,7 @@ const ErpNotiCreated = ({ onRegisterSuccess }) => {
 
         <div className="form-group">
           <label htmlFor="empId">작성자 ID</label>
-          <input type="text" name="empId" onChange={handleChange} required />
+          <input type="text" name="empId" value={notice.empId} readOnly />
         </div>
 
         <div className="form-group">
