@@ -24,9 +24,14 @@ function ComNotiUpdate({ id, onBack }) {
     // 최초 렌더링 시 또는 id 변경 시 해당 공지사항 불러오기
     useEffect(() => {
         if (id) {
-            axios.get(`http://localhost:8081/api/notices/${id}`)
+            axios.get(`http://localhost:8081/api/notices/notice/${id}`)
                 .then(response => {
-                    setForm(response.data);     // 서버에서 받아온 공지사항 정보를 form에 저장
+                    const data = response.data;
+                    const savedEmpId = localStorage.getItem('user_uuid');
+                    setForm({
+                        ...data,
+                        empId: savedEmpId || data.empId, // localStorage에서 가져온 값으로 덮어쓰기
+                    });
                     setExistingFile(response.data.erpNotiOriginalFile || '');       // 기존 파일명 저장
                 })
                 .catch(error => console.error('Error loading notice:', error));
@@ -60,7 +65,7 @@ function ComNotiUpdate({ id, onBack }) {
         // PUT 요청으로 수정
         axios.put(`http://localhost:8081/api/notices/update/${id}`, formData)
             .then(() => {
-                alert('수정 완료!');
+                alert('수정 완료했습니다.');
                 onBack(); // 저장 완료 후 목록으로 이동
             })
             .catch(error => console.error('수정 오류:', error));
@@ -82,7 +87,7 @@ function ComNotiUpdate({ id, onBack }) {
 
             <div className="form-group">
                 <label>작성자 ID</label>
-                <input name="empId" value={form.empId} onChange={handleChange} />
+                <input name="empId" value={form.empId} readOnly />
             </div>
 
             <div className="form-group">
@@ -114,7 +119,7 @@ function ComNotiUpdate({ id, onBack }) {
             {/* 버튼 영역 */}
             <div className="form-group" style={{ marginTop: '20px' }}>
                 <button type="submit" className='notice-submit'onClick={handleUpdate}>저장</button>
-                <button onClick={onBack} style={{ marginLeft: '10px' }}>취소</button>
+                <button className='notice-button' onClick={onBack} style={{ marginLeft: '10px' }}>취소</button>
             </div>
         </div>
     );
