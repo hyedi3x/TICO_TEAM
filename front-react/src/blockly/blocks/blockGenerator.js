@@ -77,7 +77,7 @@ const RegisterBlockGenerator = (props) => {
   // 몇 초 동안 기다리기
   javascriptGenerator.forBlock['wait_seconds'] = function(block) {
     const seconds = block.getFieldValue('seconds');
-    return `await await new Promise(resolve => setTimeout(resolve, ${seconds} * 1000));\n`;
+    return `await new Promise(resolve => setTimeout(resolve, ${seconds} * 1000));\n`;
   };
 
   // 이동방향과 일치하는 각도로 입력값만큼 거리 이동
