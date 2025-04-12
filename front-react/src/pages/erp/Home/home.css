@@ -51,15 +51,20 @@
   margin-bottom: 20px;
 }
 
-/* 탭 컨텐츠 섹션 */
-.tabs-content {
-  padding: 20px;
-}
-
 /* 캘린더 및 할 일 리스트 섹션 */
 .calendar-todo {
   padding: 20px;
   background-color: #f9f9f9;
   border-radius: 8px;
   margin-bottom: 20px;
+}
+
+.rs-nav-tabs .rs-nav-item.rs-nav-item-active {
+  background-color: #4caf50;
+  color: #f9f9f9;
+}
+
+.scContent {
+  width: 100%;
+  border: 1px solid #e5e5ea;
 }

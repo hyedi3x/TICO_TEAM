@@ -40,4 +40,5 @@ public interface ErpNotiRepository extends JpaRepository<ErpNotiDTO, Long> {
     
     // 최근 공지사항 5개
     List<ErpNotiDTO> findAllByOrderByErpNotiCreatedAtDesc(Pageable pageable);	// findAllBy: ErpNotiDTO 엔티티에 대한 모든 데이터 조회하는 메서드
+        
 }

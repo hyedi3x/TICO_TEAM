@@ -15,13 +15,13 @@ import { TbPlayCardStarFilled } from "react-icons/tb";
 import { FaGear } from "react-icons/fa6";
 
 // 각 화면 컴포넌트 불러오기
-import Home from "./Home";
-import ErpNotices from "./ErpNotices";
+import Home from "./Home/Home";
+import ErpNotices from "./Home/ErpNotices";
 import AdminRegister from "./HR_Team/AdminRegister";
 import AdminInfo from "./HR_Team/AdminInfo";
-import ErpNotiCreated from "./ErpNotiCreated";
-import ErpNotiDetail from "./ErpNotiDetail";
-import ErpNotiUpdate from "./ErpNotiUpdate";
+import ErpNotiCreated from "./Home/ErpNotiCreated";
+import ErpNotiDetail from "./Home/ErpNotiDetail";
+import ErpNotiUpdate from "./Home/ErpNotiUpdate";
 import FAQPut from "../../faq/FAQPut";
 import axios from "axios";
 import MyInfoChk from "./MyPage/MyInfoChk";
@@ -199,14 +199,15 @@ function ErpMain() {
                 </Nav.Menu>
               </Nav>
             </Sidenav.Body>
+            <Sidenav.Toggle onToggle={(val) => setExpanded(val)} />
           </Sidenav>
         </div>
 
         {/* 메인 콘텐츠 영역 */}
         <Content
-          className={`main-content ${expanded ? "expanded" : "collapsed"}`}
+          className={`main-content2 ${expanded ? "expanded" : "collapsed"}`}
         >
-          <div className="main-content-inner">
+          <div className="main-content-inner2">
             {/* ERP 첫 화면 */}
             {viewMode === "home" && (
               <Home
