@@ -3,6 +3,13 @@ import { imgArr, callImgArr, coordinates } from '../../blocks/blockGenerator'; /
 // 이동 방향과 일치하는 방향으로 거리 이동
 const moveInDirection = function (distance, index, isClone=false) {
     const targetArr = isClone ? window.cloneArr : imgArr.current;
+
+    // 💥 복제본이 삭제되어 존재하지 않을 수 있음 → 방어 처리
+    if (!targetArr || typeof index !== 'number' || !targetArr[index]) {
+      console.warn('moveInDirection: 유효하지 않은 index로 호출됨:', index);
+      return; // 🚫 즉시 종료
+    };
+
     const direction = targetArr[index].moveDirection;
 
     if (typeof index === 'number' && targetArr[index]) {
@@ -21,11 +28,11 @@ const moveInDirection = function (distance, index, isClone=false) {
 // 이동 방향값 입력값으로 변경
 const changeMoveDirection = function (moveDir, index, isClone=false) {
     const targetArr = isClone ? window.cloneArr : imgArr.current;
-    console.log('changeMoveDirection.targetArr : ', targetArr);
-    console.log('changeMoveDirection.moveDirection : ', targetArr[index].moveDirection);
-    
+
     if (typeof index === 'number' && targetArr[index]) {
       targetArr[index].moveDirection = Number(moveDir);
+      console.log('changeMoveDirection.targetArr : ', targetArr);
+      console.log('changeMoveDirection.moveDirection : ', targetArr[index].moveDirection);
       callImgArr();
     } else {
       console.error('changeMoveDirection 실패: 유효하지 않은 index');
@@ -114,12 +121,12 @@ const changeCoordX = function (coordX, index, isClone=false) {
   const changeCoordXY = function (coordX, coordY, index, isClone=false) {
     const targetArr = isClone ? window.cloneArr : imgArr.current;
     console.log('changeCoordXY.targetArr : ', targetArr);
-    console.log('changeCoordXY.x : ', targetArr[index].x);
-    console.log('changeCoordXY.y : ', targetArr[index].y);
-
+    
     if (typeof index === 'number' && targetArr[index]) {
       targetArr[index].x = Number(coordX);
       targetArr[index].y = Number(coordY);
+      console.log('changeCoordXY.x : ', targetArr[index].x);
+      console.log('changeCoordXY.y : ', targetArr[index].y);
       callImgArr();
     } else {
       console.error('changeCoordY 실패');
