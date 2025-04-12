@@ -31,8 +31,6 @@ const changeMoveDirection = function (moveDir, index, isClone=false) {
 
     if (typeof index === 'number' && targetArr[index]) {
       targetArr[index].moveDirection = Number(moveDir);
-      console.log('changeMoveDirection.targetArr : ', targetArr);
-      console.log('changeMoveDirection.moveDirection : ', targetArr[index].moveDirection);
       callImgArr();
     } else {
       console.error('changeMoveDirection 실패: 유효하지 않은 index');
@@ -120,13 +118,10 @@ const changeCoordX = function (coordX, index, isClone=false) {
   // X, Y좌표 직접 설정
   const changeCoordXY = function (coordX, coordY, index, isClone=false) {
     const targetArr = isClone ? window.cloneArr : imgArr.current;
-    console.log('changeCoordXY.targetArr : ', targetArr);
     
     if (typeof index === 'number' && targetArr[index]) {
       targetArr[index].x = Number(coordX);
       targetArr[index].y = Number(coordY);
-      console.log('changeCoordXY.x : ', targetArr[index].x);
-      console.log('changeCoordXY.y : ', targetArr[index].y);
       callImgArr();
     } else {
       console.error('changeCoordY 실패');
