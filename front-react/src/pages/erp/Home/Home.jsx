@@ -7,7 +7,7 @@ import axios from 'axios';
 import dayjs from 'dayjs';
 import MyCalendar from './MyCalendar';
 import RecentNotices from './RecentNotices';
-import ErpDTO from './ErpDTO';
+import ErpDTO from '../ErpDTO';
 import ColorPalette from './ColorPalette';
 import './home.css';
 

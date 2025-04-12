@@ -25,6 +25,7 @@ import ErpNotiUpdate from "./Home/ErpNotiUpdate";
 import FAQPut from "../../faq/FAQPut";
 import axios from "axios";
 import MyInfoChk from "./MyPage/MyInfoChk";
+import MyInfoModify from "./MyPage/MyInfoModify";
 
 function ErpMain() {
   const [expanded, setExpanded] = useState(true); // 사이드바 확장 여부
@@ -113,8 +114,7 @@ function ErpMain() {
                   className={empInfo.depId === "DEP001" ? "" : "disabled-menu"}
                 >
                   <Nav.Item eventKey="3-1">관리자 등록</Nav.Item>
-                  <Nav.Item eventKey="3-2">관리자 조회</Nav.Item>
-                  <Nav.Item eventKey="3-3">관리자 삭제</Nav.Item>
+                  <Nav.Item eventKey="3-2">관리자 조회/수정/삭제</Nav.Item>
                 </Nav.Menu>
 
                 {/* 고객 관리팀 메뉴 (DEP002 부서만 활성화) */}
@@ -247,6 +247,7 @@ function ErpMain() {
             {viewMode === "admin-register" && <AdminRegister />} {/* 관리자 등록 */}
             {viewMode === "admin-info" && <AdminInfo />} {/* 관리자 정보 조회 */}
             {viewMode === "myinfoChk" && <MyInfoChk />} {/* 관리자 정보 조회 */}
+            {viewMode === "myinfoModify" && <MyInfoModify />} {/* 관리자 정보 조회 */}
             
             {viewMode === "faq" && <FAQPut />} {/* FAQ 관리 */}
           </div>

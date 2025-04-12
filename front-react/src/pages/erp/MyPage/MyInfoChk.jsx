@@ -4,10 +4,9 @@ import "../HR_Team/adminRegister.css";
 
 function MyInfoChk() {
 
-  // 폼 변수 선언
+  // 화면에 보여질 폼 변수 선언
   const [form, setForm] = useState({
     empName: "",
-    empPwd: "", 
     empBirth: "",  // Date 객체에서 문자열로 변경
     empPhone: "", 
     empHome: "",
@@ -17,6 +16,8 @@ function MyInfoChk() {
     hireDate: "",  // Date 객체에서 문자열로 변경
     terminationDate: "",  // Date 객체에서 문자열로 변경
     salary: "",
+    annualSalary: "",  // 연봉 추가
+    netAnnualSalary: ""  // 순연봉 추가
   });
 
   // 부서와 직무 옵션을 가져오기 위한 상태들
@@ -51,7 +52,6 @@ function MyInfoChk() {
         .then((data) => {
           setForm({
             empName: data.empName,
-            empPwd: data.empPwd,
             empBirth: data.empBirth ? data.empBirth.split("T")[0] : "",  // 문자열로 변환 (YYYY-MM-DD 형식)
             empPhone: data.empPhone,
             empHome: data.empHome,
@@ -61,6 +61,8 @@ function MyInfoChk() {
             hireDate: data.hireDate ? data.hireDate.split("T")[0] : "",  // 문자열로 변환
             terminationDate: data.terminationDate ? data.terminationDate.split("T")[0] : "",  // 문자열로 변환
             salary: data.salary,
+            annualSalary: data.annualSalary,  // 연봉 추가
+            netAnnualSalary: data.netAnnualSalary  // 순연봉 추가
           });
         })
         .catch((err) => {
@@ -69,6 +71,11 @@ function MyInfoChk() {
     }
   }, []);
 
+  // 숫자에 3자리마다 쉼표 추가하는 함수
+  const formatNumber = (number) => {
+    return number ? number.toLocaleString() : "";
+  };
+
   // 수정 불가능하도록 readonly 처리
   const handleReadonly = () => ({
     readOnly: true
@@ -76,10 +83,10 @@ function MyInfoChk() {
 
   return (
     <div className="admin-form-container">
-      {/* 기본정보 입력 패널 */}
-      <Panel header="기본정보" className="panel-container">
+      {/* 기본정보 패널 */}
+      <Panel header="직무정보" className="panel-container">
         <Grid fluid>
-          <Row className="form-row">
+          <Row className="form-row2">
             <Col sm={6}>
               <SelectPicker
                 placeholder="부서코드"
@@ -100,20 +107,37 @@ function MyInfoChk() {
                 {...handleReadonly()}  // readonly 처리
               />
             </Col>
+          </Row>
+        </Grid>
+      </Panel>
+
+      {/* 급여 정보 패널 */}
+      <Panel header="급여정보" className="panel-container">
+        <Grid fluid>
+          <Row className="form-row2">
             <Col sm={6}>
               <Input
-                placeholder="사원 비밀번호 (이름+월일)"
-                type="password"
-                value={form.empPwd || ""}
+                placeholder="기본급 (월급)"
+                type="text"
+                value={formatNumber(form.salary) || ""}
                 style={{ width: "100%" }}
                 {...handleReadonly()}  // readonly 처리
               />
             </Col>
             <Col sm={6}>
               <Input
-                placeholder="기본급 (월급)"
-                type="number"
-                value={form.salary || ""}
+                placeholder="연봉"
+                type="text"
+                value={formatNumber(form.annualSalary) || ""}
+                style={{ width: "100%" }}
+                {...handleReadonly()}  // readonly 처리
+              />
+            </Col>
+            <Col sm={6}>
+              <Input
+                placeholder="순연봉"
+                type="text"
+                value={formatNumber(form.netAnnualSalary) || ""}
                 style={{ width: "100%" }}
                 {...handleReadonly()}  // readonly 처리
               />
@@ -122,10 +146,10 @@ function MyInfoChk() {
         </Grid>
       </Panel>
 
-      {/* 인적사항 입력 패널 */}
+      {/* 인적사항 정보 패널 */}
       <Panel header="인적사항" className="panel-container">
         <Grid fluid>
-          <Row className="form-row">
+          <Row className="form-row2">
             <Col sm={6}>
               <Input
                 placeholder="이름"
@@ -178,8 +202,8 @@ function MyInfoChk() {
       {/* 주소 정보 입력 패널 */}
       <Panel header="주소 정보" className="panel-container">
         <Grid fluid>
-          <Row className="form-row">
-            <Col sm={16}>
+          <Row className="form-row2">
+            <Col sm={21}>
               <Input
                 placeholder="주소"
                 value={form.empHome || ""}
