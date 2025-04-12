@@ -25,46 +25,15 @@ function ErpNotiDetail({ id, onBack, onEdit }) {
             {/* 공지사항 기본 정보 테이블 */}
             <table className="notice-detail-table">
                 <tbody>
-                    <tr>
-                        <th>제목</th>
-                        <td>{notice.erpNotiTitle}</td>
-                    </tr>
-                    <tr>
-                        <th>작성자</th>
-                        <td>{notice.empId}</td>
-                    </tr>
-                    <tr>
-                        <th>유형</th>
-                        <td>{notice.erpNotiType}</td>
-                    </tr>
-                    <tr>
-                        <th>상태</th>
-                        <td>{notice.erpNotiStatus}</td>
-                    </tr>
-                    <tr>
-                        <th>작성일</th>
-                        <td>{new Date(notice.erpNotiCreatedAt).toLocaleString()}</td>   {/* Date 객체를 지역화된 날짜 및 시간 문자열로 변환 */}
-                    </tr>
-                    <tr>
-                        <th>수정일</th>
-                        <td>{notice.erpNotiUpdatedAt ? new Date(notice.erpNotiUpdatedAt).toLocaleString() : '수정 기록 없음'}</td>
-                    </tr>
-
-                     {/* 첨부 파일 있을 경우 다운로드 링크 표시 */}
-                    {notice.erpNotiOriginalFile && (
-                        <tr>
-                            <th>첨부 파일</th>
-                            <td>
-                                <a  // 하이퍼링크(anchor) 생성
-                                    href={`http://localhost:8081/api/notices/download-by-id/${notice.erpNotiId}`}
-                                    className="notice-file-link"
-                                    download    // download속성 : 링크 클릭하면 파일 자동으로 다운로드
-                                >
-                                    📎 {notice.erpNotiOriginalFile}
-                                </a>
-                            </td>
-                        </tr>
-                    )}
+                    <tr><th>제목</th><td>{notice.erpNotiTitle}</td></tr>
+                    <tr><th>작성자</th><td>{notice.empId}</td></tr>
+                    <tr><th>유형</th><td>{notice.erpNotiType}</td></tr>
+                    <tr><th>상태</th><td>{notice.erpNotiStatus}</td></tr>
+                    <tr><th>작성일</th><td>{new Date(notice.erpNotiCreatedAt).toLocaleString()}</td></tr>
+                    <tr><th>수정일</th><td>{notice.erpNotiUpdatedAt ? new Date(notice.erpNotiUpdatedAt).toLocaleString() : '수정 기록 없음'}</td></tr>
+                    {notice.erpNotiOriginalFile ? (
+                        <tr><th>첨부 파일</th><td><a href={`http://localhost:8081/api/notices/download-by-id/${notice.erpNotiId}`} className="notice-file-link" download>📎 {notice.erpNotiOriginalFile}</a></td></tr>
+                    ) : null}
                 </tbody>
             </table>
 
