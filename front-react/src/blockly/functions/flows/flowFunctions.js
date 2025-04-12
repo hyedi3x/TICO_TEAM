@@ -41,7 +41,7 @@ const deleteThisClone = function(index) {
     if (!window.cloneArr || !window.cloneArr[index]) return;
   
     // 삭제: index 자리만 제거
-    window.cloneArr.splice(index, 1);
+    window.cloneArr = window.cloneArr.filter((_, i) => i !== index);
   
     // callImgArr로 캔버스 다시 그리기
     callImgArr();
