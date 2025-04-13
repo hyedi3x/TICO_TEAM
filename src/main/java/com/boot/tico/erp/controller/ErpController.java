@@ -8,9 +8,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,11 +31,8 @@ public class ErpController {
 
     private static final Logger logger = LoggerFactory.getLogger(ErpController.class);
 
-    @Autowired
-    private ErpService erpService;
-    
-    @Autowired
-    private ErpNotiService erpNotiService;
+    @Autowired private ErpService erpService;
+    @Autowired private ErpNotiService erpNotiService;
     
     // 부서 목록 전체
     @GetMapping("/departments")
@@ -82,4 +81,26 @@ public class ErpController {
             return ResponseEntity.notFound().build();	 // HTTP 404 반환
         }
     }
+    
+    // 특정 사원 ID의 정보를 수정하는 API 엔드포인트
+    // @PathVariable : URL 경로에서 전달된 사원 ID ({empId})를 매개변수
+    // @RequestBody : 프론트에서 보내준 JSON 형식의 요청 본문을 EmpDTO 객체로 자동 변환받음
+    @PutMapping("/employees/{empId}")
+    public ResponseEntity<String> updateEmp(@PathVariable String empId, @RequestBody EmpDTO empDTO) {
+        empDTO.setEmpId(empId); // 경로 변수로 받은 empId를 설정
+        erpService.updateEmployee(empDTO); // 서비스 메서드 호출
+        return ResponseEntity.ok("사원 정보가 성공적으로 수정되었습니다.");
+    }  
+    
+    // 특정 사원 ID의 정보를 삭제하는 API 엔드포인트
+    @DeleteMapping("/employees/{empId}")
+    public ResponseEntity<String> deleteEmp(@PathVariable String empId) {
+        boolean isDeleted = erpService.deleteEmployee(empId);
+        if (isDeleted) {
+            return ResponseEntity.ok("사원 정보가 성공적으로 삭제되었습니다.");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
+

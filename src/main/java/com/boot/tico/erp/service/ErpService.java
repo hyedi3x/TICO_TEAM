@@ -3,6 +3,7 @@ package com.boot.tico.erp.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.boot.tico.erp.dto.DepDTO;
@@ -19,6 +20,9 @@ public class ErpService {
     @Autowired private DepRepository depRepo;
     @Autowired private JobRepository jobRepo;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder; // 비밀번호 암호화를 위한 인코더
+    
     // 부서 전체 조회
     public List<DepDTO> getAllDep() {
         return depRepo.findAll();
@@ -78,5 +82,21 @@ public class ErpService {
         else {
             return empRepo.findAll();
         }
+    }
+    
+    // 사원 정보 업데이트
+    public void updateEmployee(EmpDTO empDTO) {
+        empDTO.setEmpPwd(passwordEncoder.encode(empDTO.getEmpPwd())); // 비밀번호 암호화
+        empRepo.save(empDTO); // 업데이트된 사원 정보 저장
+    }
+    
+    // 사원 삭제
+    public boolean deleteEmployee(String empId) {
+    	// ID(사번)를 가진 데이터가 DB에 존재하는지 확인
+        if (empRepo.existsById(empId)) {
+            empRepo.deleteById(empId);  // empId가 존재하면 해당 사원 데이터를 삭제
+            return true;
+        }
+        return false;
     }
 }
