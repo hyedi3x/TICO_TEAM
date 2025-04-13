@@ -45,6 +45,8 @@ function Canvas() {
   const [showProjectModal, setShowProjectModal] = useState(false);
   const currentProjectId = useRef(null); // 현재 작업 중인 project_id
 
+  // 키보드 상태 트래킹
+  const [keysPressed, setKeysPressed] = useState({}); // 눌린 키 상태를 저장하는 객체
    /** ─────────────── 캔버스 그리기 ─────────────── **/
   const draw = () => {
     const canvas = canvasRef.current;
@@ -297,6 +299,14 @@ function Canvas() {
     });
   };
 
+  const handleKeyDown = (e) => {
+    setKeysPressed((prev) => ({ ...prev, [e.key]: true }));
+  };
+  
+  const handleKeyUp = (e) => {
+    setKeysPressed((prev) => ({ ...prev, [e.key]: false }));
+  };
+
   // 2. 키보드 q 키 핸들러
   useEffect(() => {
     const handleKeyPress = (e) => {
@@ -339,8 +349,12 @@ function Canvas() {
     };
 
     window.addEventListener('keydown', handleKeyPress); 
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
     return () => { // useEffect 훅에서 반환되는 함수는 컴포넌트가 언마운트될 때 실행
       window.removeEventListener('keydown', handleKeyPress);
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
     };
   }, []);
 
@@ -411,7 +425,6 @@ function Canvas() {
     // 6. 전체 다시 렌더링
     callImgArr();
   }
-
 
   /** ─────────────── 렌더링 ─────────────── **/
   return (

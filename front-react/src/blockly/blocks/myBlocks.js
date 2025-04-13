@@ -84,6 +84,9 @@ const toolboxXML = ()=>{
                     <field name="duration">1</field>
                 </block>
                 <block type="move_to_mouse"></block>
+
+                <block type="move_obj_inTime"></block>
+
             </category>
 
             <!-- 생김새 -->

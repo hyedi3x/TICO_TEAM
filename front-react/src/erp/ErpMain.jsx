@@ -16,7 +16,7 @@ import { FaGear } from "react-icons/fa6";
 import Home from "./Home";
 import AdminRegister from "./AdminRegister";
 import AdminInfo from "./AdminInfo";
-import FAQPut from "../faq/FAQPut";
+import FAQPut from "../pages/faq/FAQPut";
 
 
 

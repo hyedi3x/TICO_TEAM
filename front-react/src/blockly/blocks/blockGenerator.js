@@ -4,7 +4,7 @@ import { start_btn, start_with_q, start_mouse_clicked } from '../functions/start
 // eslint-disable-next-line
 import { createClone, deleteThisClone } from '../functions/flows/flowFunctions';
 // eslint-disable-next-line
-import { moveInDirection, changeMoveDirection, moveInDirectionAngle, moveImgToX, moveImgToY, moveImgToXY, changeCoordX, changeCoordY, changeCoordXY, rotateImage, rotateImageInTime, moveToMouse } from '../functions/moves/moveFunctions';
+import { moveInDirection, changeMoveDirection, moveInDirectionAngle, moveImgToX, moveImgToY, moveImgToXY, changeCoordX, changeCoordY, changeCoordXY, rotateImage, rotateImageInTime, moveToMouse, moveImageInTime } from '../functions/moves/moveFunctions';
 // eslint-disable-next-line
 import { showObject, hideObject, changeAppearance, changeObject, resizeObject, flipObject, changeShape } from "../functions/appearances/appearanceFunctions";
 // eslint-disable-next-line
@@ -165,6 +165,14 @@ const RegisterBlockGenerator = (props) => {
     return `await moveToMouse(index, isClone);\n`;
   };
 
+  // 일정시간 이동 애니메이션
+  javascriptGenerator.forBlock['move_obj_inTime'] = function(block){
+    const x = block.getFieldValue('x');
+    const y = block.getFieldValue('y');
+    const duration = block.getFieldValue('duration');
+    return `await moveImageInTime(${x}, ${y}, ${duration}, index);\n`;
+  };
+    
   // 요소 보이기
   javascriptGenerator.forBlock['show_object'] = function() {
     return `await showObject(index, isClone);\n`;

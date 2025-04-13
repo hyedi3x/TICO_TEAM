@@ -12,12 +12,12 @@ import SocialSignup from './pages/login/SocialSignup';
 import Welcome from './pages/login/Welcome';
 import MypageMain from './mypage/MypageMain';
 import ErpMain from "./erp/ErpMain";
-import FAQList from './faq/FAQList';
-import FAQPut from './faq/FAQPut';
-import FAQPost from './faq/FAQPost';
+import FAQList from './pages/faq/FAQList';
+import FAQPut from './pages/faq/FAQPut';
+import FAQPost from './pages/faq/FAQPost';
 import EduList from './pages/blockedu/EduList';
 import BlockEduComponent from './pages/blockedu/BlockEduComponent';
-
+import BlockEduComponentPost from './pages/blockedu/BlockEduComponentPost';
 function App() {
   return (
     <div>
@@ -39,6 +39,7 @@ function App() {
           <Route path="/faqpost" element={<FAQPost/>} />
           <Route path="/eduList" element={<EduList/>} />
           <Route path="/quiz/:quizId" element={<BlockEduComponent/>} />
+          <Route path="/blockedupost" element={<BlockEduComponentPost/>} />
         </Routes>
         <Footer />
       </BrowserRouter>

@@ -166,7 +166,6 @@ const rotateImageInTime= function (angle, duration, index, isClone=false) {
             console.log('애니메이션 완료');
             resolve(); // promise 완료
         } else { // 진행중
-            
             const progress = (now  - startTime) / (duration * 1000); //  현재-시작시간/총 시간 = 진행률 (0~1사이의 값)
             img.angle = startAngle + (endAngle - startAngle) * progress; // 시작 + 입력각 * 진행률
             callImgArr();
@@ -189,6 +188,42 @@ const moveToMouse = function(index, isClone = false) {
   }
 };
 
+const moveImageInTime = function (x, y, duration, index) {
+  return new Promise((resolve) => {
+    console.log('이동 애니메이션 시작됨');
+    runMoveAnimation(x, y, duration, index, resolve);
+  });
+
+  function runMoveAnimation(x, y, duration, index, resolve) {
+    const img = imgArr.current[index];
+    const startTime = performance.now();
+    const endTime = startTime + duration * 1000;
+
+    const startX = img.x;
+    const startY = img.y;
+    const endX = startX + Number(x);
+    const endY = startY + Number(y);
+
+    function animateFrame() {
+      const now = performance.now();
+      if (now >= endTime) {
+        img.x = endX;
+        img.y = endY;
+        callImgArr();
+        console.log('이동 애니메이션 완료');
+        resolve(); // 애니메이션 완료
+      } else {
+        const progress = (now - startTime) / (duration * 1000); // 진행률 (0 ~ 1)
+        img.x = startX + (endX - startX) * progress;
+        img.y = startY + (endY - startY) * progress;
+        callImgArr();
+        requestAnimationFrame(animateFrame); // 다음 프레임 요청
+      }
+    }
+
+    animateFrame(); // 첫 실행
+  }
+};
 
 export default {
     moveInDirection,
@@ -202,8 +237,10 @@ export default {
     changeCoordXY,
     rotateImage,
     rotateImageInTime,
-    moveToMouse
+    moveToMouse,
+    moveImageInTime
 };
+    
   
   window.moveInDirection = moveInDirection;
   window.changeMoveDirection = changeMoveDirection;
@@ -217,3 +254,4 @@ export default {
   window.rotateImage = rotateImage;
   window.rotateImageInTime = rotateImageInTime;
   window.moveToMouse = moveToMouse;
+  window.moveImageInTime = moveImageInTime;

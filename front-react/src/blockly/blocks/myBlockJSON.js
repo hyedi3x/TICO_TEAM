@@ -183,13 +183,11 @@ const defineMyBlocks = ()=>{
             "type": "field_input",
             "name": "angle",
             "check": "Number",
-            "align": "RIGHT"
           },
           {
             "type": "field_input",
             "name": "distance",
             "check": "Number",
-            "align": "RIGHT"
           }
         ],
         "previousStatement": null,
@@ -266,7 +264,6 @@ const defineMyBlocks = ()=>{
           "type": "field_input",
           "name": "x",
           "check": "Number",
-          "align": "RIGHT"
         }
       ],
       "previousStatement": null,
@@ -285,7 +282,6 @@ const defineMyBlocks = ()=>{
           "type": "field_input",
           "name": "y",
           "check": "Number",
-          "align": "RIGHT"
         }
       ],
       "previousStatement": null,
@@ -346,11 +342,13 @@ const defineMyBlocks = ()=>{
           {
               "type": "field_input",
               "name": "angle",
+              "check": "Number",
               "text": "0", // 기본값
           },
           {
             "type": "field_input",
             "name": "duration",
+            "check": "Number",
             "text": "0", // 기본값
         }
       ],
@@ -369,6 +367,37 @@ const defineMyBlocks = ()=>{
       "nextStatement": null,
       "style": "move_blocks",
       "tooltip": "현재 오브젝트를 마우스 위치로 이동합니다.",
+      "helpUrl": ""
+    },
+
+    // 일정 시간 동안 이동시키기 블록
+    { 
+      "type": "move_obj_inTime",
+      "message0": "x좌표로 %1 만큼 y좌표로 %2만큼 %3초 동안 이동하기",
+      "args0": [
+          {
+              "type": "field_input",
+              "name": "x",
+              "check": "Number",
+              "text": "10", // 기본값
+          },
+          {
+            "type": "field_input",
+            "name": "y",
+            "check": "Number",
+            "text": "10", // 기본값
+        },
+          {
+            "type": "field_input",
+            "name": "duration",
+            "check": "Number",
+            "text": "1", // 기본값
+        }
+      ],
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": "#FFCC66",
+      "tooltip": "시계방향으로 angle만큼 회전합니다.",
       "helpUrl": ""
     },
 
@@ -703,6 +732,98 @@ const defineMyBlocks = ()=>{
       "tooltip": "현재 초시계 값을 반환합니다.",
       "helpUrl": ""
     },
+    // 블럭코딩 학습하기 - 화면 출력용 블럭
+    {
+      "type": "text_print_to_textarea",
+      "message0": "다음 내용 출력 %1",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "INPUT",
+        }
+      ],
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": 160,
+      "tooltip": "제공된 내용을 결과창에 출력합니다.",
+      "helpUrl": ""
+    },
+    {
+    "type": "math_number_with_statements",
+    "message0": "%1",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "NUM",
+        "value": 0
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 230,
+    "tooltip": "",
+    "helpUrl": ""
+  },
+  {
+    "type": "math_arithmetic_with_statements",
+    "message0": "%1 %2 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "A",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "OP",
+        "options": [
+          ["+", "ADD"],
+          ["-", "MINUS"],
+          ["*", "MULTIPLY"],
+          ["/", "DIVIDE"],
+          ["^", "POWER"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "B",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 230,
+    "tooltip": "",
+    "helpUrl": ""
+  },
+  {
+    "type": "math_modulo_with_statements",
+    "message0": "%1 %2 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "DIVIDEND",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "OP",
+        "options": [
+          ["%", "MODULO"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "DIVISOR",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 230,
+    "tooltip": "",
+    "helpUrl": ""
+  }
   ]);
 };
 
