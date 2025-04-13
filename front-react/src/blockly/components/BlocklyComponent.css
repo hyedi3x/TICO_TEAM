@@ -13,6 +13,38 @@
   flex-wrap: wrap;
 }
 
+.canvas-and-objects {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 가운데 정렬 */
+}
+
+.object-panel-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 500px;
+  margin-top: 1rem;
+}
+
+.object-panel-item {
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #fdfdfd;
+}
+.object-panel-item label {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 13px;
+}
+.object-panel-item input {
+  width: 100%;
+  padding: 4px;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
 /* 캔버스와 마우스좌표 정보를 감싸는 영역 */
 .canvas-area {
   display: flex;
@@ -20,22 +52,8 @@
   align-items: center;
 }
 
-/* 마우스 좌표 및 이미지 좌표 표시 박스 */
-.coord-info {
-  margin: 10px auto 0 auto;
-  padding: 10px 15px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #c1ddee;
-  color: #333;
-  font-size: 14px;
-  width: 100%;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-
 /* blockly 작업 공간 스타일 */
 .blockly-area {
-  background: #fff;
   border-radius: 8px;
   padding: 10px;
   box-shadow: 0 0 8px rgba(0,0,0,0.1);

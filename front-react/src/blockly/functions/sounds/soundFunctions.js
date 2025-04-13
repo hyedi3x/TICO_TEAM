@@ -1,6 +1,9 @@
+let currentVolume = 1.0; // 기본 100%
+
 // 음악 파일 재생
 const playSound = function(soundUrl){
     const audio = new Audio(soundUrl);
+    audio.volume = currentVolume;
     window.activeAudios = window.activeAudios || [];
 
     // 현재 오디오를 큐에 추가하고 재생
@@ -17,8 +20,9 @@ const playSound = function(soundUrl){
 
 // 특정 시간 동안만 재생
 const playSoundDuration = function(soundUrl, duration){
-    window.activeAudios = window.activeAudios || [];
     const audio = new Audio(soundUrl);
+    audio.volume = currentVolume;
+    window.activeAudios = window.activeAudios || [];
 
     // 현재 오디오를 큐에 추가하고 재생
     window.activeAudios.push(audio);
@@ -37,9 +41,9 @@ const playSoundDuration = function(soundUrl, duration){
 
 // 특정 구간만 재생
 const playSoundRange = function(soundUrl, startTime, endTime){
-    window.activeAudios = window.activeAudios || [];
-    
     const audio = new Audio(soundUrl);
+    audio.volume = currentVolume;
+    window.activeAudios = window.activeAudios || [];
 
     audio.currentTime = startTime;
 
@@ -80,6 +84,11 @@ const stopSounds = function(option){
     }
 };
 
+// 소리의 크기를 입력값(%)로 설정
+const setSoundVolume = function(volume){
+    currentVolume = Math.max(0, Math.min(1, volume / 100)); // 0 ~ 1 사이 유지
+}
+
 // 전체 소리의 빠르기를 배수로 설정
 const multipleSoundSpeed = function(multiple){
     window.activeAudios = window.activeAudios || [];
@@ -93,6 +102,7 @@ export default {
     playSoundDuration,
     playSoundRange,
     stopSounds,
+    setSoundVolume,
     multipleSoundSpeed,
 };
 
@@ -100,5 +110,6 @@ window.playSound = playSound;
 window.playSoundDuration = playSoundDuration;
 window.playSoundRange = playSoundRange;
 window.stopSounds = stopSounds;
+window.setSoundVolume = setSoundVolume;
 window.multipleSoundSpeed = multipleSoundSpeed;
 

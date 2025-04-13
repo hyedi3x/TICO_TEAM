@@ -1,31 +1,40 @@
 import { callImgArr, imgArr } from "../../blocks/blockGenerator";
 
 // 요소 보이기
-const showObject = function(index){
-    if (imgArr.current[index]) {
-      imgArr.current[index].hidden = false;
+const showObject = function(index, isClone=false){
+    const targetArr = isClone ? window.cloneArr : imgArr.current;
+
+    if (targetArr[index]) {
+      targetArr[index].hidden = false;
       callImgArr();
     }
 };
 
 // 요소 숨기기
-const hideObject = function(index){
-    if (imgArr.current[index]) {
-      imgArr.current[index].hidden = true;
+const hideObject = function(index, isClone=false){
+    const targetArr = isClone ? window.cloneArr : imgArr.current;
+
+    if (targetArr[index]) {
+      targetArr[index].hidden = true;
       callImgArr();
     }
 };
 
 // 말풍선 보이기
-const showBubble = function(text, index){
-  if (!imgArr.current[index]) return;
-  imgArr.current[index].bubbleText = text;
-  callImgArr();
+const showBubble = function(text, index, isClone=false){
+    const targetArr = isClone ? window.cloneArr : imgArr.current;
+
+    if(targetArr[index]){
+      targetArr[index].bubbleText = text;
+      callImgArr();
+    }
 };
 
 // 요소 색상, 밝기, 투명도 조정
-const changeAppearance = function(property, value, index){
-    const item = imgArr.current[index];
+const changeAppearance = function(property, value, index, isClone=false){
+    const targetArr = isClone ? window.cloneArr : imgArr.current;
+
+    const item = targetArr[index];
     if (!item) return;
   
     // 기본값 초기화
@@ -48,8 +57,10 @@ const changeAppearance = function(property, value, index){
 };
 
 // 크기 변경(입력값만큼 크기 변경)
-const changeObject = function(sizeChangePercent, index){
-    const item = imgArr.current[index];
+const changeObject = function(sizeChangePercent, index, isClone=false){
+    const targetArr = isClone ? window.cloneArr : imgArr.current;
+
+    const item = targetArr[index];
     if (!item) return;
   
     // ✅ 원본 크기 한 번만 저장
@@ -68,8 +79,10 @@ const changeObject = function(sizeChangePercent, index){
   
 
 // 크기 변경(입력값으로 크기 변경)
-const resizeObject = function(size, index){
-    const item = imgArr.current[index];
+const resizeObject = function(size, index, isClone=false){
+    const targetArr = isClone ? window.cloneArr : imgArr.current;
+
+    const item = targetArr[index];
     if (!item) return;
 
     // ✅ 원본 크기 한 번만 저장
@@ -86,8 +99,10 @@ const resizeObject = function(size, index){
 };
 
 // 좌우/상하 반전
-const flipObject = function(direction, index){
-    if (imgArr.current[index]) {
+const flipObject = function(direction, index, isClone=false){
+    const targetArr = isClone ? window.cloneArr : imgArr.current;
+
+    if (targetArr[index]) {
       const item = imgArr.current[index];
       if (direction === 'horizontal') {
         item.flipX = !item.flipX;
@@ -99,12 +114,14 @@ const flipObject = function(direction, index){
 };
 
 // 모양 바꾸기
-const changeShape = function(url, index){
-    if (imgArr.current[index]) {
+const changeShape = function(url, index, isClone=false){
+    const targetArr = isClone ? window.cloneArr : imgArr.current;
+  
+    if (targetArr[index]) {
       const newImg = new Image();
       newImg.src = url;
       newImg.onload = () => {
-        imgArr.current[index].img = newImg;
+        targetArr[index].img = newImg;
         callImgArr();
       };
     }

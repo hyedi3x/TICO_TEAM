@@ -1,0 +1,54 @@
+/* 전체 컨테이너 */
+.f_container {
+  margin-top: 80px;
+  margin-bottom: 80px;
+}
+
+/* 행 정렬 */
+.f_row {
+  display: flex;
+  justify-content: center;
+}
+
+/* 열 너비 제한 */
+.f_col {
+  width: 700px;
+}
+
+/* 카드 스타일 */
+.f_card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0px 2px 8px rgba(0,0,0,0.05);
+  padding: 40px;
+}
+
+/* 제목 */
+.f_title {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+/* 부제목 */
+.f_subtitle {
+  text-align: center;
+  color: #6c757d;
+  margin-bottom: 30px;
+}
+
+/* 폼 그룹 간격 */
+.f_form-group {
+  margin-bottom: 30px;
+}
+
+/* 라벨 */
+.f_label {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+/* 버튼 정렬 */
+.f_btn-wrapper {
+  text-align: center;
+}

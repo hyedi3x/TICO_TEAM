@@ -60,6 +60,7 @@ public class SecurityConfig {
                         .failureUrl("/auth/login?error=true"));
 
         // UsernamePasswordAuthenticationFilter 앞에 JWT 필터 삽입
+            .antMatchers("/auth/**", "/auth/login/**", "/oauth2/**", "/error", "/project/**", "/api/**", "/uploads/**", "/quiz/**","/eduBlock/**", "/").permitAll()
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

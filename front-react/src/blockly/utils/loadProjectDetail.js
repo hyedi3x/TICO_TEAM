@@ -2,6 +2,7 @@ import * as Blockly from "blockly";
 import { javascriptGenerator } from "blockly/javascript";
 import toolboxXML from "../blocks/myBlocks";
 import axios from "axios";
+import ticoTheme from "../blocks/ticoTheme";
 
 // 상세 조회
 export const fetchProjectDetail = async (project_id) => {
@@ -34,7 +35,7 @@ export const loadProjectToCanvas = async (
 
   for (const obj of objects) {
     const img = new Image();
-    if(obj.url === 'http://i.namu.wiki/i/CmGNSPeYt7cloH3uYZ_XTlfknRtDrjYtFVCF5zuvzWLAeaTGqnsW9kDC6iLHjGoF9OamAkLNkxGxpxFHhYd_pQ.svg'){
+    if(obj.url === 'http://i.namu.wiki/i/V9pfx_zcCCzlHxC-pmJsTRAgP_TJNX2UjEijSBb2orh2dzO9fwLAVYMARKOHY8XCjVojE_0t6UYJlSAPBLcAOg.svg'){
       img.src = obj.url;
     } else {
       img.src = `http://localhost:8081${obj.url}`;
@@ -52,6 +53,7 @@ export const loadProjectToCanvas = async (
           width: obj.width,
           height: obj.height,
           angle: obj.angle,
+          moveDirection: obj.moveDirection ?? 90,
           hidden: obj.hidden,
           hue: obj.hue,
           brightness: obj.brightness,
@@ -74,6 +76,7 @@ export const loadProjectToCanvas = async (
         // workspace 생성
         const workspace = Blockly.inject(div, {
           toolbox: toolboxXML(),
+          theme: ticoTheme,
           move: {
             scrollbars: { horizontal: false, vertical: false },
             drag: false,

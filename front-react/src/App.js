@@ -15,6 +15,11 @@ import FindIdPassword from './pages/login/FindIdPassword';
 import ObjectSelectPage from './blockly/components/ObjectSelectPage';
 import MypageMain from '../src/mypage/MypageMain';
 
+import FAQList from './pages/faq/FAQList';
+import FAQPut from './pages/faq/FAQPut';
+import FAQPost from './pages/faq/FAQPost';
+import EduList from './pages/blockedu/EduList';
+import BlockEduComponent from './pages/blockedu/BlockEduComponent';
 function App() {
   return (
     <div>
@@ -33,6 +38,11 @@ function App() {
           <Route path="/FindIdPassword" element={<FindIdPassword/>} />
           <Route path="/select-object" element={<ObjectSelectPage/>} />
           <Route path="/MypageMain" element={<MypageMain/>} />
+          <Route path="/faqlist" element={<FAQList/>} />
+          <Route path="/faqput/:qa_id" element={<FAQPut/>} />
+          <Route path="/faqpost" element={<FAQPost/>} />
+          <Route path="/eduList" element={<EduList/>} />
+          <Route path="/quiz/:quizId" element={<BlockEduComponent/>} />
         </Routes>
         <Footer />
       </BrowserRouter>
