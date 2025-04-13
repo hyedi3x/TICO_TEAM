@@ -50,7 +50,7 @@ public class SecurityConfig {
                 // 요청 권한 설정
                 .authorizeRequests(requests -> requests
                 		// 인증 없이 접근 허용할 경로들 (이외의 요청은 인증 필요)
-                        .antMatchers("/auth/**", "/auth/login/employee**", "/auth/login/customer**", "/oauth2/**", "/error", "/project/**", "/api/**", "/uploads/**", "/").permitAll()
+                        .antMatchers("/auth/**", "/auth/login/employee**", "/auth/login/customer**", "/oauth2/**", "/error", "/project/**", "/api/**", "/quiz/**","/eduBlock/**", "/uploads/**", "/").permitAll()
                         .anyRequest().authenticated())
                 // 소셜 로그인 설정
                 .oauth2Login(login -> login
@@ -60,7 +60,6 @@ public class SecurityConfig {
                         .failureUrl("/auth/login?error=true"));
 
         // UsernamePasswordAuthenticationFilter 앞에 JWT 필터 삽입
-            .antMatchers("/auth/**", "/auth/login/**", "/oauth2/**", "/error", "/project/**", "/api/**", "/uploads/**", "/quiz/**","/eduBlock/**", "/").permitAll()
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

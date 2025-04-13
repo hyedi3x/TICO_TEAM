@@ -22,7 +22,8 @@ import AdminInfo from "./HR_Team/AdminInfo";
 import ErpNotiCreated from "./Home/ErpNotiCreated";
 import ErpNotiDetail from "./Home/ErpNotiDetail";
 import ErpNotiUpdate from "./Home/ErpNotiUpdate";
-import FAQPut from "../../faq/FAQPut";
+import FAQPut from "../faq/FAQPut";
+import BlockEduComponentPost from "../blockedu/BlockEduComponentPost";
 import axios from "axios";
 import MyInfoChk from "./MyPage/MyInfoChk";
 import MyInfoModify from "./MyPage/MyInfoModify";
@@ -75,6 +76,7 @@ function ErpMain() {
       case "3-1": setViewMode("admin-register"); break;
       case "3-2": setViewMode("admin-info"); break;
       case "7-4": setViewMode("faq"); break;
+      case "8-4": setViewMode("blockEduPost"); break;
       default: setViewMode("home"); break;
     }    
   };
@@ -182,6 +184,7 @@ function ErpMain() {
                   <Nav.Item eventKey="8-1">작품 관리</Nav.Item>
                   <Nav.Item eventKey="8-2">커뮤니티 관리</Nav.Item>
                   <Nav.Item eventKey="8-3">스터디 관리</Nav.Item>
+                  <Nav.Item eventKey="8-4">블럭 학습 퀴즈 관리</Nav.Item>
                 </Nav.Menu>
 
                 {/* 시스템 관리팀 메뉴 (DEP007 부서만 활성화) */}
@@ -250,6 +253,7 @@ function ErpMain() {
             {viewMode === "myinfoModify" && <MyInfoModify />} {/* 관리자 정보 조회 */}
             
             {viewMode === "faq" && <FAQPut />} {/* FAQ 관리 */}
+            {viewMode === "blockEduPost" && <BlockEduComponentPost />} {/* 블럭 학습 관리 */}
           </div>
         </Content>
       </div>
