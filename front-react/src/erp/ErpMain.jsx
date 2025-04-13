@@ -17,6 +17,7 @@ import Home from "./Home";
 import AdminRegister from "./AdminRegister";
 import AdminInfo from "./AdminInfo";
 import FAQPut from "../pages/faq/FAQPut";
+import BlockEduComponentPost from "../pages/blockedu/BlockEduComponentPost";
 
 
 
@@ -42,6 +43,10 @@ function ErpMain() {
         
       case '6-4':
       setContent(<FAQPut />);
+      break;
+
+      case '7-4':
+      setContent(<BlockEduComponentPost />);
       break;
       // ... 다른 메뉴 항목에 대한 콘텐츠 설정 ...
       default:
@@ -105,6 +110,7 @@ function ErpMain() {
                 <Nav.Item eventKey="7-1">작품 관리</Nav.Item>
                 <Nav.Item eventKey="7-2">커뮤니티 관리</Nav.Item>
                 <Nav.Item eventKey="7-3">스터디 관리</Nav.Item>
+                <Nav.Item eventKey="7-4">퀴즈 관리(블럭학습하기)</Nav.Item>
               </Nav.Menu>
 
               <Nav.Menu placement="rightStart" eventKey="8" title="시스템 관리팀(SYSO)" icon={<Icon as={FaGear}/>}>
