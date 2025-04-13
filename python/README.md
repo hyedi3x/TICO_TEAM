@@ -1,6 +1,6 @@
 # Chatbot 사용설명서 
 
-### 📄 pip install list
+### 📄 conda install list
 ```shell
 conda create -n tico python=3.9.21  # 아나콘다 가상환경 설정, conda create -n <가상환경명> python=<버전>
 conda env list               # 가상환경 활성화 확인 

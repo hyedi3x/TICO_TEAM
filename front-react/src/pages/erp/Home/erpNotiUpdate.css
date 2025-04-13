@@ -2,6 +2,8 @@
 
 /* 공지사항 수정 전체 컨테이너 */
 .notice-update-container {
+  width: 650px;
+  margin: 0 auto;
   padding: 20px;
 }
 
@@ -42,5 +44,18 @@
 }
 
 .notice-submit:hover {
+  background-color: #45a049;
+}
+
+.notice-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.notice-button:hover {
   background-color: #45a049;
 }

@@ -1,0 +1,138 @@
+/* ============================
+   공지사항 상세 전체 컨테이너
+   ============================ */
+   .notice-detail-container {
+    width: 90%;
+    max-width: 1000px;
+    min-width: 360px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+    overflow-x: auto;
+    box-sizing: border-box;
+    background-color: #fff;
+  }
+  
+  /* 제목 스타일 */
+  .notice-detail-container h3 {
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* ============================
+     공지사항 테이블
+     ============================ */
+  .notice-detail-table {
+    width: 100%;
+    min-width: 600px;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  /* 테이블 셀 스타일 */
+  .notice-detail-table th,
+  .notice-detail-table td {
+    border: 1px solid #eee;
+    padding: 10px;
+    background-color: #fff;
+    text-align: left;
+  }
+  
+  /* 테이블 제목 셀 스타일 */
+  .notice-detail-table th {
+    width: 20%;
+    font-weight: bold;
+    background-color: #fafafa;
+  }
+  
+  /* ============================
+     내용 영역
+     ============================ */
+  .notice-detail-content {
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+  }
+  
+  /* 내용 소제목 */
+  .notice-detail-content h4 {
+    color: #333;
+    margin-bottom: 10px;
+    text-align: left;
+  }
+  
+  /* 본문 텍스트 영역 */
+  .notice-content-textarea {
+    border: 1px solid #eee;
+    background-color: #fdfdfd;
+    padding: 10px;
+    min-height: 200px;
+    width: 100%;
+    resize: vertical;
+    white-space: pre-wrap;
+    font-family: monospace;
+    box-sizing: border-box;
+  }
+  
+  /* ============================
+     하단 버튼 영역
+     ============================ */
+  .notice-detail-buttons {
+    margin-top: 20px;
+    text-align: right;
+  }
+  
+  /* 버튼 공통 스타일 */
+  .notice-button {
+    padding: 8px 16px;
+    margin-left: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .notice-button:hover {
+    background-color: #45a049;
+  }
+  
+  /* ============================
+     파일 다운로드 링크 스타일
+     ============================ */
+  .notice-file-link {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .notice-file-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* ============================
+     반응형 대응
+     ============================ */
+  @media (max-width: 768px) {
+    .notice-detail-container {
+      width: 95%;
+      padding: 15px;
+    }
+  
+    .notice-detail-buttons {
+      text-align: center;
+    }
+  
+    .notice-button {
+      margin: 10px 5px 0 5px;
+      width: 100px;
+    }
+  
+    .notice-detail-content h4 {
+      text-align: center;
+    }
+  }
+  

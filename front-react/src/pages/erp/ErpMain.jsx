@@ -15,15 +15,17 @@ import { TbPlayCardStarFilled } from "react-icons/tb";
 import { FaGear } from "react-icons/fa6";
 
 // 각 화면 컴포넌트 불러오기
-import Home from "./Home";
-import ErpNotices from "./ErpNotices";
+import Home from "./Home/Home";
+import ErpNotices from "./Home/ErpNotices";
 import AdminRegister from "./HR_Team/AdminRegister";
 import AdminInfo from "./HR_Team/AdminInfo";
-import ErpNotiCreated from "./ErpNotiCreated";
-import ErpNotiDetail from "./ErpNotiDetail";
-import ErpNotiUpdate from "./ErpNotiUpdate";
+import ErpNotiCreated from "./Home/ErpNotiCreated";
+import ErpNotiDetail from "./Home/ErpNotiDetail";
+import ErpNotiUpdate from "./Home/ErpNotiUpdate";
 import FAQPut from "../../faq/FAQPut";
 import axios from "axios";
+import MyInfoChk from "./MyPage/MyInfoChk";
+import MyInfoModify from "./MyPage/MyInfoModify";
 
 function ErpMain() {
   const [expanded, setExpanded] = useState(true); // 사이드바 확장 여부
@@ -68,7 +70,8 @@ function ErpMain() {
       case "1": setViewMode("home"); break;
       case "1-1": setViewMode("list"); break;
       case "1-2": setViewMode("create"); break;
-      case "2-1": setViewMode("mypage"); break;
+      case "2-1": setViewMode("myinfoModify"); break;
+      case "2-2": setViewMode("myinfoChk"); break;
       case "3-1": setViewMode("admin-register"); break;
       case "3-2": setViewMode("admin-info"); break;
       case "7-4": setViewMode("faq"); break;
@@ -100,6 +103,7 @@ function ErpMain() {
                   icon={<Icon as={BsFillPeopleFill} />}
                 >
                   <Nav.Item eventKey="2-1">나의 정보 수정</Nav.Item>
+                  <Nav.Item eventKey="2-2">나의 정보 조회</Nav.Item>
                 </Nav.Menu>
 
                 {/* 인사팀 메뉴 (DEP001 부서만 활성화) */}
@@ -110,8 +114,7 @@ function ErpMain() {
                   className={empInfo.depId === "DEP001" ? "" : "disabled-menu"}
                 >
                   <Nav.Item eventKey="3-1">관리자 등록</Nav.Item>
-                  <Nav.Item eventKey="3-2">관리자 조회</Nav.Item>
-                  <Nav.Item eventKey="3-3">관리자 삭제</Nav.Item>
+                  <Nav.Item eventKey="3-2">관리자 조회/수정/삭제</Nav.Item>
                 </Nav.Menu>
 
                 {/* 고객 관리팀 메뉴 (DEP002 부서만 활성화) */}
@@ -196,14 +199,15 @@ function ErpMain() {
                 </Nav.Menu>
               </Nav>
             </Sidenav.Body>
+            <Sidenav.Toggle onToggle={(val) => setExpanded(val)} />
           </Sidenav>
         </div>
 
         {/* 메인 콘텐츠 영역 */}
         <Content
-          className={`main-content ${expanded ? "expanded" : "collapsed"}`}
+          className={`main-content2 ${expanded ? "expanded" : "collapsed"}`}
         >
-          <div className="main-content-inner">
+          <div className="main-content-inner2">
             {/* ERP 첫 화면 */}
             {viewMode === "home" && (
               <Home
@@ -229,6 +233,7 @@ function ErpMain() {
             {viewMode === "create" && (
               <ErpNotiCreated onRegisterSuccess={() => setViewMode("list")} />
             )}
+            
             {/* 기업 공지사항 상세보기 */}
             {viewMode === "detail" && comNotiId && (
               <ErpNotiDetail id={comNotiId} onBack={() => setViewMode("list")} onEdit={() => setViewMode("edit")}/>
@@ -238,15 +243,13 @@ function ErpMain() {
             {viewMode === "edit" && (
               <ErpNotiUpdate id={comNotiId} onBack={() => setViewMode("list")}/>
             )}
-
-            {/* 관리자 등록 */}
-            {viewMode === "admin-register" && <AdminRegister />}
-
-            {/* 관리자 조회 */}
-            {viewMode === "admin-info" && <AdminInfo />}
-
-            {/* FAQ 관리 */}
-            {viewMode === "faq" && <FAQPut />}
+            
+            {viewMode === "admin-register" && <AdminRegister />} {/* 관리자 등록 */}
+            {viewMode === "admin-info" && <AdminInfo />} {/* 관리자 정보 조회 */}
+            {viewMode === "myinfoChk" && <MyInfoChk />} {/* 관리자 정보 조회 */}
+            {viewMode === "myinfoModify" && <MyInfoModify />} {/* 관리자 정보 조회 */}
+            
+            {viewMode === "faq" && <FAQPut />} {/* FAQ 관리 */}
           </div>
         </Content>
       </div>

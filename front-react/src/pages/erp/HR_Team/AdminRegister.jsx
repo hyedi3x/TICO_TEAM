@@ -145,8 +145,8 @@ function AdminRegister() {
       {/* 기본정보 입력 패널 */}
       <Panel header="기본정보" className="panel-container">
         <Grid fluid>
-          <Row className="form-row">
-            <Col sm={6}>
+          <Row className="form-row2">
+            <Col sm={4}>
               <SelectPicker
                 placeholder="부서코드"
                 data={departments}
@@ -156,7 +156,7 @@ function AdminRegister() {
                 searchable={false}
               />
             </Col>
-            <Col sm={6}>
+            <Col sm={4}>
               <SelectPicker
                 placeholder="직책코드"
                 data={jobOptions}
@@ -168,20 +168,20 @@ function AdminRegister() {
             </Col>
             <Col sm={6}>
               <Input
-                placeholder="사원 비밀번호 (이름+월일)"
-                type="password"
-                value={form.empPwd}
-                onChange={(v) => handleChange("empPwd", v)}
-                style={{ width: "100%" }}
-              />
-            </Col>
-            <Col sm={6}>
-              <Input
                 placeholder="기본급 (월급)"
                 type="number"
                 value={form.salary}
                 onChange={(v) => handleChange("salary", v)}
                 style={{ width: "100%" }}
+              />
+            </Col>
+            <Col sm={8}>
+              <Input
+                placeholder="사원 비밀번호 (이름+월일)"
+                type="password"
+                value={form.empPwd}
+                onChange={(v) => handleChange("empPwd", v)}
+                style={{ width: "98%" }}
               />
             </Col>
           </Row>
@@ -191,15 +191,15 @@ function AdminRegister() {
       {/* 인적사항 입력 패널 */}
       <Panel header="인적사항" className="panel-container">
         <Grid fluid>
-          <Row className="form-row">
-            <Col sm={6}>
+          <Row className="form-row2">
+            <Col sm={4}>
               <Input
                 placeholder="이름"
                 value={form.empName}
                 onChange={(v) => handleChange("empName", v)}
               />
             </Col>
-            <Col sm={6}>
+            <Col sm={4}>
               <DatePicker
                 placeholder="생년월일"
                 value={form.empBirth}
@@ -207,21 +207,21 @@ function AdminRegister() {
                 style={{ width: "100%" }}
               />
             </Col>
-            <Col sm={6}>
+            <Col sm={4}>
               <Input
                 placeholder="전화번호"
                 value={form.empPhone}
                 onChange={(v) => handleChange("empPhone", v)}
               />
             </Col>
-            <Col sm={6}>
+            <Col sm={5}>
               <Input
                 placeholder="이메일"
                 value={form.empEmail}
                 onChange={(v) => handleChange("empEmail", v)}
               />
             </Col>
-            <Col sm={6}>
+            <Col sm={4}>
               <DatePicker
                 placeholder="입사일"
                 value={form.hireDate}
@@ -229,7 +229,7 @@ function AdminRegister() {
                 style={{ width: "100%" }}
               />
             </Col>
-            <Col sm={6}>
+            <Col sm={4}>
               <DatePicker
                 placeholder="퇴사일"
                 value={form.terminationDate}
@@ -244,7 +244,7 @@ function AdminRegister() {
       {/* 주소 정보 입력 패널 */}
       <Panel header="주소 정보" className="panel-container">
         <Grid fluid>
-          <Row className="form-row">
+          <Row className="form-row2">
             <Col sm={16}>
               <Input
                 placeholder="주소"
@@ -254,7 +254,7 @@ function AdminRegister() {
               />
             </Col>
             <Col sm={6}>
-              <button className="search-btn" onClick={openDaumPostcode}>
+              <button className="search-btn" onClick={openDaumPostcode} style={{ width: "94%" }}>
                 주소 검색
               </button>
             </Col>

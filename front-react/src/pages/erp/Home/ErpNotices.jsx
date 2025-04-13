@@ -143,7 +143,7 @@ function ErpNotices({ onViewDetail, onEdit }) {
                         </th>
                         <th>
                             {/* 카테고리(유형) 필터 */}
-                            <select value={selectedType} onChange={(e) => setSelectedType(e.target.value)}>
+                            <select className="noti-select" value={selectedType} onChange={(e) => setSelectedType(e.target.value)}>
                                 <option value="">전체 유형</option>
                                 {categories.map(category => (
                                     <option key={category} value={category}>{category}</option>
@@ -152,7 +152,7 @@ function ErpNotices({ onViewDetail, onEdit }) {
                         </th>
                         <th>
                             {/* 상태 필터 */}
-                            <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+                            <select className="noti-select" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
                                 <option value="">전체</option>
                                 <option value="active">활성</option>
                                 <option value="inactive">비활성</option>
@@ -179,11 +179,11 @@ function ErpNotices({ onViewDetail, onEdit }) {
                             <td>{formatDate(notice.erpNotiCreatedAt)}</td>
                             <td>{notice.erpNotiType}</td>
                             <td>{notice.erpNotiStatus}</td>
-                            <td>
-                                <button className="edit-button" onClick={() => onEdit(notice.erpNotiId)}>수정</button>
+                            <td className="button-cell">
+                                <button className="noti-edit-button" onClick={() => onEdit(notice.erpNotiId)}>수정</button>
                             </td>
-                            <td>
-                                <button onClick={() => handleDelete(notice.erpNotiId)}>삭제</button>
+                            <td className="button-cell">
+                                <button className="noti-delete-button" onClick={() => handleDelete(notice.erpNotiId)}>삭제</button>
                             </td>
                         </tr>
                     ))}

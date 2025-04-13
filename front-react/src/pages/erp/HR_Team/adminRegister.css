@@ -7,14 +7,15 @@
 }
 
 /* .form-row: 폼 요소들을 담는 컨테이너의 기본 스타일 */
-.form-row {
+.form-row2 {
   margin: 0;
   padding: 0;
 }
 
 /* form-row 내 rs-col에 적용 */
-.form-row > .rs-col {
+.form-row2 > .rs-col {
   box-sizing: border-box; /* 박스 크기를 padding과 border를 포함하여 계산 */
+  margin-bottom: 10px;
 }
 
 /* 컬럼 내부에 적용되는 스타일 */
