@@ -130,12 +130,13 @@ function BlockEduComponentPost() {
     }).then(result => {
       const img = new Image();
       img.src = result.toDataURL('image/png');
+      setAnswer_img(img.src);
       const captureDiv = document.querySelector('.e2_capture-div');
       if (captureDiv) {
         captureDiv.innerHTML = ''; // 전 이미지 제거
         captureDiv.appendChild(img);
       }
-  
+      
       // 👈 다시 보이게
       trashAndZoomImgs.forEach(el => el.style.display = '');
     });
@@ -144,7 +145,7 @@ function BlockEduComponentPost() {
   // 저장하기
   const saveQuiz = () => {
     try{
-      fetch('http://localhost:8080/eduBlock/quiz', {
+      fetch('http://localhost:8081/eduBlock/Postquiz', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -209,10 +210,6 @@ function BlockEduComponentPost() {
         break;
       case 'quiz_level':
         setquiz_level(value);
-        console.log(value);
-        break;
-      case 'answer_img':
-        setAnswer_img(value);
         console.log(value);
         break;
       case 'answer_xml':
@@ -285,7 +282,7 @@ function BlockEduComponentPost() {
             </div>
             <div className="e2_button-blockly">
               <button onClick={()=>navigate("/eduList")}>☰ 목록으로 돌아가기</button>
-              <button onClick={saveQuiz}>💾 저장하기</button>
+              <button onClick={()=> saveQuiz()}>💾 저장하기</button>
             </div>
           </div>
         </div>

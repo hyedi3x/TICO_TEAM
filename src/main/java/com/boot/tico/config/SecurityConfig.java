@@ -32,7 +32,7 @@ public class SecurityConfig {
         .and()
         .csrf().disable()
           .authorizeRequests()
-            .antMatchers("/auth/**", "/auth/login/**", "/oauth2/**", "/error", "/project/**", "/api/**", "/uploads/**", "/quiz/**", "/").permitAll()
+            .antMatchers("/auth/**", "/auth/login/**", "/oauth2/**", "/error", "/project/**", "/api/**", "/uploads/**", "/quiz/**","/eduBlock/**", "/").permitAll()
             .anyRequest().authenticated()
         .and()
            .oauth2Login()

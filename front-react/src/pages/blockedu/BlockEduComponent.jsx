@@ -27,7 +27,7 @@ function BlockEduComponent() {
   const [textareaContent, setTextareaContent] = useState(''); // textarea 상태
   const [quizData, setQuizData] = useState(null); // 퀴즈 데이터 상태
   
-  const [currentImageSrc, setCurrentImageSrc] = useState(hint);
+  const [currentImageSrc, setCurrentImageSrc] = useState('');
 
   const user_uuid = "1753fb32-6820-4840-9abc-ac5711f0ea5f"; // 임시
 
@@ -41,6 +41,7 @@ function BlockEduComponent() {
         setAnswerXml(data.answer_xml);
         setQuizDescription(data.quiz_description);
         console.log("정답 XML:", data.answer_xml);
+        setCurrentImageSrc(data.quiz_img); // quizData 로딩 후 설정
       } catch (error) {
         console.error("정답 XML 불러오기 실패:", error);
       }
@@ -167,10 +168,10 @@ function BlockEduComponent() {
   // 이미지 토글
 
   const handleToggle = () => {
-    if (currentImageSrc === hint) {
-      setCurrentImageSrc(hint1);
+    if (currentImageSrc === quizData.quiz_img) {
+      setCurrentImageSrc(quizData.answer_img);
     } else {
-      setCurrentImageSrc(hint);
+      setCurrentImageSrc(quizData.quiz_img);
     }
   }    
 
