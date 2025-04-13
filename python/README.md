@@ -34,7 +34,7 @@ pip install --upgrade google-cloud-speech   # google-speech 라이브러리
 ### 💾 시스템 환경 변수 설정 
 Google Cloud Speech-to-Text에서 발급한 json키를 환경변수에 등록한다. 
 <br/><br/>
-<img src="./imgs/system_settings_gspeech_api.png" alt="시스템 환경변수, api 설정">
+<img src="./chatbot/imgs/system_settings_gspeech_api.png" alt="시스템 환경변수, api 설정">
 
 
 ### 파이썬 서버 실행 

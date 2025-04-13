@@ -44,7 +44,16 @@ import 'rsuite/dist/rsuite.min.css';    # CSS재설정이 포함되어 있음.
 import 'rsuite/dist/rsuite-no-reset.min.css';   # 자신의 CSS 재설정을 사용하기 위해서
 import 'rsuite/Button/styles/index.css';    # 필요에 따라 일부 구성 요소의 스타일만 필요한 경우
 
+npm install dayjs # 날짜 관련 라이브러리
+npm install formik #  React 애플리케이션에서 폼 상태 관리를 쉽게 도와주는 라이브러리
+
+npm install web-vitals  #  리액트 애플리케이션에서 성능을 측정하기 위한 라이브러리
+
+npm install jwt-decode # JWT를 디코딩하여 페이로드와 헤더 정보를 쉽게 추출할 수 있게 해주는 라이브러리리
 npm install axios   # 비동기 처리(fetch랑 같은 기능)
+
+npm install blockly  # blockly API 라이브러리
+npm install html2canvas # javascript의 화면 캡쳐 라이브러리
 ```
 
 <br/>
