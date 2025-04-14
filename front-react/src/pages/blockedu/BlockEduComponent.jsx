@@ -9,6 +9,7 @@ import {useNavigate, useParams } from 'react-router-dom';
 import './Modal.css';
 import hint from '../../imgs/quiz1.jpg';
 import hint1 from '../../imgs/짱구1.jpg';
+import ticoTheme from '../../blockly/blocks/ticoTheme';
 
 Blockly.setLocale(ko);
 
@@ -71,6 +72,7 @@ function BlockEduComponent() {
 
       const newWorkspace = Blockly.inject(blocklyDivElement, {
         toolbox: eduToolboxXML6(),
+        theme: ticoTheme,
         move: { scrollbars: true, drag: false, wheel: false },
         zoom: { controls: true, startScale: 1.0, maxScale: 3, minScale: 0.3, scaleSpeed: 1.2, pinch: true }
       });

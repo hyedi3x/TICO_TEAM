@@ -141,8 +141,10 @@ const rotateImage = function (angle, index, isClone=false) {
 };
 
 // 입력시간 동안 이미지 회전
+let isRotating = false; // 애니메이션 중복 방지 플래그
 const rotateImageInTime= function (angle, duration, index, isClone=false) {
-
+  if (isRotating) return; // 애니메이션 중복 방지
+  isRotating = true; // 애니메이션 시작
   const targetArr = isClone ? window.cloneArr : imgArr.current;
     
   return new Promise((resolve)=>{
@@ -150,6 +152,7 @@ const rotateImageInTime= function (angle, duration, index, isClone=false) {
       runAnimation(angle, duration,index,resolve); // await rotateImageInTime(...)로 사용가능
   })
 
+  
   function runAnimation(angle, duration,index,resolve) {
       
       const img = targetArr[index];
@@ -164,6 +167,7 @@ const rotateImageInTime= function (angle, duration, index, isClone=false) {
             img.angle = endAngle;
             callImgArr();
             console.log('애니메이션 완료');
+            isRotating = false; // 애니메이션 완료 후 플래그 초기화
             resolve(); // promise 완료
         } else { // 진행중
             const progress = (now  - startTime) / (duration * 1000); //  현재-시작시간/총 시간 = 진행률 (0~1사이의 값)
@@ -188,7 +192,10 @@ const moveToMouse = function(index, isClone = false) {
   }
 };
 
+let isAnimating  = false; // 애니메이션 중복 방지 플래그
 const moveImageInTime = function (x, y, duration, index) {
+  if (isAnimating ) return; // 애니메이션 중복 방지
+  isAnimating  = true; // 애니메이션 시작
   return new Promise((resolve) => {
     console.log('이동 애니메이션 시작됨');
     runMoveAnimation(x, y, duration, index, resolve);
@@ -211,6 +218,7 @@ const moveImageInTime = function (x, y, duration, index) {
         img.y = endY;
         callImgArr();
         console.log('이동 애니메이션 완료');
+        isAnimating = false; // 애니메이션 완료 후 플래그 초기화
         resolve(); // 애니메이션 완료
       } else {
         const progress = (now - startTime) / (duration * 1000); // 진행률 (0 ~ 1)

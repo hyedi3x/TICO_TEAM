@@ -732,6 +732,7 @@ const defineMyBlocks = ()=>{
       "tooltip": "현재 초시계 값을 반환합니다.",
       "helpUrl": ""
     },
+
     // 블럭코딩 학습하기 - 화면 출력용 블럭
     {
       "type": "text_print_to_textarea",
@@ -744,7 +745,7 @@ const defineMyBlocks = ()=>{
       ],
       "previousStatement": null,
       "nextStatement": null,
-      "colour": 160,
+      "style": "text_blocks",
       "tooltip": "제공된 내용을 결과창에 출력합니다.",
       "helpUrl": ""
     },
@@ -760,7 +761,7 @@ const defineMyBlocks = ()=>{
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": 230,
+    "style": "math_blocks",
     "tooltip": "",
     "helpUrl": ""
   },
@@ -792,7 +793,7 @@ const defineMyBlocks = ()=>{
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": 230,
+    "style": "math_blocks",
     "tooltip": "",
     "helpUrl": ""
   },
@@ -820,7 +821,7 @@ const defineMyBlocks = ()=>{
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": 230,
+    "style": "math_blocks",
     "tooltip": "",
     "helpUrl": ""
   }
