@@ -18,6 +18,7 @@ import ObjectControlPanel from './ObjectControl';
 import "../components/BlocklyComponent.css";
 import ObjectSelectPage from './ObjectSelectPage';
 import ticoTheme from '../blocks/ticoTheme';
+import { registerWhackableClickListener, setupWhackMoleGame } from '../games/whackMoleGame';
 
 Blockly.setLocale(ko); // Blockly 언어를 한국어로 설정
 
@@ -46,6 +47,11 @@ function Canvas() {
   const [projectList, setProjectList] = useState([]);
   const [showProjectModal, setShowProjectModal] = useState(false);
   const currentProjectId = useRef(null); // 현재 작업 중인 project_id
+
+  // 점수
+  const [score, setScore] = useState(0);
+
+  const [gameMode, setGameMode] = useState(null);
 
   //
   const navigate = useNavigate(); // 페이지 이동 함수
@@ -124,7 +130,10 @@ function Canvas() {
       // 블록 변경 이벤트 → 코드 저장
       workspace.addChangeListener(() => {
         const code = javascriptGenerator.workspaceToCode(workspace); //코드 변환
-        imgArr.current[workspace.index].code = code; // 코드 저장
+        // ✅ 방어 코드 추가
+        if (imgArr.current[workspace.index]) {
+          imgArr.current[workspace.index].code = code;
+        }
       });
 
       // 최신 추가 작업공간만 표시(마지막 workspace만)
@@ -303,6 +312,7 @@ function Canvas() {
 
     // 1. 실행하기 버튼 핸들러
   const runStartBtnCode = () => {
+    window.running = true; // 실행 상태 ON
     blocklyArr.current.forEach((workspace, index) => {
       generateStart(workspace, imgArr, index, 'start_btn');
       const code = imgArr.current[index]?.code;
@@ -310,6 +320,12 @@ function Canvas() {
         runGeneratedCode(code, index, false);
       }
     });
+  };
+
+  // ✅ 멈춤 버튼 핸들러
+  const runStopBtnCode = () => {
+    window.running = false; // 실행 상태 OFF
+    console.log("🔴 실행 중지됨!");
   };
 
   const handleKeyDown = (e) => {
@@ -439,6 +455,18 @@ function Canvas() {
     callImgArr();
   }
 
+  // 내부 useEffect
+  useEffect(() => {
+    const cleanup = registerWhackableClickListener({
+      imgArr,
+      canvasRef,
+      callImgArr,
+      setScore
+    });
+    return () => cleanup();
+  }, []);
+  
+
   /** ─────────────── 렌더링 ─────────────── **/
   return (
     <div className="blockly-container">
@@ -456,6 +484,8 @@ function Canvas() {
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
             >
+            <h3>점수: {score}</h3>
+            <br></br>
             <h6> 🖱 마우스좌표  ( x좌표 : {coordinates.x} &nbsp; y좌표 : {coordinates.y})</h6>
             <canvas // 스타일과 마우스 핸들러 연결
               ref={canvasRef}
@@ -505,6 +535,7 @@ function Canvas() {
               ➕ 요소 추가
             </button>
             <button onClick={runStartBtnCode}>▶️ 실행하기</button>
+            <button onClick={runStopBtnCode}>⏹️ 멈추기</button>
             <button onClick={() => handleSaveProject(imgArr, blocklyArr, currentProjectId.current)}>
               💾 저장하기
             </button>
