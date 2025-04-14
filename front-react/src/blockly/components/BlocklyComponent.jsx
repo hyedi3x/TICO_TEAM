@@ -68,19 +68,21 @@ function Canvas() {
   /** ─────────────── 초기 로딩 ─────────────── **/
   useEffect(() => {
     defineMyBlocks(); // 사용자 정의 블록 등록
-    callimage('http://i.namu.wiki/i/V9pfx_zcCCzlHxC-pmJsTRAgP_TJNX2UjEijSBb2orh2dzO9fwLAVYMARKOHY8XCjVojE_0t6UYJlSAPBLcAOg.svg');
+    callimage('http://localhost:8081/uploads/entrybot.png');
     // eslint-disable-next-line
   }, []);
   
   /** ─────────────── 이미지 및 Blockly 생성 ─────────────── **/
   const callimage= (imgUrl)=>{  
     const img = new Image();
+    img.crossOrigin = "anonymous"; //  getImageData() 메서드 사용을 위한 CORS 설정
     // onload와 분리해서 처리할 것(src로 로드 된 후 onload가 실행되기 때문)
-    if(imgUrl === 'http://i.namu.wiki/i/V9pfx_zcCCzlHxC-pmJsTRAgP_TJNX2UjEijSBb2orh2dzO9fwLAVYMARKOHY8XCjVojE_0t6UYJlSAPBLcAOg.svg'){
+    if(imgUrl === 'http://localhost:8081/uploads/entrybot.png'){
       img.src = imgUrl;
     } else {
       img.src = `http://localhost:8081${imgUrl}`;
-    }
+
+  }
       
     // 객체 로드시 배열에 js객체로 변수와 속성값을 추가
     img.onload = () =>{
@@ -202,47 +204,47 @@ function Canvas() {
     // offsetX와 offsetY는 마우스 이벤트가 발생한 위치를 이벤트가 발생한 요소(캔버스)의 왼쪽 상단 모서리를 기준으로 나타내는 값 
     // event.clientX - rect.left와 동일, 이 값들은 SyntheticEvent 객체에서 직접적으로 제공되지 않기에 nativeEvent가 필요하다.
     e.preventDefault(); // 해당 이벤트의 기본 동작을 중단시키는 역할 (텍스트 선택, 이미지 드래그 등 방지), 캔버스 요소는 기본적으로 사용자가 마우스로 드래그할 때 텍스트 선택이나 이미지 드래그와 같은 기본 동작을 수행, 사용자 정의 기능과 충돌 방지
-    startPosRef.current = { // current속성에 새로운 값을 할당
-      x: offsetX - viewPosRef.current.x, // 마우스 클릭 위치를 뷰포트 기준으로 변환한 좌표
-      y: offsetY - viewPosRef.current.y,
-    };
-    panningRef.current = true;
-
+  
     // 이미지 선택 여부 확인
     let imgIndex = -1;
     
     // 이미지 클릭 여부 확인
-    imgArr.current.forEach((refItem, index)=>{
-      if(
+    imgArr.current.forEach((refItem, index) => {
+      if (
         offsetX >= refItem.x &&
         offsetX <= refItem.x + refItem.width &&
         offsetY >= refItem.y &&
-        offsetY <= refItem.y+refItem.height
-      ){
+        offsetY <= refItem.y + refItem.height
+      ) {
         setSelectedImageIndex(index); // ✅ 상태 업데이트
         startPosRef.current = { x: offsetX - refItem.x, y: offsetY - refItem.y }; // 이미지 내부 클릭 위치 저장      
-        if( index > imgIndex){
+        if (index > imgIndex) {
           imgIndex = index;
         };
       };
     });
-    
-    console.log('선택된 오브젝트 : ',imgIndex);
-    blocklyArr.current.forEach((item, index)=>{
-
+  
+    if (imgIndex >= 0) {
+      panningRef.current = true; // ✅ 이미지 내부 클릭 시에만 드래그 활성화
+    } else {
+      panningRef.current = false; // ✅ 이미지 외부 클릭 시 드래그 비활성화
+    }
+  
+    console.log('선택된 오브젝트 : ', imgIndex);
+    blocklyArr.current.forEach((item, index) => {
       const blocklyDivElement = document.getElementById(`blockly${index}`);
-      if(imgIndex === -1){
+      if (imgIndex === -1) {
         return;
       };
-      if(blocklyDivElement){
-        blocklyDivElement.style.display='none';
-        if(index === imgIndex){
-          blocklyDivElement.style.display='block';
+      if (blocklyDivElement) {
+        blocklyDivElement.style.display = 'none';
+        if (index === imgIndex) {
+          blocklyDivElement.style.display = 'block';
         };
       };
     });
-   
   };
+  
   
   // handleMouseUp: 마우스 업 이벤트를 처리하고 패닝을 종료
   const handleMouseUp = () => { 
