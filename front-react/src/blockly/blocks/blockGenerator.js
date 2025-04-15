@@ -6,7 +6,7 @@ import { createClone, deleteThisClone } from '../functions/flows/flowFunctions';
 // eslint-disable-next-line
 import { moveInDirection, changeMoveDirection, moveInDirectionAngle, moveImgToX, moveImgToY, moveImgToXY, changeCoordX, changeCoordY, changeCoordXY, rotateImage, rotateImageInTime, moveToMouse, moveImageInTime } from '../functions/moves/moveFunctions';
 // eslint-disable-next-line
-import { showObject, hideObject, changeAppearance, changeObject, resizeObject, flipObject, changeShape } from "../functions/appearances/appearanceFunctions";
+import { showObject, hideObject, changeAppearance, changeObject, resizeObject, flipObject, changeShape, setAsBackground } from "../functions/appearances/appearanceFunctions";
 // eslint-disable-next-line
 import { playSound, playSoundDuration, playSoundRange, stopSounds, multipleSoundSpeed } from "../functions/sounds/soundFunctions";
 // eslint-disable-next-line
@@ -78,6 +78,11 @@ const RegisterBlockGenerator = (props) => {
   javascriptGenerator.forBlock['wait_seconds'] = function(block) {
     const seconds = block.getFieldValue('seconds');
     return `await new Promise(resolve => setTimeout(resolve, ${seconds} * 1000));\n`;
+  };
+
+  // 모든 코드 멈추기
+  javascriptGenerator.forBlock['stop_all_code'] = function (block) {
+    return ` window.running = false;\n`;
   };
 
   // 이동방향과 일치하는 각도로 입력값만큼 거리 이동
@@ -218,6 +223,31 @@ const RegisterBlockGenerator = (props) => {
   javascriptGenerator.forBlock['change_shape'] = function(block) {
     const shape = block.getFieldValue('shape'); // URL or 경로 문자열
     return `await changeShape('${shape}', index, isClone);\n`;
+  };
+
+  // 마우스 커서 이미지 변경
+  javascriptGenerator.forBlock['change_cursor_image'] = function (block) {
+    let cursor = block.getFieldValue('cursor');
+  
+    if (!cursor.endsWith('.png')) {
+      cursor += '.png';
+    }
+  
+    const encoded = encodeURIComponent(cursor);
+  
+    return `
+      const canvas = document.querySelector("canvas");
+      if (canvas) {
+        canvas.style.cursor = 'url("http://localhost:8081/uploads/${encoded}") 24 24, auto';
+      } else {
+        console.warn("❌ 캔버스 요소를 찾을 수 없습니다.");
+      }
+    `;
+  };
+
+  // 배경화면 설정
+  javascriptGenerator.forBlock['set_as_background'] = function () {
+    return `await setAsBackground(index, isClone);\n`;
   };
 
   // 소리 재생
