@@ -75,7 +75,6 @@ function Canvas() {
   /** ─────────────── 이미지 및 Blockly 생성 ─────────────── **/
   const callimage= (imgUrl)=>{  
     const img = new Image();
-    img.crossOrigin = "anonymous"; //  getImageData() 메서드 사용을 위한 CORS 설정
     // onload와 분리해서 처리할 것(src로 로드 된 후 onload가 실행되기 때문)
     if(imgUrl === 'http://localhost:8081/uploads/entrybot.png'){
       img.src = imgUrl;

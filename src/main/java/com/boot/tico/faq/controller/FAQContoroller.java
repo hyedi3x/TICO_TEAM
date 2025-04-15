@@ -1,5 +1,7 @@
 package com.boot.tico.faq.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.boot.tico.faq.dto.FAQDTO;
 import com.boot.tico.faq.service.FAQServiceImpl;
+import com.boot.tico.project.controller.ProjectController;
 
 @RestController //Controller + ResponseBody (Java 객체를 JSON이나 XML과 같은 형식으로 변환하여 응답 본문에 작성)
 @RequestMapping("/api")
@@ -23,6 +26,8 @@ public class FAQContoroller {
 	
 	@Autowired
     private FAQServiceImpl faqService;
+	
+	private final Logger logger = LoggerFactory.getLogger(FAQContoroller.class);
 	
 	 @PostMapping("/faqPost") // Post 요청이 /faqPost 경로로 들어올 때 실행
 	    public ResponseEntity<?> postFAQ(@RequestBody FAQDTO dto) {
@@ -34,9 +39,8 @@ public class FAQContoroller {
 	 
 	 @GetMapping("/faqGet") 
 	    public ResponseEntity<?> getFAQ() {
-		 	System.out.println("<<< board >>>");
+		 	logger.info("<<< url => faqGet >>>");
 		 	return new ResponseEntity<>(faqService.findAll(), HttpStatus.CREATED);
-		 
 	    }
 	 
 	 @DeleteMapping("/faqDelete/{faq_id}") 

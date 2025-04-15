@@ -1,7 +1,11 @@
 package com.boot.tico.eduProject.dto;
 
+import java.sql.Timestamp;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -27,5 +31,6 @@ public class EduProjectDTO {
 	private String answer_xml;
 	private String quiz_img;
 	private String answer_img;
+	private String isdelete;
 	
 }

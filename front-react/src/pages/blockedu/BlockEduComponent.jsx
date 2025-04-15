@@ -4,11 +4,9 @@ import * as ko from 'blockly/msg/ko';
 import { javascriptGenerator } from 'blockly/javascript';
 import defineMyBlocks from '../../blockly/blocks/myBlockJSON';
 import "./BlockEduComponent.css";
-import eduToolboxXML6 from './edublock/eduBlock6';
+import eduToolboxXML6 from './edublock/eduToolboxXML';
 import {useNavigate, useParams } from 'react-router-dom';
 import './Modal.css';
-import hint from '../../imgs/quiz1.jpg';
-import hint1 from '../../imgs/짱구1.jpg';
 import ticoTheme from '../../blockly/blocks/ticoTheme';
 
 Blockly.setLocale(ko);
@@ -30,8 +28,9 @@ function BlockEduComponent() {
   
   const [currentImageSrc, setCurrentImageSrc] = useState('');
 
-  const user_uuid = "1753fb32-6820-4840-9abc-ac5711f0ea5f"; // 임시
-
+  const user_uuid = localStorage.getItem("user_uuid");
+  console.log("user_uuid : ", user_uuid);
+  
   useEffect(() => {
     const fetchAnswerXml = async () => {
       try {
@@ -83,8 +82,6 @@ function BlockEduComponent() {
       setWorkspace(newWorkspace);
 
       newWorkspace.addChangeListener(() => {
-        javascriptGenerator.nameDB_.reset();
-        javascriptGenerator.nameDB_.setVariableMap(null); // ✅ 자동 유니크화 방지
 
         const code = javascriptGenerator.workspaceToCode(newWorkspace);
         setGeneratedCode(code);

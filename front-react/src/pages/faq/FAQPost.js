@@ -22,7 +22,6 @@ function FAQPost() {
       .then((response) => {
         if (response.ok) {
           alert('FAQ가 성공적으로 등록되었습니다.');
-          setQuestion(''); // 등록 후 입력필드 초기화
           setAnswer('');
           navigate('/FAQList');
         } else {
