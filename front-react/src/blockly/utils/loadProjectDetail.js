@@ -35,7 +35,7 @@ export const loadProjectToCanvas = async (
 
   for (const obj of objects) {
     const img = new Image();
-    if(obj.url === 'http://i.namu.wiki/i/V9pfx_zcCCzlHxC-pmJsTRAgP_TJNX2UjEijSBb2orh2dzO9fwLAVYMARKOHY8XCjVojE_0t6UYJlSAPBLcAOg.svg'){
+    if(obj.url === 'http://localhost:8081/uploads/entrybot.png'){
       img.src = obj.url;
     } else {
       img.src = `http://localhost:8081${obj.url}`;
@@ -116,4 +116,5 @@ export const loadProjectToCanvas = async (
     });
   }
   setWorkspaceReady(true);
+ 
 };
