@@ -19,6 +19,7 @@ import "../components/BlocklyComponent.css";
 import ObjectSelectPage from './ObjectSelectPage';
 import ticoTheme from '../blocks/ticoTheme';
 import { registerWhackableClickListener, setupWhackMoleGame } from '../games/whackMoleGame';
+import { drawScoreText, showScore } from '../functions/cals/calFunctions';
 
 Blockly.setLocale(ko); // Blockly 언어를 한국어로 설정
 
@@ -48,12 +49,6 @@ function Canvas() {
   const [showProjectModal, setShowProjectModal] = useState(false);
   const currentProjectId = useRef(null); // 현재 작업 중인 project_id
 
-  // 점수
-  const [score, setScore] = useState(0);
-
-  const [gameMode, setGameMode] = useState(null);
-
-  //
   const navigate = useNavigate(); // 페이지 이동 함수
 
   const handleButtonClick = () => {
@@ -202,6 +197,13 @@ function Canvas() {
     // 💡 여기서 한 번만 setState
     setImagePosition(updatedPositions);
 
+    if (window.elapsedTime > 0) {
+      window.drawTimerText(); // 항상 타이머 위에 그리기
+    }
+
+    if (window.showScore) {
+      drawScoreText();
+    }
   };
   
   /** ─────────────── 마우스 이벤트 ─────────────── **/
@@ -224,11 +226,14 @@ function Canvas() {
         offsetY >= refItem.y &&
         offsetY <= refItem.y + refItem.height
       ) {
-        setSelectedImageIndex(index); // ✅ 상태 업데이트
-        startPosRef.current = { x: offsetX - refItem.x, y: offsetY - refItem.y }; // 이미지 내부 클릭 위치 저장      
-        if (index > imgIndex) {
-          imgIndex = index;
-        };
+        // 🔒 배경은 선택되지 않도록 예외 처리
+        if (!refItem.isBackground) {
+          setSelectedImageIndex(index);
+          startPosRef.current = { x: offsetX - refItem.x, y: offsetY - refItem.y };
+          if (index > imgIndex) {
+            imgIndex = index;
+          }
+        }
       };
     });
   
@@ -460,7 +465,6 @@ function Canvas() {
       imgArr,
       canvasRef,
       callImgArr,
-      setScore
     });
     return () => cleanup();
   }, []);
@@ -483,14 +487,12 @@ function Canvas() {
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
             >
-            <h3>점수: {score}</h3>
-            <br></br>
             <h6> 🖱 마우스좌표  ( x좌표 : {coordinates.x} &nbsp; y좌표 : {coordinates.y})</h6>
             <canvas // 스타일과 마우스 핸들러 연결
               ref={canvasRef}
               width="500"
               height="500"
-              style={{ border: '1px solid' }}
+              style={{ border: '1px solid', backgroundColor: 'transparent' }}
               />
           </div>
 

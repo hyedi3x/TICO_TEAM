@@ -769,6 +769,16 @@ const defineMyBlocks = ()=>{
       "helpUrl": ""
     },
 
+    {
+      "type": "control_score",
+      "message0": "점수 출력하기",
+      "previousStatement": null,
+      "nextStatement": null,
+      "style": "math_blocks",
+      "tooltip": "게임을 만들 시 점수를 출력합니다.",
+      "helpUrl": ""
+    },
+
     // 블럭코딩 학습하기 - 화면 출력용 블럭
     {
       "type": "text_print_to_textarea",
@@ -785,6 +795,7 @@ const defineMyBlocks = ()=>{
       "tooltip": "제공된 내용을 결과창에 출력합니다.",
       "helpUrl": ""
     },
+    
     {
     "type": "math_number_with_statements",
     "message0": "%1",

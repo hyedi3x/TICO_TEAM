@@ -12,7 +12,7 @@ import { playSound, playSoundDuration, playSoundRange, stopSounds, multipleSound
 // eslint-disable-next-line
 import { checkCollision } from "../functions/logicals/logicalFunctions";
 // eslint-disable-next-line
-import { mathRandomInt, startTimer, stopTimer, elapsedTime } from "../functions/cals/calFunctions";
+import { mathRandomInt, startTimer, stopTimer, elapsedTime, startScore, drawScoreText, drawTimerText } from "../functions/cals/calFunctions";
 
 export let imgArr = null; // 백틱은 객체가 잘 안넘어가서 export로 넘겨준다.
 export let callImgArr = null;
@@ -22,11 +22,8 @@ const RegisterBlockGenerator = (props) => {
   // 1
   // 이미지 별로 구분해서 실행하기 위해
   imgArr = props.imgArr;
-  // const workspaceIndex = props.workspaceIndex;
   callImgArr = props.callImgArr;
-
   blocklyArr = props.blocklyArr;
-
   coordinates = props.coordinates;
 
   // Blockly 블록 생성 코드를 등록
@@ -329,6 +326,11 @@ const RegisterBlockGenerator = (props) => {
     return [`elapsedTime`, Order.ATOMIC];
   };
 
+  // 점수 출력하기
+  javascriptGenerator.forBlock['control_score'] = function(block) {
+    return `await startScore();\n`;
+  };
+ 
 };
 
 export default RegisterBlockGenerator;

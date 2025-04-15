@@ -204,9 +204,8 @@ const toolboxXML = ()=>{
                 </block>
                 <block type="control_timer"></block>
                 <block type="get_timer_value"></block>
+                <block type="control_score"></block>
             </category>
-
-            <category name="변수" custom="VARIABLE" categorystyle="variable_category"></category>
         </xml>
     `
 }
