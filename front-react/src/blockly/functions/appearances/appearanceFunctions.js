@@ -103,7 +103,7 @@ const flipObject = function(direction, index, isClone=false){
     const targetArr = isClone ? window.cloneArr : imgArr.current;
 
     if (targetArr[index]) {
-      const item = imgArr.current[index];
+      const item = targetArr[index];
       if (direction === 'horizontal') {
         item.flipX = !item.flipX;
       } else if (direction === 'vertical') {

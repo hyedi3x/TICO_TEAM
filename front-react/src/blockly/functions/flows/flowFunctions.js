@@ -40,19 +40,17 @@ const createClone = function(target, currentIndex) {
 const deleteThisClone = function(index) {
     if (!window.cloneArr || !window.cloneArr[index]) return;
   
-    // 삭제: index 자리만 제거
-    window.cloneArr = window.cloneArr.filter((_, i) => i !== index);
+    // 👇 완전 삭제 대신 숨김 처리로 변경
+    window.cloneArr[index].hidden = true;
   
-    // callImgArr로 캔버스 다시 그리기
     callImgArr();
-    
-    console.log("❌ 복제본 삭제됨:", index);
+    console.log("❌ 복제본 숨김 처리됨:", index);
 };
-
+  
 export default {
     createClone,
-    deleteThisClone
+    deleteThisClone,
 };
-
+    
 window.createClone = createClone;
 window.deleteThisClone = deleteThisClone;
