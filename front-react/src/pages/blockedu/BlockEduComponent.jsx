@@ -18,7 +18,7 @@ function BlockEduComponent() {
   const [workspace, setWorkspace] = useState(null);
   const [generatedCode, setGeneratedCode] = useState('');
   const [xmlText, setXmlText] = useState('');
-  const [showModal, setShowModal] = useState(false); // ✨ 모달 상태
+  const [showModal, setShowModal] = useState(false); // 모달 상태
 
   const { quizId } = useParams();
   const [answerXml, setAnswerXml] = useState(null);
@@ -30,8 +30,17 @@ function BlockEduComponent() {
 
   const user_uuid = localStorage.getItem("user_uuid");
   console.log("user_uuid : ", user_uuid);
+  const isEmp_id = /^\d{5}$/.test(user_uuid); // 5자리 숫자 정규식 체크, \d =	숫자 한 자리 (0~9), {5}	= 앞의 패턴 5번 반복
+
   
   useEffect(() => {
+
+    const user_uuidCheck = localStorage.getItem("user_uuid");
+    if (!user_uuidCheck) {
+      alert("로그인 후 사용 가능합니다.");
+      navigate("/login"); // 로그인 페이지로 이동
+    }
+
     const fetchAnswerXml = async () => {
       try {
         const response = await fetch(`http://localhost:8081/quiz/answer?quizId=${quizId}`);
@@ -137,7 +146,9 @@ function BlockEduComponent() {
   const handleCheckAnswer = () => {
     if (xmlText.trim() === answerXml?.trim()) { // 정확도 향상을 위해 trim() 사용
       setShowModal(true); // ✨ 정답 모달 열기
-      fetchQUiZData(quizId);
+      if (!isEmp_id) { // 사원번호가 아닐 경우에만 푼 문제 업데이트, DB 관리
+       fetchQUiZData(quizId);
+      }
     } else {
       alert("❌ 정답이 일치하지 않습니다. 다시 확인해보세요!");
     }

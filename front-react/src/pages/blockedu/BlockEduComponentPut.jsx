@@ -25,6 +25,7 @@ function BlockEduComponentPut() {
   const [quiz_img, setQuiz_img] = useState('');
   const [answer_img, setAnswer_img] = useState('');
   const [textareaContent, setTextareaContent] = useState('');
+  const [emp_id, setEmp_id] = useState('');
 
   const [restoredXml, setRestoredXml] = useState(false); // 복원 여부 체크
 
@@ -41,6 +42,7 @@ function BlockEduComponentPut() {
           setQuiz_img(data.quiz_img);
           setAnswer_img(data.answer_img);
           setAnswer_xml(data.answer_xml);
+          setEmp_id(data.emp_id); // 등록한 사원 기록용
         })
         .catch(error => {
           console.error('문제 불러오기 오류:', error);
@@ -157,14 +159,14 @@ function BlockEduComponentPut() {
 
   // 문제 저장하기 - id가 존재해서 수정요청으로 사용됨
   const saveQuiz = () => {
-    fetch('http://localhost:8081/eduBlock/Postquiz', {
+    fetch('http://localhost:8081/eduBlock/PostQuiz', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ quiz_id, quiz_title, quiz_description, quiz_level, quiz_img, answer_img, answer_xml }),
+      body: JSON.stringify({ quiz_id, quiz_title, quiz_description, quiz_level, quiz_img, answer_img, answer_xml}),
     })
     .then(res => res.json())
     .then(data => {
-      alert('수정 성공:', data);
+      alert('수정 성공');
       navigate('/EMPEduList');
     })
     .catch(err => {
