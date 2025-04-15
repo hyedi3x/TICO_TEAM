@@ -30,6 +30,5 @@ public class QuizDTO {
 	private String quiz_img;
 	private String answer_img;
 	private String isdelete;             
-    private String created_at;               
-    private String updated_at;     
+    private String created_at;  
 }

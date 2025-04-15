@@ -158,6 +158,7 @@ function BlockEduComponentPost() {
           quiz_img: quiz_img,
           answer_img: answer_img,
           answer_xml: answer_xml,
+          emp_id: localStorage.getItem('user_uuid'), // 사원번호
         }),
       })
       .then((response) => {

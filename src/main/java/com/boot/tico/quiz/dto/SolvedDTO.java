@@ -35,5 +35,4 @@ public class SolvedDTO {
     private String user_uuid;         // 사용자 UUID
     private int quiz_id;              // 문제 ID
     private int solved_count;         // 푼 횟수
-    private String solved_at;
 }
