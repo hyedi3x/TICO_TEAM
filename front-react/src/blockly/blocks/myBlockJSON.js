@@ -135,6 +135,16 @@ const defineMyBlocks = ()=>{
         "helpUrl": ""
       },      
 
+      {
+        "type": "stop_all_code",
+        "message0": "모든 코드 멈추기",
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "loop_blocks",
+        "tooltip": "모든 실행 중인 블록을 중단합니다.",
+        "helpUrl": ""
+      },
+
       // 움직임 관련 블록들
       // 이동방향으로 입력값만큼 이동하는 블록
       {
@@ -549,6 +559,32 @@ const defineMyBlocks = ()=>{
       "helpUrl": ""
     },
 
+    {
+      "type": "change_cursor_image",
+      "message0": "마우스 커서를 %1로 바꾸기",
+      "args0": [
+        {
+          "type": "field_input",
+          "name": "cursor",
+        }
+      ],
+      "previousStatement": null,
+      "nextStatement": null,
+      "style": "looks_blocks",
+      "tooltip": "마우스 커서를 해당 이미지로 바꿉니다.",
+      "helpUrl": ""
+    },    
+
+    {
+      "type": "set_as_background",
+      "message0": "이 오브젝트를 배경으로 설정하기",
+      "previousStatement": null,
+      "nextStatement": null,
+      "style": "looks_blocks",
+      "tooltip": "해당 오브젝트를 캔버스 배경처럼 꽉 채웁니다.",
+      "helpUrl": ""
+    },
+    
     // 소리 관련 블록들
     // 소리 재생 블록
     {
@@ -733,6 +769,16 @@ const defineMyBlocks = ()=>{
       "helpUrl": ""
     },
 
+    {
+      "type": "control_score",
+      "message0": "점수 출력하기",
+      "previousStatement": null,
+      "nextStatement": null,
+      "style": "math_blocks",
+      "tooltip": "게임을 만들 시 점수를 출력합니다.",
+      "helpUrl": ""
+    },
+
     // 블럭코딩 학습하기 - 화면 출력용 블럭
     {
       "type": "text_print_to_textarea",
@@ -749,6 +795,7 @@ const defineMyBlocks = ()=>{
       "tooltip": "제공된 내용을 결과창에 출력합니다.",
       "helpUrl": ""
     },
+    
     {
     "type": "math_number_with_statements",
     "message0": "%1",

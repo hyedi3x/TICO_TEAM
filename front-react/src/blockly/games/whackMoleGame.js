@@ -1,8 +1,7 @@
-// games/whackMoleGame.js
 
 // ✅ 최소한의 클릭 감지 로직만 제공 (공통 테마용)
 
-export const registerWhackableClickListener = ({ imgArr, canvasRef, callImgArr, setScore }) => {
+export const registerWhackableClickListener = ({ imgArr, canvasRef, callImgArr }) => {
     const handleClick = (e) => {
       const rect = canvasRef.current.getBoundingClientRect();
       const offsetX = e.clientX - rect.left;
@@ -18,9 +17,11 @@ export const registerWhackableClickListener = ({ imgArr, canvasRef, callImgArr, 
           offsetY >= obj.y &&
           offsetY <= obj.y + obj.height
         ) {
-          obj.hidden = true;
-          callImgArr();
-          setScore((prev) => prev + 1);
+          if(window.running){
+            obj.hidden = true;
+            callImgArr();
+            window.score += 1;
+          }
         }
       });
     };

@@ -25,7 +25,11 @@ public class ProjectService {
    @Autowired
    private ProjectObjectRepository objectRepository;
 
-   /** 저장 **/
+   /**
+    * [1] 프로젝트 + 오브젝트 저장
+    * - projectId 수동 생성 후 저장
+    * - objectId도 수동 생성하며 각 오브젝트에 projectId 매핑
+    */
    @Transactional
    public int saveProject(ProjectDTO project, List<ProjectObjectDTO> objectList) {
        System.out.println("ProjectService - saveProject()");
@@ -46,12 +50,23 @@ public class ProjectService {
        return newProjectId;
    }
    
-   /** 목록 조회 **/
+   /**
+    * [2] 전체 프로젝트 목록 조회 (isDelete = 'N')
+    */
    public List<ProjectDTO> getAllProjects() {
-       return projectRepository.findByIsDelete("N");
+       return projectRepository.findByIsDelete();
    }
+   
+   /**
+    * [3] 유저가 만든 프로젝트 목록 조회
+    */
+   public List<ProjectDTO> getProjectsByUser(String userUuid) {
+	    return projectRepository.findByUserUuid(userUuid);
+	}
 
-   /** 상세 조회 **/
+   /**
+    * [4] 프로젝트 + 오브젝트 상세 조회
+    */
    public Map<String, Object> getProjectDetail(int projectId) {
        ProjectDTO project = projectRepository.findById(projectId).orElse(null);
        List<ProjectObjectDTO> objects = objectRepository.findByProjectId(projectId);
@@ -62,7 +77,11 @@ public class ProjectService {
        return result;
    }
 
-   /** 수정 **/
+   /**
+    * [5] 프로젝트 + 오브젝트 수정
+    * - project 덮어쓰기
+    * - 기존 object 삭제 후 새 object 재삽입
+    */
    @Transactional
    public void updateProject(ProjectDTO project, List<ProjectObjectDTO> objectList) {
        if (project.getProjectId() == 0) throw new IllegalArgumentException("프로젝트 ID 없음");
@@ -77,7 +96,10 @@ public class ProjectService {
        }
    }
 
-   /** 삭제 **/
+   /**
+    * [6] 프로젝트 삭제 처리
+    * - 관련 오브젝트 삭제 + 프로젝트 isDelete = 'Y'로 표시
+    */
    @Transactional
    public void deleteProject(int project_id) {
        ProjectDTO project = projectRepository.findById(project_id).orElse(null);
@@ -88,7 +110,9 @@ public class ProjectService {
        projectRepository.save(project);
    }
 
-   /** 이미지 저장 **/
+   /**
+    * [7] 이미지 파일 저장 (uploads 디렉토리에 저장 후 경로 반환)
+    */
    private final String uploadDir = System.getProperty("user.dir") + "/uploads/";
 
    public String saveFile(MultipartFile file) throws IOException {
@@ -102,4 +126,29 @@ public class ProjectService {
 
        return "/uploads/" + originalFilename;
    }
+   
+   /**
+    * [8] 공개된 프로젝트 조회 (isPrivate = 'N')
+    */
+   @Transactional
+   public List<ProjectDTO> getPublicProjects() {
+	    return projectRepository.findByIsPrivate();
+	}
+   
+   /**
+    * [9] 프로젝트 공유 처리 (isPrivate = 'N', isAgree = 'Y')
+    */
+   @Transactional
+   public void shareProject(ProjectDTO dto) {
+       projectRepository.updateShareInfo(
+           dto.getProjectId(),
+           dto.getCategory(),
+           dto.getTags(),
+           dto.getIntroduction(),
+           dto.getGuide(),
+           dto.getNotes(),
+           "Y", "N"
+       );
+   }
+
 }

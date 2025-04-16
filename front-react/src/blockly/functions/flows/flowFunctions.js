@@ -3,6 +3,7 @@ import { javascriptGenerator } from "blockly/javascript";
 import runGeneratedCode from "../../blocks/codeRunner";
 
 const createClone = function(target, currentIndex) {
+    if (!window.running) return;
     window.cloneArr = window.cloneArr || [];
 
     // 1. index 결정
@@ -38,6 +39,7 @@ const createClone = function(target, currentIndex) {
 };
 
 const deleteThisClone = function(index) {
+    if (!window.running) return;
     if (!window.cloneArr || !window.cloneArr[index]) return;
   
     // 👇 완전 삭제 대신 숨김 처리로 변경

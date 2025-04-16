@@ -31,7 +31,10 @@ public class ProjectController {
 	
 	private final Logger logger = LoggerFactory.getLogger(ProjectController.class);
 	
-	// DB에 데이터 삽입
+	 /**
+     * [1] 프로젝트 + 오브젝트 저장
+     * 프론트에서 보낸 projectInfo / objects를 저장하고 새 projectId 반환
+     */
 	@PostMapping("/saveProject")
 	public ResponseEntity<?> saveProject(@RequestBody Map<String, Object> data) {
 		logger.info("<<< url => saveProject >>>");
@@ -75,7 +78,9 @@ public class ProjectController {
 		}
 	}
 	
-	// 리스트(전체 조회)
+	 /**
+     * [2] 전체 프로젝트 목록 조회 (is_delete = 'N')
+     */
 	@GetMapping("/projectList")
 	public ResponseEntity<List<ProjectDTO>> getAll(){
 		logger.info("<<< url => getAll() >>>");
@@ -84,7 +89,20 @@ public class ProjectController {
 		return ResponseEntity.ok(projects);
 	}
 	
-	// 상세 조회(1건)
+	/**
+     * [3] 로그인한 유저의 프로젝트 목록 조회
+     */
+	@GetMapping("/userProjects/{userUuid}")
+	public ResponseEntity<List<ProjectDTO>> getUserProjects(@PathVariable String userUuid) {
+	    logger.info("<<< url => getUserProjects >>>");
+	    
+	    List<ProjectDTO> projects = service.getProjectsByUser(userUuid);
+	    return ResponseEntity.ok(projects);
+	}
+	
+	/**
+     * [4] 프로젝트 상세 조회 (project + object 함께 반환)
+     */
 	@GetMapping("/{project_id}")
 	public ResponseEntity<?> getProjectDetail(@PathVariable int project_id) {
 		logger.info("<<< url => getProjectDetail() >>>");
@@ -93,7 +111,9 @@ public class ProjectController {
 	    return ResponseEntity.ok(detail);
 	}
 	
-	// 수정 처리
+	/**
+     * [5] 프로젝트 + 오브젝트 수정
+     */
 	@PutMapping("/updateProject")
 	public ResponseEntity<?> updateProject(@RequestBody Map<String, Object> data) {
 	    logger.info("<<< url => updateProject >>>");
@@ -121,7 +141,9 @@ public class ProjectController {
 	    }
 	}
 	
-	// 삭제 처리
+	/**
+     * [6] 프로젝트 삭제 (object 삭제 + project의 is_delete = 'Y')
+     */
 	@DeleteMapping("/deleteProject/{projectId}")
 	public ResponseEntity<?> deleteProject(@PathVariable int projectId){
 		logger.info("<<< url => deleteProject >>>");
@@ -131,7 +153,9 @@ public class ProjectController {
 	}
 	
 	
-	// 이미지 서버에 업로드
+	/**
+     * [7] 이미지 업로드 (업로드 폴더에 저장 후 이미지 URL 반환)
+     */
 	@PostMapping("/uploadImage")
 	public ResponseEntity<Map<String, String>> uploadImage(@RequestParam("file") MultipartFile file) {
 	    try {
@@ -142,4 +166,32 @@ public class ProjectController {
 	                             .body(Map.of("error", "파일 업로드 실패"));
 	    }
 	}
+	
+	 /**
+     * [8] 공개된 프로젝트 목록 조회 (isPrivate = 'N')
+     */
+	@GetMapping("/public")
+	public ResponseEntity<List<ProjectDTO>> getPublicProjects() {
+	    List<ProjectDTO> list = service.getPublicProjects();
+	    return ResponseEntity.ok(list);
+	}
+	
+	/**
+     * [9] 프로젝트 공유 처리 (isPrivate = 'N', isAgree = 'Y'로 전환)
+     */
+	@PutMapping("/shareProject")
+	public ResponseEntity<?> shareProject(@RequestBody Map<String, Object> data) {
+	    try {
+	        ObjectMapper mapper = new ObjectMapper();
+	        ProjectDTO project = mapper.convertValue(data.get("projectInfo"), ProjectDTO.class);
+
+	        service.shareProject(project);
+	        return ResponseEntity.ok("공유 완료!");
+	    } catch (Exception e) {
+	        return ResponseEntity.status(500).body("공유 실패");
+	    }
+	}
+
+
+
 }

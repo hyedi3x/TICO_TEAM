@@ -59,6 +59,31 @@
   box-shadow: 0 0 8px rgba(0,0,0,0.1);
 }
 
+/* 작품명 입력창 영역 */
+.project-title-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  margin-bottom: -15px;
+  justify-content: center;
+}
+
+.project-title-input label {
+  font-weight: bold;
+  font-size: 16px;
+  color: #333;
+}
+
+.project-title-input input {
+  flex: 1;
+  max-width: 300px;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
 /* 버튼들을 감싸는 버튼 그룹 */
 .button-blockly {
   margin-top: 30px;

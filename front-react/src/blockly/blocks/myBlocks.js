@@ -20,6 +20,7 @@ const toolboxXML = ()=>{
                 <block type="create_clone"></block>
                 <block type="on_clone_created"></block>
                 <block type="delete_this_clone"></block>
+                <block type="stop_all_code"></block>
             </category>
             
             <!-- 움직임 -->
@@ -124,6 +125,13 @@ const toolboxXML = ()=>{
                 <block type="change_shape">
                     <field name="shape">entrybot(2).png</field>
                 </block>
+
+                <!-- 마우스 커서 모양 바꾸기 -->
+                <block type="change_cursor_image">
+                    <field name="cursor">뿅망치</field>
+                </block>
+
+                <block type="set_as_background"></block>
             </category>
 
             <!-- 소리 -->
@@ -196,9 +204,8 @@ const toolboxXML = ()=>{
                 </block>
                 <block type="control_timer"></block>
                 <block type="get_timer_value"></block>
+                <block type="control_score"></block>
             </category>
-
-            <category name="변수" custom="VARIABLE" categorystyle="variable_category"></category>
         </xml>
     `
 }
