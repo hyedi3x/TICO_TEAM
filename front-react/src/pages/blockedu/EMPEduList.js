@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Table } from "react-bootstrap";
-import "./eduList.css";
+import "./EduList.css";
 
 const EMPEduList = () => {
   const navigate = useNavigate();

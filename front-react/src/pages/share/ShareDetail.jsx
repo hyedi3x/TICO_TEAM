@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Container, Row, Col, Card, Tabs, Tab, Button } from 'react-bootstrap';
 import './ShareDetail.css';
 import CommentSection from './CommentSection';
+import ShareCanvas from '../../blockly/components/BlocklyComponentRun';
 
 function ShareDetail() {
   const { projectId } = useParams();
@@ -71,11 +72,7 @@ function ShareDetail() {
         <Col lg={10}>
           <Card className="shadow-lg p-4">
             <div className="text-center mb-4">
-              <img
-                src={resolveThumbnailUrl(project.thumbnailUrl)}
-                alt="썸네일"
-                className="project-thumbnail"
-              />
+             <ShareCanvas projectId={projectId} />
             </div>
             <Card.Body>
               <Card.Title as="h2" className="text-center mb-4">

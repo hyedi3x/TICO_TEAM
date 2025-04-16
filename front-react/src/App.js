@@ -24,6 +24,8 @@ import EMPEduList from './pages/blockedu/EMPEduList';
 import BlockEduComponentPut from './pages/blockedu/BlockEduComponentPut';
 import ShareGallery from './pages/share/ShareGallery';
 import ShareDetail from './pages/share/ShareDetail';
+import ShareCanvas from './blockly/components/BlocklyComponentRun';
+
 function App() {
   return (
     <div>
@@ -51,6 +53,7 @@ function App() {
           <Route path="/quizput/:quiz_id" element={<BlockEduComponentPut/>} />
           <Route path="/share" element={<ShareGallery/>}/>
           <Route path="/share/detail/:projectId" element={<ShareDetail />} />
+          <Route path="/canvas/:projectId" element={<ShareCanvas />} />
         </Routes>
         <Footer />
       </BrowserRouter>
