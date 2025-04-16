@@ -17,6 +17,9 @@ public class ProjectDTO {
     @Id
     @Column(name = "project_id")
     private Integer projectId;
+    
+    @Column(name="user_uuid")
+    private String userUuid;
 
     private String title;
     private String category;
@@ -33,6 +36,9 @@ public class ProjectDTO {
 
     @Column(columnDefinition = "LONGTEXT")
     private String guide;
+    
+    @Column(columnDefinition = "LONGTEXT")
+    private String notes;
 
     @Column(name = "isagree")
     private String isAgree;
