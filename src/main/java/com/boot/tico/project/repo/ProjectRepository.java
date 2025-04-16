@@ -62,5 +62,49 @@ public interface ProjectRepository extends JpaRepository<ProjectDTO, Integer>{
         @Param("agree") String agree,
         @Param("priv") String priv
     );
+	
+	// 댓글 개수 업데이트
+	@Modifying
+	@Transactional
+	@Query(value = """
+	    UPDATE project_tb
+	    SET comment_count = (
+	        SELECT COUNT(*) FROM project_comment_tb
+	        WHERE project_id = :projectId
+	    )
+	    WHERE project_id = :projectId
+	""", nativeQuery = true)
+	void updateCommentCount(@Param("projectId") int projectId);
+	
+	// 좋아요 개수 업데이트
+	@Modifying
+	@Transactional
+	@Query(value = """
+	    UPDATE project_tb 
+	    SET like_count = (
+	        SELECT COUNT(*) 
+	        FROM project_favor_tb 
+	        WHERE project_id = :projectId AND favor_type = 'like'
+	    )
+	    WHERE project_id = :projectId
+	""", nativeQuery = true)
+	void updateLikeCount(@Param("projectId") int projectId);
+
+
+	// 북마크 개수 업데이트
+	@Modifying
+	@Transactional
+	@Query(value = """
+	    UPDATE project_tb 
+	    SET bookmark_count = (
+	        SELECT COUNT(*) 
+	        FROM project_favor_tb 
+	        WHERE project_id = :projectId AND favor_type = 'bookmark'
+	    )
+	    WHERE project_id = :projectId
+	""", nativeQuery = true)
+	void updateBookmarkCount(@Param("projectId") int projectId);
+
+
 
 }
