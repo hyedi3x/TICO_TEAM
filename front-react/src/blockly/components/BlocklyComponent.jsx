@@ -18,7 +18,7 @@ import ObjectControlPanel from './ObjectControl';
 import "../components/BlocklyComponent.css";
 import ObjectSelectPage from './ObjectSelectPage';
 import ticoTheme from '../blocks/ticoTheme';
-import { registerWhackableClickListener, setupWhackMoleGame } from '../games/whackMoleGame';
+import { registerWhackableClickListener } from '../games/whackMoleGame';
 import { drawScoreText, showScore } from '../functions/cals/calFunctions';
 
 Blockly.setLocale(ko); // Blockly 언어를 한국어로 설정
@@ -48,6 +48,8 @@ function Canvas() {
   const [projectList, setProjectList] = useState([]);
   const [showProjectModal, setShowProjectModal] = useState(false);
   const currentProjectId = useRef(null); // 현재 작업 중인 project_id
+
+  const [projectTitle, setProjectTitle] = useState(""); // 작품명 상태
 
   const navigate = useNavigate(); // 페이지 이동 함수
 
@@ -529,6 +531,16 @@ function Canvas() {
         {/* Blockly 작업공간 */}
         <div className="blockly-area">
           <div ref={blocklyDiv}></div>
+          <div className="project-title-input" style={{ marginBottom: '0.5rem' }}>
+            <label htmlFor="projectTitle">📝 작품명: </label>
+            <input
+              id="projectTitle"
+              type="text"
+              value={projectTitle}
+              onChange={(e) => setProjectTitle(e.target.value)}
+              placeholder="작품 이름을 입력하세요"
+            />
+          </div>
           {/* 버튼 영역 */}
           <div className="button-blockly">
             <input type="file" id="imgInput" accept="image/*" style={{ display: 'none' }} onChange={selectimg} />
@@ -537,7 +549,7 @@ function Canvas() {
             </button>
             <button onClick={runStartBtnCode}>▶️ 실행하기</button>
             <button onClick={runStopBtnCode}>⏹️ 멈추기</button>
-            <button onClick={() => handleSaveProject(imgArr, blocklyArr, currentProjectId.current)}>
+            <button onClick={() => handleSaveProject(imgArr, blocklyArr, currentProjectId.current, projectTitle)}>
               💾 저장하기
             </button>
             <button onClick={() => handleLoadClick(setProjectList, setShowProjectModal)}>
