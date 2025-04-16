@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import './ShareGallery.css';
 import ShareModal from './ShareModal';
@@ -7,6 +8,7 @@ import ShareModal from './ShareModal';
 function ShareGallery() {
   const [projects, setProjects] = useState([]);
   const [showShareModal, setShowShareModal] = useState(false); // ✅ 모달 상태 추가
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchProjects(); // ✅ 모달 공유 완료 후에도 다시 불러오기 위해 함수화
@@ -44,7 +46,7 @@ function ShareGallery() {
         <Row className="project-grid">
           {projects.map((project) => (
             <Col key={project.projectId} xs={12} sm={6} md={4} lg={3}>
-              <Card className="project-card">
+              <Card className="project-card" onClick={() => navigate(`/share/detail/${project.projectId}`)}              >
                 <Card.Img
                   variant="top"
                   src={resolveThumbnailUrl(project.thumbnailUrl)}
@@ -55,7 +57,7 @@ function ShareGallery() {
                   <Card.Text className="project-stats">
                     👍 {project.likeCount} &nbsp;&nbsp;
                     👁️ {project.viewCount} &nbsp;&nbsp;
-                    📌 {project.bookmarkCount}
+                    💬 {project.commentCount}
                   </Card.Text>
                 </Card.Body>
               </Card>
