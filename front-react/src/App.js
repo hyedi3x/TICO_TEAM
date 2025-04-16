@@ -22,6 +22,8 @@ import EduList from './pages/blockedu/EduList';
 import BlockEduComponent from './pages/blockedu/BlockEduComponent';
 import EMPEduList from './pages/blockedu/EMPEduList';
 import BlockEduComponentPut from './pages/blockedu/BlockEduComponentPut';
+import ProjectShare from './pages/share/ShareGallery';
+import ShareGallery from './pages/share/ShareGallery';
 function App() {
   return (
     <div>
@@ -47,6 +49,7 @@ function App() {
           <Route path="/quiz/:quizId" element={<BlockEduComponent/>} />
           <Route path="/EMPEduList" element={<EMPEduList/>} />
           <Route path="/quizput/:quiz_id" element={<BlockEduComponentPut/>} />
+          <Route path="/share" element={<ShareGallery/>}/>
         </Routes>
         <Footer />
       </BrowserRouter>
