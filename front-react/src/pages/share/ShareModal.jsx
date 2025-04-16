@@ -75,7 +75,7 @@ function ShareModal({ show, onClose }) {
   };
 
   return (
-    <Modal show={show} onHide={onClose} size="xl" centered>
+    <Modal show={show} onHide={onClose} backdrop="static" keyboard={false} size="xl" centered>
       <Modal.Header closeButton>
         <Modal.Title>작품 공유하기</Modal.Title>
       </Modal.Header>
