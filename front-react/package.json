@@ -8,6 +8,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
+    "@stomp/stompjs": "^7.1.1",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^14.2.1",
@@ -27,6 +28,7 @@
     "react-scripts": "5.0.1",
     "redux": "^5.0.1",
     "rsuite": "^5.79.0",
+    "sockjs-client": "^1.6.1",
     "swiper": "^11.2.6",
     "web-vitals": "^2.1.4"
   },
