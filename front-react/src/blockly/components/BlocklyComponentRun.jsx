@@ -9,17 +9,11 @@ import defineMyBlocks from '../blocks/myBlockJSON';
 import runGeneratedCode from '../blocks/codeRunner';
 import { generateStart, generateStartKey } from '../blocks/generateAndStoreCode';
 import { drawSpeechBubble } from '../functions/appearances/bubbleUtils';
-import { handleSaveProject } from "../utils/saveProject";
-import { handleLoadClick } from '../utils/loadProjects';
 import { loadProjectToCanvas } from '../utils/loadProjectDetail';
-import ProjectModal from './ProjectModal';
-import { handleDeleteProject } from '../utils/deleteProject';
-import ObjectControlPanel from './ObjectControl';
 import "../components/BlocklyComponent.css";
-import ObjectSelectPage from './ObjectSelectPage';
 import ticoTheme from '../blocks/ticoTheme';
 import { registerWhackableClickListener } from '../games/whackMoleGame';
-import { drawScoreText, showScore } from '../functions/cals/calFunctions';
+import { drawScoreText } from '../functions/cals/calFunctions';
 
 Blockly.setLocale(ko); // Blockly 언어를 한국어로 설정
 
@@ -45,11 +39,7 @@ function ShareCanvas() {
   const [imagePosition, setImagePosition] = useState([]); // 이미지 위치 상태 배열
 
   // 모달 상태 및 프로젝트 목록
-  const [projectList, setProjectList] = useState([]);
-  const [showProjectModal, setShowProjectModal] = useState(false);
   const currentProjectId = useRef(null); // 현재 작업 중인 project_id
-
-  const [projectTitle, setProjectTitle] = useState(""); // 작품명 상태
 
   const navigate = useNavigate(); // 페이지 이동 함수
 

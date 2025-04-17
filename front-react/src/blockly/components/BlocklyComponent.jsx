@@ -577,6 +577,7 @@ function Canvas() {
                   setWorkspaceReady
                 );
                 currentProjectId.current = project.projectId;
+                setProjectTitle(project.title);
                 setShowProjectModal(false);
               } catch (err) {
                 alert('불러오기 실패!');
