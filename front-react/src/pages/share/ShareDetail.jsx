@@ -16,14 +16,12 @@ function ShareDetail() {
 
   const userUuid = localStorage.getItem('user_uuid');
 
-  const resolveThumbnailUrl = (url) => {
-    if (!url) return '';
-    if (url.startsWith('http')) return url;
-    return `http://localhost:8081${url}`;
-  };
-
   useEffect(() => {
     if (!projectId || !userUuid) return;
+
+    // [1] 조회수 증가
+    axios.post(`http://localhost:8081/project/view/${projectId}`)
+    .catch(err => console.error('조회수 업데이트 실패:', err));
 
      // 작품 정보
      axios.get(`http://localhost:8081/project/${projectId}`)

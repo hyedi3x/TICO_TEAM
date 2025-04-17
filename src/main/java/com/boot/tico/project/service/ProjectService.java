@@ -86,6 +86,17 @@ public class ProjectService {
    public void updateProject(ProjectDTO project, List<ProjectObjectDTO> objectList) {
        if (project.getProjectId() == 0) throw new IllegalArgumentException("프로젝트 ID 없음");
 
+       ProjectDTO existing = projectRepository.findById(project.getProjectId()).orElse(null);
+       if (existing == null) throw new IllegalArgumentException("해당 프로젝트 없음");
+
+       if (project.getIntroduction() == null) project.setIntroduction(existing.getIntroduction());
+       if (project.getGuide() == null) project.setGuide(existing.getGuide());
+       if (project.getNotes() == null) project.setNotes(existing.getNotes());
+       if (project.getTags() == null) project.setTags(existing.getTags());
+       if (project.getCategory() == null) project.setCategory(existing.getCategory());
+       if (project.getIsPrivate() == null) project.setIsPrivate(existing.getIsPrivate());
+       if (project.getIsAgree() == null) project.setIsAgree(existing.getIsAgree());
+
        projectRepository.save(project);
        objectRepository.deleteByProjectId(project.getProjectId());
        for (ProjectObjectDTO obj : objectList) {
@@ -151,6 +162,12 @@ public class ProjectService {
        );
    }
    
-   
+   /**
+    * [10] 조회수 증가 처리
+    */
+   @Transactional
+   public void increaseViewCount(int projectId) {
+       projectRepository.incrementViewCount(projectId);
+   }
 
 }

@@ -192,6 +192,13 @@ public class ProjectController {
 	    }
 	}
 
-
+	/**
+	 * [10] 조회수 증가
+	 */
+	@PostMapping("/view/{projectId}")
+	public ResponseEntity<Void> addView(@PathVariable int projectId) {
+	    service.increaseViewCount(projectId);
+	    return ResponseEntity.ok().build();
+	}
 
 }

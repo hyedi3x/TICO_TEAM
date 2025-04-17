@@ -63,6 +63,12 @@ public interface ProjectRepository extends JpaRepository<ProjectDTO, Integer>{
         @Param("priv") String priv
     );
 	
+	// 조회수 업데이트
+	@Modifying
+	@Transactional
+	@Query(value = "UPDATE project_tb SET view_count = view_count + 1 WHERE project_id = :projectId", nativeQuery = true)
+	void incrementViewCount(@Param("projectId") int projectId);
+	
 	// 댓글 개수 업데이트
 	@Modifying
 	@Transactional

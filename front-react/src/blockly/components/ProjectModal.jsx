@@ -36,9 +36,9 @@ function ProjectModal({ show, onClose, projectList, onSelect }) {
                   style={{objectFit: 'cover' }}
                 />
                 <Card.Footer className="d-flex justify-content-between text-muted" style={{ fontSize: '0.8rem' }}>
-                  <div>👁 {project.views || 0}</div>
-                  <div>❤️ {project.likes || 0}</div>
-                  <div>💬 {project.comments || 0}</div>
+                  <div>👁 {project.viewCount || 0}</div>
+                  <div>❤️ {project.likeCount || 0}</div>
+                  <div>💬 {project.commentCount || 0}</div>
                 </Card.Footer>
                 <Card.Title className="text-truncate" style={{"textAlign": "center"}}>{project.title}</Card.Title>
               </Card>
