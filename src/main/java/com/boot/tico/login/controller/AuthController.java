@@ -166,6 +166,7 @@ public class AuthController {
         response.setEmail(user.getEmail());
         response.setAccessToken(accessToken);
         response.setRefreshToken(refreshToken);
+        response.setNickname(user.getNickname());
         // 새로 생성한 토큰값(accessToken,refreshToken)과 사용자 정보를 dto 담아 전달
         
         return ResponseEntity.ok(response); // 성공 시 반환
