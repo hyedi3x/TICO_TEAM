@@ -8,14 +8,14 @@ export function drawTimerText() {
 
   const ctx = canvas.getContext("2d");
   ctx.save();
-  ctx.clearRect(canvas.width - 100, 10, 90, 25);
+  ctx.clearRect(canvas.width - 100, 10, 90, 25); // 캔바스의 해당부분을 지움
   ctx.font = "20px Arial";
   ctx.fillStyle = "#333";
   ctx.fillText(`⏱ ${window.elapsedTime}s`, canvas.width - 90, 30);
   ctx.restore();
 };
 
-window.score = 0;
+// window.score = 0;
 export function drawScoreText() {
   const canvas = document.querySelector("canvas");
   if (!canvas || !window.running || !window.showScore) return;
@@ -26,9 +26,10 @@ export function drawScoreText() {
   ctx.font = "20px Arial";
   ctx.fillStyle = "#1E90FF";
   ctx.fillText(`점수: ${window.score}`, 15, 60);
-  ctx.restore();
+  ctx.restore(); // 변경된 ctx 속성 복원 
 };
 
+// 범위 내 랜덤 정수 생성
 const mathRandomInt = function(min, max) {
   if (min > max) [min, max] = [max, min];
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -43,7 +44,7 @@ const startTimer = function () {
   drawTimerText();
 
   // 초시계 시작
-  timerInterval = setInterval(() => {
+  timerInterval = setInterval(() => { // 1초마다 반복 실행
     if (!window.running) return;
     elapsedTime++;
     window.elapsedTime = elapsedTime;

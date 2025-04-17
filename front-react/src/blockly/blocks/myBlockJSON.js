@@ -381,33 +381,30 @@ const defineMyBlocks = ()=>{
     },
 
     // 일정 시간 동안 이동시키기 블록
-    { 
+    {
       "type": "move_obj_inTime",
-      "message0": "x좌표로 %1 만큼 y좌표로 %2만큼 %3초 동안 이동하기",
+      "message0": "x좌표로 %1 만큼 y좌표로 %2 만큼 %3초 동안 이동하기",
       "args0": [
-          {
-              "type": "field_input",
-              "name": "x",
-              "check": "Number",
-              "text": "10", // 기본값
-          },
-          {
-            "type": "field_input",
-            "name": "y",
-            "check": "Number",
-            "text": "10", // 기본값
+        {
+          "type": "input_value",
+          "name": "x",
+          "check": "Number"
         },
-          {
-            "type": "field_input",
-            "name": "duration",
-            "check": "Number",
-            "text": "1", // 기본값
+        {
+          "type": "input_value",
+          "name": "y",
+          "check": "Number"
+        },
+        {
+          "type": "input_value",
+          "name": "duration",
+          "check": "Number"
         }
       ],
       "previousStatement": null,
       "nextStatement": null,
       "colour": "#FFCC66",
-      "tooltip": "시계방향으로 angle만큼 회전합니다.",
+      "tooltip": "x, y 위치로 지정된 시간 동안 이동합니다.",
       "helpUrl": ""
     },
 

@@ -169,10 +169,10 @@ const RegisterBlockGenerator = (props) => {
 
   // 일정시간 이동 애니메이션
   javascriptGenerator.forBlock['move_obj_inTime'] = function(block){
-    const x = block.getFieldValue('x');
-    const y = block.getFieldValue('y');
-    const duration = block.getFieldValue('duration');
-    return `await moveImageInTime(${x}, ${y}, ${duration}, index);\n`;
+    const x = javascriptGenerator.valueToCode(block, 'x', Order.ATOMIC) || 0;
+    const y = javascriptGenerator.valueToCode(block, 'y', Order.ATOMIC) || 0;
+    const duration = javascriptGenerator.valueToCode(block, 'duration', Order.ATOMIC) || 0;
+    return `await moveImageInTime(${x}, ${y}, ${duration}, index, isClone);\n`;
   };
     
   // 요소 보이기

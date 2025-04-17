@@ -59,8 +59,8 @@ function Canvas() {
   };
 
 
-  // 키보드 상태 트래킹
-  const [keysPressed, setKeysPressed] = useState({}); // 눌린 키 상태를 저장하는 객체
+  // 키보드 상태 트래킹,  애니메이션 체크용, 현재 사용 안함
+  // const [keysPressed, setKeysPressed] = useState({}); // 눌린 키 상태를 저장하는 객체
    /** ─────────────── 캔버스 그리기 ─────────────── **/
   const draw = () => {
     const canvas = canvasRef.current;
@@ -99,6 +99,7 @@ function Canvas() {
         moveDirection: 90,
         index: imgArr.current.length, // index 할당
         hidden: false,  // 이미지 숨김 여부
+        isClone : false,
       })
       console.log("이미지 URL:", imgUrl);
       console.log("이미지 객체:", img);
@@ -126,7 +127,7 @@ function Canvas() {
       // 블록 변경 이벤트 → 코드 저장
       workspace.addChangeListener(() => {
         const code = javascriptGenerator.workspaceToCode(workspace); //코드 변환
-        // ✅ 방어 코드 추가
+        // 방어 코드 추가
         if (imgArr.current[workspace.index]) {
           imgArr.current[workspace.index].code = code;
         }
@@ -156,7 +157,7 @@ function Canvas() {
 
     allObjects.forEach((item, index) => {
 
-      // 👉 먼저 updatedPositions에 push (hidden 정보 포함)
+      // 먼저 updatedPositions에 push (hidden 정보 포함)
       updatedPositions.push({ x: item.x, y: item.y, hidden: item.hidden });
 
       // 숨김 처리
@@ -176,8 +177,9 @@ function Canvas() {
       context.scale(scaleX, scaleY);
 
       // 필터 적용
-      context.globalAlpha = item.opacity ?? 1;
+      context.globalAlpha = item.opacity ?? 1; // 전역 투명도 설정
       context.filter = `hue-rotate(${item.hue ?? 0}deg) brightness(${item.brightness ?? 100}%)`;
+      // CSS 필터처럼 Canvas에 효과(blur, brightness, hue 등) 를 줄 수 있는 속성
   
       // 이미지 그리기
       context.drawImage(
@@ -240,9 +242,9 @@ function Canvas() {
     });
   
     if (imgIndex >= 0) {
-      panningRef.current = true; // ✅ 이미지 내부 클릭 시에만 드래그 활성화
+      panningRef.current = true; // 이미지 내부 클릭 시에만 드래그 활성화
     } else {
-      panningRef.current = false; // ✅ 이미지 외부 클릭 시 드래그 비활성화
+      panningRef.current = false; // 이미지 외부 클릭 시 드래그 비활성화
     }
   
     console.log('선택된 오브젝트 : ', imgIndex);
@@ -334,13 +336,14 @@ function Canvas() {
     console.log("🔴 실행 중지됨!");
   };
 
-  const handleKeyDown = (e) => {
-    setKeysPressed((prev) => ({ ...prev, [e.key]: true }));
-  };
+  // 애니메이선 체크 하려면 사용
+  // const handleKeyDown = (e) => {
+  //   setKeysPressed((prev) => ({ ...prev, [e.key]: true }));
+  // };
   
-  const handleKeyUp = (e) => {
-    setKeysPressed((prev) => ({ ...prev, [e.key]: false }));
-  };
+  // const handleKeyUp = (e) => {
+  //   setKeysPressed((prev) => ({ ...prev, [e.key]: false }));
+  // };
 
   // 2. 키보드 q 키 핸들러
   useEffect(() => {
@@ -384,12 +387,12 @@ function Canvas() {
     };
 
     window.addEventListener('keydown', handleKeyPress); 
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('keyup', handleKeyUp);
+    // window.addEventListener('keydown', handleKeyDown);
+    // window.addEventListener('keyup', handleKeyUp);
     return () => { // useEffect 훅에서 반환되는 함수는 컴포넌트가 언마운트될 때 실행
       window.removeEventListener('keydown', handleKeyPress);
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('keyup', handleKeyUp);
+      // window.removeEventListener('keydown', handleKeyDown);
+      // window.removeEventListener('keyup', handleKeyUp);
     };
   }, []);
 
@@ -422,7 +425,7 @@ function Canvas() {
   // 이미지, 작업공간 삭제
   function imgDel(index) {
     console.log('삭제할 인덱스 : ', index);
-  
+    
     // 1. 이미지 배열에서 제거
     imgArr.current.splice(index, 1);
   
@@ -441,7 +444,7 @@ function Canvas() {
     // 4. 배열에서도 제거
     blocklyArr.current.splice(index, 1);
   
-    // 5. 🔁 남은 작업공간들 인덱스 및 DOM ID 재정렬
+    // 5. 남은 작업공간들 인덱스 및 DOM ID 재정렬
     blocklyArr.current.forEach((workspace, newIndex) => { // 마우스 클릭시, 아이디 사용, 아래 보이는 작업공간 처리를 위해서도 id 재할당 필요
       const oldId = `blockly${workspace.index}`; // 작업공간별 저장했던 인덱스
       const newId = `blockly${newIndex}`;
@@ -514,7 +517,7 @@ function Canvas() {
                     onClick={() => {
                       setSelectedImageIndex(index);
                     
-                      // ✅ 선택된 오브젝트의 blockly 작업공간 보여주기
+                      // 선택된 오브젝트의 blockly 작업공간 보여주기
                       blocklyArr.current.forEach((workspace) => {
                         const blocklyDivElement = document.getElementById(`blockly${workspace.index}`);
                         if (blocklyDivElement) {

@@ -1,57 +1,75 @@
-import { imgArr, coordinates } from "../../blocks/blockGenerator";
+import { imgArr, coordinates, callImgArr } from "../../blocks/blockGenerator";
 
 const checkCollision = function(index, targetType, isClone = false) {
-  const sourceArr = isClone ? window.cloneArr : imgArr.current;
-  const sourceObj = sourceArr[index];
-  if (!sourceObj) return false;
+  const canvas = document.querySelector("canvas");
+  if (!canvas || !window.cloneArr) return;
 
-  // ✅ 마우스 충돌 처리
-  if (targetType === "mouse") {
-    return (
-      coordinates.x >= sourceObj.x &&
-      coordinates.x <= sourceObj.x + sourceObj.width &&
-      coordinates.y >= sourceObj.y &&
-      coordinates.y <= sourceObj.y + sourceObj.height
-    );
-  }
+  const canvasWidth = canvas.width;
+  const canvasHeight = canvas.height;
 
-  // ✅ 벽 충돌 처리 (canvas 경계)
-  if (targetType === "wall") {
-    const canvas = document.querySelector("canvas");
-    if (!canvas) return false;
+  for (let i = window.cloneArr.length - 1; i >= 0; i--) {
+    const cloneObj = window.cloneArr[i];
+    if (!cloneObj || cloneObj.hidden) continue;
 
-    const canvasWidth = canvas.width;
-    const canvasHeight = canvas.height;
+    // ✅ 마우스와 충돌
+    if (targetType === "mouse") {
+      const hit =
+        coordinates.x >= cloneObj.x &&
+        coordinates.x <= cloneObj.x + cloneObj.width &&
+        coordinates.y >= cloneObj.y &&
+        coordinates.y <= cloneObj.y + cloneObj.height;
 
-    const hitLeft = sourceObj.x <= 0;
-    const hitRight = sourceObj.x + sourceObj.width >= canvasWidth;
-    const hitTop = sourceObj.y <= 0;
-    const hitBottom = sourceObj.y + sourceObj.height >= canvasHeight;
-
-    return hitLeft || hitRight || hitTop || hitBottom;
-  }
-
-  // ✅ 기타 오브젝트 간 충돌 처리
-  const allTargets = [...imgArr.current, ...(window.cloneArr || [])];
-
-  for (let target of allTargets) {
-    if (!target || target === sourceObj) continue;
-    if (targetType === target.index?.toString()) {
-      const isColliding = !(
-        sourceObj.x + sourceObj.width < target.x ||
-        sourceObj.x > target.x + target.width ||
-        sourceObj.y + sourceObj.height < target.y ||
-        sourceObj.y > target.y + target.height
-      );
-      if (isColliding) return true;
+      if (hit) {
+        console.log("🖱 마우스에 닿은 복제본 삭제:", i);
+        window.cloneArr.splice(i, 1);
+        window.score += 1; // 충돌 시 점수 증가
+      }
     }
-  };
 
-  return false;
+    // ✅ 벽과 충돌
+    else if (targetType === "wall") {
+      const hitWall =
+        cloneObj.x <= 0 ||
+        cloneObj.y <= 0 ||
+        cloneObj.x + cloneObj.width >= canvasWidth ||
+        cloneObj.y + cloneObj.height >= canvasHeight;
+
+      if (hitWall) {
+        console.log("🧱 벽에 닿은 복제본 삭제:", i);
+        window.cloneArr.splice(i, 1);
+      }
+    }
+
+    // ✅ 특정 오브젝트(index)와 충돌
+    else {
+      const targetIndex = parseInt(targetType);
+      const targetObj = imgArr.current[targetIndex];
+
+      if (!targetObj || targetObj.hidden) continue;
+
+      const isColliding = !(
+        cloneObj.x + cloneObj.width < targetObj.x ||
+        cloneObj.x > targetObj.x + targetObj.width ||
+        cloneObj.y + cloneObj.height < targetObj.y ||
+        cloneObj.y > targetObj.y + targetObj.height
+      );
+      
+      if (isColliding) {
+        console.log(`📦 ${targetIndex}번 오브젝트와 충돌한 복제본 삭제:`, i);
+        window.cloneArr.splice(i, 1);
+        window.score += 1; // 충돌 시 점수 증가
+      }
+    }
+  }
+
+  // index 재정렬
+  window.cloneArr.forEach((obj, i) => {
+    obj.index = i;
+  });
+
+  callImgArr();
 };
-
+window.checkCollision = checkCollision;
 export default {
   checkCollision,
 };
-
-window.checkCollision = checkCollision;

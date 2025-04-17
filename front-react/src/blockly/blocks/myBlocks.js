@@ -86,7 +86,23 @@ const toolboxXML = ()=>{
                 </block>
                 <block type="move_to_mouse"></block>
 
-                <block type="move_obj_inTime"></block>
+                <block type="move_obj_inTime">
+                    <value name="x">
+                        <shadow type="math_number">
+                        <field name="NUM">10</field>
+                        </shadow>
+                    </value>
+                    <value name="y">
+                        <shadow type="math_number">
+                        <field name="NUM">10</field>
+                        </shadow>
+                    </value>
+                    <value name="duration">
+                        <shadow type="math_number">
+                        <field name="NUM">1</field>
+                        </shadow>
+                    </value>
+                </block>
 
             </category>
 

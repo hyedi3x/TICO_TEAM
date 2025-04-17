@@ -204,18 +204,24 @@ const moveToMouse = function(index, isClone = false) {
   }
 };
 
-let isAnimating  = false; // 애니메이션 중복 방지 플래그
-const moveImageInTime = function (x, y, duration, index) {
+const moveImageInTime = function (x, y, duration, index, isClone = false) {
   if (!window.running) return;
-  if (isAnimating ) return; // 애니메이션 중복 방지
-  isAnimating  = true; // 애니메이션 시작
+
+  const targetArr = isClone ? window.cloneArr : imgArr.current;
+  const img = targetArr[index];
+  if (!img) return;
+
+  // 개별 객체에 isAnimating 속성 붙이기
+  //  자기만의 isAnimating을 갖고 독립적으로 움직인다.
+  img.isAnimating = img.isAnimating || false;
+  if (img.isAnimating) return;       // 현재 이 객체만 검사
+  img.isAnimating = true;            // 이 객체만 애니메이션 시작
+
   return new Promise((resolve) => {
-    console.log('이동 애니메이션 시작됨');
-    runMoveAnimation(x, y, duration, index, resolve);
+    runMoveAnimation(x, y, duration, img, resolve);
   });
 
-  function runMoveAnimation(x, y, duration, index, resolve) {
-    const img = imgArr.current[index];
+  function runMoveAnimation(x, y, duration, img, resolve) {
     const startTime = performance.now();
     const endTime = startTime + duration * 1000;
 
@@ -230,19 +236,18 @@ const moveImageInTime = function (x, y, duration, index) {
         img.x = endX;
         img.y = endY;
         callImgArr();
-        console.log('이동 애니메이션 완료');
-        isAnimating = false; // 애니메이션 완료 후 플래그 초기화
-        resolve(); // 애니메이션 완료
+        img.isAnimating = false;
+        resolve();
       } else {
-        const progress = (now - startTime) / (duration * 1000); // 진행률 (0 ~ 1)
+        const progress = (now - startTime) / (duration * 1000);
         img.x = startX + (endX - startX) * progress;
         img.y = startY + (endY - startY) * progress;
         callImgArr();
-        requestAnimationFrame(animateFrame); // 다음 프레임 요청
+        requestAnimationFrame(animateFrame);
       }
     }
 
-    animateFrame(); // 첫 실행
+    animateFrame();
   }
 };
 
