@@ -256,6 +256,11 @@ const RegisterBlockGenerator = (props) => {
       sound = sound.replace(/['"]/g, '') + '.mp3';
     }
 
+    // 절대경로 붙이기 👇
+    if (!sound.startsWith('/')) {
+      sound = '/' + sound;
+    }
+
     return `await playSound('${sound}');\n`;
   };
 
@@ -267,6 +272,11 @@ const RegisterBlockGenerator = (props) => {
     // .mp3 확장자가 없으면 추가
     if (sound && !sound.endsWith('.mp3')) {
       sound = sound.replace(/['"]/g, '') + '.mp3';
+    }
+
+    // 절대경로 붙이기 👇
+    if (!sound.startsWith('/')) {
+      sound = '/' + sound;
     }
 
     return `await playSoundDuration('${sound}', ${duration});\n`;
@@ -281,6 +291,11 @@ const RegisterBlockGenerator = (props) => {
     // .mp3 확장자가 없으면 추가
     if (sound && !sound.endsWith('.mp3')) {
       sound = sound.replace(/['"]/g, '') + '.mp3';
+    }
+
+    // 절대경로 붙이기 👇
+    if (!sound.startsWith('/')) {
+      sound = '/' + sound;
     }
 
     return `await playSoundRange('${sound}', ${start}, ${end});\n`;
