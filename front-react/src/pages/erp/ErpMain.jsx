@@ -27,6 +27,7 @@ import BlockEduComponentPost from "../blockedu/BlockEduComponentPost";
 import axios from "axios";
 import MyInfoChk from "./MyPage/MyInfoChk";
 import MyInfoModify from "./MyPage/MyInfoModify";
+import ObjectSelectPage from "../../blockly/components/ObjectSelectPage";
 
 function ErpMain() {
   const [expanded, setExpanded] = useState(true); // 사이드바 확장 여부
@@ -77,6 +78,7 @@ function ErpMain() {
       case "3-2": setViewMode("admin-info"); break;
       case "7-4": setViewMode("faq"); break;
       case "8-4": setViewMode("blockEduPost"); break;
+      case "8-5": setViewMode("ObjectSelectPage"); break;
       default: setViewMode("home"); break;
     }    
   };
@@ -185,6 +187,7 @@ function ErpMain() {
                   <Nav.Item eventKey="8-2">커뮤니티 관리</Nav.Item>
                   <Nav.Item eventKey="8-3">스터디 관리</Nav.Item>
                   <Nav.Item eventKey="8-4">블럭 학습 퀴즈 관리</Nav.Item>
+                  <Nav.Item eventKey="8-5">오브젝트 관리</Nav.Item>
                 </Nav.Menu>
 
                 {/* 시스템 관리팀 메뉴 (DEP007 부서만 활성화) */}
@@ -254,6 +257,7 @@ function ErpMain() {
             
             {viewMode === "faq" && <FAQPut />} {/* FAQ 관리 */}
             {viewMode === "blockEduPost" && <BlockEduComponentPost />} {/* 블럭 학습 관리 */}
+            {viewMode === "ObjectSelectPage" && <ObjectSelectPage/>} {/* 오브젝트 관리 */}
           </div>
         </Content>
       </div>
