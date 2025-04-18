@@ -34,15 +34,13 @@ function Canvas() {
   
   // 마우스 이동 관련 상태 및 참조값
   const INITIAL_POSITION = { x: 0, y: 0 }; // 초기 위치
-  const viewPosRef = useRef(INITIAL_POSITION); // 캔버스 뷰포트 위치
   const startPosRef = useRef(INITIAL_POSITION); // 마우스 드래그 시작위치 저장
   const panningRef = useRef(false); // 이동(패닝) 상태
   
   // 마우스 좌표
   const [coordinates, setCoordinates] = useState({ x: 0, y: 0 }); // 마우스 이동위치
-  
-  const [workspaceReady, setWorkspaceReady] = useState(false); // 작업 공간 준비 상태
   const [imagePosition, setImagePosition] = useState([]); // 이미지 위치 상태 배열
+  const [workspaceReady, setWorkspaceReady] = useState(false); // 작업 공간 준비 상태
 
   // 모달 상태 및 프로젝트 목록
   const [projectList, setProjectList] = useState([]);
@@ -60,7 +58,7 @@ function Canvas() {
 
 
   // 키보드 상태 트래킹,  애니메이션 체크용, 현재 사용 안함
-  // const [keysPressed, setKeysPressed] = useState({}); // 눌린 키 상태를 저장하는 객체
+  const [keysPressed, setKeysPressed] = useState({}); // 눌린 키 상태를 저장하는 객체
    /** ─────────────── 캔버스 그리기 ─────────────── **/
   const draw = () => {
     const canvas = canvasRef.current;
@@ -262,7 +260,6 @@ function Canvas() {
     });
   };
   
-  
   // handleMouseUp: 마우스 업 이벤트를 처리하고 패닝을 종료
   const handleMouseUp = () => { 
     panningRef.current = false;
@@ -336,90 +333,79 @@ function Canvas() {
     console.log("🔴 실행 중지됨!");
   };
 
-  // 애니메이선 체크 하려면 사용
-  // const handleKeyDown = (e) => {
-  //   setKeysPressed((prev) => ({ ...prev, [e.key]: true }));
-  // };
+  //애니메이선 체크 하려면 사용
+  const handleKeyDown = (e) => {
+    setKeysPressed((prev) => ({ ...prev, [e.key]: true }));
+  };
   
-  // const handleKeyUp = (e) => {
-  //   setKeysPressed((prev) => ({ ...prev, [e.key]: false }));
-  // };
+  const handleKeyUp = (e) => {
+    setKeysPressed((prev) => ({ ...prev, [e.key]: false }));
+  };
 
   // 2. 키보드 q 키 핸들러
   useEffect(() => {
-    const handleKeyPress = (e) => {
-      
-      const pressedKey = e.key;
-      // 기본 동작 막아야 할 키 목록
-      const keysToPrevent = [
-        'ArrowUp', // 방향키
-        'ArrowDown',
-        'ArrowLeft',
-        'ArrowRight',
-        ' ', // 스페이스바
-        'Enter',
-        'Control',
-        'Shift'
-      ];
-      
-      if (keysToPrevent.includes(pressedKey)) { // 배열 중 키가 포함된다면
-        e.preventDefault();
-      }
-
-      blocklyArr.current.forEach((workspace, index) => {
-        // 워크스페이스에 있는 모든 블록을 가져옴
-        const blocks = workspace.getAllBlocks();
-
-        blocks.forEach((block) => {
-          if (block.type === 'start_with_q') {
-            const selectedKey = block.getFieldValue('KEY_OPTION'); // 사용자가 선택한 키
-            if (pressedKey === selectedKey) {
-              // 코드 생성 및 실행
-              generateStartKey(block, imgArr, index);
-              const code = imgArr.current[index]?.code;
-              if (code) {
-                runGeneratedCode(code, index, false);
+    const pressedKeys = {};
+    let animationFrameId = null;
+  
+    const keysToPrevent = [
+      'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight',
+      ' ', 'Enter', 'Control', 'Shift'
+    ];
+  
+    const loop = () => {
+      if (window.running) {
+      window.running = true;
+  
+        blocklyArr.current.forEach((workspace, index) => {
+          const blocks = workspace.getAllBlocks();
+          blocks.forEach((block) => {
+            if (block.type === 'start_with_q') {
+              const selectedKey = block.getFieldValue('KEY_OPTION');
+              if (pressedKeys[selectedKey]) {
+                javascriptGenerator.init(workspace);
+                generateStartKey(block, imgArr, index);
+                const code = imgArr.current[index]?.code;
+                if (code) runGeneratedCode(code, index, false);
               }
             }
-          }
+          });
         });
-      });
-    };
-
-    window.addEventListener('keydown', handleKeyPress); 
-    // window.addEventListener('keydown', handleKeyDown);
-    // window.addEventListener('keyup', handleKeyUp);
-    return () => { // useEffect 훅에서 반환되는 함수는 컴포넌트가 언마운트될 때 실행
-      window.removeEventListener('keydown', handleKeyPress);
-      // window.removeEventListener('keydown', handleKeyDown);
-      // window.removeEventListener('keyup', handleKeyUp);
-    };
-  }, []);
-
-  useEffect(() => {
-    const canvas = document.querySelector('canvas');
-    if(!canvas) return;
-
-    const handleCanvasClick = () => {
-      blocklyArr.current.forEach((workspace, index) => {
-        const blocks = workspace.getTopBlocks();
-        const hasMouseClickStart = blocks.some(block => block.type === 'start_mouse_clicked');
-  
-        if (hasMouseClickStart) {
-          // 시작 블록 기준 코드 생성
-          generateStart(workspace, imgArr, index, 'start_mouse_clicked');
-  
-          // 코드 실행
-          const code = imgArr.current[index]?.code;
-          if (code) {
-            runGeneratedCode(code, index, false);
-          }
-        }
-      });
+      }
+      animationFrameId = requestAnimationFrame(loop); 
+      // 브라우저가 다음 화면을 그리기 직전에 callback 함수를 실행, 16.66ms마다 한 번씩 실행
+      // requestAnimationFrame()은 호출할 때 고유한 id를 반환함. 이 id를 나중에 취소용
     };
   
-    canvas.addEventListener("click", handleCanvasClick);
-    return () => canvas.removeEventListener("click", handleCanvasClick);
+    const handleKeyDown = (e) => {
+      pressedKeys[e.key] = true;
+      if (keysToPrevent.includes(e.key)) e.preventDefault();
+  
+      if (!animationFrameId) {
+        animationFrameId = requestAnimationFrame(loop);
+      }
+    };
+  
+    const handleKeyUp = (e) => {
+      pressedKeys[e.key] = false;
+      if (keysToPrevent.includes(e.key)) e.preventDefault();
+  
+      // 모든 키가 떨어졌을 때만 루프 중지
+      const anyKeyPressed = Object.values(pressedKeys).some((v) => v);
+      if (!anyKeyPressed && animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        // requestAnimationFrame()으로 예약된 다음 프레임 실행을 취소
+        animationFrameId = null;
+      }
+    };
+  
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+  
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    };
   }, []);
   
   // 이미지, 작업공간 삭제

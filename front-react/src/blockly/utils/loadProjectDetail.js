@@ -35,6 +35,7 @@ export const loadProjectToCanvas = async (
 
   for (const obj of objects) {
     const img = new Image();
+    img.crossOrigin = "anonymous";
     if(obj.url === 'http://localhost:8081/uploads/entrybot.png'){
       img.src = obj.url;
     } else {

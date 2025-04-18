@@ -767,8 +767,25 @@ const defineMyBlocks = ()=>{
     },
 
     {
-      "type": "control_score",
+      "type": "print_score",
       "message0": "점수 출력하기",
+      "previousStatement": null,
+      "nextStatement": null,
+      "style": "math_blocks",
+      "tooltip": "게임을 만들 시 점수를 출력합니다.",
+      "helpUrl": ""
+    },
+
+    {
+      "type": "control_score",
+      "message0": "점수 %1만큼 변경하기",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "score",
+          "check": "Number"
+        },
+      ],
       "previousStatement": null,
       "nextStatement": null,
       "style": "math_blocks",

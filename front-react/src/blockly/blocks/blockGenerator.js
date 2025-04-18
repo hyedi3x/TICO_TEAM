@@ -12,7 +12,7 @@ import { playSound, playSoundDuration, playSoundRange, stopSounds, multipleSound
 // eslint-disable-next-line
 import { checkCollision } from "../functions/logicals/logicalFunctions";
 // eslint-disable-next-line
-import { mathRandomInt, startTimer, stopTimer, elapsedTime, startScore, drawScoreText, drawTimerText } from "../functions/cals/calFunctions";
+import { mathRandomInt, startTimer, stopTimer, elapsedTime, startScore, controlScore, drawScoreText, drawTimerText } from "../functions/cals/calFunctions";
 
 export let imgArr = null; // 백틱은 객체가 잘 안넘어가서 export로 넘겨준다.
 export let callImgArr = null;
@@ -342,10 +342,13 @@ const RegisterBlockGenerator = (props) => {
   };
 
   // 점수 출력하기
-  javascriptGenerator.forBlock['control_score'] = function(block) {
+  javascriptGenerator.forBlock['print_score'] = function(block) {
     return `await startScore();\n`;
   };
- 
+  javascriptGenerator.forBlock['control_score'] = function(block) {
+    const score = javascriptGenerator.valueToCode(block, 'score', Order.ATOMIC) || 0;
+    return `await controlScore(${score});\n`;
+  };
 };
 
 export default RegisterBlockGenerator;

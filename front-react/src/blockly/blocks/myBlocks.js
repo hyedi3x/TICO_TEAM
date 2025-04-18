@@ -220,8 +220,18 @@ const toolboxXML = ()=>{
                 </block>
                 <block type="control_timer"></block>
                 <block type="get_timer_value"></block>
-                <block type="control_score"></block>
+                <block type="print_score"></block>
+                <block type="control_score">
+                    <value name="score">
+                        <shadow type="math_number">
+                            <field name="NUM">1</field>
+                        </shadow>
+                    </value>
+                </block>
             </category>
+
+            <category name="변수" colour="#A65C81" custom="VARIABLE"></category>
+
         </xml>
     `
 }

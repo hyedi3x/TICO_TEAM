@@ -67,11 +67,17 @@ const startScore = function () {
   drawScoreText(); // 처음 1회 그리기
 };
 
+const controlScore = function(score){
+  if (!window.running) return;
+  window.score += score;
+};
+
 export default {
   mathRandomInt,
   startTimer,
   stopTimer,
   startScore,
+  controlScore,
 };
 
 window.drawScoreText = drawScoreText;
@@ -82,3 +88,4 @@ window.stopTimer = stopTimer;
 window.startScore = startScore;
 window.elapsedTime = elapsedTime;
 window.showScore = showScore;
+window.controlScore = controlScore;

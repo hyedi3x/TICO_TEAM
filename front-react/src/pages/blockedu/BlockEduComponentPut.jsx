@@ -147,6 +147,7 @@ function BlockEduComponentPut() {
     trashAndZoomImgs.forEach(item => item.style.display = 'none');
     html2canvas(targetDiv, { useCORS: true, backgroundColor: null }).then(result => {
       const img = new Image();
+      img.crossOrigin = "anonymous";
       img.src = result.toDataURL('image/png');
       setAnswer_img(img.src);
       const captureDiv = document.querySelector('.e2_capture-div');

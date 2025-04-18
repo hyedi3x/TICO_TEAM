@@ -58,6 +58,8 @@ function ShareCanvas() {
     canvas.width = canvas.width;// 캔버스의 너비를 다시 할당, 캔버스 내부 내용 지워짐
   };
 
+
+
   const { projectId } = useParams();
 
   /** ─────────────── 초기 로딩 ─────────────── **/
@@ -160,7 +162,11 @@ function ShareCanvas() {
 
   // 이미지와 말풍선을 모두 그리는 함수
   const callImgArr = () => {
+   
     const canvas = canvasRef.current;
+    if (!canvas) {
+      return; // 캔바스 내부 애니메이션 잔재 방지
+    }
     const context = canvas.getContext('2d');
     draw(); // 캔버스 초기화
     
@@ -357,55 +363,121 @@ function ShareCanvas() {
   };
 
   // 2. 키보드 q 키 핸들러
+  // useEffect(() => {
+  //   const handleKeyPress = (e) => {
+      
+  //     const pressedKey = e.key;
+  //     // 기본 동작 막아야 할 키 목록
+  //     const keysToPrevent = [
+  //       'ArrowUp', // 방향키
+  //       'ArrowDown',
+  //       'ArrowLeft',
+  //       'ArrowRight',
+  //       ' ', // 스페이스바
+  //       'Enter',
+  //       'Control',
+  //       'Shift'
+  //     ];
+      
+  //     if (keysToPrevent.includes(pressedKey)) { // 배열 중 키가 포함된다면
+  //       e.preventDefault();
+  //     }
+
+  //     blocklyArr.current.forEach((workspace, index) => {
+  //       // 워크스페이스에 있는 모든 블록을 가져옴
+  //       const blocks = workspace.getAllBlocks();
+
+  //       blocks.forEach((block) => {
+  //         if (block.type === 'start_with_q') {
+  //           const selectedKey = block.getFieldValue('KEY_OPTION'); // 사용자가 선택한 키
+  //           if (pressedKey === selectedKey) {
+  //             // 코드 생성 및 실행
+  //             generateStartKey(block, imgArr, index);
+  //             const code = imgArr.current[index]?.code;
+  //             if (code) {
+  //               runGeneratedCode(code, index, false);
+  //             }
+  //           }
+  //         }
+  //       });
+  //     });
+  //   };
+
+  //   window.addEventListener('keydown', handleKeyPress); 
+  //   window.addEventListener('keydown', handleKeyDown);
+  //   window.addEventListener('keyup', handleKeyUp);
+  //   return () => { // useEffect 훅에서 반환되는 함수는 컴포넌트가 언마운트될 때 실행
+  //     window.removeEventListener('keydown', handleKeyPress);
+  //     window.removeEventListener('keydown', handleKeyDown);
+  //     window.removeEventListener('keyup', handleKeyUp);
+  //   };
+  // }, []);
+  // 키보드 이벤트 핸들러
   useEffect(() => {
-    const handleKeyPress = (e) => {
-      
-      const pressedKey = e.key;
-      // 기본 동작 막아야 할 키 목록
-      const keysToPrevent = [
-        'ArrowUp', // 방향키
-        'ArrowDown',
-        'ArrowLeft',
-        'ArrowRight',
-        ' ', // 스페이스바
-        'Enter',
-        'Control',
-        'Shift'
-      ];
-      
-      if (keysToPrevent.includes(pressedKey)) { // 배열 중 키가 포함된다면
-        e.preventDefault();
-      }
-
-      blocklyArr.current.forEach((workspace, index) => {
-        // 워크스페이스에 있는 모든 블록을 가져옴
-        const blocks = workspace.getAllBlocks();
-
-        blocks.forEach((block) => {
-          if (block.type === 'start_with_q') {
-            const selectedKey = block.getFieldValue('KEY_OPTION'); // 사용자가 선택한 키
-            if (pressedKey === selectedKey) {
-              // 코드 생성 및 실행
-              generateStartKey(block, imgArr, index);
-              const code = imgArr.current[index]?.code;
-              if (code) {
-                runGeneratedCode(code, index, false);
+    const pressedKeys = {};
+    let animationFrameId = null;
+  
+    const keysToPrevent = [
+      'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight',
+      ' ', 'Enter', 'Control', 'Shift'
+    ];
+  
+    const loop = () => {
+      if (window.running) {
+        window.running = true;
+    
+        blocklyArr.current.forEach((workspace, index) => {
+          const blocks = workspace.getAllBlocks();
+          blocks.forEach((block) => {
+            if (block.type === 'start_with_q') {
+              const selectedKey = block.getFieldValue('KEY_OPTION');
+              if (pressedKeys[selectedKey]) {
+                javascriptGenerator.init(workspace);
+                generateStartKey(block, imgArr, index);
+                const code = imgArr.current[index]?.code;
+                if (code) runGeneratedCode(code, index, false);
               }
             }
-          }
+          });
         });
-      });
+      }  
+      animationFrameId = requestAnimationFrame(loop); 
+      // 브라우저가 다음 화면을 그리기 직전에 callback 함수를 실행, 16.66ms마다 한 번씩 실행
+      // requestAnimationFrame()은 호출할 때 고유한 id를 반환함. 이 id를 나중에 취소용
     };
-
-    window.addEventListener('keydown', handleKeyPress); 
+  
+    const handleKeyDown = (e) => {
+      pressedKeys[e.key] = true;
+      if (keysToPrevent.includes(e.key)) e.preventDefault();
+  
+      if (!animationFrameId) {
+        animationFrameId = requestAnimationFrame(loop);
+      }
+    };
+  
+    const handleKeyUp = (e) => {
+      pressedKeys[e.key] = false;
+      if (keysToPrevent.includes(e.key)) e.preventDefault();
+  
+      // 모든 키가 떨어졌을 때만 루프 중지
+      const anyKeyPressed = Object.values(pressedKeys).some((v) => v);
+      if (!anyKeyPressed && animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        // requestAnimationFrame()으로 예약된 다음 프레임 실행을 취소
+        animationFrameId = null;
+      }
+    };
+  
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
-    return () => { // useEffect 훅에서 반환되는 함수는 컴포넌트가 언마운트될 때 실행
-      window.removeEventListener('keydown', handleKeyPress);
+  
+    return () => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
     };
   }, []);
+
 
   useEffect(() => {
     const canvas = document.querySelector('canvas');
