@@ -25,6 +25,7 @@ import BlockEduComponentPut from './pages/blockedu/BlockEduComponentPut';
 import ShareGallery from './pages/share/ShareGallery';
 import ShareDetail from './pages/share/ShareDetail';
 import ShareCanvas from './blockly/components/BlocklyComponentRun';
+import MainModify from './common/MainModify';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Routes>
           <Route path="/createBlock" exact={true} element={<BlocklyComponent />} />
           <Route path="/" element={<Main/>}/>
+          <Route path="/mainModify" element={<MainModify/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/callback" element={<Callback />} />
           <Route path="/signUp" element={<Signup/>} />
