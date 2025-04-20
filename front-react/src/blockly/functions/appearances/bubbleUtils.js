@@ -7,7 +7,7 @@ export function drawSpeechBubble(ctx, item) {
     const fontSize = 14;
     ctx.font = `${fontSize}px Arial`; // 텍스트 스타일 지정
   
-    const textWidth = ctx.measureText(text).width; // 텍스트의 실제 픽셀 너비 측정
+    const textWidth = ctx.measureText(text).width; // 텍스트의 실제 픽셀 너비 측정, measyreText()는 폰트 스타일에 따라 측정
     const bubbleWidth = textWidth + padding * 2;   // 패딩을 포함한 말풍선 너비
     const bubbleHeight = fontSize + padding * 2;   // 텍스트 높이 + 패딩으로 말풍선 높이 계산
   
@@ -15,25 +15,26 @@ export function drawSpeechBubble(ctx, item) {
     const bubbleY = item.y - bubbleHeight - 10;                // 이미지 위로 10px 띄운 y 좌표
   
     // 🔵 말풍선 배경 그리기 (둥근 사각형)
-    ctx.fillStyle = "#7f8e90";     // 배경색
+    ctx.fillStyle = "#7f8e90";     // 배경색, fill을 사용하면 이 색으로 채움
     ctx.strokeStyle = "#444";      // 테두리색
-    ctx.lineWidth = 1;
-    ctx.beginPath();
+    ctx.lineWidth = 1;             // stroke() 호출 시, 테두리 두께  
+    ctx.beginPath();               // 경로 초기화, 이전 그림 경로 단절 (없으면 이전 그림과 이어짐)
     drawRoundedRect(ctx, bubbleX, bubbleY, bubbleWidth, bubbleHeight, 10); // 둥근 사각형 그리기
     ctx.fill();    // 채우기
     ctx.stroke();  // 테두리 그리기
   
     // 🔺 말풍선 꼬리 그리기
     ctx.beginPath();
-    ctx.moveTo(item.x + item.width / 2 - 5, bubbleY + bubbleHeight);      // 왼쪽 꼭짓점
-    ctx.lineTo(item.x + item.width / 2 + 5, bubbleY + bubbleHeight);      // 오른쪽 꼭짓점
+    ctx.moveTo(item.x + item.width / 2 - 5, bubbleY + bubbleHeight);      // moveTO() =  펜 이동 (왼쪽 꼭짓점)
+    ctx.lineTo(item.x + item.width / 2 + 5, bubbleY + bubbleHeight);      // lineTo() =  현재위치에서 (x,y)까지 그리기, 오른쪽 꼭짓점
     ctx.lineTo(item.x + item.width / 2, bubbleY + bubbleHeight + 10);    // 아래쪽 꼭짓점 (꼬리 끝)
-    ctx.closePath(); // 삼각형 닫기
+    ctx.closePath(); // 삼각형 닫기, 시작지점으로 닫기
     ctx.fill();      // 꼬리 채우기
   
     // 📝 텍스트 출력
     ctx.fillStyle = "#fff"; // 텍스트 색상
     ctx.fillText(text, bubbleX + padding, bubbleY + bubbleHeight / 2 + fontSize / 3); 
+    // fillText(text, x, y) 문자열을 좌표에 그림, 폰트와 크기는 ctx.font에서 설정
     // padding만큼 오른쪽으로 띄우고, 수직 중앙 정렬
   };
   

@@ -2,6 +2,7 @@ import { callImgArr, imgArr } from "../../blocks/blockGenerator";
 
 // 요소 보이기
 const showObject = function(index, isClone=false){
+    if (!window.running) return;
     const targetArr = isClone ? window.cloneArr : imgArr.current;
 
     if (targetArr[index]) {
@@ -12,6 +13,7 @@ const showObject = function(index, isClone=false){
 
 // 요소 숨기기
 const hideObject = function(index, isClone=false){
+    if (!window.running) return;
     const targetArr = isClone ? window.cloneArr : imgArr.current;
 
     if (targetArr[index]) {
@@ -22,6 +24,7 @@ const hideObject = function(index, isClone=false){
 
 // 말풍선 보이기
 const showBubble = function(text, index, isClone=false){
+    if (!window.running) return;
     const targetArr = isClone ? window.cloneArr : imgArr.current;
 
     if(targetArr[index]){
@@ -32,6 +35,7 @@ const showBubble = function(text, index, isClone=false){
 
 // 요소 색상, 밝기, 투명도 조정
 const changeAppearance = function(property, value, index, isClone=false){
+    if (!window.running) return;
     const targetArr = isClone ? window.cloneArr : imgArr.current;
 
     const item = targetArr[index];
@@ -58,6 +62,7 @@ const changeAppearance = function(property, value, index, isClone=false){
 
 // 크기 변경(입력값만큼 크기 변경)
 const changeObject = function(sizeChangePercent, index, isClone=false){
+    if (!window.running) return;
     const targetArr = isClone ? window.cloneArr : imgArr.current;
 
     const item = targetArr[index];
@@ -80,6 +85,7 @@ const changeObject = function(sizeChangePercent, index, isClone=false){
 
 // 크기 변경(입력값으로 크기 변경)
 const resizeObject = function(size, index, isClone=false){
+    if (!window.running) return;
     const targetArr = isClone ? window.cloneArr : imgArr.current;
 
     const item = targetArr[index];
@@ -100,10 +106,11 @@ const resizeObject = function(size, index, isClone=false){
 
 // 좌우/상하 반전
 const flipObject = function(direction, index, isClone=false){
+    if (!window.running) return;
     const targetArr = isClone ? window.cloneArr : imgArr.current;
 
     if (targetArr[index]) {
-      const item = imgArr.current[index];
+      const item = targetArr[index];
       if (direction === 'horizontal') {
         item.flipX = !item.flipX;
       } else if (direction === 'vertical') {
@@ -115,6 +122,7 @@ const flipObject = function(direction, index, isClone=false){
 
 // 모양 바꾸기
 const changeShape = function(url, index, isClone=false){
+    if (!window.running) return;
     const targetArr = isClone ? window.cloneArr : imgArr.current;
   
     if (targetArr[index]) {
@@ -126,6 +134,24 @@ const changeShape = function(url, index, isClone=false){
       };
     }
 };
+
+// 배경으로 설정하기
+const setAsBackground = function(index, isClone = false) {
+  if (!window.running) return;
+  const targetArr = isClone ? window.cloneArr : imgArr.current;
+
+  const item = targetArr[index];
+  if (!item) return;
+
+  item.x = 0;
+  item.y = 0;
+  item.width = 500;  // canvas 크기와 동일
+  item.height = 500;
+  item.isBackground = true;
+
+  callImgArr();
+};
+
 export default {
     showObject,
     hideObject,
@@ -135,6 +161,7 @@ export default {
     resizeObject,
     flipObject,
     changeShape,
+    setAsBackground,
 };
 
 // ✅ window 객체 등록
@@ -146,3 +173,4 @@ window.changeObject = changeObject;
 window.resizeObject = resizeObject;
 window.flipObject = flipObject;
 window.changeShape = changeShape;
+window.setAsBackground = setAsBackground;

@@ -6,13 +6,13 @@ import { createClone, deleteThisClone } from '../functions/flows/flowFunctions';
 // eslint-disable-next-line
 import { moveInDirection, changeMoveDirection, moveInDirectionAngle, moveImgToX, moveImgToY, moveImgToXY, changeCoordX, changeCoordY, changeCoordXY, rotateImage, rotateImageInTime, moveToMouse, moveImageInTime } from '../functions/moves/moveFunctions';
 // eslint-disable-next-line
-import { showObject, hideObject, changeAppearance, changeObject, resizeObject, flipObject, changeShape } from "../functions/appearances/appearanceFunctions";
+import { showObject, hideObject, changeAppearance, changeObject, resizeObject, flipObject, changeShape, setAsBackground } from "../functions/appearances/appearanceFunctions";
 // eslint-disable-next-line
 import { playSound, playSoundDuration, playSoundRange, stopSounds, multipleSoundSpeed } from "../functions/sounds/soundFunctions";
 // eslint-disable-next-line
 import { checkCollision } from "../functions/logicals/logicalFunctions";
 // eslint-disable-next-line
-import { mathRandomInt, startTimer, stopTimer, elapsedTime } from "../functions/cals/calFunctions";
+import { mathRandomInt, startTimer, stopTimer, elapsedTime, startScore, controlScore, drawScoreText, drawTimerText } from "../functions/cals/calFunctions";
 
 export let imgArr = null; // 백틱은 객체가 잘 안넘어가서 export로 넘겨준다.
 export let callImgArr = null;
@@ -22,11 +22,8 @@ const RegisterBlockGenerator = (props) => {
   // 1
   // 이미지 별로 구분해서 실행하기 위해
   imgArr = props.imgArr;
-  // const workspaceIndex = props.workspaceIndex;
   callImgArr = props.callImgArr;
-
   blocklyArr = props.blocklyArr;
-
   coordinates = props.coordinates;
 
   // Blockly 블록 생성 코드를 등록
@@ -78,6 +75,11 @@ const RegisterBlockGenerator = (props) => {
   javascriptGenerator.forBlock['wait_seconds'] = function(block) {
     const seconds = block.getFieldValue('seconds');
     return `await new Promise(resolve => setTimeout(resolve, ${seconds} * 1000));\n`;
+  };
+
+  // 모든 코드 멈추기
+  javascriptGenerator.forBlock['stop_all_code'] = function (block) {
+    return ` window.running = false;\n`;
   };
 
   // 이동방향과 일치하는 각도로 입력값만큼 거리 이동
@@ -167,10 +169,10 @@ const RegisterBlockGenerator = (props) => {
 
   // 일정시간 이동 애니메이션
   javascriptGenerator.forBlock['move_obj_inTime'] = function(block){
-    const x = block.getFieldValue('x');
-    const y = block.getFieldValue('y');
-    const duration = block.getFieldValue('duration');
-    return `await moveImageInTime(${x}, ${y}, ${duration}, index);\n`;
+    const x = javascriptGenerator.valueToCode(block, 'x', Order.ATOMIC) || 0;
+    const y = javascriptGenerator.valueToCode(block, 'y', Order.ATOMIC) || 0;
+    const duration = javascriptGenerator.valueToCode(block, 'duration', Order.ATOMIC) || 0;
+    return `await moveImageInTime(${x}, ${y}, ${duration}, index, isClone);\n`;
   };
     
   // 요소 보이기
@@ -220,6 +222,31 @@ const RegisterBlockGenerator = (props) => {
     return `await changeShape('${shape}', index, isClone);\n`;
   };
 
+  // 마우스 커서 이미지 변경
+  javascriptGenerator.forBlock['change_cursor_image'] = function (block) {
+    let cursor = block.getFieldValue('cursor');
+  
+    if (!cursor.endsWith('.png')) {
+      cursor += '.png';
+    }
+  
+    const encoded = encodeURIComponent(cursor);
+  
+    return `
+      const canvas = document.querySelector("canvas");
+      if (canvas) {
+        canvas.style.cursor = 'url("http://localhost:8081/uploads/${encoded}") 24 24, auto';
+      } else {
+        console.warn("❌ 캔버스 요소를 찾을 수 없습니다.");
+      }
+    `;
+  };
+
+  // 배경화면 설정
+  javascriptGenerator.forBlock['set_as_background'] = function () {
+    return `await setAsBackground(index, isClone);\n`;
+  };
+
   // 소리 재생
   javascriptGenerator.forBlock['play_sound'] = function(block) {
     let sound = block.getFieldValue('sound');
@@ -227,6 +254,11 @@ const RegisterBlockGenerator = (props) => {
     // .mp3 확장자가 없으면 추가
     if (sound && !sound.endsWith('.mp3')) {
       sound = sound.replace(/['"]/g, '') + '.mp3';
+    }
+
+    // 절대경로 붙이기 👇
+    if (!sound.startsWith('/')) {
+      sound = '/' + sound;
     }
 
     return `await playSound('${sound}');\n`;
@@ -242,6 +274,11 @@ const RegisterBlockGenerator = (props) => {
       sound = sound.replace(/['"]/g, '') + '.mp3';
     }
 
+    // 절대경로 붙이기 👇
+    if (!sound.startsWith('/')) {
+      sound = '/' + sound;
+    }
+
     return `await playSoundDuration('${sound}', ${duration});\n`;
   };
 
@@ -254,6 +291,11 @@ const RegisterBlockGenerator = (props) => {
     // .mp3 확장자가 없으면 추가
     if (sound && !sound.endsWith('.mp3')) {
       sound = sound.replace(/['"]/g, '') + '.mp3';
+    }
+
+    // 절대경로 붙이기 👇
+    if (!sound.startsWith('/')) {
+      sound = '/' + sound;
     }
 
     return `await playSoundRange('${sound}', ${start}, ${end});\n`;
@@ -299,6 +341,14 @@ const RegisterBlockGenerator = (props) => {
     return [`elapsedTime`, Order.ATOMIC];
   };
 
+  // 점수 출력하기
+  javascriptGenerator.forBlock['print_score'] = function(block) {
+    return `await startScore();\n`;
+  };
+  javascriptGenerator.forBlock['control_score'] = function(block) {
+    const score = javascriptGenerator.valueToCode(block, 'score', Order.ATOMIC) || 0;
+    return `await controlScore(${score});\n`;
+  };
 };
 
 export default RegisterBlockGenerator;

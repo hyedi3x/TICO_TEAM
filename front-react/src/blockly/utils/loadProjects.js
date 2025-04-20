@@ -3,7 +3,8 @@ import axios from 'axios';
 // 전체 프로젝트 불러오기
 export const fetchAllProjects = async () => {
   try {
-    const res = await axios.get('http://localhost:8081/project/projectList');
+    const userid = localStorage.getItem("user_uuid");
+    const res = await axios.get(`http://localhost:8081/project/userProjects/${userid}`);
     return res.data;
   } catch (err) {
     console.error('작품 목록 불러오기 실패:', err);

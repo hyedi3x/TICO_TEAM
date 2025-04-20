@@ -1,57 +1,54 @@
 import { imgArr, coordinates } from "../../blocks/blockGenerator";
 
 const checkCollision = function(index, targetType, isClone = false) {
-  const sourceArr = isClone ? window.cloneArr : imgArr.current;
-  const sourceObj = sourceArr[index];
-  if (!sourceObj) return false;
+  const canvas = document.querySelector("canvas");
+  if (!canvas) return false;
 
-  // ✅ 마우스 충돌 처리
+  const canvasWidth = canvas.width;
+  const canvasHeight = canvas.height;
+
+  const cloneArr = window.cloneArr || [];
+  const cloneObj = cloneArr[index];
+  if (!cloneObj || cloneObj.hidden) return false;
+
+  // 마우스와 충돌
   if (targetType === "mouse") {
     return (
-      coordinates.x >= sourceObj.x &&
-      coordinates.x <= sourceObj.x + sourceObj.width &&
-      coordinates.y >= sourceObj.y &&
-      coordinates.y <= sourceObj.y + sourceObj.height
+      coordinates.x >= cloneObj.x &&
+      coordinates.x <= cloneObj.x + cloneObj.width &&
+      coordinates.y >= cloneObj.y &&
+      coordinates.y <= cloneObj.y + cloneObj.height
     );
   }
 
-  // ✅ 벽 충돌 처리 (canvas 경계)
-  if (targetType === "wall") {
-    const canvas = document.querySelector("canvas");
-    if (!canvas) return false;
-
-    const canvasWidth = canvas.width;
-    const canvasHeight = canvas.height;
-
-    const hitLeft = sourceObj.x <= 0;
-    const hitRight = sourceObj.x + sourceObj.width >= canvasWidth;
-    const hitTop = sourceObj.y <= 0;
-    const hitBottom = sourceObj.y + sourceObj.height >= canvasHeight;
-
-    return hitLeft || hitRight || hitTop || hitBottom;
+  // 벽과 충돌
+  else if (targetType === "wall") {
+    return (
+      cloneObj.x <= 0 ||
+      cloneObj.y <= 0 ||
+      cloneObj.x + cloneObj.width >= canvasWidth ||
+      cloneObj.y + cloneObj.height >= canvasHeight
+    );
   }
 
-  // ✅ 기타 오브젝트 간 충돌 처리
-  const allTargets = [...imgArr.current, ...(window.cloneArr || [])];
+  // 특정 오브젝트(index)와 충돌
+  else {
+    const targetIndex = parseInt(targetType);
+    const targetObj = imgArr.current[targetIndex];
+    if (!targetObj || targetObj.hidden) return false;
 
-  for (let target of allTargets) {
-    if (!target || target === sourceObj) continue;
-    if (targetType === target.index?.toString()) {
-      const isColliding = !(
-        sourceObj.x + sourceObj.width < target.x ||
-        sourceObj.x > target.x + target.width ||
-        sourceObj.y + sourceObj.height < target.y ||
-        sourceObj.y > target.y + target.height
-      );
-      if (isColliding) return true;
-    }
-  };
+    const isColliding = !(
+      cloneObj.x + cloneObj.width < targetObj.x ||
+      cloneObj.x > targetObj.x + targetObj.width ||
+      cloneObj.y + cloneObj.height < targetObj.y ||
+      cloneObj.y > targetObj.y + targetObj.height
+    );
 
-  return false;
-};
-
-export default {
-  checkCollision,
+    return isColliding;
+  }
 };
 
 window.checkCollision = checkCollision;
+export default {
+  checkCollision,
+};

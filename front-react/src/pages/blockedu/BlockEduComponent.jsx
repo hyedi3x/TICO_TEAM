@@ -4,11 +4,10 @@ import * as ko from 'blockly/msg/ko';
 import { javascriptGenerator } from 'blockly/javascript';
 import defineMyBlocks from '../../blockly/blocks/myBlockJSON';
 import "./BlockEduComponent.css";
-import eduToolboxXML6 from './edublock/eduBlock6';
+import eduToolboxXML6 from './edublock/eduToolboxXML';
 import {useNavigate, useParams } from 'react-router-dom';
 import './Modal.css';
-import hint from '../../imgs/quiz1.jpg';
-import hint1 from '../../imgs/짱구1.jpg';
+import ticoTheme from '../../blockly/blocks/ticoTheme';
 
 Blockly.setLocale(ko);
 
@@ -19,7 +18,7 @@ function BlockEduComponent() {
   const [workspace, setWorkspace] = useState(null);
   const [generatedCode, setGeneratedCode] = useState('');
   const [xmlText, setXmlText] = useState('');
-  const [showModal, setShowModal] = useState(false); // ✨ 모달 상태
+  const [showModal, setShowModal] = useState(false); // 모달 상태
 
   const { quizId } = useParams();
   const [answerXml, setAnswerXml] = useState(null);
@@ -29,9 +28,19 @@ function BlockEduComponent() {
   
   const [currentImageSrc, setCurrentImageSrc] = useState('');
 
-  const user_uuid = "1753fb32-6820-4840-9abc-ac5711f0ea5f"; // 임시
+  const user_uuid = localStorage.getItem("user_uuid");
+  console.log("user_uuid : ", user_uuid);
+  const isEmp_id = /^\d{5}$/.test(user_uuid); // 5자리 숫자 정규식 체크, \d =	숫자 한 자리 (0~9), {5}	= 앞의 패턴 5번 반복
 
+  
   useEffect(() => {
+
+    const user_uuidCheck = localStorage.getItem("user_uuid");
+    if (!user_uuidCheck) {
+      alert("로그인 후 사용 가능합니다.");
+      navigate("/login"); // 로그인 페이지로 이동
+    }
+
     const fetchAnswerXml = async () => {
       try {
         const response = await fetch(`http://localhost:8081/quiz/answer?quizId=${quizId}`);
@@ -71,6 +80,7 @@ function BlockEduComponent() {
 
       const newWorkspace = Blockly.inject(blocklyDivElement, {
         toolbox: eduToolboxXML6(),
+        theme: ticoTheme,
         move: { scrollbars: true, drag: false, wheel: false },
         zoom: { controls: true, startScale: 1.0, maxScale: 3, minScale: 0.3, scaleSpeed: 1.2, pinch: true }
       });
@@ -81,8 +91,6 @@ function BlockEduComponent() {
       setWorkspace(newWorkspace);
 
       newWorkspace.addChangeListener(() => {
-        javascriptGenerator.nameDB_.reset();
-        javascriptGenerator.nameDB_.setVariableMap(null); // ✅ 자동 유니크화 방지
 
         const code = javascriptGenerator.workspaceToCode(newWorkspace);
         setGeneratedCode(code);
@@ -138,7 +146,9 @@ function BlockEduComponent() {
   const handleCheckAnswer = () => {
     if (xmlText.trim() === answerXml?.trim()) { // 정확도 향상을 위해 trim() 사용
       setShowModal(true); // ✨ 정답 모달 열기
-      fetchQUiZData(quizId);
+      if (!isEmp_id) { // 사원번호가 아닐 경우에만 푼 문제 업데이트, DB 관리
+       fetchQUiZData(quizId);
+      }
     } else {
       alert("❌ 정답이 일치하지 않습니다. 다시 확인해보세요!");
     }

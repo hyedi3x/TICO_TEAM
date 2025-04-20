@@ -6,7 +6,14 @@ const runGeneratedCode = (code, index, isClone = false)=>{
           'isClone',
           `
           return (async () => {
-            ${code}
+            if (!window.running) return; // 🔴 실행 시작 전 체크
+    
+            try {
+              ${code}
+            } catch (e) {
+              console.error("코드 실행 중 예외 발생:", e);
+            }
+    
           })();
         `
         );

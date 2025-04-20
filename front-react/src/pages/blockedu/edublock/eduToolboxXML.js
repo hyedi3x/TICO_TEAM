@@ -10,13 +10,13 @@ const eduToolboxXML6 = () => {
 
             <!-- 흐름 -->
             <category name="흐름" colour="#FF9966">
-                <block type="controls_if"></block>
-                <block type="controls_ifelse"></block>
                 <block type="controls_repeat_ext"></block>
             </category>
 
             <!-- 판단 -->
             <category name="판단" colour="#CC99CC">
+                <block type="controls_if"></block>
+                <block type="controls_ifelse"></block>
                 <block type="logic_compare"></block>
                 <block type="logic_boolean"></block>
                 <block type="logic_operation"></block>
@@ -37,7 +37,6 @@ const eduToolboxXML6 = () => {
             </category>
 
             <category name="변수" colour="#A65C81" custom="VARIABLE"></category>
-            <category name="함수" colour="#995CA6" custom="PROCEDURE"></category>
         </xml>
     `
 }

@@ -4,10 +4,11 @@ import * as ko from 'blockly/msg/ko';
 import { javascriptGenerator } from 'blockly/javascript';
 import defineMyBlocks from '../../blockly/blocks/myBlockJSON';
 import "./BlockEduComponentPost.css";
-import eduToolboxXML6 from './edublock/eduBlock6';
+import eduToolboxXML from './edublock/eduToolboxXML';
 import {useNavigate, useParams } from 'react-router-dom';
 import './Modal.css';
 import html2canvas from 'html2canvas';
+import ticoTheme from '../../blockly/blocks/ticoTheme';
 
 Blockly.setLocale(ko);
 
@@ -50,7 +51,8 @@ function BlockEduComponentPost() {
       blocklyDiv.current.appendChild(blocklyDivElement);
 
       const newWorkspace = Blockly.inject(blocklyDivElement, {
-        toolbox: eduToolboxXML6(),
+        toolbox: eduToolboxXML(),
+        theme: ticoTheme,
         move: { scrollbars: true, drag: false, wheel: false },
         zoom: { controls: true, startScale: 1.0, maxScale: 3, minScale: 0.3, scaleSpeed: 1.2, pinch: true }
       });
@@ -74,7 +76,6 @@ function BlockEduComponentPost() {
           .replace(/ xmlns="[^"]+"/g, '')
           .replace(/ x="[^"]+"/g, '')
           .replace(/ y="[^"]+"/g, '');
-
         setAnswer_xml(xml);
       });
     }
@@ -120,7 +121,7 @@ function BlockEduComponentPost() {
     const targetDiv = document.getElementById('blocklyWorkspace');
     const trashAndZoomImgs = targetDiv.querySelectorAll('.blocklyZoom, .blocklyTrash');
   
-    // 👉 숨기기
+    // 휴지통, 줌컨트롤 숨기기
     trashAndZoomImgs.forEach(item => item.style.display = 'none');
   
     // html2canvas 또는 html-to-image 캡처 실행
@@ -129,6 +130,7 @@ function BlockEduComponentPost() {
       backgroundColor: null
     }).then(result => {
       const img = new Image();
+      img.crossOrigin = "anonymous";
       img.src = result.toDataURL('image/png');
       setAnswer_img(img.src);
       const captureDiv = document.querySelector('.e2_capture-div');
@@ -137,7 +139,7 @@ function BlockEduComponentPost() {
         captureDiv.appendChild(img);
       }
       
-      // 👈 다시 보이게
+      // 다시 보이게
       trashAndZoomImgs.forEach(el => el.style.display = '');
     });
   }
@@ -145,7 +147,7 @@ function BlockEduComponentPost() {
   // 저장하기
   const saveQuiz = () => {
     try{
-      fetch('http://localhost:8081/eduBlock/Postquiz', {
+      fetch('http://localhost:8081/eduBlock/PostQuiz', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -157,6 +159,7 @@ function BlockEduComponentPost() {
           quiz_img: quiz_img,
           answer_img: answer_img,
           answer_xml: answer_xml,
+          emp_id: localStorage.getItem('user_uuid'), // 사원번호
         }),
       })
       .then((response) => {

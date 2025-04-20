@@ -1,0 +1,58 @@
+.quiz-wrapper {
+    padding: 30px;
+  }
+  
+  .quiz-count {
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .quiz-title {
+    font-weight: 600;
+  }
+  
+  .quiz-category {
+    font-size: 15px; 
+    color: gray;
+  }
+  
+  .quiz-table {
+    width: 1000px;
+    margin: 0 auto;
+    table-layout: auto;
+  }
+
+/* 드롭다운 정렬 셀렉트 스타일 (밝은 톤 + 간결한 디자인) */
+.quiz-sort-select {
+  border: 1px solid #ccc;  /* 연한 회색 테두리 */
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 15px;
+  outline: none;
+  cursor: pointer;
+}
+
+/* 포커스 시 파란색 테두리 강조 */
+.quiz-sort-select:focus {
+  border-color: #4a90e2;
+}
+
+.quiz-sort-container {
+  width: 1000px;            /* 테이블 너비와 동일하게 */
+  margin: 0 auto;           /* 중앙 정렬 */
+  display: flex;
+  justify-content: flex-end;  /* 우측 정렬 */
+  margin-bottom: 10px;
+}
+
+/* 관리자 페이지 버튼 */
+.btn-xs {
+  padding: 4px 8px;
+  font-size: 14px;
+}
+.btn-col :first-child {
+  margin-right: 30px;
+}
+.btn-col{
+  max-width : 120px; /* 최대 너비 설정 */
+}
