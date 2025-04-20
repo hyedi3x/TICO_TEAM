@@ -12,16 +12,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.boot.tico.blocklyObject.dto.BlocklyObject;
 import com.boot.tico.blocklyObject.repo.BlocklyObjectRepo;
-import com.boot.tico.blocklyObject.repo.BlocklyUploadFileRepo;
 
 @Service
 public class BlocklyObjectService {
 
     @Autowired
     private BlocklyObjectRepo blocklyObRepo;
-
-    @Autowired
-    private BlocklyUploadFileRepo uploadRepo;
 
     // 파일 기본 저장 경로 (상대경로로 사용)
     private static final String FILE_BASE_PATH = System.getProperty("user.dir") + "/uploads/images/blocklyObjects/";

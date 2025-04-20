@@ -362,56 +362,6 @@ function ShareCanvas() {
     setKeysPressed((prev) => ({ ...prev, [e.key]: false }));
   };
 
-  // 2. 키보드 q 키 핸들러
-  // useEffect(() => {
-  //   const handleKeyPress = (e) => {
-      
-  //     const pressedKey = e.key;
-  //     // 기본 동작 막아야 할 키 목록
-  //     const keysToPrevent = [
-  //       'ArrowUp', // 방향키
-  //       'ArrowDown',
-  //       'ArrowLeft',
-  //       'ArrowRight',
-  //       ' ', // 스페이스바
-  //       'Enter',
-  //       'Control',
-  //       'Shift'
-  //     ];
-      
-  //     if (keysToPrevent.includes(pressedKey)) { // 배열 중 키가 포함된다면
-  //       e.preventDefault();
-  //     }
-
-  //     blocklyArr.current.forEach((workspace, index) => {
-  //       // 워크스페이스에 있는 모든 블록을 가져옴
-  //       const blocks = workspace.getAllBlocks();
-
-  //       blocks.forEach((block) => {
-  //         if (block.type === 'start_with_q') {
-  //           const selectedKey = block.getFieldValue('KEY_OPTION'); // 사용자가 선택한 키
-  //           if (pressedKey === selectedKey) {
-  //             // 코드 생성 및 실행
-  //             generateStartKey(block, imgArr, index);
-  //             const code = imgArr.current[index]?.code;
-  //             if (code) {
-  //               runGeneratedCode(code, index, false);
-  //             }
-  //           }
-  //         }
-  //       });
-  //     });
-  //   };
-
-  //   window.addEventListener('keydown', handleKeyPress); 
-  //   window.addEventListener('keydown', handleKeyDown);
-  //   window.addEventListener('keyup', handleKeyUp);
-  //   return () => { // useEffect 훅에서 반환되는 함수는 컴포넌트가 언마운트될 때 실행
-  //     window.removeEventListener('keydown', handleKeyPress);
-  //     window.removeEventListener('keydown', handleKeyDown);
-  //     window.removeEventListener('keyup', handleKeyUp);
-  //   };
-  // }, []);
   // 키보드 이벤트 핸들러
   useEffect(() => {
     const pressedKeys = {};
@@ -447,6 +397,9 @@ function ShareCanvas() {
     };
   
     const handleKeyDown = (e) => {
+      const tag = e.target.tagName.toLowerCase();
+    if (tag === 'input' || tag === 'textarea') return;
+
       pressedKeys[e.key] = true;
       if (keysToPrevent.includes(e.key)) e.preventDefault();
   
@@ -456,6 +409,9 @@ function ShareCanvas() {
     };
   
     const handleKeyUp = (e) => {
+      const tag = e.target.tagName.toLowerCase();
+      if (tag === 'input' || tag === 'textarea') return;
+
       pressedKeys[e.key] = false;
       if (keysToPrevent.includes(e.key)) e.preventDefault();
   

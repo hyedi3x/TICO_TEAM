@@ -96,6 +96,10 @@ public class ProjectService {
        if (project.getCategory() == null) project.setCategory(existing.getCategory());
        if (project.getIsPrivate() == null) project.setIsPrivate(existing.getIsPrivate());
        if (project.getIsAgree() == null) project.setIsAgree(existing.getIsAgree());
+       if (project.getViewCount() == null) project.setViewCount(existing.getBookmarkCount());
+       if (project.getLikeCount() == null) project.setLikeCount(existing.getLikeCount());
+       if (project.getCommentCount() == null) project.setCommentCount(existing.getCommentCount());
+       if (project.getBookmarkCount() == null) project.setBookmarkCount(existing.getBookmarkCount());
 
        projectRepository.save(project);
        objectRepository.deleteByProjectId(project.getProjectId());

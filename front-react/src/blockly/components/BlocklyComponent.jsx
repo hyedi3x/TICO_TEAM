@@ -407,6 +407,32 @@ function Canvas() {
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
     };
   }, []);
+
+  useEffect(() => {
+      const canvas = document.querySelector('canvas');
+      if(!canvas) return;
+  
+      const handleCanvasClick = () => {
+        blocklyArr.current.forEach((workspace, index) => {
+          const blocks = workspace.getTopBlocks();
+          const hasMouseClickStart = blocks.some(block => block.type === 'start_mouse_clicked');
+    
+          if (hasMouseClickStart) {
+            // 시작 블록 기준 코드 생성
+            generateStart(workspace, imgArr, index, 'start_mouse_clicked');
+    
+            // 코드 실행
+            const code = imgArr.current[index]?.code;
+            if (code) {
+              runGeneratedCode(code, index, false);
+            }
+          }
+        });
+      };
+    
+      canvas.addEventListener("click", handleCanvasClick);
+      return () => canvas.removeEventListener("click", handleCanvasClick);
+    }, []);
   
   // 이미지, 작업공간 삭제
   function imgDel(index) {
