@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation  } from 'react-router-dom';
 import * as Blockly from "blockly"; // npm install Blockly 
 import * as ko from 'blockly/msg/ko';  // 한글 번역 모듈
 import { javascriptGenerator } from "blockly/javascript"; // JavaScript 코드 생성기 가져오기
@@ -20,6 +20,7 @@ import ObjectSelectPage from './ObjectSelectPage';
 import ticoTheme from '../blocks/ticoTheme';
 import { registerWhackableClickListener } from '../games/whackMoleGame';
 import { drawScoreText, showScore } from '../functions/cals/calFunctions';
+import { Modal } from 'rsuite';
 
 Blockly.setLocale(ko); // Blockly 언어를 한국어로 설정
 
@@ -50,13 +51,85 @@ function Canvas() {
   const [projectTitle, setProjectTitle] = useState(""); // 작품명 상태
 
   const navigate = useNavigate(); // 페이지 이동 함수
+  const location = useLocation(); // 👈 선택된 오브젝트 정보 받아올 수 있게
 
-  const handleButtonClick = () => {
-    // ObjectSelectPage 경로로 이동
-    navigate('/select-object');
-  };
+  const [showObjectSelect, setShowObjectSelect] = useState(false);
 
-
+  // 요소(오브젝트) 추가
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const selectedObjects = location.state?.selectedObjects;
+  
+    if (!canvas || !selectedObjects || selectedObjects.length === 0) return;
+  
+    let loadCount = 0;
+  
+    selectedObjects.forEach((obj, idx) => {
+      const img = new Image();
+      img.src = `http://localhost:8081${obj.blocklyObjectFilePath}`;
+  
+      img.onload = () => {
+        if (!canvasRef.current) return;
+  
+        imgArr.current.push({
+          img,
+          url: obj.blocklyObjectFilePath,
+          x: canvas.width / 2 - 25,
+          y: canvas.height / 2 - 50,
+          width: obj.width || 50,
+          height: obj.height || 50,
+          angle: 0,
+          moveDirection: 90,
+          index: imgArr.current.length,
+          hidden: false,
+          isClone: false
+        });
+  
+        // Blockly 작업공간 생성
+        const blocklyDivElement = document.createElement('div');
+        blocklyDivElement.id = `blockly${imgArr.current.length - 1}`;
+        blocklyDivElement.style.height = '700px';
+        blocklyDivElement.style.width = '800px';
+        blocklyDiv.current.appendChild(blocklyDivElement);
+  
+        const workspace = Blockly.inject(blocklyDivElement, {
+          toolbox: toolboxXML(),
+          theme: ticoTheme,
+          move: { scrollbars: false, drag: false, wheel: false },
+          zoom: { controls: true, wheel: false, startScale: 1.0, maxScale: 3, minScale: 0.3, scaleSpeed: 1.2, pinch: true }
+        });
+  
+        workspace.index = imgArr.current.length - 1;
+        blocklyArr.current.push(workspace);
+  
+        // 블록 변경 시 코드 저장
+        workspace.addChangeListener(() => {
+          const code = javascriptGenerator.workspaceToCode(workspace);
+          if (imgArr.current[workspace.index]) {
+            imgArr.current[workspace.index].code = code;
+          }
+        });
+  
+        // 캔버스 렌더링 및 워크스페이스 표시
+        callImgArr();
+        blocklyArr.current.forEach((item, index) => {
+          const div = document.getElementById(`blockly${index}`);
+          if (div) div.style.display = index === (blocklyArr.current.length - 1) ? 'block' : 'none';
+        });
+  
+        // ✅ 모든 이미지 로드 후 navigate로 state 초기화 (중복 방지)
+        loadCount++;
+        if (loadCount === selectedObjects.length) {
+          navigate('/createBlock', { replace: true, state: {} });
+        }
+      };
+  
+      img.onerror = () => {
+        alert(`❌ ${obj.blocklyObjectFilePath} 이미지를 불러오는데 실패했습니다.`);
+      };
+    });
+  }, [location, navigate]);
+  
   // 키보드 상태 트래킹,  애니메이션 체크용, 현재 사용 안함
   const [keysPressed, setKeysPressed] = useState({}); // 눌린 키 상태를 저장하는 객체
    /** ─────────────── 캔버스 그리기 ─────────────── **/
@@ -86,6 +159,7 @@ function Canvas() {
       
     // 객체 로드시 배열에 js객체로 변수와 속성값을 추가
     img.onload = () =>{
+
       imgArr.current.push({
         img,
         url: imgUrl,
@@ -559,9 +633,7 @@ function Canvas() {
           {/* 버튼 영역 */}
           <div className="button-blockly">
             <input type="file" id="imgInput" accept="image/*" style={{ display: 'none' }} onChange={selectimg} />
-            <button onClick={() => document.querySelector('#imgInput').click()}>
-              ➕ 요소 추가
-            </button>
+            <button onClick={() => setShowObjectSelect(true)}>➕ 요소 추가</button>
             <button onClick={runStartBtnCode}>▶️ 실행하기</button>
             <button onClick={runStopBtnCode}>⏹️ 멈추기</button>
             <button onClick={() => handleSaveProject(imgArr, blocklyArr, currentProjectId.current, projectTitle)}>
@@ -601,6 +673,21 @@ function Canvas() {
           />
         </div>
       </div>
+
+      <Modal open={showObjectSelect} onClose={() => setShowObjectSelect(false)} size="lg">
+  <Modal.Header><Modal.Title>오브젝트 선택</Modal.Title></Modal.Header>
+  <Modal.Body>
+    <ObjectSelectPage
+      onComplete={(selectedObjects) => {
+        setShowObjectSelect(false); // 모달 닫기
+        selectedObjects.forEach(obj => {
+          callimage(obj.blocklyObjectFilePath); // 이미지 불러오기 함수 실행
+        });
+      }}
+    />
+  </Modal.Body>
+</Modal>
+
     </div>
   );
 }

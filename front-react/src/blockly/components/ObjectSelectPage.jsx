@@ -23,7 +23,7 @@ import ObjectTextbox from './ObjectTextbox';
 // 블록 오브젝트 선택 및 관리(등록, 수정, 삭제, 업로드 등)를 담당하는 메인 컴포넌트
 // 관리자 권한 확인, 카테고리 선택, 파일 업로드/수정/삭제 등의 기능 포함
 
-function ObjectSelectPage() {
+function ObjectSelectPage({ onComplete }) {
   // 상태 변수 선언
   const [selectedCategory, setSelectedCategory] = useState('사람');    // 선택된 카테고리
   const [objectList, setObjectList] = useState([]);                   // 전체 오브젝트 목록
@@ -31,16 +31,17 @@ function ObjectSelectPage() {
   const [uploadedFiles, setUploadedFiles] = useState([]);             // 업로드된 파일 목록
   const [activeMode, setActiveMode] = useState('object');             // 모드 상태(object, upload, draw, textbox)
   const userUuid = localStorage.getItem("user_uuid");                 // 현재 로그인된 사용자 UUID
-  const navigate = useNavigate();
+  const [showPurchaseModal, setShowPurchaseModal] = useState(false);  // 결제 모달 상태 정의
 
+  const navigate = useNavigate();
 
   // JWT 토큰에서 사용자 역할 추출 (EMPLOYEE인지 확인)
   const [userRole, setUserRole] = useState(null);  // 사용자 역할 상태
   const [userDepId, setUserDepId] = useState(null);  // 관리자 부서
-  
+
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
-    
+
     if (token) {
       try {
         const decoded = jwtDecode(token);
@@ -99,6 +100,7 @@ function ObjectSelectPage() {
     formData.append("name", name);
     formData.append("category", category);
     formData.append("description", description);
+    formData.append("blocklyObjectPoint", newObjectData.blocklyObjectPoint ? "true" : "false");   // boolean값을 문자열로 바꿔서 백엔드에 넘기는 방식. @RequestParam으로 Boolean을 안정적으로 받기에 적합.
 
     axios.post("http://localhost:8081/api/blockly-objects/upload-object", formData, {
       headers: { 'Content-Type': 'multipart/form-data' }
@@ -126,6 +128,7 @@ function ObjectSelectPage() {
       description: object.blocklyObjectDescription,
       previewUrl: '',
       blocklyObjectFilePath: object.blocklyObjectFilePath,
+      blocklyObjectPoint: object.blocklyObjectPoint
     });
     setMode("edit");
     setShowModal(true);
@@ -145,6 +148,7 @@ function ObjectSelectPage() {
     formData.append("category", category);
     formData.append("description", description);
     formData.append("user_uuid", userUuid);
+    formData.append("blocklyObjectPoint", newObjectData.blocklyObjectPoint ? "true" : "false");
 
     if (file) {
       formData.append("file", file);
@@ -286,12 +290,32 @@ function ObjectSelectPage() {
       alert("오브젝트를 선택해주세요!");
       return;
     }
-    navigate('./canvas', { state: { selectedObjects } });
+    onComplete(selectedObjects); // 👈 모달 부모로 선택 결과 전달
   };
+
 
   //--------------------------------[ 랜더링 ]----------------------------
   return (
+
     <Container className="objectSelectPage-container">
+
+      {/* 결제 모달창 */}
+      <Modal open={showPurchaseModal} onClose={() => setShowPurchaseModal(false)}>
+        <Modal.Header>
+          <Modal.Title>이용권이 필요합니다</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          이 오브젝트는 유료입니다. 이용권을 구매하시겠습니까?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button appearance="primary" onClick={() => {
+            setShowPurchaseModal(false);
+            navigate('/purchase'); // 👉 원하는 결제 페이지 URL
+          }}>예</Button>
+          <Button appearance="subtle" onClick={() => setShowPurchaseModal(false)}>아니오</Button>
+        </Modal.Footer>
+      </Modal>
+
       {/* 오브젝트 등록, 수정 모달창 */}
       <Modal open={showModal} onClose={() => {
         setShowModal(false);
@@ -337,13 +361,25 @@ function ObjectSelectPage() {
               />
             </Form.Group>
 
-
             <Form.Group controlId="name">
               <Form.ControlLabel>오브젝트 이름</Form.ControlLabel>
               <Input
                 value={newObjectData.name}
                 onChange={value => setNewObjectData(prev => ({ ...prev, name: value }))}
               />
+            </Form.Group>
+            <Form.Group controlId="blocklyObjectPoint">
+              <Form.ControlLabel>유료 오브젝트 여부</Form.ControlLabel>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <input
+                  type="checkbox"
+                  checked={newObjectData.blocklyObjectPoint || false}
+                  onChange={(e) =>
+                    setNewObjectData((prev) => ({ ...prev, blocklyObjectPoint: e.target.checked }))
+                  }
+                />
+                유료로 설정
+              </label>
             </Form.Group>
             <Form.Group controlId="category">
               <Form.ControlLabel>카테고리</Form.ControlLabel>
@@ -418,12 +454,36 @@ function ObjectSelectPage() {
           {/* 오브젝트 선택 */}
           {activeMode === 'object' && (
             <div className="objectSelectPage-grid">
-              {objectList.filter(obj => obj.blocklyObjectCategory === selectedCategory).map(obj => (
-                <div key={obj.blocklyObjectId} className="objectSelectPage-item" onClick={() => handleSelectObject(obj)}>
-                  <img src={`http://localhost:8081${obj.blocklyObjectFilePath.startsWith('/') ? '' : '/'}${obj.blocklyObjectFilePath}`} alt={obj.blocklyObjectName} className="objectSelectPage-image" />
-                  <div className="objectSelectPage-name">{obj.blocklyObjectName}</div>
-                </div>
-              ))}
+              {objectList
+                .filter(obj => obj.blocklyObjectCategory === selectedCategory)
+                .map(obj => {
+                  const isPaid = obj.blocklyObjectPoint === true;
+
+                  return (
+                    <div
+                      key={obj.blocklyObjectId}
+                      className={`objectSelectPage-item ${isPaid ? 'locked' : ''}`}
+                      onClick={() => {
+                        if (isPaid) {
+                          setShowPurchaseModal(true);   // 결제 페이지 이동 모달 열기
+                          return;
+                        }
+                        handleSelectObject(obj);
+                      }}
+                      title={obj.blocklyObjectName}
+                    >
+                      <div className="objectSelectPage-image-wrapper" style={{ position: 'relative' }}>
+                        <img
+                          src={`http://localhost:8081${obj.blocklyObjectFilePath.startsWith('/') ? '' : '/'}${obj.blocklyObjectFilePath}`}
+                          alt={obj.blocklyObjectName}
+                          className="objectSelectPage-image"
+                        />
+                        {isPaid && <div className="lock-overlay">🔒</div>}
+                      </div>
+                      <div className="objectSelectPage-name">{obj.blocklyObjectName}</div>
+                    </div>
+                  );
+                })}
             </div>
           )}
           {/* 모듈화된 모드 컴포넌트 */}
