@@ -200,5 +200,12 @@ public class ProjectController {
 	    service.increaseViewCount(projectId);
 	    return ResponseEntity.ok().build();
 	}
-
+	
+	// 메인화면 인기 작품 조회
+	// ProjectController.java
+	@GetMapping("/popularProjects")
+	public ResponseEntity<List<ProjectDTO>> getPopularProjects() {
+	    List<ProjectDTO> projects = service.getPopularProjects();
+	    return ResponseEntity.ok(projects);
+	}
 }

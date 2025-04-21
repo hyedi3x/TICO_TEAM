@@ -173,5 +173,10 @@ public class ProjectService {
    public void increaseViewCount(int projectId) {
        projectRepository.incrementViewCount(projectId);
    }
-
+   
+   // 메인화면 인기작품 조회
+   @Transactional
+   public List<ProjectDTO> getPopularProjects() {
+	    return projectRepository.findPopularProjects();
+	}
 }
