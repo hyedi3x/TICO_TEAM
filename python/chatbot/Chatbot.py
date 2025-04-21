@@ -1,5 +1,6 @@
 # ----------------------------[챗봇 음성 텍스트 변환 코드]----------------------------
-from flask import Flask, request, jsonify  # flask : 웹 애플리케이션 프레임 워크
+# flask : 웹 애플리케이션 프레임 워크, send_from_directory : 음성 파일을 제공
+from flask import Flask, request, jsonify, send_from_directory  
 from flask_cors import CORS  # flask cors 라이브러리 추가
 from google.cloud import speech_v1  # Google Cloud Speech-to-Text API 클라이언트
 import io  # 파일 입출력
@@ -9,6 +10,7 @@ import uuid  # 고유 ID 생성
 import pymysql  # MariaDB 연결 라이브러리
 from dotenv import load_dotenv  # env 파일 로드를 위해서
 import traceback  # traceback 모듈 추가
+from datetime import datetime, timedelta  # 시간대 설정용
 
 app = Flask(__name__)  # 파이썬 flask 서버 생성 (flask application name) : app
 CORS(app, resources={r"/*": {"origins": "*"}})  # CORS 설정 추가, localhost:3000번 포트의 모든 origins 허용
@@ -19,10 +21,22 @@ load_dotenv()
 # python 표준 출력 스트림(sys.stdout)의 인코딩을 UTF-8로 변경
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
-# -------------------------[경로 설정 리팩토링]--------------------------
-base_dir = os.path.dirname(os.path.abspath(__file__))  # 현재 py 파일 위치
-audio_files = os.path.join(base_dir, '..', 'audio_files')  # ../audio_files
-csv_path = os.path.join(base_dir, '..', 'data_sets', 'ChatbotData.csv')  # ../data_sets/ChatbotData.csv
+# -------------------------[경로 설정]--------------------------
+base_dir = os.path.dirname(os.path.abspath(__file__))
+audio_files = os.path.join(base_dir, 'static', 'audio_files')
+
+# 디렉토리 없으면 생성
+if not os.path.exists(audio_files):
+    os.makedirs(audio_files)
+
+# 음성 파일 제공 엔드포인트
+@app.route("/audio/<filename>")
+def get_audio_file(filename):
+    try:
+        return send_from_directory(audio_files, filename)
+    except Exception as e:
+        print(f"파일 제공 오류: {e}")
+        return jsonify({"error": "파일을 찾을 수 없습니다."}), 404
 
 # ----------------------[MariaDB 연결 정보 (env 파일에서 로드)]--------------------
 MARIA_HOST = os.getenv('DB_HOST')
@@ -49,19 +63,21 @@ def connect_to_maria():
         return None
 
 # ----------------[음성 텍스트 변환 결과와 파일 경로를 MariaDB에 저장하는 함수]----------------
-def save_to_db(user_uuid, transcript, filepath):
+def save_to_db(user_uuid, transcript, filepath=None, sender='user', record='Y'):
     conn = connect_to_maria()
     if conn:
         try:
             # 커서 생성, 데이터베이스에서 데이터를 검색하거나 수정할 때, 커서는 결과 집합을 순차적으로 처리
             with conn.cursor() as cursor:
+                kor_time = datetime.utcnow() + timedelta(hours=9)  # 한국 시간으로 변환
+
                 # insert 구문 : user_uuid, 메시지, 음성파일 경로, 음성/텍스트 여부, user/bot 여부
                 sql = """
-                    INSERT INTO chat_log (user_uuid, msg, file_path, record, sender)
-                    VALUES (%s, %s, %s, 'Y', 'user')
+                    INSERT INTO chat_log (user_uuid, msg, file_path, record, sender, date_time)
+                    VALUES (%s, %s, %s, %s, %s, %s)
                 """
                 #  execute : Python에서 SQL 쿼리를 실행, 파라미터 값 바인딩(값을 안전하게 끼워넣음)
-                cursor.execute(sql, (user_uuid, transcript, filepath))
+                cursor.execute(sql, (user_uuid, transcript, filepath, record, sender, kor_time))
             conn.commit()  # 변경사항 auto commit
             print("MariaDB 저장 성공", flush=True)
         except Exception as e:
@@ -72,7 +88,7 @@ def save_to_db(user_uuid, transcript, filepath):
                 conn.close()  # 항상 connection close
             except Exception as close_error:
                 print(f"연결 종료 실패: {close_error}", flush=True)
-
+    
 # ----------------[POST request speech file을 text로 변환하고 DB에 저장]----------------
 # jsonify : Flask에서 제공하는 함수, 파이썬 딕셔너리/리스트 데이터를 JSON 형식의 응답으로 변환
 # 웹 API는 일반적으로 데이터를 JSON 형식으로 클라이언트에게 전송
@@ -82,7 +98,7 @@ def speech_to_text():
     user_uuid = request.form.get('user_uuid')  # user_uuid를 form 데이터로 받음
 
     # 오디오 파일이 없을 경우, 에러 메시지 반환(400 에러)
-    if 'audio' not in request.files:
+    if 'audio' not in request.files or request.files['audio'].filename == '':
         return jsonify({'error': 'No audio file'}), 400
 
     audio_file = request.files['audio']  # 오디오 파일 가져오기
@@ -133,9 +149,52 @@ def speech_to_text():
         traceback.print_exc()
         return jsonify({'error': str(e)}), 500
 
+# ----------------------------[TTS 호출 코드]----------------------------
+from google.cloud import texttospeech  # Google Cloud TTS API 클라이언트
+
+# 텍스트를 음성으로 변환하고, 음성 파일(MP3)을 저장하는 함수
+def text_to_speech(text, user_uuid):
+    # 화면 출력용 줄바꿈 태그 <br><br>는 음성 출력에 불필요하므로 공백으로 대체
+    clean_text = text.replace("<br><br>", " ")
+
+    # Google Cloud TTS 클라이언트 객체 생성
+    client = texttospeech.TextToSpeechClient()
+
+    # 변환할 텍스트 지정 (SynthesisInput 객체로 감쌈)
+    input_text = texttospeech.SynthesisInput(text=clean_text)
+
+    # 사용할 음성 설정
+    voice = texttospeech.VoiceSelectionParams(
+        language_code="ko-KR",  # 사용할 언어는 한국어
+        ssml_gender=texttospeech.SsmlVoiceGender.NEUTRAL  # 성별은 중립 (male/female도 선택 가능)
+    )
+
+    # 오디오 출력 설정
+    audio_config = texttospeech.AudioConfig(
+        audio_encoding=texttospeech.AudioEncoding.MP3  # 출력 포맷은 MP3 (기본은 LINEAR16)
+    )
+
+    # 실제 TTS 변환 요청을 서버로 보냄 → 음성 데이터가 포함된 응답 객체 반환
+    response = client.synthesize_speech(
+        input=input_text, voice=voice, audio_config=audio_config
+    )
+
+    # 음성 파일명을 사용자의 UUID 기반으로 생성
+    tts_filename = f"{user_uuid}_response.mp3"
+    
+    # 음성 파일 저장 경로 설정 (미리 정의된 audio_files 경로 사용)
+    tts_filepath = os.path.join(audio_files, tts_filename)
+
+    # MP3 음성 데이터를 파일로 저장
+    with open(tts_filepath, "wb") as out:
+        out.write(response.audio_content)
+        print(f"TTS 음성 파일 저장: {tts_filepath}")  # 저장된 위치를 로그로 출력
+
+    # 저장된 파일 경로를 리턴 → 클라이언트가 재생하거나 접근할 수 있도록 함
+    return tts_filepath
+
 # ----------------------------[챗봇 FAQ 기능 추가]----------------------------
 import pandas as pd
-import requests
 import re   # 정규식 사용 라이브러리
 
 # 텍스트(문장) 간의 유사도를 계산하기 위한 라이브러리
@@ -154,8 +213,7 @@ def get_faq_from_db():
                 """
                 cursor.execute(sql)
                 rows = cursor.fetchall()  # fetchall() : 파이썬에서 데이터베이스 쿼리 결과를 전체 가져오는 함수
-                faq_df = pd.DataFrame(rows, columns=["question", "answer"]) # board_name -> question, content -> answer로 데이터프레임 형식으로 변환
-                return faq_df
+                return pd.DataFrame(rows, columns=["question", "answer"]) # board_name -> question, content -> answer로 데이터프레임 형식으로 변환
         except Exception as e:
             print(f"MariaDB 데이터 조회 실패: {e}", flush=True)
             traceback.print_exc()  # 예외 발생 시 traceback 출력
@@ -228,7 +286,7 @@ def find_best_answer(user_question):
     # FAQ 데이터가 없거나 유사한 질문을 못 찾은 경우
     return "죄송합니다. 해당 질문에 대한 적절한 답변을 찾을 수 없습니다."
 
-# ---------------------------[스프링 부트와 faq 데이터 송수신]------------------------
+# ---------------------------[스프링 부트와 faq 데이터 송수신 및 TTS 추가]------------------------
 @app.route("/chatbot/faq", methods=["POST"])
 def chatbot_faq():
     data = request.json    # 클라이언트가 보낸 JSON 형식의 요청 데이터를 받아, 딕셔너리 형태로 반환
@@ -241,30 +299,42 @@ def chatbot_faq():
     if not user_question:
         return jsonify({"error": "질문이 비어 있습니다."}), 400
 
+    # DB에서 해당 사용자의 마지막 기록을 확인 (record 값이 'Y'이면 음성 응답)
+    conn = connect_to_maria()
+    if conn:
+        try:
+            with conn.cursor() as cursor:
+                # DB에서 마지막 기록을 확인하는 쿼리
+                sql = "SELECT record FROM chat_log WHERE user_uuid = %s ORDER BY date_time DESC LIMIT 1"
+                cursor.execute(sql, (user_uuid,))
+                record = cursor.fetchone()
+
+                answer = find_best_answer(user_question)
+                
+                # 만약 'Y'라면 음성으로 처리, 'N'이라면 텍스트로 처리
+                if record and record[0] == 'Y':
+                    tts_filepath = text_to_speech(answer, user_uuid)  # TTS 변환 함수 호출
+                    save_to_db(user_uuid, answer, tts_filepath, sender='bot', record='Y')
+                    return jsonify({"answer": answer, "tts_filepath": f"/audio/{os.path.basename(tts_filepath)}"})
+
+                else:
+                    # 'N' 또는 다른 값일 경우 텍스트로만 응답
+                    save_to_db(user_uuid, answer, None, sender='bot', record='N')
+                    return jsonify({"answer": answer})
+
+        except Exception as e:
+            print(f"DB 조회 오류: {e}", flush=True)
+            return jsonify({"error": "DB 조회 오류"}), 500
+        finally:
+            conn.close()
+
+    # 만약 DB에 기록이 없다면 텍스트로만 응답 (기본값을 텍스트로 설정)
     answer = find_best_answer(user_question)
-    print("- 선택된 답변:", answer, flush=True)
-
-    # Flask → Spring Boot로 응답 저장 요청
-    try:
-        spring_response = requests.post("http://localhost:8081/api/bot/reply", json={
-            "user_uuid": user_uuid,
-            "msg": answer,
-            "record": "B",
-            "sender": "bot"
-        })
-        print("Spring 응답 상태 코드:", spring_response.status_code, flush=True)
-        print("Spring 응답 본문:", spring_response.text, flush=True)
-
-    except Exception as e:
-        print("Spring으로 응답 전송 실패:", e, flush=True)
-
+    save_to_db(user_uuid, answer, None, sender='bot', record='N')
     return jsonify({"answer": answer})
 
 # -----------------------------[앱 실행]-----------------------------
 if __name__ == '__main__':
-    # 오디오 저장 디렉토리가 존재하지 않으면 디렉토리 생성 
-    if not os.path.exists(audio_files):
-        os.makedirs(audio_files)
 
     # Flask 앱 실행
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5000)  

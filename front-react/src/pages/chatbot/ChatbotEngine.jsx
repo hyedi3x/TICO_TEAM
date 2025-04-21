@@ -150,6 +150,14 @@ function ChatbotEngine({ showChat }) {
           ...prevList,
           { text: data.answer, sender: "bot" },  // 챗봇 응답 답변 answer로 배열에 추가
         ]);
+
+        // TTS 파일이 있으면 재생
+        if (data.tts_filepath) {
+          const audio = new Audio(`http://localhost:5000${data.tts_filepath}`);
+          audio.play().catch((error) => {
+            console.error("TTS 음성 재생 오류:", error);
+          });
+        }
       })
       .catch((error) => {
         console.error("FAQ 요청 오류:", error);

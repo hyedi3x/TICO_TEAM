@@ -26,8 +26,8 @@ conda install -c conda-forge scipy=1.13.1
 conda install -c conda-forge seaborn=0.13.2
 
 # 구글 라이브러리는 pip install 만 가능 (conda prompt 환경에서 설치)
-pip install --upgrade google-cloud-speech   # google-speech 라이브러리 
-
+pip install --upgrade google-cloud-speech   # google-speech 라이브러리 (음성 텍스트 변환)
+pip install google-cloud-texttospeech # google-texttospeech 라이브러리 (텍스트 음성 변환)
 ```
 <br/><br/>
 
