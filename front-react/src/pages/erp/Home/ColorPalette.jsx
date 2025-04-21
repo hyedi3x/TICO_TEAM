@@ -20,8 +20,8 @@ const ColorPalette = ({ selectedColor, onChange }) => {
       const userColors = res.data.map(item => item.empColor);
       
       // 기본 색상과 겹치지 않도록 필터링 후 병합
-      const uniqueUserColors = userColors.filter(c => !defaultColors.includes(c));
-      setColors([...defaultColors, ...uniqueUserColors]);
+      const uniqueUserColors = userColors.filter(c => !defaultColors.includes(c));  // 필터링
+      setColors([...defaultColors, ...uniqueUserColors]);   // 기본 색상 + 사용자 정의 색상 배열을 합침
 
     } catch (err) {
       console.error('유저 색상 로드 실패', err);
@@ -121,12 +121,12 @@ const ColorPalette = ({ selectedColor, onChange }) => {
 
       {/* 색상 목록 UI */}
       <div className="color-palette">
-        {colors.map((color) => (
+        {colors.map((color) => ( 
           <div
             key={color}
             className={`color-circle ${selectedColor === color ? 'selected' : ''}`}
             style={{ backgroundColor: color }}
-            onClick={() => onChange(color)}
+            onClick={() => onChange(color)} // 색깔 선택 후, Home.jsx에 콜백
           />
         ))}
 

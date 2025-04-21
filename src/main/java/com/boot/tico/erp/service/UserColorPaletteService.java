@@ -31,7 +31,6 @@ public class UserColorPaletteService {
     public UserColorPaletteDTO addColor(String empId, String empColor) {
         if (repo.existsByEmpIdAndEmpColor(empId, empColor)) {
             throw new IllegalArgumentException("이미 등록된 색상입니다.");
-            
         }
         return repo.save(UserColorPaletteDTO.builder()
                 .empId(empId)
