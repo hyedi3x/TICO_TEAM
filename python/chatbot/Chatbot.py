@@ -25,9 +25,12 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 base_dir = os.path.dirname(os.path.abspath(__file__))
 audio_files = os.path.join(base_dir, 'static', 'audio_files')
 
-# 디렉토리 없으면 생성
-if not os.path.exists(audio_files):
-    os.makedirs(audio_files)
+# 폴더가 없으면 자동으로 생성 (중첩 폴더 포함)
+try:
+    os.makedirs(audio_files, exist_ok=True)
+    print(f"음성 파일 저장 경로 확인 완료: {audio_files}", flush=True)
+except Exception as e:
+    print(f"오디오 폴더 생성 실패: {e}", flush=True)
 
 # 음성 파일 제공 엔드포인트
 @app.route("/audio/<filename>")
@@ -136,10 +139,7 @@ def speech_to_text():
         # [0] : 가장 확실한(가장 높은 confidence를 가진) 첫 번째 결과
         # ..transcript: 결과의 문장(텍스트)을 반환
         transcript = "".join([result.alternatives[0].transcript for result in response.results])  
-
-        # 변환된 결과를 DB에 저장
-        save_to_db(user_uuid, transcript, filepath)
-
+        
         # 성공 시 변환된 텍스트 내용과 파일 경로 반환
         return jsonify({'transcript': transcript, 'filepath': filepath}), 200
 
@@ -328,9 +328,7 @@ def chatbot_faq():
         finally:
             conn.close()
 
-    # 만약 DB에 기록이 없다면 텍스트로만 응답 (기본값을 텍스트로 설정)
-    answer = find_best_answer(user_question)
-    save_to_db(user_uuid, answer, None, sender='bot', record='N')
+    # DB 조회 실패했을 경우에도 응답 저장은 하지 않음 (이미 질문은 저장됨)
     return jsonify({"answer": answer})
 
 # -----------------------------[앱 실행]-----------------------------
