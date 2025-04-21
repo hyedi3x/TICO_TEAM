@@ -11,7 +11,7 @@ import ErpDTO from '../ErpDTO';
 import ColorPalette from './ColorPalette';
 import './home.css';
 
-// 📌 Form 유효성 체크를 위한 스키마
+// Form 유효성 체크를 위한 스키마
 const { StringType, DateType } = Schema.Types;
 
 // 📌 메인 컴포넌트
@@ -46,7 +46,7 @@ const Home = ({ onNoticeClick }) => {
 
   const empId = localStorage.getItem('user_uuid');
 
-  // ✅ 일정 목록 불러오기
+  // (1-2) 일정 목록 불러오기
   const fetchSchedules = useCallback(async () => {
     if (!empId) return;
   
@@ -57,18 +57,18 @@ const Home = ({ onNoticeClick }) => {
       console.error('일정 가져오기 실패', err);
       toaster.push(<Message type="error">일정 조회 실패</Message>, { placement: 'topEnd' });
     }
-  }, [empId]); // ✅ empId를 명시
+  }, [empId]); // empId를 명시
   
 
-  // 📌 컴포넌트 마운트 시 일정 불러오기
-  useEffect(() => {
+  // (1-1) 컴포넌트 마운트 시 일정 불러오기(fetchSchedules() 함수를 자동으로 실행)
+  useEffect(() => {  
     fetchSchedules();
-  }, [fetchSchedules]);
+  }, [fetchSchedules]); // 의존성 배열. 해당 함수가 변경되지 않는 이상 딱 한 번만 실행
 
-  // ✅ 날짜 클릭 시 호출되는 함수
+  // 날짜 클릭 시 호출되는 함수
   const handleDateSelect = (date, todos) => {
     setSelectedDate(date);
-    setTodoList(todos);
+    setTodoList(todos); // 아래 일정 목록에 표시됨.
   };
 
   // 내용 등록
@@ -131,8 +131,8 @@ const Home = ({ onNoticeClick }) => {
           ...selectedSchedule,
           erpScheduleTitle: formValue.title,
           erpScheduleContent: formValue.content,
-          erpScheduleStart: formValue.start,
-          erpScheduleEnd: formValue.end,
+          erpScheduleStart: dayjs(formValue.start).format('YYYY-MM-DDTHH:mm:ss'),
+          erpScheduleEnd: dayjs(formValue.end).format('YYYY-MM-DDTHH:mm:ss'),
           erpScheduleColor: formValue.color,
         };
 
@@ -177,7 +177,8 @@ const Home = ({ onNoticeClick }) => {
     setTodoList(prev => prev.map(s => s.erpScheduleId === updated.erpScheduleId ? updated : s));
   };
 
-  // ✅ 일정 삭제
+  //-------------------------------------------[ 일정 삭제 ] -------------------------------------------
+  // 일정 삭제
   const deleteSchedule = async () => {
     if (!selectedSchedule) return;
 
@@ -192,13 +193,15 @@ const Home = ({ onNoticeClick }) => {
     }
   };
 
-  // ✅ 컴포넌트 JSX
+  //-------------------------------------------[ 랜더링 ] -------------------------------------------
+  // 컴포넌트 JSX
   return (
     <Grid fluid>
       <Row>
         {/* 좌측: 캘린더와 일정 목록 */}
         <Col xs={24} md={12}>
           <div className="calendar-todo">
+            {/* (1-3) 자식 컴포넌트인 Mycalendar에 props 전달 */}
             <MyCalendar onDateSelect={handleDateSelect} schedules={calendarSchedules} />
             {selectedDate && (
               <>
