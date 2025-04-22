@@ -1,326 +1,284 @@
 {
   "questions": [
-  {
-  "question": "How can I create an account?",
-  "answer": "To create an account, click on the 'Sign Up' button on the top right corner of our website and follow the instructions to complete the registration process."
-  },
-  {
-  "question": "What payment methods do you accept?",
-  "answer": "We accept major credit cards, debit cards, and PayPal as payment methods for online orders."
-  },
-  {
-  "question": "How can I track my order?",
-  "answer": "You can track your order by logging into your account and navigating to the 'Order History' section. There, you will find the tracking information for your shipment."
-  },
-  {
-  "question": "What is your return policy?",
-  "answer": "Our return policy allows you to return products within 30 days of purchase for a full refund, provided they are in their original condition and packaging. Please refer to our Returns page for detailed instructions."
-  },
-  {
-  "question": "Can I cancel my order?",
-  "answer": "You can cancel your order if it has not been shipped yet. Please contact our customer support team with your order details, and we will assist you with the cancellation process."
-  },
-  {
-  "question": "How long does shipping take?",
-  "answer": "Shipping times vary depending on the destination and the shipping method chosen. Standard shipping usually takes 3-5 business days, while express shipping can take 1-2 business days."
-  },
-  {
-  "question": "Do you offer international shipping?",
-  "answer": "Yes, we offer international shipping to select countries. The availability and shipping costs will be calculated during the checkout process based on your location."
-  },
-  {
-  "question": "What should I do if my package is lost or damaged?",
-  "answer": "If your package is lost or damaged during transit, please contact our customer support team immediately. We will initiate an investigation and take the necessary steps to resolve the issue."
-  },
-  {
-  "question": "Can I change my shipping address after placing an order?",
-  "answer": "If you need to change your shipping address, please contact our customer support team as soon as possible. We will do our best to update the address if the order has not been shipped yet."
-  },
-  {
-  "question": "How can I contact customer support?",
-  "answer": "You can contact our customer support team by phone at [phone number] or by email at [email address]. Our team is available [working hours] to assist you with any inquiries or issues you may have."
-  },
-  {
-  "question": "Do you offer gift wrapping services?",
-  "answer": "Yes, we offer gift wrapping services for an additional fee. During the checkout process, you can select the option to add gift wrapping to your order."
-  },
-  {
-  "question": "What is your price matching policy?",
-  "answer": "We have a price matching policy where we will match the price of an identical product found on a competitor's website. Please contact our customer support team with the details of the product and the competitor's offer."
-  },
-  {
-  "question": "Can I order by phone?",
-  "answer": "Unfortunately, we do not accept orders over the phone. Please place your order through our website for a smooth and secure transaction."
-  },
-  {
-  "question": "Are my personal and payment details secure?",
-  "answer": "Yes, we take the security of your personal and payment details seriously. We use industry-standard encryption and follow strict security protocols to ensure your information is protected."
-  },
-  {
-  "question": "What is your price adjustment policy?",
-  "answer": "If a product you purchased goes on sale within 7 days of your purchase, we offer a one-time price adjustment. Please contact our customer support team with your order details to request the adjustment."
-  },
-  {
-  "question": "Do you have a loyalty program?",
-  "answer": "Yes, we have a loyalty program where you can earn points for every purchase. These points can be redeemed for discounts on future orders. Please visit our website to learn more and join the program."
-  },
-  {
-  "question": "Can I order without creating an account?",
-  "answer": "Yes, you can place an order as a guest without creating an account. However, creating an account offers benefits such as order tracking and easier future purchases."
-  },
-  {
-  "question": "Do you offer bulk or wholesale discounts?",
-  "answer": "Yes, we offer bulk or wholesale discounts for certain products. Please contact our customer support team or visit our Wholesale page for more information and to discuss your specific requirements."
-  },
-  {
-  "question": "Can I change or cancel an item in my order?",
-  "answer": "If you need to change or cancel an item in your order, please contact our customer support team as soon as possible. We will assist you with the necessary steps."
-  },
-  {
-  "question": "How can I leave a product review?",
-  "answer": "To leave a product review, navigate to the product page on our website and click on the 'Write a Review' button. You can share your feedback and rating based on your experience with the product."
-  },
-  {
-  "question": "Can I use multiple promo codes on a single order?",
-  "answer": "Usually, only one promo code can be applied per order. During the checkout process, enter the promo code in the designated field to apply the discount to your order."
-  },
-  {
-  "question": "What should I do if I receive the wrong item?",
-  "answer": "If you receive the wrong item in your order, please contact our customer support team immediately. We will arrange for the correct item to be shipped to you and assist with returning the wrong item."
-  },
-  {
-  "question": "Do you offer expedited shipping?",
-  "answer": "Yes, we offer expedited shipping options for faster delivery. During the checkout process, you can select the desired expedited shipping method."
-  },
-  {
-  "question": "Can I order a product that is out of stock?",
-  "answer": "If a product is currently out of stock, you will usually see an option to sign up for product notifications. This way, you will be alerted when the product becomes available again."
-  },
-  {
-  "question": "What is your email newsletter about?",
-  "answer": "Our email newsletter provides updates on new product releases, exclusive offers, and helpful tips related to our products. You can subscribe to our newsletter on our website."
-  },
-  {
-  "question": "Can I return a product if I changed my mind?",
-  "answer": "Yes, you can return a product if you changed your mind. Please ensure the product is in its original condition and packaging, and refer to our return policy for instructions."
-  },
-  {
-  "question": "Do you offer live chat support?",
-  "answer": "Yes, we offer live chat support on our website during our business hours. Look for the chat icon in the bottom right corner to initiate a chat with our customer support team."
-  },
-  {
-  "question": "Can I order a product as a gift?",
-  "answer": "Yes, you can order a product as a gift and have it shipped directly to the recipient. During the checkout process, you can enter the recipient's shipping address."
-  },
-  {
-  "question": "What should I do if my discount code is not working?",
-  "answer": "If your discount code is not working, please double-check the terms and conditions associated with the code. If the issue persists, contact our customer support team for assistance."
-  },
-  {
-  "question": "Can I return a product if it was a final sale item?",
-  "answer": "Final sale items are usually non-returnable and non-refundable. Please review the product description or contact our customer support team to confirm the return eligibility for specific items."
-  },
-  {
-  "question": "Do you offer installation services for your products?",
-  "answer": "Installation services are available for select products. Please check the product description or contact our customer support team for more information and to request installation services."
-  },
-  {
-  "question": "Can I order a product that is discontinued?",
-  "answer": "Discontinued products are no longer available for purchase. We recommend exploring alternative products on our website."
-  },
-  {
-  "question": "Can I return a product without a receipt?",
-  "answer": "A receipt or proof of purchase is usually required for returns. Please refer to our return policy or contact our customer support team for assistance."
-  },
-  {
-  "question": "Can I order a product for delivery to a different country?",
-  "answer": "Yes, we offer international shipping to select countries. Please review the available shipping destinations during checkout or contact our customer support for assistance."
-  },
-  {
-  "question": "Can I add a gift message to my order?",
-  "answer": "Yes, you can add a gift message during the checkout process. There is usually a section where you can enter your personalized message."
-  },
-  {
-  "question": "Can I request a product demonstration before making a purchase?",
-  "answer": "We do not currently offer product demonstrations before purchase. However, you can find detailed product descriptions, specifications, and customer reviews on our website."
-  },
-  {
-  "question": "Can I order a product that is listed as 'coming soon'?",
-  "answer": "Products listed as 'coming soon' are not available for immediate purchase. Please sign up for notifications to be informed when the product becomes available."
-  },
-  {
-  "question": "Can I request an invoice for my order?",
-  "answer": "Yes, an invoice is usually included with your order. If you require a separate invoice, please contact our customer support team with your order details."
-  },
-  {
-  "question": "Can I order a product that is labeled as 'limited edition'?",
-  "answer": "'Limited edition' products may have restricted availability. We recommend placing an order as soon as possible to secure your item."
-  },
-  {
-  "question": "Can I return a product if I no longer have the original packaging?",
-  "answer": "While returning a product in its original packaging is preferred, you can still initiate a return without it. Contact our customer support team for guidance in such cases."
-  },
-  {
-  "question": "Can I request a product that is currently out of stock to be reserved for me?",
-  "answer": "We do not offer reservations for out-of-stock products. However, you can sign up for product notifications to be alerted when it becomes available again."
-  },
-  {
-  "question": "Can I order a product that is listed as 'pre-order' with other in-stock items?",
-  "answer": "Yes, you can place an order with a mix of pre-order and in-stock items. However, please note that the entire order will be shipped once all items are available."
-  },
-  {
-  "question": "Can I return a product if it was damaged during shipping?",
-  "answer": "If your product was damaged during shipping, please contact our customer support team immediately. We will guide you through the return and replacement process."
-  },
-  {
-  "question": "Can I request a product that is out of stock to be restocked?",
-  "answer": "We strive to restock popular products whenever possible. Please sign up for product notifications to be informed when the item becomes available again."
-  },
-  {
-  "question": "Can I order a product if it is listed as 'backordered'?",
-  "answer": "Products listed as 'backordered' are temporarily out of stock but can still be ordered. Your order will be fulfilled once the product is restocked."
-  },
-  {
-  "question": "Can I return a product if it was purchased during a sale or with a discount?",
-  "answer": "Yes, you can return a product purchased during a sale or with a discount. The refund will be processed based on the amount paid after the discount."
-  },
-  {
-  "question": "Can I request a product repair or replacement if it is damaged?",
-  "answer": "If you receive a damaged product, please contact our customer support team immediately. We will assist you with the necessary steps for repair or replacement."
-  },
-  {
-  "question": "Can I order a product if it is listed as 'out of stock' but available for pre-order?",
-  "answer": "If a product is available for pre-order, you can place an order to secure your item. The product will be shipped once it becomes available."
-  },
-  {
-  "question": "Can I return a product if it was purchased as a gift?",
-  "answer": "Yes, you can return a product purchased as a gift. However, refunds will typically be issued to the original payment method used for the purchase."
-  },
-  {
-  "question": "Can I request a product if it is listed as 'discontinued'?",
-  "answer": "Unfortunately, if a product is listed as 'discontinued,' it is no longer available for purchase. We recommend exploring alternative products on our website."
-  },
-  {
-  "question": "Can I order a product if it is listed as 'sold out'?",
-  "answer": "If a product is listed as 'sold out,' it is currently unavailable for purchase. Please check back later or sign up for notifications when it becomes available again."
-  },
-  {
-  "question": "Can I return a product if it was purchased with a gift card?",
-  "answer": "Yes, you can return a product purchased with a gift card. The refund will be issued in the form of store credit or a new gift card."
-  },
-  {
-  "question": "Can I request a product if it is not currently available in my size?",
-  "answer": "If a product is not available in your size, it may be temporarily out of stock. Please check back later or sign up for size notifications."
-  },
-  {
-  "question": "Can I order a product if it is listed as 'coming soon' but available for pre-order?",
-  "answer": "If a product is listed as 'coming soon' and available for pre-order, you can place an order to secure your item before it becomes available."
-  },
-  {
-  "question": "Can I return a product if it was purchased with a discount code?",
-  "answer": "Yes, you can return a product purchased with a discount code. The refund will be processed based on the amount paid after the discount."
-  },
-  {
-  "question": "Can I request a custom order or personalized product?",
-  "answer": "We do not currently offer custom orders or personalized products. Please explore the available products on our website."
-  },
-  {
-  "question": "Can I order a product if it is listed as 'temporarily unavailable'?",
-  "answer": "If a product is listed as 'temporarily unavailable,' it is out of stock but may be restocked in the future. Please check back later or sign up for notifications."
-  },
-  {
-  "question": "Can I return a product if it was damaged due to improper use?",
-  "answer": "Our return policy generally covers products that are defective or damaged upon arrival. Damage due to improper use may not be eligible for a return. Please contact our customer support team for assistance."
-  },
-  {
-  "question": "Can I request a product if it is listed as 'coming soon' but not available for pre-order?",
-  "answer": "If a product is listed as 'coming soon' but not available for pre-order, you will need to wait until it is officially released and becomes available for purchase."
-  },
-  {
-  "question": "Can I order a product if it is listed as 'on hold'?",
-  "answer": "If a product is listed as 'on hold,' it is temporarily unavailable for purchase. Please check back later or sign up for notifications when it becomes available."
-  },
-  {
-  "question": "Can I return a product if I no longer have the original receipt?",
-  "answer": "While a receipt is preferred for returns, we may be able to assist you without it. Please contact our customer support team for further guidance."
-  },
-  {
-  "question": "Can I request a product that is listed as 'limited edition' to be restocked?",
-  "answer": "Once a limited edition product is sold out, it may not be restocked. Limited edition items are available for a limited time only, so we recommend purchasing them while they are available."
-  },
-  {
-  "question": "Can I order a product if it is listed as 'discontinued' but still visible on the website?",
-  "answer": "If a product is listed as 'discontinued' but still visible on the website, it may be an error. Please contact our customer support team for clarification."
-  },
-  {
-  "question": "Can I return a product if it was a clearance or final sale item?",
-  "answer": "Clearance or final sale items are typically non-returnable and non-refundable. Please review the product description or contact our customer support team for more information."
-  },
-  {
-  "question": "Can I request a product if it is not listed on your website?",
-  "answer": "If a product is not listed on our website, it may not be available for purchase. We recommend exploring the available products or contacting our customer support team for further assistance."
-  },
-  {
-  "question": "Can I order a product if it is listed as 'out of stock' but available for backorder?",
-  "answer": "If a product is listed as 'out of stock' but available for backorder, you can place an order to secure your item. The product will be shipped once it becomes available."
-  },
-  {
-  "question": "Can I return a product if it was purchased as part of a bundle or set?",
-  "answer": "If a product was purchased as part of a bundle or set, the return policy may vary. Please refer to the specific terms and conditions or contact our customer support team for further guidance."
-  },
-  {
-  "question": "Can I request a product that is listed as 'out of stock' to be restocked?",
-  "answer": "We aim to restock popular products whenever possible. Please sign up for product notifications to be alerted when the item becomes available again."
-  },
-  {
-  "question": "Can I order a product if it is listed as 'coming soon' and available for pre-order?",
-  "answer": "If a product is listed as 'coming soon' and available for pre-order, you can place an order to secure your item before it becomes available."
-  },
-  {
-  "question": "Can I return a product if it was damaged due to mishandling during shipping?",
-  "answer": "If your product was damaged due to mishandling during shipping, please contact our customer support team immediately. We will assist you with the necessary steps for return and replacement."
-  },
-  {
-  "question": "Can I request a product that is listed as 'out of stock' to be reserved for me?",
-  "answer": "We do not offer reservations for out-of-stock products. However, you can sign up for product notifications to be alerted when the item becomes available again."
-  },
-  {
-  "question": "Can I order a product if it is listed as 'pre-order' but available for backorder?",
-  "answer": "If a product is listed as 'pre-order' and available for backorder, you can place an order to secure your item. The product will be shipped once it becomes available."
-  },
-  {
-  "question": "Can I return a product if it was purchased with store credit?",
-  "answer": "Yes, you can return a product purchased with store credit. The refund will be issued in the form of store credit, which you can use for future purchases."
-  },
-  {
-  "question": "Can I request a product that is currently out of stock to be restocked?",
-  "answer": "We strive to restock popular products whenever possible. Please sign up for product notifications to be informed when the item becomes available again."
-  },
-  {
-  "question": "Can I order a product if it is listed as 'sold out' but available for pre-order?",
-  "answer": "If a product is listed as 'sold out' but available for pre-order, you can place an order to secure your item. The product will be shipped once it becomes available."
-  },
-  {
-  "question": "Can I return a product if it was purchased with a promotional gift card?",
-  "answer": "Yes, you can return a product purchased with a promotional gift card. The refund will be issued in the form of store credit or a new gift card."
-  },
-  {
-  "question": "Can I request a product if it is not currently available in my preferred color?",
-  "answer": "If a product is not available in your preferred color, it may be temporarily out of stock. Please check back later or sign up for color notifications."
-  },
-  {
-  "question": "Can I order a product if it is listed as 'coming soon' and not available for pre-order?",
-  "answer": "If a product is listed as 'coming soon' but not available for pre-order, you will need to wait until it is officially released and becomes available for purchase."
-  },
-  {
-  "question": "Can I return a product if it was purchased during a promotional event?",
-  "answer": "Yes, you can return a product purchased during a promotional event. The refund will be processed based on the amount paid after any applicable discounts."
-  }
+    {
+      "question": "회원가입은 어디서 하나요?",
+      "answer": "홈페이지 상단 우측의 회원가입 버튼을 클릭하시면 됩니다."
+    },
+    {
+      "question": "비밀번호를 잊어버렸어요.",
+      "answer": "로그인 페이지에서 '비밀번호 찾기'를 통해 이메일 인증 후 재설정할 수 있습니다."
+    },
+    {
+      "question": "이메일을 변경하고 싶어요.",
+      "answer": "마이페이지 > 개인정보 수정에서 변경 가능합니다."
+    },
+    {
+      "question": "회원탈퇴는 어떻게 하나요?",
+      "answer": "마이페이지 하단의 '회원탈퇴' 버튼을 클릭해 진행할 수 있습니다."
+    },
+    {
+      "question": "작품을 공유하려면 어떻게 해야 하나요?",
+      "answer": "작품 만들기 완료 후 '작품 공유하기' 버튼을 클릭하세요."
+    },
+    {
+      "question": "조회수는 어떤 기준으로 올라가나요?",
+      "answer": "작품 상세페이지에 들어갈 때마다 1씩 증가합니다."
+    },
+    {
+      "question": "좋아요 수는 어디에 표시되나요?",
+      "answer": "작품 카드 및 상세페이지 상단에 표시됩니다."
+    },
+    {
+      "question": "블록 코딩은 어떻게 시작하나요?",
+      "answer": "'만들기' 탭에서 새로운 작품을 생성하면 블록 에디터가 열립니다."
+    },
+    {
+      "question": "내가 만든 작품은 어디서 볼 수 있나요?",
+      "answer": "'마이페이지 > 나의 작품' 메뉴에서 확인 가능합니다."
+    },
+    {
+      "question": "작품을 삭제할 수 있나요?",
+      "answer": "마이페이지 > 나의 작품에서 해당 작품을 삭제할 수 있습니다."
+    },
+    {
+      "question": "관리자는 어떻게 작품을 추천하나요?",
+      "answer": "조회수, 좋아요 수 등을 기반으로 추천작을 선정합니다."
+    },
+    {
+      "question": "추천 작품은 어디에 표시되나요?",
+      "answer": "메인화면의 추천작품 영역에서 확인할 수 있습니다."
+    },
+    {
+      "question": "학습하기는 어떤 콘텐츠가 있나요?",
+      "answer": "기초, 반복문, 조건문 등 단계별 블록 학습 콘텐츠가 제공됩니다."
+    },
+    {
+      "question": "학습 진도는 어디서 확인하나요?",
+      "answer": "'학습하기 > 내 학습 현황'에서 확인 가능합니다."
+    },
+    {
+      "question": "복제된 오브젝트는 저장되나요?",
+      "answer": "아니요. 복제된 오브젝트는 저장되지 않습니다."
+    },
+    {
+      "question": "공개 작품만 검색 가능한가요?",
+      "answer": "네. 비공개 작품은 검색되지 않습니다."
+    },
+    {
+      "question": "댓글 기능은 누가 사용할 수 있나요?",
+      "answer": "로그인한 회원만 댓글을 작성할 수 있습니다."
+    },
+    {
+      "question": "내가 단 댓글은 어디서 볼 수 있나요?",
+      "answer": "'마이페이지 > 나의 댓글'에서 확인 가능합니다."
+    },
+    {
+      "question": "댓글은 수정이 가능한가요?",
+      "answer": "작성한 댓글은 1시간 이내 수정할 수 있습니다."
+    },
+    {
+      "question": "작품에 이미지를 추가하려면?",
+      "answer": "'이미지 업로드' 버튼을 클릭하여 추가할 수 있습니다."
+    },
+    {
+      "question": "사운드 효과는 어떻게 넣나요?",
+      "answer": "블록 중 '사운드 재생하기'를 사용하면 됩니다."
+    },
+    {
+      "question": "작품 실행이 안돼요.",
+      "answer": "블록이 제대로 연결되어 있는지 확인해 주세요."
+    },
+    {
+      "question": "블록이 너무 많아져서 복잡해요.",
+      "answer": "함수 블록으로 기능을 나누어보세요."
+    },
+    {
+      "question": "저장 버튼을 누르지 않고 나가면?",
+      "answer": "작업 내용은 저장되지 않습니다."
+    },
+    {
+      "question": "저장된 프로젝트는 어디에?",
+      "answer": "'마이페이지 > 나의 프로젝트'에서 확인할 수 있습니다."
+    },
+    {
+      "question": "자동 저장 기능은 없나요?",
+      "answer": "현재는 수동 저장만 지원하고 있습니다."
+    },
+    {
+      "question": "튜토리얼 모드는 어떻게 켜나요?",
+      "answer": "'학습하기 > 튜토리얼' 메뉴를 이용해 주세요."
+    },
+    {
+      "question": "튜토리얼은 몇 단계인가요?",
+      "answer": "기초, 반복, 조건문 등 총 10단계로 구성되어 있습니다."
+    },
+    {
+      "question": "블록을 직접 만들 수도 있나요?",
+      "answer": "관리자만 블록을 직접 추가할 수 있습니다."
+    },
+    {
+      "question": "관리자는 어떤 권한이 있나요?",
+      "answer": "추천작 등록, 유저 관리, FAQ 작성 등이 가능합니다."
+    },
+    {
+      "question": "작품은 누구나 볼 수 있나요?",
+      "answer": "공개로 설정된 작품은 누구나 볼 수 있습니다."
+    },
+    {
+      "question": "작품 공유 시 주의사항은?",
+      "answer": "타인의 저작권을 침해하지 않아야 합니다."
+    },
+    {
+      "question": "비공개 작품도 실행할 수 있나요?",
+      "answer": "작품 작성자 본인은 실행 가능합니다."
+    },
+    {
+      "question": "하나의 계정으로 몇 개 작품 만들 수 있나요?",
+      "answer": "제한 없이 만들 수 있습니다."
+    },
+    {
+      "question": "한 번에 여러 명이 협업 가능한가요?",
+      "answer": "현재는 1인 개발만 지원됩니다."
+    },
+    {
+      "question": "외부에서 접속해도 작동하나요?",
+      "answer": "인터넷이 연결되어 있다면 어디서든 접속 가능합니다."
+    },
+    {
+      "question": "작품 복사는 가능한가요?",
+      "answer": "'복제하기' 기능을 통해 기존 작품을 복사할 수 있습니다."
+    },
+    {
+      "question": "블록은 어떤 언어로 변환되나요?",
+      "answer": "JavaScript 코드로 변환됩니다."
+    },
+    {
+      "question": "변환된 코드는 어디서 보나요?",
+      "answer": "'코드 보기' 버튼을 클릭하면 확인 가능합니다."
+    },
+    {
+      "question": "작품 실행 중 오류가 나요.",
+      "answer": "블록이 정상적으로 연결되었는지 확인해 주세요."
+    },
+    {
+      "question": "공유된 작품을 수정할 수 있나요?",
+      "answer": "본인이 만든 작품만 수정 가능합니다."
+    },
+    {
+      "question": "내가 좋아요 누른 작품은 어디에?",
+      "answer": "'마이페이지 > 좋아요 작품'에서 확인할 수 있습니다."
+    },
+    {
+      "question": "작품 북마크 기능은?",
+      "answer": "좋아하는 작품을 북마크에 저장할 수 있습니다."
+    },
+    {
+      "question": "회원가입 없이도 사용 가능한가요?",
+      "answer": "작품 실행은 가능하지만 저장은 로그인 필요합니다."
+    },
+    {
+      "question": "로그인은 어떻게 하나요?",
+      "answer": "카카오/네이버/구글 계정으로 로그인할 수 있습니다."
+    },
+    {
+      "question": "소셜 로그인 정보는 어떻게 연결되나요?",
+      "answer": "회원가입 시 자동으로 연결됩니다."
+    },
+    {
+      "question": "회원정보 수정은 어디서 하나요?",
+      "answer": "'마이페이지 > 회원정보 수정' 메뉴를 이용해 주세요."
+    },
+    {
+      "question": "비밀번호 재설정은 어떻게 하나요?",
+      "answer": "'비밀번호 찾기'를 통해 이메일 인증 후 변경 가능합니다."
+    },
+    {
+      "question": "내가 작성한 댓글 삭제 가능한가요?",
+      "answer": "본인이 작성한 댓글은 언제든 삭제할 수 있습니다."
+    },
+    {
+      "question": "오류 신고는 어디서 하나요?",
+      "answer": "'문의하기' 메뉴를 이용해 주세요."
+    },
+    {
+      "question": "운영 시간은 어떻게 되나요?",
+      "answer": "상시 온라인 서비스이며, 문의 응답은 평일 9~18시입니다."
+    },
+    {
+      "question": "작품 제목은 수정 가능한가요?",
+      "answer": "마이페이지에서 작품 제목을 수정할 수 있습니다."
+    },
+    {
+      "question": "작품 썸네일은 변경 가능한가요?",
+      "answer": "작품 저장 시 선택할 수 있습니다."
+    },
+    {
+      "question": "이용약관은 어디서 확인하나요?",
+      "answer": "하단의 '이용약관' 메뉴를 참고해 주세요."
+    },
+    {
+      "question": "회원가입 시 중복되는 주민번호가 있다고 나옵니다.",
+      "answer": "회원가입 시 주민등록번호가 중복된다고 나오는 경우는 이전에 가입한 사실이 있거나 일시적인 시스템 오류일 경우가 있습니다.만약 회원으로 가입하지 않았는데 본인의 주민등록번호가 사용되고 있다면 고객센터로 아래내용을 포함하여 메일을 보내주세요1. 고객명, 2.주민등록번호, 3.주민등록증 사본, 4.사유 Ex) 서비트 탈퇴, 아이디 확인 등"
+    },
+    {
+      "question": "비밀번호, 주소, e-mail주소를 변경하고 싶어요.",
+      "answer": "회원정보수정 페이지를 통하여, 비밀번호, 주소, e-mail, 주소등을 수정하실 수 있습니다."
+    },
+    {
+      "question": "일반이용자도 회원 가입이 가능한가요",
+      "answer": "공공누리 사이트에서 일반이용자는 회원 가입 없이 모든 서비스 이용이 가능합니다. 회원 가입은 공공기관 이용자의 공공저작물공공누리등록을 위해 필요한 부분입니다.\u00a0"
+    },
+    {
+      "question": "개인정보취급방침이란 무엇인가요",
+      "answer": "개인정보보호법에 따라 개인정보를 처리하고 있는 공공기관의 개인정보 처리기준 및 보호조치 등을 문서화하여 공개하는 것을 말합니다."
+    },
+    {
+      "question": "동기관 이용자는 가입이 불가능한가요",
+      "answer": "아닙니다. 가입 가능합니다.동기관의 이용자일 경우 관리자 승인 시 같은 고유정보를 부여하여 공공저작물 공공누리 추가등록 및 변경이 가능합니다."
+    },
+    {
+      "question": "개인정보 수정은 어디에서 가능한가요",
+      "answer": "마이페이지회원 정보 수정에 들어가시면, 개인정보를 수정하실 수 있습니다."
+    },
+    {
+      "question": "회원탈퇴 시, 개인정보는 모두 삭제되나요",
+      "answer": "회원 탈퇴 후 회원의 모든 정보는 삭제됩니다.다만 고객의 구매 이력이 있는 경우 해당 고객의 구매 정보는 5년간 보관되며, 해당 고객의 요청이 있는 경우 해당 정보는 고객에게 언제든 제공이 됩니다."
+    },
+    {
+      "question": "출처표시는 어떻게 하는 건가요",
+      "answer": "출처표시는 이용한 저작물의 출처가 어디인지 나타내기 위함이므로,누구나 해당 저작물의 출처를 명확히 알 수 있도록 표기하여 주시면 됩니다.1. 상세 표시 예시\"본 저작물은 'OOO(기관명)'에서 'OO년' 작성하여 공공누리 제O유형으로 개방한 '저작물명(작성자:OOO)' 을 이용하였으며,해당 저작물은 'OOO(기관명), OOO(홈페이지 주소)'에서 무료로 다운받으실 수 있습니다.\"2, 간략 표시 예시출처: 공공누리출처: 문화체육관광부※주의사항- 공공누리 유형마크를 부착하는 것이 아니라 제공 기관(저작자), 출처(홈페이지 주소)등을 표시하는 것이므로 유의하시기 바랍니다.- 공공누리 유형마크는 공공저작물을 개방하는 공공기관에서 이용범위를 안내하기위해 1~4유형 마크를 부착하며 이용자는 부착할 수 없습니다추가적인 사항은 공공누리 홈페이지 \"공공누리 소개공공누리 유형안내 유형별 일반증서 보기\" 메뉴에서 확인하실 수 있습니다"
+    },
+    {
+      "question": "이용약관이란 무엇인가요",
+      "answer": "이용약관이란 공공누리 사이트 서비스 제공자와 이용자 간에 이루어지는 여러 가지 사항들에 대한 책임과 권한을 설명해주는 문서입니다."
+    },
+    {
+      "question": "아이핀 비밀번호를 재발급 받으려면 어떻게 해야하나요",
+      "answer": "최초 아이핀 발급기관에 방문하시어 본인확인(이메일) 절차를 정상적으로 마치시면 새로운 비밀번호를 부여받으실 수 있습니다."
+    },
+    {
+      "question": "아이핀은 다른 브라우저에서 사용할 수 없나요",
+      "answer": "현재 아이핀은 익스플로에서만 이용이 가능합니다.파이어폭스, 크롬, 사파리 등에서는 이용이 불가능합니다."
+    },
+    {
+      "question": "아이핀이란 무엇인가요",
+      "answer": "아이핀은 인터넷 개인 식별 번호로 주민등록번호를 대신하여 본인 확인을 할 수 있는 신원번호입니다. 아이핀을 통해 공공누리에 가입하실 경우 아이핀을 발급하는 기관에 본인 확인 후 아이핀을 발급받고 가입을 진행하시면 됩니다."
+    },
+    {
+      "question": "비밀번호, e-mail주소를 변경하고 싶어요.",
+      "answer": "관리자\u00a0 회원정보수정 페이지에서 비밀번호, e-mail주소 등의 정보를 수정할 수 있습니다."
+    },
+    {
+      "question": "외부 필진이 일부 참여하여 작성한 보고서, 뉴스레터 기고문, 인포그래픽 자료 등을 개방하려면 어떻게 해야 하나요",
+      "answer": "공동 저작자 전원으로부터 저작재산권을 양도받거나 자유이용허락 동의를 받아야 합니다.(1유형 부착 시 2차적저작물 작성권까지 양도받거나 1유형 부착에 대한 자유이용허락 동의가 필요합니다.)"
+    },
+    {
+      "question": "저작재산권을 양도받을 때 저작인격권도 양도받을 수 있을까요",
+      "answer": "저작재산권은 저작물에 대한 저작자의 경제적 이익을 보전해주기 위한 권리이나, 저작인격권은 저작물에 대한 저작자의 명예나 성망 등을 보호하기 위하여 저작자에게 부여된 권리이기 때문에 양도의 대상이 되지 않습니다."
+    },
+    {
+      "question": "제작시기가 오래 지난 자료는 일일이 저작자들을 찾아 양도계약서를 받아야 하는 건가요, 아니면 따로 이용허락을 받고 사용하도록 하면 되는 건가요",
+      "answer": "서면주의 원칙에 따라 저작자 확인이 되는 자료들에 대해서는 예전자료이더라도 양도계약서를 받아놓는 것이 좋습니다. 또한 양도계약을 받을 수 없는 경우에는 이용여부를 확인한 후에 제공해야 합니다. 보통 공공기관의 문서 보존 기한은 5년이기 때문에 5년이 지난 계약서들은 대부분 폐기되어 저작권에 대한 내용을 찾기 어려울 수 있습니다. 권리 확인에 대한 컨설팅이 필요하다면 한국문화정보원에서 운영 중인 개방지원센터를 활용하실 수 있습니다.*한국문화정보원 공공저작물 개방지원센터 (1670-0052)"
+    }
   ]
-  }
-  
-  
-  
-  
-  
-  
+}

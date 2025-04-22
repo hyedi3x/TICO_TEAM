@@ -34,8 +34,8 @@ function BlockEduComponentPut() {
   useEffect(() => {
     if (quiz_id) {
       axios.get(`http://localhost:8081/quiz/answer?quizId=${quiz_id}`)
-        .then(res => res.json())
-        .then(data => {
+        .then(response => {
+          const data = response.data;  // axios는 자동으로 JSON을 파싱하므로 `response.data`를 사용합니다.
           console.log('문제 데이터:', data);
           setQuiz_title(data.quiz_title);
           setQuiz_description(data.quiz_description);
@@ -176,7 +176,7 @@ function BlockEduComponentPut() {
       });
   
       alert('수정 성공');
-      navigate('/EMPEduList');
+      navigate('/erpMain');
     } catch (err) {
       console.error('수정 오류:', err);
       alert('문제 저장에 실패했습니다.');
