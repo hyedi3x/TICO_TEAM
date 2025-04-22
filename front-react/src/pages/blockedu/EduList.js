@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Table } from "react-bootstrap";
 import "./EduList.css";
+import axios from "axios";
 
 const EduList = () => {
   const navigate = useNavigate();
@@ -17,9 +18,10 @@ const EduList = () => {
   useEffect(() => {
     const fetchQuizzes = async () => {
       try {
-        const response = await fetch("http://localhost:8081/quiz/eduList", { method: "GET" });
-        if (!response.ok) throw new Error("퀴즈 데이터를 불러오는 데 실패했습니다.");
-        const data = await response.json();
+        const response = await axios.get("http://localhost:8081/quiz/eduList");
+      
+        // 응답 데이터 추출
+        const data = response.data;
         setQuizzes(data.quizDTO);
         setUser(data.solvedDTO);
       } catch (error) {

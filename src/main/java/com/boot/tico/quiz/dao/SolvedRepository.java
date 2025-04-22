@@ -20,7 +20,7 @@ public interface SolvedRepository extends JpaRepository<SolvedDTO, Integer> {
     SolvedDTO findByUserUuidAndQuizId(@Param("user_uuid") String user_uuid, @Param("quiz_id") int quiz_id);
 	
 	@Transactional
-	@Query(value="SELECT NVL(MAX(id)+1,1)FROM user_solved_tb", nativeQuery = true)
+	@Query(value="SELECT COALESCE(MAX(id)+1,1)FROM user_solved_tb", nativeQuery = true)
 	int selectMaxId();
 	
 	@Modifying

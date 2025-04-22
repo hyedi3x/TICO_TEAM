@@ -31,6 +31,8 @@ import ObjectSelectPage from "../../blockly/components/ObjectSelectPage";
 import UserList from "./CM_Team/UserList";
 import UserDetail from "./CM_Team/UserDetail";
 import UserInfoEdit from "./CM_Team/UserInfoEdit";
+import MainModify from "../../common/MainModify";
+
 
 function ErpMain() {
   const [expanded, setExpanded] = useState(true); // 사이드바 확장 여부
@@ -84,6 +86,7 @@ function ErpMain() {
       case "7-4": setViewMode("faq"); break;
       case "8-4": setViewMode("blockEduPost"); break;
       case "8-5": setViewMode("ObjectSelectPage"); break;
+      case "8-6": setViewMode("MainModify"); break;
       default: setViewMode("home"); break;
     }
   };
@@ -191,6 +194,7 @@ function ErpMain() {
                   <Nav.Item eventKey="8-3">스터디 관리</Nav.Item>
                   <Nav.Item eventKey="8-4">블럭 학습 퀴즈 관리</Nav.Item>
                   <Nav.Item eventKey="8-5">오브젝트 관리</Nav.Item>
+                  <Nav.Item eventKey="8-6">메인화면 관리</Nav.Item>
                 </Nav.Menu>
 
                 {/* 시스템 관리팀 메뉴 (DEP007 부서만 활성화) */}
@@ -289,7 +293,9 @@ function ErpMain() {
 
             {viewMode === "faq" && <FAQPut />} {/* FAQ 관리 */}
             {viewMode === "blockEduPost" && <BlockEduComponentPost />} {/* 블럭 학습 관리 */}
-            {viewMode === "ObjectSelectPage" && <ObjectSelectPage />} {/* 오브젝트 관리 */}
+
+            {viewMode === "ObjectSelectPage" && <ObjectSelectPage/>} {/* 오브젝트 관리 */}
+            {viewMode === "MainModify" && <MainModify/>} {/* 오브젝트 관리 */}
           </div>
         </Content>
       </div>

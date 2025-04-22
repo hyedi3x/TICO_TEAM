@@ -74,6 +74,14 @@ function ShareModal({ show, onClose }) {
     }
   };
 
+  const handleProjectSelect = (project) => {
+    if (project.isPrivate === 'N') {
+      alert("이미 공유된 작품입니다.");
+    } else {
+      setSelected(project);
+    }
+  };
+
   return (
     <Modal show={show} onHide={onClose} backdrop="static" keyboard={false} size="xl" centered>
       <Modal.Header closeButton>
@@ -88,7 +96,7 @@ function ShareModal({ show, onClose }) {
               {myProjects.map(project => (
                 <Col xs={12} sm={6} md={4} key={project.projectId}>
                   <Card
-                    onClick={() => setSelected(project)}
+                    onClick={() => handleProjectSelect(project)}
                     className={`project-card ${selected?.projectId === project.projectId ? 'selected' : ''}`}
                   >
                     <Card.Img

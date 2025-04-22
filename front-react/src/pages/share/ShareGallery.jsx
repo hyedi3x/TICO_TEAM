@@ -8,6 +8,7 @@ import ShareModal from './ShareModal';
 function ShareGallery() {
   const [projects, setProjects] = useState([]);
   const [showShareModal, setShowShareModal] = useState(false); // ✅ 모달 상태 추가
+  const userUuid = localStorage.getItem('user_uuid');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,12 +26,20 @@ function ShareGallery() {
     return `http://localhost:8081${url}`;    // 상대경로면 도메인 붙여줌
   };
 
+  const showModal = (id) => {
+    if(id === null){
+      alert('로그인 후 이용하세요');
+      navigate('/login');
+    }
+    setShowShareModal(true);
+  };
+
   return (
     <Container className="share-gallery">
       {/* 상단 제목 + 버튼 */}
       <div className="gallery-header">
         <h2>작품 공유하기</h2>
-        <Button variant="success" onClick={() => setShowShareModal(true)}>
+        <Button variant="success" onClick={() => showModal(userUuid)}>
           + 작품 공유하기
         </Button>
       </div>
@@ -46,7 +55,7 @@ function ShareGallery() {
         <Row className="project-grid">
           {projects.map((project) => (
             <Col key={project.projectId} xs={12} sm={6} md={4} lg={3}>
-              <Card className="project-card" onClick={() => navigate(`/share/detail/${project.projectId}`)}              >
+              <Card className="project-card" onClick={() => navigate(`/share/detail/${project.projectId}`)}>
                 <Card.Img
                   variant="top"
                   src={resolveThumbnailUrl(project.thumbnailUrl)}

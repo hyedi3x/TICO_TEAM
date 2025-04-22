@@ -1,0 +1,42 @@
+.comment-input {
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    background-color: #f9f9f9;
+}
+
+.comment-input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.submit-btn {
+    background-color: #007bff;
+    border-color: #007bff;
+    font-size: 14px;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+.submit-btn:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+.comment-item {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.comment-item .badge {
+    font-size: 12px;
+}
+
+.comment-time {
+    font-size: 12px;
+    color: #777;
+}
+  
