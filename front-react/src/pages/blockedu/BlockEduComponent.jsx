@@ -8,6 +8,7 @@ import eduToolboxXML6 from './edublock/eduToolboxXML';
 import {useNavigate, useParams } from 'react-router-dom';
 import './Modal.css';
 import ticoTheme from '../../blockly/blocks/ticoTheme';
+import axios from 'axios';
 
 Blockly.setLocale(ko);
 
@@ -43,9 +44,8 @@ function BlockEduComponent() {
 
     const fetchAnswerXml = async () => {
       try {
-        const response = await fetch(`http://localhost:8081/quiz/answer?quizId=${quizId}`);
-        if (!response.ok) throw new Error('정답 XML 불러오기 실패');
-        const data = await response.json();
+        const response = await axios.get(`http://localhost:8081/quiz/answer?quizId=${quizId}`);
+        const data = response.data;
         setQuizData(data); 
         setAnswerXml(data.answer_xml);
         setQuizDescription(data.quiz_description);
@@ -156,15 +156,14 @@ function BlockEduComponent() {
   
   const fetchQUiZData = async (quizId) => {
     try {
-      const response = await fetch("http://localhost:8081/quiz/eduQuiz", {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          user_uuid: user_uuid,
-          quiz_id: quizId
-        }),
+      const response = await axios.put("http://localhost:8081/quiz/eduQuiz", {
+        user_uuid: user_uuid,
+        quiz_id: quizId
+      }, {
+        headers: { 'Content-Type': 'application/json' }
       });
-      if (!response.ok) throw new Error('푼 문제 업데이트 실패');
+      // 상태 코드가 200이 아니면 에러를 던짐
+      if (response.status !== 200) throw new Error('푼 문제 업데이트 실패');
       console.log(response);
     } catch (error) {
       console.error('퀴즈 데이터 저장하기 중 오류 발생:', error);

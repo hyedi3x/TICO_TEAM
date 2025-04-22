@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Table } from "react-bootstrap";
 import "./EduList.css";
+import axios from "axios";
 
 const EMPEduList = () => {
   const navigate = useNavigate();
@@ -13,9 +14,8 @@ const EMPEduList = () => {
   // 목록 불러오기
     const fetchQuizzes = async () => {
       try {
-        const response = await fetch("http://localhost:8081/quiz/eduList", { method: "GET" });
-        if (!response.ok) throw new Error("퀴즈 데이터를 불러오는 데 실패했습니다.");
-        const data = await response.json();
+        const response = await axios.get("http://localhost:8081/quiz/eduList");
+        const data = response.data;
         setQuizzes(data.quizDTO);
         setUser(data.solvedDTO);
       } catch (error) {
@@ -49,20 +49,21 @@ const EMPEduList = () => {
   const manageQuiz = async (id, action) => {
     if (window.confirm(`정말 [${id}번] 항목을 ${action === 'delete' ? '삭제' : action === 'restore' ? '삭제 취소' : '영구 삭제'}하시겠습니까?`)) {
       try {
-        const response = await fetch(`http://localhost:8081/eduBlock/manageQuiz`, {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ quiz_id: id, action })
+        const response = await axios.patch('http://localhost:8081/eduBlock/manageQuiz', {
+          quiz_id: id,
+          action: action
+        }, {
+          headers: { 'Content-Type': 'application/json' }
         });
-        if (!response.ok) throw new Error('요청 실패');
+      
         alert(`요청 성공: ${action}`);
-        
+      
         setQuizzes(prev => {
           if (action === 'hardDelete') {
             // 영구 삭제인 경우 해당 quiz_id를 제거
             return prev.filter(quiz => quiz.quiz_id !== id);
           }
-        
+      
           // 그 외 (delete, restore)는 isdelete 값만 변경
           return prev.map(quiz =>
             quiz.quiz_id === id

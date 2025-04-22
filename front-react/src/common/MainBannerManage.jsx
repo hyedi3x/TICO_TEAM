@@ -6,6 +6,7 @@ import { Navigation } from 'swiper/modules';
 import { Button, Modal, Form } from 'react-bootstrap';
 import ProjectCard from './ProjectCard';
 import ProjectSelectModal from './ProjectSelectModal';
+import axios from 'axios';
 
 const MainBannerManage = () => {
   const [banners, setBanners] = useState([]);
@@ -30,18 +31,21 @@ const MainBannerManage = () => {
 
   // 전체 작품 불러오기
   useEffect(() => {
-    fetch('http://localhost:8081/project/projectList')
-      .then(res => res.json())
-      .then(data => setAllProjects(data))
-      .catch(err => console.error("전체 작품 목록 불러오기 실패", err));
+    axios.get('http://localhost:8081/project/projectList')
+    .then(response => {
+      setAllProjects(response.data);
+    })
+    .catch(err => console.error("전체 작품 목록 불러오기 실패", err));
   }, []);
 
   // 베너 목록 가져오기
   useEffect(() => {
-    fetch('http://localhost:8081/banner/list')
-      .then(res => res.json())
-      .then(data => { setBanners(data); console.log(data) })
-      .catch(err => console.error('배너 불러오기 실패:', err));
+    axios.get('http://localhost:8081/banner/list')
+    .then(response => {
+      setBanners(response.data);
+      console.log(response.data);
+    })
+    .catch(err => console.error('배너 불러오기 실패:', err));
   }, []);
 
   // 베너 추가, 수정 열기
@@ -74,10 +78,11 @@ const MainBannerManage = () => {
     const formData = new FormData();
     formData.append('file', file);
     try {
-      const response = await fetch('http://localhost:8081/project/uploadImage', {
-        method: 'POST',
-        body: formData,
-      });
+      const response = await axios.post('http://localhost:8081/project/uploadImage', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data', // 파일 전송 시 필요한 헤더
+        },
+    });
       if (!response.ok) {
         throw new Error('이미지 업로드 실패');
       }
@@ -105,10 +110,11 @@ const MainBannerManage = () => {
     const url = 'http://localhost:8081/banner';
     const method = payload.bannerId ==-1 ? 'PUT' : 'POST';
 
-    fetch(url, {
+    axios({
       method,
+      url,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
+      data: payload, // axios에서는 'body' 대신 'data'를 사용합니다.
     })
       .then(res => {
         if (res.ok) {
@@ -137,9 +143,12 @@ const MainBannerManage = () => {
     const url = `http://localhost:8081/banner/${bannerId}` + (type === 'soft' ? '/soft' : ''); // 타입을 경로로 만든다
     const method = type === 'soft' ? 'PUT' : 'DELETE';
 
-    fetch(url, { method }) // 변수명이 동일해서 method: key 생략
+    axios({
+      method,  // 변수명이 동일하여 method만 전달
+      url,
+    })
       .then(res => {
-        if (res.ok) {
+        if (res.status === 200) {
           if (type === 'soft') { // 실시간 변경
             setBanners(prev => prev.map(before => before.bannerId === bannerId ? { ...before, isDelete: 'Y' } : before));
           } else {
@@ -153,13 +162,13 @@ const MainBannerManage = () => {
 
   // 삭제취소
   const handleCancelDelete = (bannerId) => {
-    fetch(`http://localhost:8081/banner/${bannerId}/recover`, { method: 'PUT' })
-      .then(res => {
-        if (res.ok) {
-          setBanners(prev => prev.map(b => b.bannerId === bannerId ? { ...b, isDelete: 'N' } : b));
-        }
-      })
-      .catch(err => console.error('삭제 취소 실패:', err));
+    axios.put(`http://localhost:8081/banner/${bannerId}/recover`)
+    .then(res => {
+      if (res.status === 200) {
+        setBanners(prev => prev.map(b => b.bannerId === bannerId ? { ...b, isDelete: 'N' } : b));
+      }
+    })
+    .catch(err => console.error('삭제 취소 실패:', err));
   };
 
   // 등록 모달 -> 작품 리스트 모달

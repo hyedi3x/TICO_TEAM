@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Button, Form, Row, Col, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import styles from './FAQPut.module.css'; // 외부 CSS 모듈 추가
+import axios from 'axios';
 
 function FAQList() {
   const [faqData, setFaqData] = useState([]); // JSON 객체를 담을 배열
@@ -11,10 +12,10 @@ function FAQList() {
   useEffect(() => {
     const fetchFaqData = async () => {
       try {
-        const response = await fetch('http://localhost:8081/api/faqGet');
-        if (!response.ok) throw new Error('FAQ 데이터를 불러오는 데 실패했습니다.');
-        const data = await response.json();
+        const response = await axios.get('http://localhost:8081/api/faqGet');
+        const data = response.data;
         setFaqData(data);
+      
       } catch (error) {
         console.error('FAQ 데이터를 불러오는 중 오류 발생:', error);
         alert('FAQ 데이터를 불러오는 중 오류가 발생했습니다.');
@@ -36,12 +37,13 @@ function FAQList() {
   const deleteCheck = async (id) => {
     if (window.confirm(`정말 [${id}번] 항목을 삭제하시겠습니까?`)) {
       try {
-        const response = await fetch(`http://localhost:8081/api/faqDelete/${id}`, {
-          method: 'DELETE',
-        });
-        if (!response.ok) throw new Error('FAQ 삭제에 실패했습니다.');
-        alert('삭제되었습니다.');
-        setFaqData((prev) => prev.filter((dto) => dto.qa_id !== id));
+        const response = await axios.delete(`http://localhost:8081/api/faqDelete/${id}`);
+        if (response.status === 200) {
+          alert('삭제되었습니다.');
+          setFaqData((prev) => prev.filter((dto) => dto.qa_id !== id));
+        } else {
+          throw new Error('FAQ 삭제에 실패했습니다.');
+        }
       } catch (error) {
         console.error('FAQ 삭제 중 오류 발생:', error);
         alert('FAQ 삭제 중 오류가 발생했습니다.');
@@ -60,20 +62,21 @@ function FAQList() {
     if (!confirmed) return;
 
     try {
-      const response = await fetch(`http://localhost:8081/api/faqPut/${qa_id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question, answer }),
+      const response = await axios.put(`http://localhost:8081/api/faqPut/${qa_id}`, {
+        question,
+        answer
+      }, {
+        headers: { 'Content-Type': 'application/json' }
       });
-
+    
       // 상태만 갱신해서 리렌더링
       setFaqData((prev) =>
         prev.map((item) =>
           item.qa_id === qa_id ? { ...item, question, answer } : item
         )
       );
-
-      if (!response.ok) throw new Error('FAQ 수정 실패');
+    
+      if (response.status !== 200) throw new Error('FAQ 수정 실패');
       alert(`FAQ ${qa_id}번 항목이 성공적으로 수정되었습니다.`);
     } catch (error) {
       console.error('FAQ 수정 중 오류:', error);

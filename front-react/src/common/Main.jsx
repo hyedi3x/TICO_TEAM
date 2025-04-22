@@ -13,6 +13,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ChatbotWindow from '../pages/chatbot/ChatbotWindow';
 import ErpLogo from '../pages/erp/ErpLogo';
 import ProjectCard from './ProjectCard';
+import axios from 'axios';
 
 function Main() {
   const [userRole, setUserRole] = useState(null);
@@ -36,21 +37,21 @@ function Main() {
 
   // 인기 작품은 10개
   useEffect(() => {
-    fetch('http://localhost:8081/project/popularProjects')
-      .then(res => res.json())
-      .then(data => {
-        const popData = data.slice(0, 10);
-        setPopularProjects(popData);
-      })
-      .catch(err => console.error("인기 작품 불러오기 실패:", err));
+    axios.get('http://localhost:8081/project/popularProjects')
+  .then(response => {
+    const popData = response.data.slice(0, 10);
+    setPopularProjects(popData);
+  })
+  .catch(err => console.error("인기 작품 불러오기 실패:", err));
   }, []);
 
   // 배너 목록 가져오기
   useEffect(() => {
-    fetch('http://localhost:8081/banner/list')
-      .then(res => res.json())
-      .then(data => setBanners(data.sort((a, b) => a.displayOrder - b.displayOrder)))
-      .catch(err => console.error("배너 불러오기 실패:", err));
+    axios.get('http://localhost:8081/banner/list')
+  .then(response => {
+    setBanners(response.data.sort((a, b) => a.displayOrder - b.displayOrder));
+  })
+  .catch(err => console.error("배너 불러오기 실패:", err));
   }, []);
 
   const resolveThumbnailUrl = (url) => {
@@ -64,8 +65,8 @@ function Main() {
     const fetchStaffPicksWithProjects = async () => {
       try {
         const [projectsRes, picksRes] = await Promise.all([
-          fetch('http://localhost:8081/project/projectList'),
-          fetch('http://localhost:8081/project/staffPick')
+          axios.get('http://localhost:8081/project/projectList'),
+          axios.get('http://localhost:8081/project/staffPick')
         ]);
 
         const [projects, picks] = await Promise.all([

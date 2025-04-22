@@ -14,6 +14,7 @@ import ErpLogo from '../pages/erp/ErpLogo';
 import ProjectCard from './ProjectCard';
 import ProjectSelectModal from './ProjectSelectModal';
 import MainBannerManage from './MainBannerManage';
+import axios from 'axios';
 
 function MainModify() {
   const [staffPickProjects, setStaffPickProjects] = useState([]);
@@ -23,19 +24,20 @@ function MainModify() {
 
   // 전체 프로젝트 목록
   useEffect(() => {
-    fetch('http://localhost:8081/project/projectList')
-      .then(res => res.json())
-      .then(data => setAllProjects(data))
-      .catch(err => console.error("전체 작품 목록 불러오기 실패", err));
+    axios.get('http://localhost:8081/project/projectList')
+    .then(response => {
+      setAllProjects(response.data);
+    })
+    .catch(err => console.error("전체 작품 목록 불러오기 실패", err));
   }, []);
 
   // 스태프 선정 목록 가져와서 전체 목록 중에서 화면에 표시하기
   useEffect(() => {
     const userUuid = localStorage.getItem("user_uuid");
 
-    fetch('http://localhost:8081/project/staffPick')
-      .then(res => res.json())
-      .then(pickData => {
+    axios.get('http://localhost:8081/project/staffPick')
+    .then(response => {
+      const pickData = response.data;
         const newProjects = [];
         pickData.forEach(pick => {
           const matched = allProjects.find(all => Number(all.projectId) === Number(pick.projectId));
@@ -98,9 +100,7 @@ function MainModify() {
 
   // 삭제
   const handleRemoveStaffPickProject = (index) => {
-    fetch(`http://localhost:8081/project/staffPick/${index}`, {
-      method: 'DELETE'
-    })
+    axios.delete(`http://localhost:8081/project/staffPick/${index}`)
       .then((res) => {
         if (!res.ok) throw new Error('삭제 실패');
         // staffPickProjects 배열에서 해당 항목을 제거하고 나머지 항목을 당김
@@ -128,11 +128,11 @@ function MainModify() {
         userUuid
       }));
 
-    fetch('http://localhost:8081/project/staffPick', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    })
+      axios.post('http://localhost:8081/project/staffPick', payload, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
       .then(res => {
         if (res.ok) alert("저장 완료!");
       })
