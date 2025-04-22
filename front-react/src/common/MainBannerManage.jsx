@@ -118,7 +118,7 @@ const MainBannerManage = () => {
             if (payload.bannerId === -1) {
               updatedBanners.push({ ...payload, isDelete: 'N' }); // 새 배너 추가, 삭제 여부를 명시적으로 설정
             } else {
-              updatedBanners[selectedIndex] = payload; // 기존 배너 수정
+              updatedBanners[selectedIndex] = { ...payload, isDelete: 'N' }; // 기존 배너 수정
             }
             return updatedBanners;
           });
