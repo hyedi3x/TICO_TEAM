@@ -1,20 +1,17 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import {
-  List, Grid, Row, Col, Tabs, Modal, Button, Form,
-  Schema, DatePicker, toaster, Message
-} from 'rsuite';
-import axios from 'axios';
+import { List, Grid, Row, Col, Tabs, Modal, Button, Form, Schema, DatePicker, toaster, Message } from 'rsuite';
 import dayjs from 'dayjs';
 import MyCalendar from './MyCalendar';
 import RecentNotices from './RecentNotices';
 import ErpDTO from '../ErpDTO';
 import ColorPalette from './ColorPalette';
 import './home.css';
+import axiosInstance from '../../login/social/utils/axiosInstance';
 
 // Form 유효성 체크를 위한 스키마
 const { StringType, DateType } = Schema.Types;
 
-// 📌 메인 컴포넌트
+// 메인 컴포넌트
 const Home = ({ onNoticeClick }) => {
   // 상태 정의
   const [selectedDate, setSelectedDate] = useState(null); // 캘린더에서 선택된 날짜
@@ -26,14 +23,14 @@ const Home = ({ onNoticeClick }) => {
   const [formValue, setFormValue] = useState(defaultForm()); // 폼 데이터 상태
   const formRef = useRef(); // 폼 레퍼런스
 
-  // ✅ Form 유효성 스키마
+  // Form 유효성 스키마
   const model = Schema.Model({ // 폼 입력값이 문자열인지? 날짜인지? 숫자인지?
     title: StringType().isRequired('제목은 필수입니다'),
     start: DateType().isRequired('시작일 선택'),
     end: DateType().isRequired('종료일 선택'),
   });
 
-  // ✅ 기본 form 객체
+  // 기본 form 객체
   function defaultForm(date = new Date()) {
     return {
       title: '',
@@ -51,7 +48,7 @@ const Home = ({ onNoticeClick }) => {
     if (!empId) return;
   
     try {
-      const res = await axios.get(`http://localhost:8081/api/schedule/employee/${empId}`);
+      const res = await axiosInstance.get(`/api/schedule/employee/${empId}`);
       setCalendarSchedules(res.data);
     } catch (err) {
       console.error('일정 가져오기 실패', err);
@@ -79,7 +76,7 @@ const Home = ({ onNoticeClick }) => {
     })
   }
 
-  // ✅ 모달 열기 (등록 or 수정용)
+  // 모달 열기 (등록 or 수정용)
   const openModal = (schedule = null) => {
     if (schedule) {
       // 수정
@@ -99,14 +96,14 @@ const Home = ({ onNoticeClick }) => {
     setShowModal(true);
   };
 
-  // ✅ 모달 닫기
+  // 모달 닫기
   const closeModal = () => {
     setShowModal(false);
     setSelectedSchedule(null);
     setFormValue(defaultForm());
   };
 
-  // ✅ 일정 등록 또는 수정
+  // 일정 등록 또는 수정
   const submitSchedule = async () => {
     if (!empId || isSubmitting) return;   // 사전 조건 체크 (empId가 없거나 이미 저장중이면 중복저장 방지)
 
@@ -136,7 +133,7 @@ const Home = ({ onNoticeClick }) => {
           erpScheduleColor: formValue.color,
         };
 
-        await axios.put(`http://localhost:8081/api/schedule/update/${selectedSchedule.erpScheduleId}`, updated);
+        await axiosInstance.put(`/api/schedule/update/${selectedSchedule.erpScheduleId}`, updated);
         updateScheduleList(updated);
         toaster.push(<Message type="success">수정 완료</Message>, { placement: 'topEnd' });
 
@@ -151,7 +148,7 @@ const Home = ({ onNoticeClick }) => {
           erpScheduleColor: formValue.color,
         };
         console.log('보내는값',newSchedule)
-        const res = await axios.post('http://localhost:8081/api/schedule', newSchedule);
+        const res = await axiosInstance.post('/api/schedule', newSchedule);
         setCalendarSchedules(prev => [...prev, res.data]);
 
         // 선택된 날짜의 일정인 경우만 todoList 업데이트
@@ -171,7 +168,7 @@ const Home = ({ onNoticeClick }) => {
     }
   };
 
-  // ✅ 일정 수정 시 리스트 갱신
+  // 일정 수정 시 리스트 갱신
   const updateScheduleList = (updated) => { 
     setCalendarSchedules(prev => prev.map(s => s.erpScheduleId === updated.erpScheduleId ? updated : s));
     setTodoList(prev => prev.map(s => s.erpScheduleId === updated.erpScheduleId ? updated : s));
@@ -183,7 +180,7 @@ const Home = ({ onNoticeClick }) => {
     if (!selectedSchedule) return;
 
     try {
-      await axios.delete(`http://localhost:8081/api/schedule/delete/${selectedSchedule.erpScheduleId}`);
+      await axiosInstance.delete(`/api/schedule/delete/${selectedSchedule.erpScheduleId}`);
       setCalendarSchedules(prev => prev.filter(s => s.erpScheduleId !== selectedSchedule.erpScheduleId));
       setTodoList(prev => prev.filter(s => s.erpScheduleId !== selectedSchedule.erpScheduleId));
       toaster.push(<Message type="success">삭제 완료</Message>, { placement: 'topEnd' });

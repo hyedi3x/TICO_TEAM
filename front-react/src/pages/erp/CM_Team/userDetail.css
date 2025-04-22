@@ -1,0 +1,67 @@
+/* userDetail.css 회원 상세페이지 */
+/* 전체 레이아웃 */
+.user-detail-wrapper {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+/* 유저 정보 테이블 */
+.user-info-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.user-info-table th,
+.user-info-table td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.user-info-table th {
+  background-color: #f4f6f8;
+  width: 150px;
+}
+
+/* 통계 박스 영역 */
+.user-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.stat-box {
+  flex: 1 1 200px;
+  background: #eef3fc;
+  padding: 15px;
+  border-radius: 8px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.stat-box span {
+  margin-top: 5px;
+  font-size: 22px;
+  color: #2c3e50;
+}
+
+/* 돌아가기 버튼 */
+.back-button {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.back-button button {
+  padding: 8px 16px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.back-button button:hover {
+  background-color: #2980b9;
+}
