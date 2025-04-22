@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import axios from 'axios';
 import {Panel,Message,Loader,toaster,Input,Pagination} from 'rsuite';
 import './userList.css';
+import axiosInstance from '../../login/social/utils/axiosInstance';
 
 function UserList({ onUserClick }) {
   // 상태 정의
@@ -16,7 +16,7 @@ function UserList({ onUserClick }) {
   const fetchUsers = useCallback((keyword = '', targetPage = 1) => {
     setLoading(true);
 
-    axios.get('http://localhost:8081/api/users/search', {
+    axiosInstance.get('/api/users/search', {
       params: {
         keyword,
         page: targetPage,
