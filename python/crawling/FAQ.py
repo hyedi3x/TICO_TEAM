@@ -46,7 +46,7 @@ def preprocess_data(csv_path):
     faq_df.columns = ['data_code', 'board_name', 'content', 'view_count', 'start_date', 'end_date', 'organization_code', 'organization_name']
     
     # 게시판명에 '공공누리' 또는 '공공기관'이 포함된 데이터는 필터링
-    faq_df = faq_df[~faq_df['board_name'].str.contains('공공누리|공공기관', na=False)]
+    faq_df = faq_df[~faq_df['board_name'].str.contains('공공누리|공공기관|공공|저작물', na=False)]
     
     return faq_df
 
