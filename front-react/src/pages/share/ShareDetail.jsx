@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Container, Row, Col, Card, Tabs, Tab, Button } from 'react-bootstrap';
 import './ShareDetail.css';
@@ -13,28 +13,39 @@ function ShareDetail() {
   const [bookmarkCount, setBookmarkCount] = useState(0);
   const [liked, setLiked] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
+  const [creater, setCreater] = useState(null);
 
   const userUuid = localStorage.getItem('user_uuid');
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (!projectId || !userUuid) return;
-
-    // [1] 조회수 증가
-    axios.post(`http://localhost:8081/project/view/${projectId}`)
-    .catch(err => console.error('조회수 업데이트 실패:', err));
-
-     // 작품 정보
-     axios.get(`http://localhost:8081/project/${projectId}`)
-     .then(res => {
-       const data = res.data.project || res.data;
-       setProject(data);
-       setLikeCount(data.likeCount || 0);
-       setBookmarkCount(data.bookmarkCount || 0);
-     })
-     .catch(err => console.error(err));
-
+    if (!projectId) return;
+  
+    // 작품 정보 조회 후 조회수 증가
+    axios.get(`http://localhost:8081/project/${projectId}`)
+      .then(res => {
+        const data = res.data.project || res.data;
+        setProject(data);  // 프로젝트 데이터 상태 업데이트
+        setLikeCount(data.likeCount || 0);
+        setBookmarkCount(data.bookmarkCount || 0);
+        
+        // 조회수 증가 (setProject 이후)
+        if (data.isPrivate !== 'Y') {
+          axios.post(`http://localhost:8081/project/view/${projectId}`, null, {
+            params: { userUuid }
+          })
+          .catch(err => console.error('조회수 업데이트 실패:', err));
+        }
+  
+        // 제작자 정보 설정
+        const projectCreatorUuid = data.userUuid;  // project.userUuid를 사용
+        setCreater(projectCreatorUuid);  // 제작자 userUuid를 상태에 설정
+      })
+      .catch(err => console.error(err));
+  
+    if (userUuid) {
       // 좋아요 여부 확인
-    axios.get(`http://localhost:8081/favor/status`, {
+      axios.get(`http://localhost:8081/favor/status`, {
         params: { projectId, userUuid, type: 'like' }
       }).then(res => setLiked(res.data)).catch(() => {});
   
@@ -42,9 +53,21 @@ function ShareDetail() {
       axios.get(`http://localhost:8081/favor/status`, {
         params: { projectId, userUuid, type: 'bookmark' }
       }).then(res => setBookmarked(res.data)).catch(() => {});
-  }, [projectId, userUuid]);
+    }
+  }, [projectId, userUuid]);  // 의존성 배열 추가
 
   const handleToggleFavor = (type) => {
+    if (!userUuid) {
+      alert("로그인 후 사용 가능합니다.");
+      navigate("/login"); // 로그인 페이지로 리디렉션
+      return;
+    }
+
+    if (project.userUuid === userUuid) {
+      alert("자신의 작품에 좋아요/북마크를 할 수 없습니다.");
+      return;
+    }
+
     axios.post(`http://localhost:8081/favor/toggle`, {
       projectId: parseInt(projectId),
       userUuid,
@@ -109,7 +132,8 @@ function ShareDetail() {
           <CommentSection
             projectId={project.projectId}
             userUuid={localStorage.getItem('user_uuid')}
-            />
+            projectCreatorUuid={creater}
+          />
         </Col>
       </Row>
     </Container>
