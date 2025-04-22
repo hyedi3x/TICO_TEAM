@@ -1,0 +1,33 @@
+.project-container {
+    padding: 40px 10px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .project-grid {
+    row-gap: 24px;
+    column-gap: 16px;
+  }
+  
+  .project-card {
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    border: none;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+  }
+  
+  .project-card:hover {
+    transform: translateY(-4px);
+  }
+  
+  .project-card .thumbnail {
+    height: 160px;
+    object-fit: cover;
+  }
+  
+  .project-stats {
+    font-size: 14px;
+    color: #444;
+    margin-top: 8px;
+  }

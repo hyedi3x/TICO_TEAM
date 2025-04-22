@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Accordion } from 'react-bootstrap';
 import styles from './FAQList.module.css';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function FAQList() {
   const [faqData, setFaqData] = useState([]);
@@ -10,12 +11,12 @@ function FAQList() {
   useEffect(() => {
     const fetchFaqData = async () => {
       try {
-        const response = await fetch('http://localhost:8081/api/faqGet', { method: 'GET' });
-        if (!response.ok) {
-          throw new Error('FAQ 데이터를 불러오는 데 실패했습니다.');
-        }
-        const data = await response.json();
+        const response = await axios.get('http://localhost:8081/api/faqGet');
+      
+        // 응답 데이터 추출
+        const data = response.data;
         setFaqData(data);
+      
       } catch (error) {
         console.error('FAQ 데이터를 불러오는 중 오류 발생:', error);
         alert('FAQ 데이터를 불러오는 중 오류가 발생했습니다.');

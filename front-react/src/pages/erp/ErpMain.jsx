@@ -28,6 +28,11 @@ import axios from "axios";
 import MyInfoChk from "./MyPage/MyInfoChk";
 import MyInfoModify from "./MyPage/MyInfoModify";
 import ObjectSelectPage from "../../blockly/components/ObjectSelectPage";
+import UserList from "./CM_Team/UserList";
+import UserDetail from "./CM_Team/UserDetail";
+import UserInfoEdit from "./CM_Team/UserInfoEdit";
+import MainModify from "../../common/MainModify";
+
 
 function ErpMain() {
   const [expanded, setExpanded] = useState(true); // 사이드바 확장 여부
@@ -35,6 +40,7 @@ function ErpMain() {
   const [viewMode, setViewMode] = useState("home"); // 기본은 홈 화면(Home.jsx)
   const [comNotiId, setComNotiId] = useState(null); // 상세/수정 대상 ID
   const [empInfo, setEmpInfo] = useState(null); // 로그인된 사원 정보 상태(초기값 null)
+  const [selectedUserId, setSelectedUserId] = useState(null); // 유저 상세 페이지용
 
   // 컴포넌트 마운트 시(처음 렌더링 시) 사원 정보를 서버에서 불러오는 useEffect
   useEffect(() => {
@@ -76,11 +82,13 @@ function ErpMain() {
       case "2-2": setViewMode("myinfoChk"); break;
       case "3-1": setViewMode("admin-register"); break;
       case "3-2": setViewMode("admin-info"); break;
+      case "4-1": setViewMode("userList"); break;
       case "7-4": setViewMode("faq"); break;
       case "8-4": setViewMode("blockEduPost"); break;
       case "8-5": setViewMode("ObjectSelectPage"); break;
+      case "8-6": setViewMode("MainModify"); break;
       default: setViewMode("home"); break;
-    }    
+    }
   };
 
   return (
@@ -129,9 +137,7 @@ function ErpMain() {
                   className={empInfo.depId === "DEP002" ? "" : "disabled-menu"}
                 >
                   <Nav.Item eventKey="4-1">회원 목록 조회</Nav.Item>
-                  <Nav.Item eventKey="4-2">회원 정보 수정</Nav.Item>
-                  <Nav.Item eventKey="4-3">회원 비밀번호 관리</Nav.Item>
-                  <Nav.Item eventKey="4-4">회원 활동 관리</Nav.Item>
+                  <Nav.Item eventKey="4-2">회원 활동 관리</Nav.Item>
                 </Nav.Menu>
 
                 {/* 결제 관리팀 메뉴 (DEP003 부서만 활성화) */}
@@ -188,6 +194,7 @@ function ErpMain() {
                   <Nav.Item eventKey="8-3">스터디 관리</Nav.Item>
                   <Nav.Item eventKey="8-4">블럭 학습 퀴즈 관리</Nav.Item>
                   <Nav.Item eventKey="8-5">오브젝트 관리</Nav.Item>
+                  <Nav.Item eventKey="8-6">메인화면 관리</Nav.Item>
                 </Nav.Menu>
 
                 {/* 시스템 관리팀 메뉴 (DEP007 부서만 활성화) */}
@@ -226,9 +233,9 @@ function ErpMain() {
             {/* 공지사항 목록 페이지 */}
             {viewMode === "list" && (
               <ErpNotices onViewDetail={(id) => {
-                  setComNotiId(id);
-                  setViewMode("detail");
-                }}
+                setComNotiId(id);
+                setViewMode("detail");
+              }}
                 onEdit={(id) => {
                   setComNotiId(id);
                   setViewMode("edit");
@@ -239,25 +246,56 @@ function ErpMain() {
             {viewMode === "create" && (
               <ErpNotiCreated onRegisterSuccess={() => setViewMode("list")} />
             )}
-            
+
             {/* 기업 공지사항 상세보기 */}
             {viewMode === "detail" && comNotiId && (
-              <ErpNotiDetail id={comNotiId} onBack={() => setViewMode("list")} onEdit={() => setViewMode("edit")}/>
+              <ErpNotiDetail id={comNotiId} onBack={() => setViewMode("list")} onEdit={() => setViewMode("edit")} />
             )}
 
             {/* 공지사항 수정 */}
             {viewMode === "edit" && (
-              <ErpNotiUpdate id={comNotiId} onBack={() => setViewMode("list")}/>
+              <ErpNotiUpdate id={comNotiId} onBack={() => setViewMode("list")} />
             )}
-            
+
+            {/* 회원 목록 */}
+            {/* UserList에서 onUserClick prop을 반드시 넘김. 행 클릭시 setSelectedUserId()가 호출되어 상세로 넘어감 */}
+            {viewMode === "userList" && (
+              <UserList onUserClick={(uuid) => {
+                setSelectedUserId(uuid);
+                setViewMode("user-detail");
+              }} />
+            )}
+
+            {/* 회원 상세 목록 */}
+            {/* uuid와 onBack을 props로 받음 */}
+            {viewMode === "user-detail" && selectedUserId && (
+              <UserDetail
+                uuid={selectedUserId}
+                onBack={() => setViewMode("userList")}
+                onEdit={(uuid) => {
+                  setSelectedUserId(uuid)   // uuid 저장
+                  setViewMode("user-edit");
+                }}
+              />
+            )}
+            {/* 회원 정보 수정 */}
+            {viewMode === "user-edit" && selectedUserId && (
+              <UserInfoEdit
+                uuid={selectedUserId}
+                onBack={() => setViewMode("user-detail")} // 또는 user-detail로 다시
+              />
+            )}
+
             {viewMode === "admin-register" && <AdminRegister />} {/* 관리자 등록 */}
             {viewMode === "admin-info" && <AdminInfo />} {/* 관리자 정보 조회 */}
             {viewMode === "myinfoChk" && <MyInfoChk />} {/* 관리자 정보 조회 */}
             {viewMode === "myinfoModify" && <MyInfoModify />} {/* 관리자 정보 조회 */}
-            
+
             {viewMode === "faq" && <FAQPut />} {/* FAQ 관리 */}
             {viewMode === "blockEduPost" && <BlockEduComponentPost />} {/* 블럭 학습 관리 */}
+
             {viewMode === "ObjectSelectPage" && <ObjectSelectPage/>} {/* 오브젝트 관리 */}
+            {viewMode === "MainModify" && <MainModify/>} {/* 오브젝트 관리 */}
           </div>
         </Content>
       </div>

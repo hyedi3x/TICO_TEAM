@@ -14,6 +14,7 @@ import "../components/BlocklyComponent.css";
 import ticoTheme from '../blocks/ticoTheme';
 import { registerWhackableClickListener } from '../games/whackMoleGame';
 import { drawScoreText } from '../functions/cals/calFunctions';
+import axios from 'axios';
 
 Blockly.setLocale(ko); // Blockly 언어를 한국어로 설정
 
@@ -64,6 +65,8 @@ function ShareCanvas() {
 
   /** ─────────────── 초기 로딩 ─────────────── **/
   useEffect(() => {
+    let isMounted = true; // 컴포넌트가 마운트된 상태인지 체크
+  
     if (projectId) {
       (async () => {
         try {
@@ -76,14 +79,22 @@ function ShareCanvas() {
             callImgArr,
             setWorkspaceReady
           );
-          currentProjectId.current = Number(projectId);
+          if (isMounted) { // 컴포넌트가 마운트 상태일 때만 상태 업데이트
+            currentProjectId.current = Number(projectId);
+          }
         } catch (err) {
-          alert('초기 불러오기 실패!');
+          if (isMounted) {
+            alert('초기 불러오기 실패!');
+          }
         }
       })();
     }
-    // eslint-disable-next-line
-  }, []);
+  
+    return () => {
+      isMounted = false; // 컴포넌트가 언마운트될 때 상태 변경 방지
+    };
+  }, [projectId]);
+  
 
   useEffect(() => {
     defineMyBlocks(); // 사용자 정의 블록 등록
@@ -316,14 +327,11 @@ function ShareCanvas() {
     formData.append('file', file);   // key: "file", value: 파일 객체
   
     try {
-      const response = await fetch('http://localhost:8081/project/uploadImage', {
-        method: 'POST',
-        body: formData,
+      const response = await axios.post('http://localhost:8081/project/uploadImage', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data', // 파일 전송 시 필요한 헤더
+        },
       });
-  
-      if (!response.ok) {
-        throw new Error('이미지 업로드 실패');
-      }
   
       const { imageUrl } = await response.json(); // 백엔드가 준 URL 추출
       console.log('콘솔',imageUrl);

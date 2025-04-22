@@ -14,7 +14,6 @@ import { RiPlantFill } from "react-icons/ri";
 import { FaPerson } from 'react-icons/fa6';
 import { IoFastFood } from 'react-icons/io5';
 import { SiLinuxcontainers } from "react-icons/si";
-import axios from 'axios';
 import ObjectUploader from './ObjectUploader';
 import ObjectDraw from './ObjectDraw';
 import ObjectTextbox from './ObjectTextbox';
@@ -102,7 +101,7 @@ function ObjectSelectPage({ onComplete }) {
     formData.append("description", description);
     formData.append("blocklyObjectPoint", newObjectData.blocklyObjectPoint ? "true" : "false");   // boolean값을 문자열로 바꿔서 백엔드에 넘기는 방식. @RequestParam으로 Boolean을 안정적으로 받기에 적합.
 
-    axios.post("http://localhost:8081/api/blockly-objects/upload-object", formData, {
+    axiosInstance.post("/api/blockly-objects/upload-object", formData, {
       headers: { 'Content-Type': 'multipart/form-data' }
     })
       .then(() => {
@@ -154,7 +153,7 @@ function ObjectSelectPage({ onComplete }) {
       formData.append("file", file);
     }
 
-    axios.put(`http://localhost:8081/api/blockly-objects/update-object`, formData, {
+    axiosInstance.put(`/api/blockly-objects/update-object`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       }

@@ -730,7 +730,7 @@ const defineMyBlocks = ()=>{
       ],
       "output": "Boolean",
       "style": "logic_blocks",
-      "tooltip": "선택된 오브젝트가 대상에 닿았는지 확인합니다.",
+      "tooltip": "선택된 원형 오브젝트가 대상에 닿았는지 확인합니다.",
       "helpUrl": ""
     },    
 

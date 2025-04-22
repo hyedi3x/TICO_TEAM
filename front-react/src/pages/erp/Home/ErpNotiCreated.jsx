@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import './erpNotiCreated.css';
+import axiosInstance from '../../login/social/utils/axiosInstance';
 
 // 공지사항 등록 컴포넌트
 const ErpNotiCreated = ({ onRegisterSuccess }) => {
@@ -45,8 +45,8 @@ const ErpNotiCreated = ({ onRegisterSuccess }) => {
     });
 
     // 백엔드로 POST 요청 전송 (multipart/form-data)
-    axios
-      .post('http://localhost:8081/api/notices/create', formData, {
+    axiosInstance
+      .post('/api/notices/create', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       })
       .then(() => {

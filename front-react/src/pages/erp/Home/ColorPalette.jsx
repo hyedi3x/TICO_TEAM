@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Popover, Whisper, Button, Input, toaster, Message } from 'rsuite';
-import axios from 'axios';
 import './colorPalette.css';
+import axiosInstance from '../../login/social/utils/axiosInstance';
 
 // 🎨 기본 색상 목록 (유저가 직접 등록하지 않아도 항상 보이는 색상들)
 const defaultColors = ['#e74c3c', '#f39c12', '#f1c40f', '#27ae60', '#3498db'];
@@ -16,7 +16,7 @@ const ColorPalette = ({ selectedColor, onChange }) => {
     if (!empId) return;
 
     try {
-      const res = await axios.get(`http://localhost:8081/api/user-colors/${empId}`);
+      const res = await axiosInstance.get(`/api/user-colors/${empId}`);
       const userColors = res.data.map(item => item.empColor);
       
       // 기본 색상과 겹치지 않도록 필터링 후 병합
@@ -28,12 +28,12 @@ const ColorPalette = ({ selectedColor, onChange }) => {
     }
   }, [empId]);
 
-  // 🔄 컴포넌트 마운트 시 사용자 색상 목록 가져오기
+  // 컴포넌트 마운트 시 사용자 색상 목록 가져오기
   useEffect(() => {
     fetchUserColors();
   }, [fetchUserColors]);
 
-  // ✅ 색상 추가 버튼 클릭 시 동작
+  // 색상 추가 버튼 클릭 시 동작
   const handleAddColor = async () => {
     if (!empId || !customColor) return;
 
@@ -45,7 +45,7 @@ const ColorPalette = ({ selectedColor, onChange }) => {
     }
 
     try {
-      await axios.post('http://localhost:8081/api/user-colors', {
+      await axiosInstance.post('/api/user-colors', {
         empId,
         empColor: customColor
       });
@@ -72,7 +72,7 @@ const ColorPalette = ({ selectedColor, onChange }) => {
     }
 
     try {
-      await axios.delete('http://localhost:8081/api/user-colors', {
+      await axiosInstance.delete('/api/user-colors', {
         data: { empId, empColor: selectedColor }
       });
 

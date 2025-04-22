@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import axiosInstance from '../utils/axiosInstance';
 
 function Callback() {
   const navigate = useNavigate(); // 다른 페이지로 이동할때 사용(라다이렉트)
@@ -11,6 +12,7 @@ function Callback() {
     const accessToken = params.get('accessToken'); // url에 포함된 accessToken 가져옴
     const refreshToken = params.get('refreshToken'); // url에 포함된 refreshToken 가져옴
     const user_uuid = params.get("user_uuid");
+
     if (!accessToken || !refreshToken) {
       console.error('JWT 토큰이 없음');
       navigate('/login');
@@ -25,8 +27,16 @@ function Callback() {
     localStorage.setItem('user_uuid', user_uuid);
     localStorage.setItem('autoLogin', 'true'); // autoLogin은 나중에 자동 로그인 여부를 판단하기위함
 
-    // 메인 페이지로 이동 → Header.jsx useEffect가 /auth/user 조회
-    navigate('/'); 
+    
+    axiosInstance.get('/auth/user')
+      .then(res => {
+        localStorage.setItem('nickname', res.data.nickname);
+        navigate('/');
+      })
+      .catch(err => {
+        console.error('사용자 정보 조회 실패:', err);
+        navigate('/login');
+      }); 
   }, [navigate, location]); // 의존성 배열이라 하며, navigate, location이 바뀔때마다 코드가 실행된다의 의미
 
   return <div>로그인 처리 중...</div>;

@@ -1,5 +1,6 @@
 /* 채팅 영역 래퍼 (MicRecord 최상위) */
 .chat-wrap {
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -111,4 +112,26 @@
 /* 마이크 녹음 중일 때 (#d32f2f로 변경) */
 .mic-rec .mic-icon {
   color: #d32f2f !important;
+}
+
+/* 블러 오버레이 - 밝은 회색 + 블러 */
+.listening-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  backdrop-filter: blur(10px);         /* 배경 콘텐츠에 블러 효과 적용 */ 
+  -webkit-backdrop-filter: blur(10px); /* 배경 콘텐츠에 블러 효과 적용 (사파리)*/ 
+  background-color: rgba(240, 240, 240, 0.3); /* 밝은 회색 + 투명도 */
+  z-index: 100;
+}
+
+/* 파형 캔버스 - 중앙 정렬 + 배경 없음 */
+.waveform-canvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);  /* 가운데 정렬*/
+  width: 80%;
+  height: 100px;
+  z-index: 101;
+  background: transparent;
 }

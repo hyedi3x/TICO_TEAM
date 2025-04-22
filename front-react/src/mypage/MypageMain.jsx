@@ -10,6 +10,7 @@ import { FaHome, FaEdit, FaTrash } from "react-icons/fa";
 // 외부 파일에서 컴포넌트 import
 import EditProfile from "./EditProfile";
 import DeleteAccount from "./DeleteAccount";
+import MyProjects from "./MyProjects";
 
 // Home 컴포넌트는 간단한 예시로 인라인 작성 (원하는 경우 별도 파일로 분리 가능)
 function MyPageHome() {
@@ -37,6 +38,9 @@ function MypageMain() {
         break;
       case "3-2":
         setContent(<DeleteAccount />);
+        break;
+      case "4-3":
+        setContent(<MyProjects />);
         break;
       default:
         setContent(<MyPageHome />);
@@ -71,6 +75,14 @@ function MypageMain() {
                   icon={<Icon as={FaTrash} />}
                 >
                   <Nav.Item eventKey="3-2">회원 탈퇴</Nav.Item>
+                </Nav.Menu>
+                <Nav.Menu
+                  placement="rightStart"
+                  eventKey="4-3"
+                  title="내 작품"
+                  icon={<Icon as={FaEdit} />}
+                >
+                <Nav.Item eventKey="4-3">내 작품</Nav.Item>
                 </Nav.Menu>
               </Nav>
             </Sidenav.Body>

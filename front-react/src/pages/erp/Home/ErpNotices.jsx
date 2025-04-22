@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
 import './erpNotices.css';
+import axiosInstance from '../../login/social/utils/axiosInstance';
 
 function ErpNotices({ onViewDetail, onEdit }) {
     // 상태 정의
@@ -32,7 +32,7 @@ function ErpNotices({ onViewDetail, onEdit }) {
             sort: sortField ? `${sortField},${sortOrder}` : undefined,
         };
 
-        axios.get('http://localhost:8081/api/notices/search', { params })
+        axiosInstance.get('/api/notices/search', { params })
             .then(response => {
                 const data = response.data;
                 setNotices(data.content);       // 공지 목록 저장
@@ -73,7 +73,7 @@ function ErpNotices({ onViewDetail, onEdit }) {
     // 삭제 처리 함수
     const handleDelete = (id) => {
         if (window.confirm('정말 삭제하시겠습니까?')) {
-            axios.delete(`http://localhost:8081/api/notices/delete/${id}`)
+            axiosInstance.delete(`/api/notices/delete/${id}`)
                 .then(() => {
                     handleSearch();     // 삭제 후 목록 갱신
                 })

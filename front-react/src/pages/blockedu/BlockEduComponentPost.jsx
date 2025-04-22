@@ -9,6 +9,7 @@ import {useNavigate, useParams } from 'react-router-dom';
 import './Modal.css';
 import html2canvas from 'html2canvas';
 import ticoTheme from '../../blockly/blocks/ticoTheme';
+import axios from 'axios';
 
 Blockly.setLocale(ko);
 
@@ -145,42 +146,28 @@ function BlockEduComponentPost() {
   }
 
   // 저장하기
-  const saveQuiz = () => {
-    try{
-      fetch('http://localhost:8081/eduBlock/PostQuiz', {
-        method: 'POST',
+  const saveQuiz = async () => {
+    try {
+      const response = await axios.post('http://localhost:8081/eduBlock/PostQuiz', {
+        quiz_title: quiz_title,
+        quiz_description: quiz_description,
+        quiz_level: quiz_level,
+        quiz_img: quiz_img,
+        answer_img: answer_img,
+        answer_xml: answer_xml,
+        emp_id: localStorage.getItem('user_uuid'), // 사원번호
+      }, {
         headers: {
           'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          quiz_title: quiz_title,
-          quiz_description: quiz_description,
-          quiz_level: quiz_level,
-          quiz_img: quiz_img,
-          answer_img: answer_img,
-          answer_xml: answer_xml,
-          emp_id: localStorage.getItem('user_uuid'), // 사원번호
-        }),
-      })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
         }
-        return response.json();
-      })
-      .then((data) => {
-        console.log('성공:', data);
-        navigate('/eduList'); // 성공 후 이동할 페이지
-      })
-      .catch((error) => {
-        console.error('실패:', error);
-        alert('문제 저장에 실패했습니다. 다시 시도해주세요.');
-      }
-      );
-    }catch (error) {
-      console.error('Error:', error);
-      alert('문제 저장 중 오류가 발생했습니다. 다시 시도해주세요.');
-    } 
+      });
+  
+      console.log('성공:', response.data);
+      navigate('/eduList'); // 성공 후 이동할 페이지
+    } catch (error) {
+      console.error('실패:', error);
+      alert('문제 저장에 실패했습니다. 다시 시도해주세요.');
+    }
   };
 
   // 퀴즈 이미지 업로드
