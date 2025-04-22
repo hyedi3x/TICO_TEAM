@@ -21,6 +21,7 @@ function Login() {
       axiosInstance.get("/auth/user")
         .then((response) => {
           setUserInfo(response.data);
+          localStorage.setItem("nickname", response.data.nickname);
         })
         .catch((error) => {
           console.error("사용자 정보 조회 실패:", error);
