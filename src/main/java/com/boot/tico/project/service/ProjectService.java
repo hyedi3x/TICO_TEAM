@@ -13,8 +13,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.boot.tico.project.dto.ProjectDTO;
 import com.boot.tico.project.dto.ProjectObjectDTO;
+import com.boot.tico.project.dto.ProjectViewDTO;
 import com.boot.tico.project.repo.ProjectObjectRepository;
 import com.boot.tico.project.repo.ProjectRepository;
+import com.boot.tico.project.repo.ProjectViewRepository;
 
 @Service
 public class ProjectService {
@@ -24,6 +26,9 @@ public class ProjectService {
 
    @Autowired
    private ProjectObjectRepository objectRepository;
+   
+   @Autowired
+   private ProjectViewRepository viewRepository;
 
    /**
     * [1] 프로젝트 + 오브젝트 저장
@@ -167,11 +172,22 @@ public class ProjectService {
    }
    
    /**
-    * [10] 조회수 증가 처리
+    * [10] 조회수 증가 추가
     */
    @Transactional
-   public void increaseViewCount(int projectId) {
-       projectRepository.incrementViewCount(projectId);
+   public void recordUserView(int projectId, String userUuid) {
+	   int newViewId = viewRepository.getLatestViewId() + 1;
+	   
+	   ProjectViewDTO view = new ProjectViewDTO();
+	   view.setViewId(newViewId);
+	   view.setUserUuid(userUuid != null ? userUuid : ""); // 로그인되지 않으면 빈 값으로 기록
+	   view.setProjectId(projectId);
+	   viewRepository.save(view);
+   }
+   
+   @Transactional
+   public void incrementViewCount(int projectId) {
+       projectRepository.incrementViewCount(projectId); // 조회수 증가
    }
    
    // 메인화면 인기작품 조회
