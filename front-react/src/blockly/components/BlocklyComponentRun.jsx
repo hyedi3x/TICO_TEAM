@@ -64,6 +64,8 @@ function ShareCanvas() {
 
   /** ─────────────── 초기 로딩 ─────────────── **/
   useEffect(() => {
+    let isMounted = true; // 컴포넌트가 마운트된 상태인지 체크
+  
     if (projectId) {
       (async () => {
         try {
@@ -76,14 +78,22 @@ function ShareCanvas() {
             callImgArr,
             setWorkspaceReady
           );
-          currentProjectId.current = Number(projectId);
+          if (isMounted) { // 컴포넌트가 마운트 상태일 때만 상태 업데이트
+            currentProjectId.current = Number(projectId);
+          }
         } catch (err) {
-          alert('초기 불러오기 실패!');
+          if (isMounted) {
+            alert('초기 불러오기 실패!');
+          }
         }
       })();
     }
-    // eslint-disable-next-line
-  }, []);
+  
+    return () => {
+      isMounted = false; // 컴포넌트가 언마운트될 때 상태 변경 방지
+    };
+  }, [projectId]);
+  
 
   useEffect(() => {
     defineMyBlocks(); // 사용자 정의 블록 등록
