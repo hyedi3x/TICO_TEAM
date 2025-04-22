@@ -104,25 +104,32 @@ function SignUpId() {
       setConfirmUserPwdError("");
     }
 
-    if (isValid) {
-      // 요청 시작 전에 로딩 상태 true로 설정
-      setIsLoading(true);
-      try {
-        const response = await axios.post("http://localhost:8081/auth/register", {
-          email: fullEmail,
-          password: userPwd,
-          name: userName,
-          phone: phone,
-          nickname: nickname
-        });
-        console.log("회원가입 성공:", response.data);
-        navigate("/welcome"); 
-      } catch (error) {
-        console.error("회원가입 실패:", error.response ? error.response.data : error);
-        alert("회원가입에 실패했습니다: " + (error.response ? error.response.data : ""));
-        // 에러 발생 시 로딩 상태 해제
-        setIsLoading(false);
+    if (!valid) return;
+
+    setIsLoading(true);
+    try {
+      await axios.post("http://localhost:8081/auth/register", {
+        email: fullEmail,
+        password: userPwd,
+        name: userName,
+        birthDate: birthDate,
+        phone: phone,
+        nickname: nickname
+      });
+      navigate("/welcome");
+    } catch (err) {
+      // 백엔드에서 중복 닉네임일 때 409 + "이미 존재하는 닉네임입니다." 반환한다고 가정
+      if (err.response?.status === 409 && typeof err.response.data === 'string') {
+          const msg = err.response.data;
+          if (msg.includes("닉네임")) {
+          alert("현재 사용중인 닉네임 입니다. 다른 닉네임을 사용해주세요.");
+          setIsLoading(false);
+          return;
+        }
       }
+      console.error("회원가입 실패:", err);
+      alert("회원가입에 실패했습니다.");
+      setIsLoading(false);
     }
   };
 
