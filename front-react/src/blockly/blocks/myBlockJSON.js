@@ -135,6 +135,16 @@ const defineMyBlocks = ()=>{
         "helpUrl": ""
       },      
 
+      {
+        "type": "stop_all_code",
+        "message0": "모든 코드 멈추기",
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "loop_blocks",
+        "tooltip": "모든 실행 중인 블록을 중단합니다.",
+        "helpUrl": ""
+      },
+
       // 움직임 관련 블록들
       // 이동방향으로 입력값만큼 이동하는 블록
       {
@@ -371,33 +381,30 @@ const defineMyBlocks = ()=>{
     },
 
     // 일정 시간 동안 이동시키기 블록
-    { 
+    {
       "type": "move_obj_inTime",
-      "message0": "x좌표로 %1 만큼 y좌표로 %2만큼 %3초 동안 이동하기",
+      "message0": "x좌표로 %1 만큼 y좌표로 %2 만큼 %3초 동안 이동하기",
       "args0": [
-          {
-              "type": "field_input",
-              "name": "x",
-              "check": "Number",
-              "text": "10", // 기본값
-          },
-          {
-            "type": "field_input",
-            "name": "y",
-            "check": "Number",
-            "text": "10", // 기본값
+        {
+          "type": "input_value",
+          "name": "x",
+          "check": "Number"
         },
-          {
-            "type": "field_input",
-            "name": "duration",
-            "check": "Number",
-            "text": "1", // 기본값
+        {
+          "type": "input_value",
+          "name": "y",
+          "check": "Number"
+        },
+        {
+          "type": "input_value",
+          "name": "duration",
+          "check": "Number"
         }
       ],
       "previousStatement": null,
       "nextStatement": null,
       "colour": "#FFCC66",
-      "tooltip": "시계방향으로 angle만큼 회전합니다.",
+      "tooltip": "x, y 위치로 지정된 시간 동안 이동합니다.",
       "helpUrl": ""
     },
 
@@ -549,6 +556,32 @@ const defineMyBlocks = ()=>{
       "helpUrl": ""
     },
 
+    {
+      "type": "change_cursor_image",
+      "message0": "마우스 커서를 %1로 바꾸기",
+      "args0": [
+        {
+          "type": "field_input",
+          "name": "cursor",
+        }
+      ],
+      "previousStatement": null,
+      "nextStatement": null,
+      "style": "looks_blocks",
+      "tooltip": "마우스 커서를 해당 이미지로 바꿉니다.",
+      "helpUrl": ""
+    },    
+
+    {
+      "type": "set_as_background",
+      "message0": "이 오브젝트를 배경으로 설정하기",
+      "previousStatement": null,
+      "nextStatement": null,
+      "style": "looks_blocks",
+      "tooltip": "해당 오브젝트를 캔버스 배경처럼 꽉 채웁니다.",
+      "helpUrl": ""
+    },
+    
     // 소리 관련 블록들
     // 소리 재생 블록
     {
@@ -732,6 +765,34 @@ const defineMyBlocks = ()=>{
       "tooltip": "현재 초시계 값을 반환합니다.",
       "helpUrl": ""
     },
+
+    {
+      "type": "print_score",
+      "message0": "점수 출력하기",
+      "previousStatement": null,
+      "nextStatement": null,
+      "style": "math_blocks",
+      "tooltip": "게임을 만들 시 점수를 출력합니다.",
+      "helpUrl": ""
+    },
+
+    {
+      "type": "control_score",
+      "message0": "점수 %1만큼 변경하기",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "score",
+          "check": "Number"
+        },
+      ],
+      "previousStatement": null,
+      "nextStatement": null,
+      "style": "math_blocks",
+      "tooltip": "게임을 만들 시 점수를 출력합니다.",
+      "helpUrl": ""
+    },
+
     // 블럭코딩 학습하기 - 화면 출력용 블럭
     {
       "type": "text_print_to_textarea",
@@ -744,10 +805,11 @@ const defineMyBlocks = ()=>{
       ],
       "previousStatement": null,
       "nextStatement": null,
-      "colour": 160,
+      "style": "text_blocks",
       "tooltip": "제공된 내용을 결과창에 출력합니다.",
       "helpUrl": ""
     },
+    
     {
     "type": "math_number_with_statements",
     "message0": "%1",
@@ -760,7 +822,7 @@ const defineMyBlocks = ()=>{
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": 230,
+    "style": "math_blocks",
     "tooltip": "",
     "helpUrl": ""
   },
@@ -792,7 +854,7 @@ const defineMyBlocks = ()=>{
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": 230,
+    "style": "math_blocks",
     "tooltip": "",
     "helpUrl": ""
   },
@@ -820,7 +882,7 @@ const defineMyBlocks = ()=>{
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": 230,
+    "style": "math_blocks",
     "tooltip": "",
     "helpUrl": ""
   }

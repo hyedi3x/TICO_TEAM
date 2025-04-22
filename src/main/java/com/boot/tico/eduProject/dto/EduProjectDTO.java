@@ -1,7 +1,11 @@
 package com.boot.tico.eduProject.dto;
 
+import java.sql.Timestamp;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -27,5 +31,13 @@ public class EduProjectDTO {
 	private String answer_xml;
 	private String quiz_img;
 	private String answer_img;
+	private String isdelete;
+	private String emp_id;
 	
+	@PrePersist // JPA에서 엔티티가 DB에 저장되기 전, INSERT 되기 직전에 실행되는 콜백 메서드
+    public void prePersist() {
+        if (this.isdelete == null) {
+            this.isdelete = "N";  // null이면 직접 채워줌
+        }
+    }
 }

@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 📅 일정 관련 API 컨트롤러
+ * 일정 관련 API 컨트롤러
  * - 등록, 조회, 수정, 삭제 기능 제공
  * - 예외 처리 포함하여 안정적인 API 제공
  */
@@ -19,7 +19,20 @@ public class ErpScheduleController {
     private final ErpScheduleService scheduleService;
 
     /**
-     * ✅ 일정 등록
+     * 사원 ID로 일정 전체 조회
+     * GET /api/schedule/employee/{empId}
+     */
+    @GetMapping("/employee/{empId}")
+    public ResponseEntity<?> getSchedulesByEmpId(@PathVariable String empId) {
+        try {
+            return ResponseEntity.ok(scheduleService.getSchedulesByEmpId(empId));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("일정 조회 실패: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * 일정 등록
      * POST /api/schedule
      */
     @PostMapping
@@ -32,20 +45,7 @@ public class ErpScheduleController {
     }
 
     /**
-     * ✅ 사원 ID로 일정 전체 조회
-     * GET /api/schedule/employee/{empId}
-     */
-    @GetMapping("/employee/{empId}")
-    public ResponseEntity<?> getSchedulesByEmpId(@PathVariable String empId) {
-        try {
-            return ResponseEntity.ok(scheduleService.getSchedulesByEmpId(empId));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("일정 조회 실패: " + e.getMessage());
-        }
-    }
-
-    /**
-     * ✅ 일정 제목으로 부분 검색
+     * 일정 제목으로 부분 검색
      * GET /api/schedule/title?title=키워드
      */
     @GetMapping("/title")
@@ -58,7 +58,7 @@ public class ErpScheduleController {
     }
 
     /**
-     * ✅ 일정 상세 조회 (ID 기준)
+     * 일정 상세 조회 (ID 기준)
      * GET /api/schedule/detail/{id}
      */
     @GetMapping("/detail/{id}")
@@ -71,7 +71,7 @@ public class ErpScheduleController {
     }
 
     /**
-     * ✅ 일정 수정
+     * 일정 수정
      * PUT /api/schedule/update/{id}
      */
     @PutMapping("/update/{id}")
@@ -84,7 +84,7 @@ public class ErpScheduleController {
     }
 
     /**
-     * ✅ 일정 삭제
+     * 일정 삭제
      * DELETE /api/schedule/delete/{id}
      */
     @DeleteMapping("/delete/{id}")

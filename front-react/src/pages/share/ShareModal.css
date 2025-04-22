@@ -1,0 +1,29 @@
+.project-card {
+    margin-bottom: 16px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+  }
+  
+  .project-card.selected {
+    border-color: #198754; /* Bootstrap success 색상 */
+  }
+  
+  .project-card .thumbnail {
+    height: 140px;
+    object-fit: contain;    /* ✅ 꽉 차게 말고 비율 유지 */
+    padding: 6px;           /* ✅ 여백 추가 */
+    border-radius: 6px;     /* ✅ 둥근 모서리로 부드럽게 */
+    background-color: #f8f9fa; /* ✅ 배경 흰톤 (투명한 이미지 대비) */
+  }
+  
+  
+  .project-card .title {
+    font-size: 15px;
+    margin-bottom: 4px;
+  }
+  
+  .private-badge {
+    font-size: 12px;
+    margin-top: 5px;
+  }

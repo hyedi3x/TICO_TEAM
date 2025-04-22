@@ -1,0 +1,293 @@
+/* 📦 전체 레이아웃 컨테이너 (왼쪽 사이드바 + 중앙 컨텐츠 + 오른쪽 선택 목록 포함) */
+.objectSelectPage-container {
+  display: flex;            /* 가로로 나란히 배치 */
+  height: 100vh;            /* 화면 전체 높이 */
+  gap: 1rem;                /* 사이 간격 */
+}
+
+/* 🧭 왼쪽 카테고리 사이드바 */
+.objectSelectPage-category-sidebar {
+  width: 150px;             /* 고정 너비 */
+  background-color: #f7f7f7; /* 밝은 회색 배경 */
+  border-radius: 15px;      /* 모서리 둥글게 */
+}
+
+/* 🔝 툴바 (상단 버튼 영역) */
+.objectSelectPage-toolbar {
+  padding: 16px;            /* 내부 여백 */
+  background-color: #fff;   /* 흰 배경 */
+  border-bottom: 1px solid #e5e5e5; /* 하단 경계선 */
+  white-space: nowrap;      /* 줄바꿈 방지 */
+  overflow-x: auto;         /* 넘칠 경우 가로 스크롤 */
+}
+
+/* 선택된 툴바 버튼 스타일 */
+.objectSelectPage-active-toolbar-btn {
+  background-color: #3388ff !important;  /* 파란 배경 */
+  color: white !important;               /* 흰 글씨 */
+}
+
+/* 📐 중앙 컨텐츠 영역 */
+.objectSelectPage-grid-container {
+  padding: 16px;
+  overflow-y: auto;         /* 세로 스크롤 */
+  flex-grow: 1;             /* 남는 공간 채움 */
+}
+
+/* 오브젝트 그리드 레이아웃 */
+.objectSelectPage-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 120px);  /* 자동 반복 */
+  gap: 1rem;                 /* 간격 */
+  justify-content: start;   /* 왼쪽 정렬 */
+}
+
+/* 오브젝트 상자 스타일 */
+.objectSelectPage-item {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  position: relative;
+  font-size: 22px;
+  text-align: center;
+  overflow: visible;         /* 툴팁 보이게 */
+}
+
+/* 이모지/이미지 영역 */
+.objectSelectPage-image-wrapper {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;           /* 이모지 크기 */
+}
+
+/* 이미지 스타일 */
+.objectSelectPage-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;       /* 비율 유지 */
+}
+
+/* 오브젝트 이름 */
+.objectSelectPage-name {
+  font-size: 14px;
+  text-align: center;
+  white-space: nowrap;       /* 줄바꿈 방지 */
+  overflow: hidden;          /* 넘치는 텍스트 숨김 */
+  text-overflow: ellipsis;   /* 말줄임표 */
+  max-width: 100%;
+  cursor: default;
+}
+
+/* 🔒 유료 오브젝트 락 아이콘 */
+.lock-overlay {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  font-size: 20px;
+  background-color: rgba(255, 255, 255, 0.85);
+  padding: 4px;
+  border-radius: 50%;
+  z-index: 2;
+}
+
+.objectSelectPage-item.locked {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: auto;
+  filter: grayscale(0.5);     /* 회색처리 */
+}
+
+/* 📥 업로드 모드 컨테이너 */
+.objectSelectPage-custom-upload-wrapper {
+  background-color: #eaf6ff;
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+}
+
+/* 업로드 버튼 */
+.objectSelectPage-custom-upload-button {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 140px;
+  height: 140px;
+  border-radius: 10px;
+  background-color: #d6e9f8;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.objectSelectPage-custom-upload-button:hover {
+  background-color: #b0d4f3;
+}
+
+.objectSelectPage-upload-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.objectSelectPage-upload-label {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.objectSelectPage-upload-info {
+  font-size: 14px;
+  color: #444;
+  margin-top: 10px;
+}
+
+/* 업로드 제한 안내 */
+.objectSelectPage-upload-warning {
+  margin-top: 1rem;
+  font-size: 13px;
+  color: #d04f4f;
+  background-color: #fff6f6;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.objectSelectPage-upload-warning ul {
+  margin: 0.5rem 0 0 1.2rem;
+}
+
+/* 업로드 미리보기 그리드 */
+.objectSelectPage-upload-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 100px);
+  gap: 1rem;
+  margin-top: 1rem;
+  justify-content: center;
+}
+
+.objectSelectPage-upload-preview-item {
+  position: relative;
+  text-align: center;
+}
+
+.objectSelectPage-upload-preview-img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+}
+
+/* 선택된 오브젝트 우측 영역 */
+.objectSelectPage-right-selected {
+  flex-shrink: 0;
+  width: 170px;
+  height: 600px;
+  margin: 50px 20px 0 0;
+  padding: 10px;
+  background-color: #c4dfef;
+  border-radius: 15px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ➕ 추가하기 버튼 */
+.objectSelectPage-add-button-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.objectSelectPage-select-title {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.objectSelectPage-empty-text {
+  font-size: 12px;
+  color: #777;
+}
+
+/* 선택된 오브젝트 목록 */
+.objectSelectPage-selected-object-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.objectSelectPage-selected-object-item {
+  text-align: center;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.objectSelectPage-selected-object-item:hover {
+  background-color: #fdd;
+}
+
+.objectSelectPage-selected-object-image {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.objectSelectPage-selected-object-name {
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* 관리자 전용 버튼 영역 */
+.objectSelectPage-admin-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* 이미지 업로드 미리보기 */
+.image-upload-preview {
+  width: 150px;
+  height: 150px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 5px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fafafa;
+  transition: border-color 0.2s;
+}
+
+.image-upload-preview:hover {
+  border-color: #007bff;
+}
+
+.image-preview-box {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-placeholder {
+  color: #aaa;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 0 10px;
+}

@@ -29,6 +29,6 @@ public class QuizDTO {
 	private String answer_xml;
 	private String quiz_img;
 	private String answer_img;
-	
-	
+	private String isdelete;             
+    private String created_at;  
 }
