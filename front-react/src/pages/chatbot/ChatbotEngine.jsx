@@ -108,8 +108,8 @@ function ChatbotEngine({ showChat }) {
 
         // setInterval을 이용한 무음 감지 루프
         const silenceCheckInterval = 300; // 300ms마다 체크
-        // 볼륨 임계값 (0~255), 무음으로 판단할 최대 볼륨 마이크가 잡음을 생각보다 많이 잡아서 80~100사이는 잡음이 잡힌다고 생각해야함
-        const silenceThreshold = 100;
+        // 볼륨 임계값 (0~255), 무음으로 판단할 최대 볼륨 마이크가 잡음을 생각보다 많이 잡아서 100~150사이는 잡음이 잡힌다고 생각해야함
+        const silenceThreshold = 120;
 
         // 무음 감지 루프 시작
         intervalId = setInterval(() => {
@@ -146,12 +146,12 @@ function ChatbotEngine({ showChat }) {
           // timeSinceLast : 마지막 음성 감지 시간부터 현재까지 흐른 시간
           const timeSinceLast = lastVoiceTime ? now - lastVoiceTime : null;
 
-          // 음성이 인식되었고, 녹음 시작 후 10초가 지났고, 음성 감지 시간이 존재하고, 감지 이후 1.5초가 지났다면
+          // 음성이 인식되었고, 녹음 시작 후 10초가 지났고, 음성 감지 시간이 존재하고, 감지 이후 1초가 지났다면
           if (
             hasSpoken &&
             elapsed > 10000 &&
             timeSinceLast !== null &&
-            timeSinceLast > 1500
+            timeSinceLast > 1000
           ) {
             // 10초 이후이고, 마지막 소리 이후 1.5초 경과 → 종료
             if (!silenceTimer) {
