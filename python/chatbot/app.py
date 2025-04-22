@@ -21,10 +21,11 @@ except Exception as e:
 app.register_blueprint(routes)  # 라우터 등록 (Blueprint)
 
 # 음성 파일 제공 
-@app.route("/audio/<filename>")
-def get_audio_file(filename):
+@app.route("/audio/<nickname>/<filename>")
+def get_audio_file(nickname, filename):
     try:
-        return send_from_directory(AUDIO_FILES_DIR, filename)
+        user_dir = os.path.join(AUDIO_FILES_DIR, nickname)  # static/audio_files/닉네임/
+        return send_from_directory(user_dir, filename)
     except Exception as e:
         return {"error": "파일을 찾을 수 없습니다."}, 404
 

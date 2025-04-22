@@ -19,7 +19,8 @@ function ChatbotEngine({ showChat }) {
   const canvasRef = useRef(null);
 
   const user_uuid = localStorage.getItem("user_uuid"); // 로그인된 사용자 ID
-
+  const nickname = localStorage.getItem("nickname");    // 닉네임 가져오기
+  
   // ---------------------[채팅 입력 핸들러]-------------------------
   const inputChange = (e) => {
     setChats(e.target.value); // 채팅 상태 업데이트
@@ -294,7 +295,8 @@ function ChatbotEngine({ showChat }) {
 
         // TTS 파일이 있으면 재생
         if (data.tts_filepath) {
-          const audio = new Audio(`http://localhost:5000${data.tts_filepath}`);
+          const filename = data.tts_filepath.split('/').pop();  // 파일명만 추출
+          const audio = new Audio(`http://localhost:5000/audio/${nickname}/${filename}`);
           audio.play().catch((error) => {
             console.error("TTS 음성 재생 오류:", error);
           });

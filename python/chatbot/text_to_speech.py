@@ -33,7 +33,11 @@ def text_to_speech(text, user_uuid):
     count = get_audio_count(user_uuid, 'bot')
     timestamp = datetime.now().strftime("%Y%m%d")
     tts_filename = f"{nickname}_bot_{timestamp}_{count}.mp3"
-    tts_filepath = os.path.join(AUDIO_FILES_DIR, tts_filename)
+
+    # 닉넴임 별로 음성 폴더 생성
+    user_dir = os.path.join(AUDIO_FILES_DIR, nickname)
+    os.makedirs(user_dir, exist_ok=True)
+    tts_filepath = os.path.join(user_dir, tts_filename)
 
     # MP3 음성 데이터를 파일로 저장
     with open(tts_filepath, "wb") as out:

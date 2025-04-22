@@ -28,7 +28,12 @@ def handle_speech_to_text():
         count = get_audio_count(user_uuid, 'user')  # 오디오 파일 수 
         timestamp = datetime.now().strftime("%Y%m%d")  # 현재 날짜 
         filename = f"{nickname}_user_{timestamp}_{count}.webm"
-        filepath = os.path.join(AUDIO_FILES_DIR, filename)
+        
+        # 닉넴임 별로 음성 폴더 생성
+        user_dir = os.path.join(AUDIO_FILES_DIR, nickname)
+        os.makedirs(user_dir, exist_ok=True)  # 폴더가 없으면 생성
+        filepath = os.path.join(user_dir, filename)
+        
         audio_file.save(filepath) # 파일을 해당 경로로 저장
 
         # Google Cloud Speech-to-Text API 호출
