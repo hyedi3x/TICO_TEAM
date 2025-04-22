@@ -126,8 +126,14 @@
     	  <artifactId>spring-boot-starter-websocket</artifactId>
   	  </dependency>
       
+      <!-- CoolSMS 사용위해 의존성 추가 -->
+      <dependency>
+	      <groupId>net.nurigo</groupId>
+	      <artifactId>sdk</artifactId>
+	      <version>4.3.0</version>
+	  </dependency>
+      
       <!-- done -->
-       
       <dependency>
          <groupId>org.springframework.boot</groupId>
          <artifactId>spring-boot-starter-test</artifactId>

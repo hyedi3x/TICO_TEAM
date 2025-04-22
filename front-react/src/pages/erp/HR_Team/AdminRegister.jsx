@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Panel, Grid, Row, Col, Input, DatePicker, SelectPicker, Button } from "rsuite";    // rsuite UI 라이브러리에서 제공하는 컴포넌트들
 import { useNavigate } from 'react-router-dom'; 
+
+import axiosInstance from "../../login/social/utils/axiosInstance";
 import "./adminRegister.css"; 
 import "./adminContainer.css";
 
 function AdminRegister() {
-  const navigate = useNavigate();// 페이지 이동을 위한 navigate 훅 사용
+  const navigate = useNavigate(); // 페이지 이동을 위한 navigate 훅 사용
 
   // 폼 변수 선언
   const [form, setForm] = useState({
@@ -30,15 +32,14 @@ function AdminRegister() {
   // 컴포넌트가 처음 렌더링될 때 부서 목록과 직무 목록을 스프링 부트에서 호출
   useEffect(() => {
     // 부서 정보를 스프링 부트 서버에서 호출
-    fetch("http://localhost:8081/api/departments")
-      .then((res) => res.json())
-      .then((data) => {
-        const departmentOptions = data.map((dep) => ({  // SelectPicker에서 쓸 수 있게 {label, value}  형태로 가공 
+    axiosInstance.get("/api/departments")
+      .then((res) => {
+        const departmentOptions = res.data.map((dep) => ({  // SelectPicker에서 쓸 수 있게 {label, value}  형태로 가공 
           label: dep.depName,
           value: dep.depId
         }));
         setDepartments(departmentOptions); // 부서 목록 설정
-  
+
         // 부서 목록 길이가 0 이상일 때 (부서 목록을 선택 및 입력했는지 여부)
         if (departmentOptions.length > 0) {
           setForm((prev) => ({
@@ -47,13 +48,11 @@ function AdminRegister() {
           }));
         }
       });
-  
+
     // 직무 목록을 가져오는 요청
-    fetch("http://localhost:8081/api/jobs")
-      .then((res) => res.json())
-      .then((data) => setAllJobs(data)); // 직무 천체 목록을 가져와 저장
+    axiosInstance.get("/api/jobs")
+      .then((res) => setAllJobs(res.data)); // 직무 전체 목록을 가져와 저장
   }, []);
-  
 
   // 부서 선택 시 해당 부서에 속한 직무 목록 필터링
   const handleDepChange = (depId) => {
@@ -68,7 +67,7 @@ function AdminRegister() {
     console.log("필터링된 직무:", jobsForDep);  // 직무 필터링된 결과 확인
     setFilteredJobs(jobsForDep);  // 필터링된 직무 목록 상태 업데이트
   };
-  
+
   // 입력 값 변화 시 폼 상태 업데이트
   const handleChange = (field, value) => {
     setForm((prev) => ({ ...prev, [field]: value })); // 필드별로 상태 값 업데이트
@@ -99,18 +98,13 @@ function AdminRegister() {
       console.log("전송될 payload:", payload); // 최종 제출될 데이터 로그로 확인(디버깅 용)
 
       // 스프링 부트 서버에 사원 데이터 전송
-      const res = await fetch("http://localhost:8081/api/employees", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),   // payload를 JSON 형태로 전송
-      });
+      const res = await axiosInstance.post("/api/employees", payload); // axiosInstance로 변경
 
-      if (res.ok) {
+      if (res.status === 200 || res.status === 201) {
         alert("사원 등록 성공!");
         navigate("/erpMain"); // 등록 성공 시 erpMain 페이지로 이동
       } else {
-        const errText = await res.text();
-        alert("등록 실패: " + res.status + "\n" + errText); // 실패 시 에러 메시지
+        alert("등록 실패: " + res.status + "\n" + res.statusText); // 실패 시 에러 메시지
       }
     } catch (err) {
       console.error("등록 에러:", err);

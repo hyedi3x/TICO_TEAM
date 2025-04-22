@@ -316,6 +316,7 @@ public class AuthController {
         response.setEmail(user.getEmail());
         response.setName(user.getName());
         response.setNickname(user.getNickname());
+        response.setBirthDate(user.getBirthDate());
         response.setPhone(user.getPhone());
         response.setProvider(user.getProvider());
         response.setAccessToken(accessToken);
