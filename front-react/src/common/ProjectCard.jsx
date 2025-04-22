@@ -12,6 +12,7 @@ const resolveThumbnailUrl = (url) => {
 
 // ⭐ ProjectCard 컴포넌트 (재사용 가능)
 const ProjectCard = ({ project, editable = false, onSelect, onDelete, onClick, showStats = true, extraButtons = false}) => {
+  if(!project) return;
   return (
     <Card
       className="staff-card shadow-sm rounded-4 p-2 text-center"

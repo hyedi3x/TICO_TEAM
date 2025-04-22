@@ -166,12 +166,11 @@ function MainModify() {
             className="staffSwiper mt-3"
           >
             {staffPickProjects.length === 0 ? (
-              // 높이는 선정작품 추가 했을때와 동일하게
-              <div className="d-flex align-items-center justify-content-center w-100" style={{height:"430px"}}> 
+              <div className="d-flex align-items-center justify-content-center w-100" style={{ height: "430px" }}>
                 <h5>스태프 선정 작품을 등록해주세요</h5>
               </div>
             ) : (
-              staffPickProjects.map((project, index) => (
+              staffPickProjects.filter(project => project.projectId).map((project, index) => (
                 <SwiperSlide key={index} style={{ display: 'flex', justifyContent: 'center' }}>
                   <ProjectCard
                     project={project}
