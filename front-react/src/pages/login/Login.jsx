@@ -21,6 +21,7 @@ function Login() {
       axiosInstance.get("/auth/user")
         .then((response) => {
           setUserInfo(response.data);
+          localStorage.setItem("nickname", response.data.nickname);
         })
         .catch((error) => {
           console.error("사용자 정보 조회 실패:", error);
@@ -49,12 +50,13 @@ function Login() {
       }
 
       const response = await axiosInstance.post(endpoint, payload);
-      const { accessToken, refreshToken, user_uuid, dep_id } = response.data;
+      const { accessToken, refreshToken, user_uuid, dep_id , nickname} = response.data;
 
       console.log("로그인 성공, 토큰 저장:", accessToken);
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
       localStorage.setItem("autoLogin", "true");
+      localStorage.setItem("nickname", nickname);
       localStorage.setItem("user_uuid", user_uuid); 
       localStorage.setItem("dep_id", dep_id);
 
@@ -96,6 +98,7 @@ function Login() {
 
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
+        localStorage.removeItem("nickname");
         localStorage.removeItem("autoLogin");
 
         // 로그아웃 처리 상태 저장 (리렌더링을 막기 위한 상태)

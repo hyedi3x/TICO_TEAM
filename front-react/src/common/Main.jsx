@@ -1,3 +1,53 @@
+// src/components/Main.jsx
+import React, { useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
+
+// 스타일
+import "./Main.css";
+import "../pages/wep_chat/wepChat.css";
+
+// Swiper
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
+
+// Bootstrap
+import { Card, Col, Row } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+
+// 이미지
+import img1 from "../imgs/짱구1.jpg";
+
+// 챗 컴포넌트
+import WepChat from "../pages/wep_chat/WepChat";
+import ChatbotWindow from "../pages/chatbot/ChatbotWindow";
+import ErpLogo from "../pages/erp/ErpLogo";
+
+export default function Main() {
+  const [userRole, setUserRole] = useState(null);
+  const [showChat, setShowChat] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      try {
+        const { userType } = jwtDecode(token);
+        setUserRole(userType);
+      } catch {}
+    }
+  }, []);
+
+  const toggleChat = () => setShowChat((v) => !v);
+
+  return (
+    <div className="main-wrapper">
+      {/* ── 유저간 채팅 ── */}
+      {userRole !== "EMPLOYEE" && (
+        <div className="chat-side-panel">
+          <WepChat />
+
 import { useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
@@ -190,7 +240,7 @@ function Main() {
             )}
           </Swiper>
         </div>
-
+      )}
         <div className="bt1">
           <h1>인기 작품</h1>
           <p>티코미들에게 이 작품들이 최근 주목 받고 있어요!</p>
@@ -223,17 +273,14 @@ function Main() {
             )}
           </Swiper>
         </div>
-      </div>
-
       <div>
         {userRole === 'EMPLOYEE' ? (
           <ErpLogo visible={true} />
         ) : (
           <ChatbotWindow />
         )}
-      </div>
+        </div>
     </div>
   );
 }
-
 export default Main;
