@@ -12,14 +12,21 @@ function SocialSignup() {
   const providerId = queryParams.get('providerId') || '';
   const name = queryParams.get('name') || '';
   
-  // 추가 입력받을 항목: 닉네임과 전화번호
+  // 추가 입력받을 항목: 닉네임, 전화번호 , 생년월일
   const [nickname, setNickname] = useState('');
   const [phone, setPhone] = useState('');
+  const [brithDate, setBirthDate] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   // 폼 제출 시 소셜 회원가입 API 호출
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if(!brithDate) {
+      setErrorMessage('생년월일을 선택해주세요');
+      return;
+    }
+    
     const payload = {
       email,
       name,
@@ -51,6 +58,15 @@ function SocialSignup() {
         <div>
           <label>이름:</label>
           <input type="text" value={name} readOnly />
+        </div>
+        <div className="form-group">
+          <label>생년월일:</label>
+          <input
+            type="date"
+            value={brithDate}
+            onChange={(e) => setBirthDate(e.target.value)}
+            required
+          />
         </div>
         <div>
           <label>닉네임:</label>

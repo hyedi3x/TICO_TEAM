@@ -20,6 +20,7 @@ import FAQPut from './pages/faq/FAQPut';
 import FAQPost from './pages/faq/FAQPost';
 import EduList from './pages/blockedu/EduList';
 import BlockEduComponent from './pages/blockedu/BlockEduComponent';
+import Cert from './pages/login/sms/Cert';
 import EMPEduList from './pages/blockedu/EMPEduList';
 import BlockEduComponentPut from './pages/blockedu/BlockEduComponentPut';
 import ShareGallery from './pages/share/ShareGallery';
@@ -28,6 +29,7 @@ import ShareCanvas from './blockly/components/BlocklyComponentRun';
 import Tutorial from './blockly/components/Tutorial';
 import MainModify from './common/MainModify';
 import MainBannerManage from './common/MainBannerManage';
+
 
 function App() {
   return (
@@ -52,6 +54,7 @@ function App() {
           <Route path="/faqpost" element={<FAQPost/>} />
           <Route path="/eduList" element={<EduList/>} />
           <Route path="/quiz/:quizId" element={<BlockEduComponent/>} />
+          <Route path="/cert" element={<Cert />} />
           <Route path="/EMPEduList" element={<EMPEduList/>} />
           <Route path="/quizput/:quiz_id" element={<BlockEduComponentPut/>} />
           <Route path="/share" element={<ShareGallery/>}/>

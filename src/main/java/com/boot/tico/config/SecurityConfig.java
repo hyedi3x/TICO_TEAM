@@ -53,7 +53,26 @@ public class SecurityConfig {
                 // 요청 권한 설정
                 .authorizeRequests(requests -> requests
                 		// 인증 없이 접근 허용할 경로들 (이외의 요청은 인증 필요)
-                        .antMatchers("/auth/test", "/auth/**", "/auth/login/employee**", "/auth/login/customer**", "/oauth2/**", "/error", "/project/**", "/projectComments/**", "/favor/**", "/api/**", "/quiz/**","/eduBlock/**", "/uploads/**", "/ws-chat/**","/ws-chat", "/banner/**", "/").permitAll()
+
+                        .antMatchers(
+                            "/auth/test",
+                            "/auth/**", 
+                        		"/auth/login/employee**", 
+                        		"/auth/login/customer**", 
+                        		"/oauth2/**", 
+                        		"/error", 
+                        		"/project/**", 
+                            "/projectComments/**",
+                            "/favor/**", 
+                        		"/api/**", 
+                        		"/quiz/**",
+                        		"/eduBlock/**", 
+                        		"/uploads/**", 
+                            "/ws-chat/**",
+                            "/ws-chat",
+                            "/banner/**",
+                        		"/"
+                        		).permitAll()
                         .anyRequest().authenticated())
                 // 소셜 로그인 설정
                 .oauth2Login(login -> login

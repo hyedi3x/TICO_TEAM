@@ -1,5 +1,7 @@
 package com.boot.tico.login.dto;
 
+import java.time.LocalDate;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +15,7 @@ public class UserDto {
         private String password;    // 사용자 비밀번호
         private String name;        // 이름
         private String nickname;    // 닉네임
+        private LocalDate birthDate;// 생년월일
         private String phone;       // 연락처
         private String provider;    // 소셜 로그인 공급자 (google, kakao 등)
         private String providerId;  // 소셜 로그인 고유 ID
@@ -34,6 +37,7 @@ public class UserDto {
         private String email;          // 이메일
         private String name;           // 이름
         private String nickname;       // 닉네임
+        private LocalDate birthDate;   // 생년월일
         private String phone;          // 전화번호
         private String provider;       // 로그인 방식 구분자 (local, naver, kakao 등)
         private String accessToken;    // JWT Access Token
