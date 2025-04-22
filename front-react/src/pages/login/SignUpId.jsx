@@ -296,4 +296,4 @@ export default function SignUpId() {
     </div>
   );
 }
-export default SignUpId;
+
