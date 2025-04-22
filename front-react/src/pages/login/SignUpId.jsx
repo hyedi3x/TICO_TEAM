@@ -30,9 +30,10 @@ export default function SignUpId() {
   const [userName, setUserName]     = useState(certName      || '');
   const [birthDate, setBirthDate]   = useState(certBirth     || '');
   const [phone, setPhone]           = useState(
+    // 14세 미만일 경우에는 회원가입 시 전화번호 직접입력
     ageGroup === 'under14'
-      ? (certParentPhone || '')
-      : (certPhone       || '')
+      ? (certPhone       || '')
+      : ' '
   );
 
   const [nickname, setNickname]     = useState('');
@@ -117,7 +118,7 @@ export default function SignUpId() {
         email: fullEmail,
         password: userPwd,
         name: userName,
-        birth: birthDate,
+        birthDate: birthDate,
         phone: phone,
         nickname: nickname
       });
@@ -257,6 +258,7 @@ export default function SignUpId() {
             />
             {phoneError && <p className="error-message">{phoneError}</p>}
           </div>
+
 
           {/* 닉네임 */}
           <div className="input-group">
