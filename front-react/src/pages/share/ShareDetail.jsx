@@ -20,40 +20,41 @@ function ShareDetail() {
 
   useEffect(() => {
     if (!projectId) return;
-
-    // [1] 조회수 증가
-    axios.post(`http://localhost:8081/project/view/${projectId}`, null, {
-      params: { userUuid }
-    })
-    .catch(err => console.error('조회수 업데이트 실패:', err));
-    
+  
+    // 작품 정보 조회 후 조회수 증가
+    axios.get(`http://localhost:8081/project/${projectId}`)
+      .then(res => {
+        const data = res.data.project || res.data;
+        setProject(data);  // 프로젝트 데이터 상태 업데이트
+        setLikeCount(data.likeCount || 0);
+        setBookmarkCount(data.bookmarkCount || 0);
+        
+        // 조회수 증가 (setProject 이후)
+        if (data.isPrivate !== 'Y') {
+          axios.post(`http://localhost:8081/project/view/${projectId}`, null, {
+            params: { userUuid }
+          })
+          .catch(err => console.error('조회수 업데이트 실패:', err));
+        }
+  
+        // 제작자 정보 설정
+        const projectCreatorUuid = data.userUuid;  // project.userUuid를 사용
+        setCreater(projectCreatorUuid);  // 제작자 userUuid를 상태에 설정
+      })
+      .catch(err => console.error(err));
+  
     if (userUuid) {
       // 좋아요 여부 확인
       axios.get(`http://localhost:8081/favor/status`, {
         params: { projectId, userUuid, type: 'like' }
       }).then(res => setLiked(res.data)).catch(() => {});
-
+  
       // 북마크 여부 확인
       axios.get(`http://localhost:8081/favor/status`, {
         params: { projectId, userUuid, type: 'bookmark' }
       }).then(res => setBookmarked(res.data)).catch(() => {});
     }
-
-    // 작품 정보
-    axios.get(`http://localhost:8081/project/${projectId}`)
-    .then(res => {
-      const data = res.data.project || res.data;
-      setProject(data);
-      setLikeCount(data.likeCount || 0);
-      setBookmarkCount(data.bookmarkCount || 0);
-      
-      // 작품 정보에서 제작자 userUuid 추출
-      const projectCreatorUuid = data.userUuid;  // project.userUuid를 사용
-      setCreater(projectCreatorUuid);  // 제작자 userUuid를 상태에 설정
-    })
-    .catch(err => console.error(err));
-
-  }, [projectId, userUuid]);
+  }, [projectId, userUuid]);  // 의존성 배열 추가
 
   const handleToggleFavor = (type) => {
     if (!userUuid) {
@@ -132,7 +133,7 @@ function ShareDetail() {
             projectId={project.projectId}
             userUuid={localStorage.getItem('user_uuid')}
             projectCreatorUuid={creater}
-            />
+          />
         </Col>
       </Row>
     </Container>
