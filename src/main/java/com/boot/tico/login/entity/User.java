@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -35,6 +37,9 @@ public class User {
 
     @Column(length = 100)
     private String nickname;
+    
+    @Column(name = "birth_date", nullable = false)
+    private LocalDate birthDate;   
 
     @Column(length = 50)
     private String provider;

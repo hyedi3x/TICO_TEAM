@@ -43,6 +43,8 @@ public class UserService {
             user.setName(request.getName());
             user.setNickname(request.getNickname());
             user.setProvider("local");
+            user.setBirthDate(request.getBirthDate());
+            
             return userRepository.save(user);
         } else {
             // 소셜 회원가입은 별도 API에서 처리
