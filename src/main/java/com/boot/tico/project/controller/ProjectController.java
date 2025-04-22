@@ -196,9 +196,21 @@ public class ProjectController {
 	 * [10] 조회수 증가
 	 */
 	@PostMapping("/view/{projectId}")
-	public ResponseEntity<Void> addView(@PathVariable int projectId) {
-	    service.increaseViewCount(projectId);
-	    return ResponseEntity.ok().build();
+	public ResponseEntity<?> addView(@PathVariable int projectId, @RequestParam(required = false) String userUuid) {
+		if (userUuid != null && !userUuid.isEmpty()) {
+	        service.recordUserView(projectId, userUuid); // 로그인된 경우 uuid까지 같이 기록
+	    } else {
+	        service.recordUserView(projectId, null); // 로그인 안 한 경우 null로 기록
+	    }
+	    service.incrementViewCount(projectId); // 로그인 여부와 관계없이 조회수 증가
+	    return ResponseEntity.ok("조회 기록 저장 완료");
 	}
-
+	
+	// 메인화면 인기 작품 조회
+	// ProjectController.java
+	@GetMapping("/popularProjects")
+	public ResponseEntity<List<ProjectDTO>> getPopularProjects() {
+	    List<ProjectDTO> projects = service.getPopularProjects();
+	    return ResponseEntity.ok(projects);
+	}
 }

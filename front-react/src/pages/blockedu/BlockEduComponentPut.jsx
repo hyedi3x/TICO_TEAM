@@ -9,6 +9,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import './Modal.css';
 import html2canvas from 'html2canvas';
 import ticoTheme from '../../blockly/blocks/ticoTheme';
+import axios from 'axios';
 
 Blockly.setLocale(ko);
 
@@ -32,7 +33,7 @@ function BlockEduComponentPut() {
   // 문제 불러오기 - 기존 데이터 가져오기
   useEffect(() => {
     if (quiz_id) {
-      fetch(`http://localhost:8081/quiz/answer?quizId=${quiz_id}`)
+      axios.get(`http://localhost:8081/quiz/answer?quizId=${quiz_id}`)
         .then(res => res.json())
         .then(data => {
           console.log('문제 데이터:', data);
@@ -160,21 +161,26 @@ function BlockEduComponentPut() {
   };
 
   // 문제 저장하기 - id가 존재해서 수정요청으로 사용됨
-  const saveQuiz = () => {
-    fetch('http://localhost:8081/eduBlock/PostQuiz', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ quiz_id, quiz_title, quiz_description, quiz_level, quiz_img, answer_img, answer_xml}),
-    })
-    .then(res => res.json())
-    .then(data => {
+  const saveQuiz = async () => {
+    try {
+      const response = await axios.post('http://localhost:8081/eduBlock/PostQuiz', {
+        quiz_id,
+        quiz_title,
+        quiz_description,
+        quiz_level,
+        quiz_img,
+        answer_img,
+        answer_xml
+      }, {
+        headers: { 'Content-Type': 'application/json' }
+      });
+  
       alert('수정 성공');
       navigate('/EMPEduList');
-    })
-    .catch(err => {
+    } catch (err) {
       console.error('수정 오류:', err);
       alert('문제 저장에 실패했습니다.');
-    });
+    }
   };
 
   // 파일 업로드 핸들러

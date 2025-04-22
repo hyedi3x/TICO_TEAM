@@ -5,7 +5,7 @@
   text-align: center;
   font-size: 18px;
   background: #fff;
-  height: 450px !important;
+  height: 430px !important;
 
   display: flex !important;
   justify-content: center; /* 가로 방향 가운데 정렬 */
@@ -117,5 +117,42 @@
 .main-container {
   flex: 1;
   padding: 0 20px;
+
+.staff-card {
+  transition: all 0.3s ease;
+  border: 1px solid #e0e0e0;
+}
+
+.staff-card:hover {
+  transform: translateY(-20px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.staff-card .btn {
+  font-size: 0.85rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+}
+
+/* 스태프 선정작 스와이퍼 */
+.staffSwiper {
+  padding: 0 1rem;
+}
+
+.staffSwiper {
+  padding: 0 1rem;
+  position: relative; /* ✅ navigation 위치 기준 */
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #333 !important;
+  z-index: 10;
+}
+
+.staff-card {
+  width: 100%;
+  max-width: 280px;
+  flex-shrink: 0;
 }
 

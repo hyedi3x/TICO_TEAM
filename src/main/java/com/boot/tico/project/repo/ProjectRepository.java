@@ -110,7 +110,12 @@ public interface ProjectRepository extends JpaRepository<ProjectDTO, Integer>{
 	    WHERE project_id = :projectId
 	""", nativeQuery = true)
 	void updateBookmarkCount(@Param("projectId") int projectId);
-
-
-
+	
+	// 메인화면 인기 작품 조회, 좋아요, 북마크, 조회수 많은 순서로 정렬
+	@Query(value = "SELECT * FROM project_tb " +
+            "WHERE isprivate = 'N' AND isdelete = 'N' " +
+            "ORDER BY like_count DESC, bookmark_count DESC, view_count DESC",
+    nativeQuery = true)
+	List<ProjectDTO> findPopularProjects();
+	
 }
