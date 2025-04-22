@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import styles from './FAQPost.module.css'; // 외부 CSS 모듈 추가
+import axios from 'axios';
 
 function FAQPost() {
   const [question, setQuestion] = useState('');
@@ -12,17 +13,17 @@ function FAQPost() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch('http://localhost:8081/api/faqPost', {
-      method: 'POST',
+    axios.post('http://localhost:8081/api/faqPost', {
+      question,
+      answer
+    }, {
       headers: {
         'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ question, answer }),
+      }
     })
       .then((response) => {
-        if (response.ok) {
+        if (response.status === 200) {
           alert('FAQ가 성공적으로 등록되었습니다.');
-          setQuestion(''); // 등록 후 입력필드 초기화
           setAnswer('');
           navigate('/FAQList');
         } else {

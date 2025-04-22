@@ -1,20 +1,17 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import {
-  List, Grid, Row, Col, Tabs, Modal, Button, Form,
-  Schema, DatePicker, toaster, Message
-} from 'rsuite';
-import axios from 'axios';
+import { List, Grid, Row, Col, Tabs, Modal, Button, Form, Schema, DatePicker, toaster, Message } from 'rsuite';
 import dayjs from 'dayjs';
 import MyCalendar from './MyCalendar';
 import RecentNotices from './RecentNotices';
 import ErpDTO from '../ErpDTO';
 import ColorPalette from './ColorPalette';
 import './home.css';
+import axiosInstance from '../../login/social/utils/axiosInstance';
 
-// 📌 Form 유효성 체크를 위한 스키마
+// Form 유효성 체크를 위한 스키마
 const { StringType, DateType } = Schema.Types;
 
-// 📌 메인 컴포넌트
+// 메인 컴포넌트
 const Home = ({ onNoticeClick }) => {
   // 상태 정의
   const [selectedDate, setSelectedDate] = useState(null); // 캘린더에서 선택된 날짜
@@ -26,14 +23,14 @@ const Home = ({ onNoticeClick }) => {
   const [formValue, setFormValue] = useState(defaultForm()); // 폼 데이터 상태
   const formRef = useRef(); // 폼 레퍼런스
 
-  // ✅ Form 유효성 스키마
-  const model = Schema.Model({
+  // Form 유효성 스키마
+  const model = Schema.Model({ // 폼 입력값이 문자열인지? 날짜인지? 숫자인지?
     title: StringType().isRequired('제목은 필수입니다'),
     start: DateType().isRequired('시작일 선택'),
     end: DateType().isRequired('종료일 선택'),
   });
 
-  // ✅ 기본 form 객체
+  // 기본 form 객체
   function defaultForm(date = new Date()) {
     return {
       title: '',
@@ -46,29 +43,29 @@ const Home = ({ onNoticeClick }) => {
 
   const empId = localStorage.getItem('user_uuid');
 
-  // ✅ 일정 목록 불러오기
-  const fetchSchedules = useCallback(async () => {
+  // (1-2) 일정 목록 불러오기
+  const fetchSchedules = useCallback(async () => {  // 불필요한 렌더링 방지, Promise(비동기 요청)객체로 반환됨.
     if (!empId) return;
   
     try {
-      const res = await axios.get(`http://localhost:8081/api/schedule/employee/${empId}`);
+      const res = await axiosInstance.get(`/api/schedule/employee/${empId}`);
       setCalendarSchedules(res.data);
     } catch (err) {
       console.error('일정 가져오기 실패', err);
       toaster.push(<Message type="error">일정 조회 실패</Message>, { placement: 'topEnd' });
     }
-  }, [empId]); // ✅ empId를 명시
+  }, [empId]); // empId를 명시
   
 
-  // 📌 컴포넌트 마운트 시 일정 불러오기
-  useEffect(() => {
+  // (1-1) 컴포넌트 마운트 시 일정 불러오기(fetchSchedules() 함수를 자동으로 실행)
+  useEffect(() => {  
     fetchSchedules();
-  }, [fetchSchedules]);
+  }, [fetchSchedules]); // 의존성 배열. 해당 함수가 변경되지 않는 이상 딱 한 번만 실행
 
-  // ✅ 날짜 클릭 시 호출되는 함수
+  // (1-4) 날짜 클릭 시 호출되는 함수
   const handleDateSelect = (date, todos) => {
     setSelectedDate(date);
-    setTodoList(todos);
+    setTodoList(todos); // 아래 일정 목록에 표시됨.
   };
 
   // 내용 등록
@@ -79,10 +76,10 @@ const Home = ({ onNoticeClick }) => {
     })
   }
 
-  // ✅ 모달 열기 (등록 or 수정용)
+  // 모달 열기 (등록 or 수정용)
   const openModal = (schedule = null) => {
     if (schedule) {
-      // 수정 모드
+      // 수정
       setSelectedSchedule(schedule);
       setFormValue({
         title: schedule.erpScheduleTitle,
@@ -94,21 +91,21 @@ const Home = ({ onNoticeClick }) => {
     } else {
       // 새 일정 등록
       setSelectedSchedule(null);
-      setFormValue(defaultForm(selectedDate));
+      setFormValue(defaultForm(selectedDate));  // 빈 폼 값 설정
     }
     setShowModal(true);
   };
 
-  // ✅ 모달 닫기
+  // 모달 닫기
   const closeModal = () => {
     setShowModal(false);
     setSelectedSchedule(null);
     setFormValue(defaultForm());
   };
 
-  // ✅ 일정 등록 또는 수정
+  // 일정 등록 또는 수정
   const submitSchedule = async () => {
-    if (!empId || isSubmitting) return;
+    if (!empId || isSubmitting) return;   // 사전 조건 체크 (empId가 없거나 이미 저장중이면 중복저장 방지)
 
     // 폼 유효성 체크
     if (!formRef.current.check()) {
@@ -131,12 +128,12 @@ const Home = ({ onNoticeClick }) => {
           ...selectedSchedule,
           erpScheduleTitle: formValue.title,
           erpScheduleContent: formValue.content,
-          erpScheduleStart: formValue.start,
-          erpScheduleEnd: formValue.end,
+          erpScheduleStart: dayjs(formValue.start).format('YYYY-MM-DDTHH:mm:ss'), // 백엔드와 JSON날짜 포맷 통일
+          erpScheduleEnd: dayjs(formValue.end).format('YYYY-MM-DDTHH:mm:ss'),
           erpScheduleColor: formValue.color,
         };
 
-        await axios.put(`http://localhost:8081/api/schedule/update/${selectedSchedule.erpScheduleId}`, updated);
+        await axiosInstance.put(`/api/schedule/update/${selectedSchedule.erpScheduleId}`, updated);
         updateScheduleList(updated);
         toaster.push(<Message type="success">수정 완료</Message>, { placement: 'topEnd' });
 
@@ -145,13 +142,13 @@ const Home = ({ onNoticeClick }) => {
         const newSchedule = {
           erpScheduleTitle: formValue.title,
           erpScheduleContent: formValue.content,
-          erpScheduleStart: dayjs(formValue.start).format('YYYY-MM-DDTHH:mm:ss'), // ✅ 정확한 포맷
+          erpScheduleStart: dayjs(formValue.start).format('YYYY-MM-DDTHH:mm:ss'), // 정확한 포맷
           erpScheduleEnd: dayjs(formValue.end).format('YYYY-MM-DDTHH:mm:ss'),
           empId,
           erpScheduleColor: formValue.color,
         };
         console.log('보내는값',newSchedule)
-        const res = await axios.post('http://localhost:8081/api/schedule', newSchedule);
+        const res = await axiosInstance.post('/api/schedule', newSchedule);
         setCalendarSchedules(prev => [...prev, res.data]);
 
         // 선택된 날짜의 일정인 경우만 todoList 업데이트
@@ -167,22 +164,23 @@ const Home = ({ onNoticeClick }) => {
       console.error("저장 실패", err);
       toaster.push(<Message type="error">저장 실패</Message>, { placement: 'topEnd' });
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false);   // 완료 후 초기화
     }
   };
 
-  // ✅ 일정 수정 시 리스트 갱신
-  const updateScheduleList = (updated) => {
+  // 일정 수정 시 리스트 갱신
+  const updateScheduleList = (updated) => { 
     setCalendarSchedules(prev => prev.map(s => s.erpScheduleId === updated.erpScheduleId ? updated : s));
     setTodoList(prev => prev.map(s => s.erpScheduleId === updated.erpScheduleId ? updated : s));
   };
 
-  // ✅ 일정 삭제
+  //-------------------------------------------[ 일정 삭제 ] -------------------------------------------
+  // 일정 삭제
   const deleteSchedule = async () => {
     if (!selectedSchedule) return;
 
     try {
-      await axios.delete(`http://localhost:8081/api/schedule/delete/${selectedSchedule.erpScheduleId}`);
+      await axiosInstance.delete(`/api/schedule/delete/${selectedSchedule.erpScheduleId}`);
       setCalendarSchedules(prev => prev.filter(s => s.erpScheduleId !== selectedSchedule.erpScheduleId));
       setTodoList(prev => prev.filter(s => s.erpScheduleId !== selectedSchedule.erpScheduleId));
       toaster.push(<Message type="success">삭제 완료</Message>, { placement: 'topEnd' });
@@ -192,20 +190,22 @@ const Home = ({ onNoticeClick }) => {
     }
   };
 
-  // ✅ 컴포넌트 JSX
+  //-------------------------------------------[ 랜더링 ] -------------------------------------------
+  // 컴포넌트 JSX
   return (
     <Grid fluid>
       <Row>
         {/* 좌측: 캘린더와 일정 목록 */}
         <Col xs={24} md={12}>
           <div className="calendar-todo">
+            {/* (1-3) 자식 컴포넌트인 Mycalendar에 props 전달 */}
             <MyCalendar onDateSelect={handleDateSelect} schedules={calendarSchedules} />
             {selectedDate && (
               <>
                 <p style={{ marginTop: '10px', fontWeight: 'bold' }}>
                   📅 {selectedDate.toLocaleDateString('ko-KR')}의 일정입니다.
                 </p>
-                <TodoList list={todoList} onItemClick={openModal} />
+                <TodoList list={todoList} onItemClick={openModal} />  {/* 클릭하면 상세보기 및 수정 모달 */}
                 <Button appearance="primary" onClick={() => openModal()} style={{ marginTop: '15px' }}>
                   일정 등록하기
                 </Button>
@@ -253,8 +253,8 @@ const Home = ({ onNoticeClick }) => {
             </Form.Group>
             <Form.Group controlId="color">
               <ColorPalette
-                selectedColor={formValue.color}
-                onChange={(color) => setFormValue(prev => ({ ...prev, color }))}
+                selectedColor={formValue.color} // 선택된 색상
+                onChange={(color) => setFormValue(prev => ({ ...prev, color }))}  // 등록, 수정 폼 갱신
               />
             </Form.Group>
           </Form>
@@ -277,8 +277,8 @@ const Home = ({ onNoticeClick }) => {
 
 export default Home;
 
-// ✅ 일정 목록 컴포넌트
-const TodoList = ({ list, onItemClick }) => {
+// 일정 목록 컴포넌트
+const TodoList = ({ list, onItemClick }) => { // onItemClick 수정
   if (!list.length) return <p>해당 날짜의 일정이 없습니다.</p>;
 
   return (
@@ -295,7 +295,7 @@ const TodoList = ({ list, onItemClick }) => {
   );
 };
 
-// ✅ 알림 탭 컴포넌트
+// 알림 탭 컴포넌트
 const Notifications = () => {
   const notifications = [
     { id: 1, message: '새로운 메시지가 도착했습니다.', time: '10:00' },

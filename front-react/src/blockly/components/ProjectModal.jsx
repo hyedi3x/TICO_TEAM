@@ -3,6 +3,13 @@ import React from 'react';
 import { Modal, Button, Card, Row, Col } from 'react-bootstrap';
 
 function ProjectModal({ show, onClose, projectList, onSelect }) {
+
+  const resolveThumbnailUrl = (url) => {
+    if (url.startsWith('http')) return url; // 이미 전체 URL이면 그대로
+    console.log(url);
+    return `http://localhost:8081${url}`;    // 상대경로면 도메인 붙여줌
+  };
+
   return (
     <Modal show={show} onHide={onClose} size="lg">
       <Modal.Header>
@@ -26,15 +33,15 @@ function ProjectModal({ show, onClose, projectList, onSelect }) {
               <Card style={{ height: '100%', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
               <Card.Img
                   variant="top"
-                  src={project.thumbnailUrl}
+                  src={resolveThumbnailUrl(project.thumbnailUrl)}
                   style={{objectFit: 'cover' }}
                 />
                 <Card.Footer className="d-flex justify-content-between text-muted" style={{ fontSize: '0.8rem' }}>
-                  <div>👁 {project.views || 0}</div>
-                  <div>❤️ {project.likes || 0}</div>
-                  <div>💬 {project.comments || 0}</div>
+                  <div>👁 {project.viewCount || 0}</div>
+                  <div>❤️ {project.likeCount || 0}</div>
+                  <div>💬 {project.commentCount || 0}</div>
                 </Card.Footer>
-                <Card.Title className="text-truncate" style={{"textAlign": "center"}}>{project.title}{project.projectId}</Card.Title>
+                <Card.Title className="text-truncate" style={{"textAlign": "center"}}>{project.title}</Card.Title>
               </Card>
             </Col>
           ))}

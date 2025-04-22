@@ -1,7 +1,20 @@
 import React, { useState, useEffect } from "react";
-import {Table, Button, Input, Panel, Grid, Row, Col, Modal, DatePicker, SelectPicker,} from "rsuite";
+import {
+  Table,
+  Button,
+  Input,
+  Panel,
+  Grid,
+  Row,
+  Col,
+  Modal,
+  DatePicker,
+  SelectPicker,
+} from "rsuite";
 import "./adminInfo.css";
 import "./adminContainer.css";
+
+import axiosInstance from "../../login/social/utils/axiosInstance";
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -18,17 +31,10 @@ function AdminInfo() {
   // 서버로 GET 요청을 보내 사원 정보를 검색 (조회 버튼 클릭 시)
   const handleSearch = async () => {
     try {
-      // 사원 아이디 및 사원 이름으로 조회
-      const response = await fetch(`http://localhost:8081/api/employees/search?empId=${empId}&empName=${empName}`);
-
-      // 상태 코드가 200~299 사이면 true
-      if (!response.ok) {throw new Error("조회 실패: " + response.status);}
-
-      // 서버에서 반환한 응답을 JSON 형태로 파싱(자바스크립트 객체로 변환)
-      const data = await response.json();
-
-      if (Array.isArray(data)) {  // 응답이 배열 형태인지 확인
-        setSearchResult(data);    // 검색 결과를 화면에 보여주기 위해 setSearchResult(data)로 상태를 갱신
+      const response = await axiosInstance.get(`/api/employees/search?empId=${empId}&empName=${empName}`);
+      const data = response.data;
+      if (Array.isArray(data)) {
+        setSearchResult(data);
       } else {
         console.error("응답 데이터 형식 오류:", data);
         setSearchResult([]);
@@ -41,18 +47,16 @@ function AdminInfo() {
 
   // 수정 버튼 클릭 시 호출되는 함수
   const handleEdit = (emp) => {
-    console.log(emp); // emp 객체를 콘솔에 출력하여 salary 필드를 확인.
-    // 날짜 문자열을 Date 객체로 변환
+    console.log(emp);
     const empWithDateObjects = {
       ...emp,
       empBirth: emp.empBirth ? new Date(emp.empBirth) : null,
       hireDate: emp.hireDate ? new Date(emp.hireDate) : null,
-      terminationDate: emp.terminationDate? new Date(emp.terminationDate): null,
+      terminationDate: emp.terminationDate ? new Date(emp.terminationDate) : null,
     };
     setSelectedEmp(empWithDateObjects);
     setEditModal(true);
 
-    // 부서 선택 시 직무 목록 필터링
     const jobsForDep = allJobs
       .filter((job) => job.depId === emp.depId)
       .map((job) => ({ label: job.jobName, value: job.jobId }));
@@ -61,17 +65,12 @@ function AdminInfo() {
 
   // 삭제 버튼 클릭 시 호출되는 함수
   const handleDelete = async (empId) => {
-    const confirmDelete = window.confirm(  // window.confirm() : 간단한 확인/취소 팝업 창을 띄우는 JavaScript 내장 함수
-      "정말로 이 관리자를 삭제하시겠습니까?"
-    );
+    const confirmDelete = window.confirm("정말로 이 관리자를 삭제하시겠습니까?");
     if (confirmDelete) {
       try {
-        const response = await fetch(`http://localhost:8081/api/employees/${empId}`,
-          {method: "DELETE",} // DELETE 요청
-        );
-        if (!response.ok) {throw new Error("삭제 실패: " + response.status);}
+        const response = await axiosInstance.delete(`/api/employees/${empId}`);
         alert("삭제 성공!");
-        handleSearch(); // 삭제 후 목록 갱신
+        handleSearch();
       } catch (error) {
         console.error("삭제 실패:", error);
       }
@@ -81,18 +80,10 @@ function AdminInfo() {
   // 수정된 데이터를 서버에 저장하는 함수
   const handleSave = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:8081/api/employees/${selectedEmp.empId}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(selectedEmp),
-        }
-      );
-      if (!response.ok) {throw new Error("수정 실패: " + response.status);}
+      const response = await axiosInstance.put(`/api/employees/${selectedEmp.empId}`, selectedEmp);
       alert("수정 성공!");
       setEditModal(false);
-      handleSearch(); // 수정 후 목록 갱신
+      handleSearch();
     } catch (error) {
       console.error("수정 실패:", error);
     }
@@ -100,41 +91,36 @@ function AdminInfo() {
 
   // 부서 선택 시 직무 목록 필터링
   const handleDepChange = (depId) => {
-    // setSelectedEmp : form 상태 업데이트, depId 선택시, jobId 초기화 (부서를 다시 선택하면 기존 선택한 직무는 초기화)
     setSelectedEmp((prev) => ({ ...prev, depId, jobId: "" }));
 
     const jobsForDep = allJobs
-      .filter((job) => job.depId === depId)  // 부서 ID로 직무 필터링
-      .map((job) => ({ label: job.jobName, value: job.jobId }));  // 직무 목록을 SelectPicker에 맞게 변환
-    console.log("필터링된 직무:", jobsForDep);  // 직무 필터링된 결과 확인
-    setFilteredJobs(jobsForDep);  // 필터링된 직무 목록 상태 업데이트
+      .filter((job) => job.depId === depId)
+      .map((job) => ({ label: job.jobName, value: job.jobId }));
+    console.log("필터링된 직무:", jobsForDep);
+    setFilteredJobs(jobsForDep);
   };
 
   // 입력 값 변화 시 상태 업데이트
   const handleChange = (field, value) => {
-    setSelectedEmp((prev) => ({ ...prev, [field]: value })); // 필드별로 상태 값 업데이트
+    setSelectedEmp((prev) => ({ ...prev, [field]: value }));
   };
 
   // 부서 및 직무 데이터 로드
   useEffect(() => {
-    fetch("http://localhost:8081/api/departments")
-      .then((res) => res.json())
-      .then((data) => {
-        const departmentOptions = data.map((dep) => ({
+    axiosInstance.get("/api/departments")
+      .then((res) => {
+        const departmentOptions = res.data.map((dep) => ({
           label: dep.depName,
           value: dep.depId,
         }));
         setDepartments(departmentOptions);
       });
 
-    fetch("http://localhost:8081/api/jobs")
-      .then((res) => res.json())
-      .then((data) => setAllJobs(data));
+    axiosInstance.get("/api/jobs")
+      .then((res) => setAllJobs(res.data));
 
-    // Daum 우편번호 스크립트 추가
     const script = document.createElement("script");
-    script.src =
-      "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
+    script.src = "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
     script.async = true;
     document.body.appendChild(script);
   }, []);

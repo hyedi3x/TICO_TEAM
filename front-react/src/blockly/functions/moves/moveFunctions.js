@@ -2,6 +2,7 @@ import { imgArr, callImgArr, coordinates } from '../../blocks/blockGenerator'; /
 
 // 이동 방향과 일치하는 방향으로 거리 이동
 const moveInDirection = function (distance, index, isClone=false) {
+    if (!window.running) return;
     const targetArr = isClone ? window.cloneArr : imgArr.current;
 
     // 💥 복제본이 삭제되어 존재하지 않을 수 있음 → 방어 처리
@@ -27,6 +28,7 @@ const moveInDirection = function (distance, index, isClone=false) {
 
 // 이동 방향값 입력값으로 변경
 const changeMoveDirection = function (moveDir, index, isClone=false) {
+    if (!window.running) return;
     const targetArr = isClone ? window.cloneArr : imgArr.current;
 
     if (typeof index === 'number' && targetArr[index]) {
@@ -39,6 +41,7 @@ const changeMoveDirection = function (moveDir, index, isClone=false) {
 
 // 방향과 거리로 이동
 const moveInDirectionAngle = function (angle, distance, index, isClone=false) {
+    if (!window.running) return;
     const targetArr = isClone ? window.cloneArr : imgArr.current;
 
     if (typeof index === 'number' && targetArr[index]) {
@@ -56,6 +59,7 @@ const moveInDirectionAngle = function (angle, distance, index, isClone=false) {
 
 // X축 이미지 이동 함수 (인덱스 파라미터 유지)
 const moveImgToX= function (x, index, isClone=false) {
+    if (!window.running) return;
     const targetArr = isClone ? window.cloneArr : imgArr.current;
 
     if (typeof index === 'number' && targetArr[index]) {
@@ -68,6 +72,7 @@ const moveImgToX= function (x, index, isClone=false) {
 
 // Y축 이미지 이동 함수
 const moveImgToY= function (y, index, isClone=false) {
+    if (!window.running) return;
     const targetArr = isClone ? window.cloneArr : imgArr.current;
 
     if (typeof index === 'number' && targetArr[index]) {
@@ -80,6 +85,7 @@ const moveImgToY= function (y, index, isClone=false) {
 
 // X,Y축 이미지 이동 함수
 const moveImgToXY= function (x, y, index, isClone=false) {
+    if (!window.running) return;
     const targetArr = isClone ? window.cloneArr : imgArr.current;
 
     if (typeof index === 'number' && targetArr[index]) {
@@ -93,6 +99,7 @@ const moveImgToXY= function (x, y, index, isClone=false) {
 
 // X좌표 직접 설정
 const changeCoordX = function (coordX, index, isClone=false) {
+    if (!window.running) return;
     const targetArr = isClone ? window.cloneArr : imgArr.current;
 
     if (typeof index === 'number' && targetArr[index]) {
@@ -104,7 +111,8 @@ const changeCoordX = function (coordX, index, isClone=false) {
   };
   
   // Y좌표 직접 설정
-  const changeCoordY = function (coordY, index, isClone=false) {
+const changeCoordY = function (coordY, index, isClone=false) {
+    if (!window.running) return;
     const targetArr = isClone ? window.cloneArr : imgArr.current;
 
     if (typeof index === 'number' && targetArr[index]) {
@@ -113,10 +121,11 @@ const changeCoordX = function (coordX, index, isClone=false) {
     } else {
       console.error('changeCoordY 실패');
     }
-  };
+};
 
   // X, Y좌표 직접 설정
   const changeCoordXY = function (coordX, coordY, index, isClone=false) {
+    if (!window.running) return;
     const targetArr = isClone ? window.cloneArr : imgArr.current;
     
     if (typeof index === 'number' && targetArr[index]) {
@@ -130,6 +139,7 @@ const changeCoordX = function (coordX, index, isClone=false) {
 
 // 이미지 회전함수
 const rotateImage = function (angle, index, isClone=false) {
+    if (!window.running) return;
     const targetArr = isClone ? window.cloneArr : imgArr.current;
 
     if (typeof index === 'number' && targetArr[index]) {
@@ -141,8 +151,11 @@ const rotateImage = function (angle, index, isClone=false) {
 };
 
 // 입력시간 동안 이미지 회전
+let isRotating = false; // 애니메이션 중복 방지 플래그
 const rotateImageInTime= function (angle, duration, index, isClone=false) {
-
+  if (!window.running) return;
+  if (isRotating) return; // 애니메이션 중복 방지
+  isRotating = true; // 애니메이션 시작
   const targetArr = isClone ? window.cloneArr : imgArr.current;
     
   return new Promise((resolve)=>{
@@ -150,6 +163,7 @@ const rotateImageInTime= function (angle, duration, index, isClone=false) {
       runAnimation(angle, duration,index,resolve); // await rotateImageInTime(...)로 사용가능
   })
 
+  
   function runAnimation(angle, duration,index,resolve) {
       
       const img = targetArr[index];
@@ -164,6 +178,7 @@ const rotateImageInTime= function (angle, duration, index, isClone=false) {
             img.angle = endAngle;
             callImgArr();
             console.log('애니메이션 완료');
+            isRotating = false; // 애니메이션 완료 후 플래그 초기화
             resolve(); // promise 완료
         } else { // 진행중
             const progress = (now  - startTime) / (duration * 1000); //  현재-시작시간/총 시간 = 진행률 (0~1사이의 값)
@@ -177,6 +192,7 @@ const rotateImageInTime= function (angle, duration, index, isClone=false) {
 };
 
 const moveToMouse = function(index, isClone = false) {
+  if (!window.running) return;
   const targetArr = isClone ? window.cloneArr : imgArr.current;
 
   if(typeof coordinates.x !== "number" || typeof coordinates.y !== "number") return;
@@ -188,14 +204,24 @@ const moveToMouse = function(index, isClone = false) {
   }
 };
 
-const moveImageInTime = function (x, y, duration, index) {
+const moveImageInTime = function (x, y, duration, index, isClone = false) {
+  if (!window.running) return;
+
+  const targetArr = isClone ? window.cloneArr : imgArr.current;
+  const img = targetArr[index];
+  if (!img) return;
+
+  // 개별 객체에 isAnimating 속성 붙이기
+  //  자기만의 isAnimating을 갖고 독립적으로 움직인다.
+  img.isAnimating = img.isAnimating || false;
+  if (img.isAnimating) return;       // 현재 이 객체만 검사
+  img.isAnimating = true;            // 이 객체만 애니메이션 시작
+
   return new Promise((resolve) => {
-    console.log('이동 애니메이션 시작됨');
-    runMoveAnimation(x, y, duration, index, resolve);
+    runMoveAnimation(x, y, duration, img, resolve);
   });
 
-  function runMoveAnimation(x, y, duration, index, resolve) {
-    const img = imgArr.current[index];
+  function runMoveAnimation(x, y, duration, img, resolve) {
     const startTime = performance.now();
     const endTime = startTime + duration * 1000;
 
@@ -210,18 +236,18 @@ const moveImageInTime = function (x, y, duration, index) {
         img.x = endX;
         img.y = endY;
         callImgArr();
-        console.log('이동 애니메이션 완료');
-        resolve(); // 애니메이션 완료
+        img.isAnimating = false;
+        resolve();
       } else {
-        const progress = (now - startTime) / (duration * 1000); // 진행률 (0 ~ 1)
+        const progress = (now - startTime) / (duration * 1000);
         img.x = startX + (endX - startX) * progress;
         img.y = startY + (endY - startY) * progress;
         callImgArr();
-        requestAnimationFrame(animateFrame); // 다음 프레임 요청
+        requestAnimationFrame(animateFrame);
       }
     }
 
-    animateFrame(); // 첫 실행
+    animateFrame();
   }
 };
 

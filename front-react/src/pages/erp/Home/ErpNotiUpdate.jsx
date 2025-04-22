@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './erpNotiUpdate.css';
+import axiosInstance from '../../login/social/utils/axiosInstance';
 
 // 공지사항 수정 컴포넌트
 function ComNotiUpdate({ id, onBack }) {
@@ -24,7 +25,7 @@ function ComNotiUpdate({ id, onBack }) {
     // 최초 렌더링 시 또는 id 변경 시 해당 공지사항 불러오기
     useEffect(() => {
         if (id) {
-            axios.get(`http://localhost:8081/api/notices/notice/${id}`)
+            axiosInstance.get(`/api/notices/notice/${id}`)
                 .then(response => {
                     const data = response.data;
                     const savedEmpId = localStorage.getItem('user_uuid');
@@ -63,7 +64,11 @@ function ComNotiUpdate({ id, onBack }) {
         }
 
         // PUT 요청으로 수정
-        axios.put(`http://localhost:8081/api/notices/update/${id}`, formData)
+        axiosInstance.put(`/api/notices/update/${id}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+              }
+        })
             .then(() => {
                 alert('수정 완료했습니다.');
                 onBack(); // 저장 완료 후 목록으로 이동

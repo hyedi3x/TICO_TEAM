@@ -1,0 +1,63 @@
+/* 설명 카드 */
+.tutorial-card {
+  background-color: #e0f7fa;
+  border-radius: 20px;
+  padding: 50px;  /* 패딩 확장 */
+  max-width: 800px;
+  margin: 50px auto;
+  text-align: center;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+}
+
+.tutorial-card h2 {
+  font-size: 2rem;  /* 폰트 크기 키우기 */
+  color: #00897b;
+  margin-bottom: 20px;
+}
+
+.tutorial-card p {
+  font-size: 1.4rem;  /* 텍스트 크기 확대 */
+  color: #333;
+}
+
+/* 퀴즈 박스 */
+.quiz-container {
+  background-color: #fffbe6;
+  border-radius: 20px;
+  padding: 40px;  /* 패딩 확장 */
+  max-width: 800px;
+  margin: 50px auto;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+/* 퀴즈 선택지 버튼 */
+.option-btn {
+  background-color: #ffde59;
+  border: none;
+  padding: 20px;  /* 버튼 크기 확대 */
+  font-size: 1.5rem;  /* 폰트 크기 확대 */
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+  width: 100%;  /* 버튼을 꽉 채우기 */
+}
+
+.option-btn:hover {
+  background-color: #ffd000;
+}
+
+/* 피드백 */
+.feedback {
+  margin-top: 20px;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.feedback.correct {
+  color: #00b894;
+}
+
+.feedback.wrong {
+  color: #d63031;
+}

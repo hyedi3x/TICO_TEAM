@@ -1,7 +1,7 @@
 // RecentNotices.jsx
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import './recentNotices.css';
+import axiosInstance from '../../login/social/utils/axiosInstance';
 
 // 최근 공지사항 컴포넌트 정의
 function RecentNotices({ onNoticeClick }) {
@@ -11,7 +11,7 @@ function RecentNotices({ onNoticeClick }) {
 
   // 컴포넌트 마운트 시 최근 공지사항 5개 불러오기
   useEffect(() => {
-    axios.get('http://localhost:8081/api/notices/latest?size=5')
+    axiosInstance.get('/api/notices/latest?size=5')
       .then((res) => setNotices(res.data))
       .catch((err) => console.error('❌ 최근 공지사항 불러오기 실패:', err));
   }, []);

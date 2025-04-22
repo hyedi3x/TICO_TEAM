@@ -54,6 +54,8 @@ npm install axios   # 비동기 처리(fetch랑 같은 기능)
 
 npm install blockly  # blockly API 라이브러리
 npm install html2canvas # javascript의 화면 캡쳐 라이브러리
+
+npm install sockjs-client @stomp/stompjs # 브라우저 호환성을 위한 WebSocket 폴백 라이브러리(채팅)
 ```
 
 <br/>

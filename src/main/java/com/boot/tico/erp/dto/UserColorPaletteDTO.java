@@ -14,7 +14,7 @@ import lombok.*;
 @Entity
 @Table(
     name = "user_color_palette",  // 테이블 이름 지정
-    uniqueConstraints = @UniqueConstraint(
+    uniqueConstraints = @UniqueConstraint(	// 중복을 허용하지 않는 조건 지정
         name = "uc_emp_color",    // 제약 조건 이름
         columnNames = {"emp_id", "emp_color"} // 같은 사원이 같은 색상을 중복 저장하지 못하도록 설정
     )

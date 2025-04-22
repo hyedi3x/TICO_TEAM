@@ -16,6 +16,16 @@ public class ErpScheduleService {
     private final ErpScheduleRepository repo;
 
     /**
+     * 사원별 전체 일정 조회
+     * - 해당 사원의 모든 일정 목록 반환
+     * - 읽기 전용이므로 readOnly 최적화 적용
+     */
+    @Transactional(readOnly = true)		// @Transactional : 중간에 오류 발생하면, 전체 작업을 롤백(rollback) 문제가 없으면 커밋(commit)해서 영구 저장.
+    public List<ErpScheduleDTO> getSchedulesByEmpId(String empId) {
+        return repo.findByEmpId(empId);
+    }
+    
+    /**
      * 일정 등록
      * - 새로운 일정을 생성하여 DB에 저장
      * - 트랜잭션 필요 (데이터 변경 작업)
@@ -26,16 +36,6 @@ public class ErpScheduleService {
         schedule.setErpScheduleCreateAt(now);       // 생성일 자동 세팅
         schedule.setErpScheduleUpdatedAt(now);      // 수정일도 초기값 세팅
         return repo.save(schedule);
-    }
-
-    /**
-     * 사원별 전체 일정 조회
-     * - 해당 사원의 모든 일정 목록 반환
-     * - 읽기 전용이므로 readOnly 최적화 적용
-     */
-    @Transactional(readOnly = true)
-    public List<ErpScheduleDTO> getSchedulesByEmpId(String empId) {
-        return repo.findByEmpId(empId);
     }
 
     /**

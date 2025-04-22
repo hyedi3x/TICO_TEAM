@@ -1,57 +1,65 @@
 import { imgArr, coordinates } from "../../blocks/blockGenerator";
 
 const checkCollision = function(index, targetType, isClone = false) {
-  const sourceArr = isClone ? window.cloneArr : imgArr.current;
-  const sourceObj = sourceArr[index];
-  if (!sourceObj) return false;
+  const canvas = document.querySelector("canvas");
+  if (!canvas) return false;
 
-  // ✅ 마우스 충돌 처리
+  const canvasWidth = canvas.width;
+  const canvasHeight = canvas.height;
+
+  const cloneArr = window.cloneArr || [];
+  const cloneObj = cloneArr[index];
+  if (!cloneObj || cloneObj.hidden) return false;
+
+  // 마우스와 충돌
   if (targetType === "mouse") {
     return (
-      coordinates.x >= sourceObj.x &&
-      coordinates.x <= sourceObj.x + sourceObj.width &&
-      coordinates.y >= sourceObj.y &&
-      coordinates.y <= sourceObj.y + sourceObj.height
+      coordinates.x >= cloneObj.x &&
+      coordinates.x <= cloneObj.x + cloneObj.width &&
+      coordinates.y >= cloneObj.y &&
+      coordinates.y <= cloneObj.y + cloneObj.height
     );
   }
 
-  // ✅ 벽 충돌 처리 (canvas 경계)
-  if (targetType === "wall") {
-    const canvas = document.querySelector("canvas");
-    if (!canvas) return false;
-
-    const canvasWidth = canvas.width;
-    const canvasHeight = canvas.height;
-
-    const hitLeft = sourceObj.x <= 0;
-    const hitRight = sourceObj.x + sourceObj.width >= canvasWidth;
-    const hitTop = sourceObj.y <= 0;
-    const hitBottom = sourceObj.y + sourceObj.height >= canvasHeight;
-
-    return hitLeft || hitRight || hitTop || hitBottom;
+  // 벽과 충돌
+  else if (targetType === "wall") {
+    return (
+      cloneObj.x <= 0 ||
+      cloneObj.y <= 0 ||
+      cloneObj.x + cloneObj.width >= canvasWidth ||
+      cloneObj.y + cloneObj.height >= canvasHeight
+    );
   }
 
-  // ✅ 기타 오브젝트 간 충돌 처리
-  const allTargets = [...imgArr.current, ...(window.cloneArr || [])];
-
-  for (let target of allTargets) {
-    if (!target || target === sourceObj) continue;
-    if (targetType === target.index?.toString()) {
-      const isColliding = !(
-        sourceObj.x + sourceObj.width < target.x ||
-        sourceObj.x > target.x + target.width ||
-        sourceObj.y + sourceObj.height < target.y ||
-        sourceObj.y > target.y + target.height
-      );
-      if (isColliding) return true;
-    }
-  };
-
-  return false;
-};
-
-export default {
-  checkCollision,
+  // 특정 오브젝트(index)와 충돌
+  else {
+    const targetIndex = parseInt(targetType);
+    const targetObj = imgArr.current[targetIndex];
+    if (!targetObj || targetObj.hidden) return false;
+  
+    // 사각형을 원으로 변환: 중심 좌표와 반지름 계산
+    const targetRadius = Math.min(targetObj.width, targetObj.height) / 2; // 사각형을 원으로 바꿔서 반지름 계산
+    const targetCenterX = targetObj.x + targetObj.width / 2; // 사각형 중심 X 좌표
+    const targetCenterY = targetObj.y + targetObj.height / 2; // 사각형 중심 Y 좌표
+  
+    // 클론 사각형을 원으로 변환: 중심 좌표와 반지름 계산
+    const cloneRadius = Math.min(cloneObj.width, cloneObj.height) / 2; // 클론 사각형을 원으로 바꿔서 반지름 계산
+    const cloneCenterX = cloneObj.x + cloneObj.width / 2; // 클론 중심 X 좌표
+    const cloneCenterY = cloneObj.y + cloneObj.height / 2; // 클론 중심 Y 좌표
+  
+    // 두 원의 중심 간 거리 계산
+    const distanceX = cloneCenterX - targetCenterX;
+    const distanceY = cloneCenterY - targetCenterY;
+    const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY); // 두원 중심간의 거리
+  
+    // 두 원이 충돌하는지 확인 (거리 <= 반지름 합)
+    const isColliding = distance <= (cloneRadius + targetRadius); // 중심간의 거리가 반지름의 합보다 작거나 같을 때 닿았다
+  
+    return isColliding;
+  }
 };
 
 window.checkCollision = checkCollision;
+export default {
+  checkCollision,
+};

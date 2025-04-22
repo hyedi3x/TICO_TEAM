@@ -29,6 +29,8 @@ public class UserService {
 
         // 일반 회원가입은 비밀번호가 필수 (소셜 가입은 null일 수 있음)
         if ("local".equals(request.getProvider())) {
+        	
+        	// 비밀번호 검증
             if (request.getPassword() == null || request.getPassword().length() < 5) {
                 throw new IllegalArgumentException("비밀번호는 5자 이상이어야 합니다.");
             }
@@ -36,6 +38,12 @@ public class UserService {
             if (userRepository.findByEmail(request.getEmail()).isPresent()) {
                 throw new RuntimeException("이미 존재하는 이메일입니다.");
             }
+            
+            // 닉네임 중복 체크
+            if (userRepository.findByNickname(request.getNickname()).isPresent()) {
+                throw new RuntimeException("이미 존재하는 닉네임입니다.");
+            }
+            
             User user = new User();
             user.setEmail(request.getEmail());
             user.setPassword(passwordEncoder.encode(request.getPassword()));

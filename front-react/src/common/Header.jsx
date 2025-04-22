@@ -76,7 +76,7 @@ function Header() {
             <Offcanvas.Body>
               <Nav className="justify-content-end flex-grow-1 pe-3">
                 <NavDropdown title="생각하기" id="offcanvasNavbarDropdown">
-                  <NavDropdown.Item href="/#action3">티코 학습시키기</NavDropdown.Item>
+                  <NavDropdown.Item href="/tutorial">티코 학습시키기</NavDropdown.Item>
                   <NavDropdown.Item href="/eduList">블럭 학습하기</NavDropdown.Item>
                 </NavDropdown>
                 <NavDropdown title="만들기" id="offcanvasNavbarDropdown">
@@ -84,7 +84,7 @@ function Header() {
                   <NavDropdown.Item href="/#action5">학습 하기</NavDropdown.Item>
                 </NavDropdown>
                 <NavDropdown title="공유하기" id="offcanvasNavbarDropdown">
-                  <NavDropdown.Item href="/#action3">작품 공유하기</NavDropdown.Item>
+                  <NavDropdown.Item href="/share">작품 공유하기</NavDropdown.Item>
                   <NavDropdown.Item href="/#action4">스터디 공유하기</NavDropdown.Item>
                 </NavDropdown>
                 <NavDropdown title="커뮤니티" id="offcanvasNavbarDropdown">

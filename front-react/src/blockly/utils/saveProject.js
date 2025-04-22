@@ -1,14 +1,14 @@
 import axios from 'axios';
 import * as Blockly from 'blockly';
 
-export const handleSaveProject = async (imgArr, blocklyArr, project_id) => {
+export const handleSaveProject = async (imgArr, blocklyArr, project_id, projectTitle) => {
+  const userid = localStorage.getItem("user_uuid"); // 추가
+
   const projectInfo = {
     projectId: project_id,
-    title: "내 작품",
-    category: "기타",
+    userUuid: userid, // ✅ 추가된 필드
+    title: projectTitle,
     thumbnailUrl: imgArr.current[0].url || '',
-    introduction: "이건 소개입니다",
-    guide: "사용법을 입력하세요",
   };
 
   const cleanXml = (xmlText) => {

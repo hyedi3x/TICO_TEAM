@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import './erpNotiDetail.css';
+import axiosInstance from '../../login/social/utils/axiosInstance';
 
 function ErpNotiDetail({ id, onBack, onEdit }) {
     // 공지사항 데이터를 담을 상태 변수
@@ -9,11 +9,31 @@ function ErpNotiDetail({ id, onBack, onEdit }) {
     // 공지사항 ID가 변경될 때마다 상세 데이터 요청
     useEffect(() => {
         if (id) {   // id가 null 또는 undefined가 아니면 실행
-            axios.get(`http://localhost:8081/api/notices/notice/${id}`)    // GET 요청으로 해당 ID의 공지사항 조회
+            axiosInstance.get(`/api/notices/notice/${id}`)    // GET 요청으로 해당 ID의 공지사항 조회
                 .then(response => setNotice(response.data))         // 데이터 수신 → 상태 업데이트
                 .catch(error => console.error('Error loading detail:', error));
         }
     }, [id]);   // 의존성 배열 : id가 변경될 때마다 실행
+
+    // 첨부파일 다운로드 핸들러
+    const handleDownload = async () => {
+        try {
+            const res = await axiosInstance.get(`/api/notices/download-by-id/${notice.erpNotiId}`, {
+                responseType: 'blob'
+            });
+
+            const fileName = notice.erpNotiOriginalFile || 'downloaded_file';
+            const url = window.URL.createObjectURL(new Blob([res.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', fileName);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        } catch (error) {
+            console.error('파일 다운로드 실패:', error);
+        }
+    };
 
     // 데이터가 아직 로드되지 않았을 때 로딩 문구 표시
     if (!notice) return <div className="notice-detail-container">로딩 중...</div>;
@@ -31,9 +51,16 @@ function ErpNotiDetail({ id, onBack, onEdit }) {
                     <tr><th>상태</th><td>{notice.erpNotiStatus}</td></tr>
                     <tr><th>작성일</th><td>{new Date(notice.erpNotiCreatedAt).toLocaleString()}</td></tr>
                     <tr><th>수정일</th><td>{notice.erpNotiUpdatedAt ? new Date(notice.erpNotiUpdatedAt).toLocaleString() : '수정 기록 없음'}</td></tr>
-                    {notice.erpNotiOriginalFile ? (
-                        <tr><th>첨부 파일</th><td><a href={`http://localhost:8081/api/notices/download-by-id/${notice.erpNotiId}`} className="notice-file-link" download>📎 {notice.erpNotiOriginalFile}</a></td></tr>
-                    ) : null}
+                    {notice.erpNotiOriginalFile && (
+                        <tr>
+                            <th>첨부 파일</th>
+                            <td>
+                                <button onClick={handleDownload} className="notice-file-link">
+                                    {notice.erpNotiOriginalFile}
+                                </button>
+                            </td>
+                        </tr>
+                    )}
                 </tbody>
             </table>
 

@@ -119,6 +119,12 @@
 	      <groupId>org.springframework.boot</groupId>
 	      <artifactId>spring-boot-starter-mail</artifactId>
 	  </dependency>
+	  
+	  <!-- 채팅 WebSocket 지원 -->
+ 	  <dependency>
+   		  <groupId>org.springframework.boot</groupId>
+    	  <artifactId>spring-boot-starter-websocket</artifactId>
+  	  </dependency>
       
       <!-- CoolSMS 사용위해 의존성 추가 -->
       <dependency>
