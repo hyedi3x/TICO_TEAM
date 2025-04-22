@@ -14,7 +14,7 @@ import {
 import "./adminInfo.css";
 import "./adminContainer.css";
 
-import axiosInstance from "../login/social/utils/axiosInstance";
+import axiosInstance from "../../login/social/utils/axiosInstance";
 
 const { Column, HeaderCell, Cell } = Table;
 

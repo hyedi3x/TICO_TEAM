@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Panel, Grid, Row, Col, Input, DatePicker, SelectPicker, Button } from "rsuite";    // rsuite UI 라이브러리에서 제공하는 컴포넌트들
 import { useNavigate } from 'react-router-dom'; 
 
-import axiosInstance from "../login/social/utils/axiosInstance";
+import axiosInstance from "../../login/social/utils/axiosInstance";
 import "./adminRegister.css"; 
 import "./adminContainer.css";
 
