@@ -48,22 +48,26 @@ const WepChat = () => {
   };
 
   return (
-    <div className="chat-window">
-      <div className="chat-messages">
-        {messages.map((msg, i) =>
-          <div key={i} className="chat-message">
-            <strong>{msg.sender}:</strong> {msg.content}
-          </div>
-        )}
-      </div>
-      <div className="chat-input">
-        <input
-          value={inputMessage}
-          onChange={e => setInputMessage(e.target.value)}
-          onKeyDown={e => e.key === 'Enter' && sendMessage()}
-          placeholder="메시지를 입력하세요..."
-        />
-        <button onClick={sendMessage}>전송</button>
+    <div className="wepchat-overlay">
+      <div className="wepchat-blur" />
+      <div className="chat-window">
+        <div className="chat-messages">
+          {messages.map((msg, i) => (
+            <div key={i} className="chat-message">
+              <strong>{msg.sender}:</strong> {msg.content}
+            </div>
+          ))}
+        </div>
+        <div className="chat-input">
+          <input
+            type="text"
+            value={inputMessage}
+            onChange={e => setInputMessage(e.target.value)}
+            onKeyDown={e => e.key === 'Enter' && sendMessage()}
+            placeholder="메시지를 입력하세요..."
+          />
+          <button onClick={sendMessage}>전송</button>
+        </div>
       </div>
     </div>
   );
