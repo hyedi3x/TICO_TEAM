@@ -65,6 +65,35 @@ def connect_to_maria():
         print(f"MariaDB 연결 실패: {e}", flush=True)
         return None
 
+# ----------------[음성 파일명 설정]----------------
+# 사용자 닉네임을 데이터베이스에서 조회
+def get_nickname(user_uuid):
+    conn = connect_to_maria()
+    if conn:
+        try:
+            with conn.cursor() as cursor:
+                # UUID에 해당하는 사용자의 닉네임을 users 테이블에서 조회
+                cursor.execute("SELECT nickname FROM users WHERE user_uuid = %s", (user_uuid,))
+                result = cursor.fetchone()  # 튜플 형태로 반환, 결과 중 첫 번째 행만 반환 
+                return result[0] if result else "unknown"
+        finally:
+            conn.close()
+    return "unknown" # 결과가 있으면 닉네임 반환, 없으면 "unknown" 반환
+
+# 특정 사용자의 음성 메시지 수를 세는 함수 
+def get_audio_count(user_uuid, sender):
+    conn = connect_to_maria()
+    if conn:
+        try:
+            with conn.cursor() as cursor:
+                # where 조건절에 해당하는 전체 레코드 수 조회 
+                cursor.execute("SELECT COUNT(*) FROM chat_log WHERE user_uuid = %s AND sender = %s AND record = 'Y'", (user_uuid, sender))
+                count = cursor.fetchone()[0]
+                return count + 1  # 파일명을 생성 시 1씩 증가
+        finally:
+            conn.close()
+    return 1  # DB 연결 실패 시 기본값으로 1 반환 
+
 # ----------------[음성 텍스트 변환 결과와 파일 경로를 MariaDB에 저장하는 함수]----------------
 def save_to_db(user_uuid, transcript, filepath=None, sender='user', record='Y'):
     conn = connect_to_maria()
@@ -112,7 +141,10 @@ def speech_to_text():
 
     try:
         # 음성 파일 저장
-        filename = str(uuid.uuid4()) + ".webm"
+        nickname = get_nickname(user_uuid) # 사용자 닉네임 
+        count = get_audio_count(user_uuid, 'user')  # 오디오 파일 수 
+        timestamp = datetime.now().strftime("%Y%m%d")  # 현재 날짜 
+        filename = f"{nickname}_user_{timestamp}_{count}.webm"
         filepath = os.path.join(audio_files, filename)
         audio_file.save(filepath) # 파일을 해당 경로로 저장
 
@@ -139,7 +171,7 @@ def speech_to_text():
         # [0] : 가장 확실한(가장 높은 confidence를 가진) 첫 번째 결과
         # ..transcript: 결과의 문장(텍스트)을 반환
         transcript = "".join([result.alternatives[0].transcript for result in response.results])  
-        
+
         # 성공 시 변환된 텍스트 내용과 파일 경로 반환
         return jsonify({'transcript': transcript, 'filepath': filepath}), 200
 
@@ -179,11 +211,12 @@ def text_to_speech(text, user_uuid):
         input=input_text, voice=voice, audio_config=audio_config
     )
 
-    # 음성 파일명을 사용자의 UUID 기반으로 생성
-    tts_filename = f"{user_uuid}_response.mp3"
-    
-    # 음성 파일 저장 경로 설정 (미리 정의된 audio_files 경로 사용)
-    tts_filepath = os.path.join(audio_files, tts_filename)
+    # 음성 파일명을 사용자의 닉네임 기반으로 생성
+    nickname = get_nickname(user_uuid)
+    count = get_audio_count(user_uuid, 'bot')
+    timestamp = datetime.now().strftime("%Y%m%d")
+    tts_filename = f"{nickname}_bot_{timestamp}_{count}.mp3"
+    tts_filepath = os.path.join(audio_files, tts_filename) # 음성 파일 저장 경로 설정 (미리 정의된 audio_files 경로 사용)
 
     # MP3 음성 데이터를 파일로 저장
     with open(tts_filepath, "wb") as out:
