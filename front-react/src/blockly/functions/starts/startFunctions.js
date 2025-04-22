@@ -3,7 +3,7 @@ const start_btn = () => {
 };
 
 const start_with_q = () =>{
-    console.log('q버튼');
+    
 };
 
 const start_mouse_clicked = () => {

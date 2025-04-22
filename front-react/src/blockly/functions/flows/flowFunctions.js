@@ -3,6 +3,7 @@ import { javascriptGenerator } from "blockly/javascript";
 import runGeneratedCode from "../../blocks/codeRunner";
 
 const createClone = function(target, currentIndex) {
+    if (!window.running) return;
     window.cloneArr = window.cloneArr || [];
 
     // 1. index 결정
@@ -11,15 +12,17 @@ const createClone = function(target, currentIndex) {
     if (!original) return;
 
     const clone = {
-        ...JSON.parse(JSON.stringify(original)),
+        ...JSON.parse(JSON.stringify(original)), 
+        // 이미지 배열을 문자열로 변환 후 다시 객체로 생성 ( 깊은 복사 )
         img: original.img,
-        index: window.cloneArr.length
+        index: window.cloneArr.length, // 덮어 쓰기
+        isClone: true, // 복제본 여부
     };
 
     clone.x += 20;
     clone.y += 20;
 
-    window.cloneArr.push(clone); // ✅ 여기로
+    window.cloneArr.push(clone); // 여기로
     callImgArr();
 
     console.log("✅ 복제본 생성됨:", clone);
@@ -28,31 +31,35 @@ const createClone = function(target, currentIndex) {
     const workspace = blocklyArr.current[index];
     const topBlocks = workspace.getTopBlocks();
 
+    let code = '';
+
     for (let block of topBlocks) {
-        if (block.type === 'on_clone_created') {
-            const code = javascriptGenerator.blockToCode(block);
-            runGeneratedCode(code, clone.index, true); // 복제된 index로 실행
-            break;
-        }
+    if (block.type === 'on_clone_created') {
+        code += javascriptGenerator.blockToCode(block);
     }
+    }
+
+    console.log("🧠 최종 실행 코드:", code);
+    runGeneratedCode(code, clone.index, true);
 };
 
 const deleteThisClone = function(index) {
+    if (!window.running) return;
     if (!window.cloneArr || !window.cloneArr[index]) return;
-  
-    // 삭제: index 자리만 제거
-    window.cloneArr = window.cloneArr.filter((_, i) => i !== index);
-  
-    // callImgArr로 캔버스 다시 그리기
-    callImgArr();
     
-    console.log("❌ 복제본 삭제됨:", index);
-};
-
+    // 배열에서 복제본 완전 삭제
+    window.cloneArr.splice(index, 1);
+    // index 재정렬: 모든 복제본의 index를 다시 부여
+    window.cloneArr.forEach((clone, i) => {
+      clone.index = i;
+    });
+    callImgArr();
+  };
+  
 export default {
     createClone,
-    deleteThisClone
+    deleteThisClone,
 };
-
+    
 window.createClone = createClone;
 window.deleteThisClone = deleteThisClone;

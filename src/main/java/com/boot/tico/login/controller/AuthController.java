@@ -184,6 +184,7 @@ public class AuthController {
         EmpDTO emp = empOpt.get();
         Map<String, Object> claims = Map.of(
             "empId", emp.getEmpId(),
+            "dep_Id", emp.getDepId(),
             "userType", "EMPLOYEE"
         );
         String accessToken = jwtTokenizer.generateAccessToken(claims);

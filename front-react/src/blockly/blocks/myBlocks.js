@@ -20,6 +20,7 @@ const toolboxXML = ()=>{
                 <block type="create_clone"></block>
                 <block type="on_clone_created"></block>
                 <block type="delete_this_clone"></block>
+                <block type="stop_all_code"></block>
             </category>
             
             <!-- 움직임 -->
@@ -85,7 +86,23 @@ const toolboxXML = ()=>{
                 </block>
                 <block type="move_to_mouse"></block>
 
-                <block type="move_obj_inTime"></block>
+                <block type="move_obj_inTime">
+                    <value name="x">
+                        <shadow type="math_number">
+                        <field name="NUM">10</field>
+                        </shadow>
+                    </value>
+                    <value name="y">
+                        <shadow type="math_number">
+                        <field name="NUM">10</field>
+                        </shadow>
+                    </value>
+                    <value name="duration">
+                        <shadow type="math_number">
+                        <field name="NUM">1</field>
+                        </shadow>
+                    </value>
+                </block>
 
             </category>
 
@@ -124,6 +141,13 @@ const toolboxXML = ()=>{
                 <block type="change_shape">
                     <field name="shape">entrybot(2).png</field>
                 </block>
+
+                <!-- 마우스 커서 모양 바꾸기 -->
+                <block type="change_cursor_image">
+                    <field name="cursor">뿅망치</field>
+                </block>
+
+                <block type="set_as_background"></block>
             </category>
 
             <!-- 소리 -->
@@ -196,9 +220,18 @@ const toolboxXML = ()=>{
                 </block>
                 <block type="control_timer"></block>
                 <block type="get_timer_value"></block>
+                <block type="print_score"></block>
+                <block type="control_score">
+                    <value name="score">
+                        <shadow type="math_number">
+                            <field name="NUM">1</field>
+                        </shadow>
+                    </value>
+                </block>
             </category>
 
-            <category name="변수" custom="VARIABLE" categorystyle="variable_category"></category>
+            <category name="변수" colour="#A65C81" custom="VARIABLE"></category>
+
         </xml>
     `
 }

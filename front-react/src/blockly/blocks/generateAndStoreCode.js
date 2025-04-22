@@ -8,6 +8,7 @@ export const generateStart = (workspace, imgArr, index, blockType) => {
   topBlocks.forEach((topBlock) => {
     if (topBlock.type === blockType) {
       let currentBlock = topBlock;
+      javascriptGenerator.init(workspace); 
       const code = javascriptGenerator.blockToCode(currentBlock); // 연결된 블럭들도 가져온다.
       allBlocksCode.push(code);
     }

@@ -49,7 +49,7 @@ function Login() {
       }
 
       const response = await axiosInstance.post(endpoint, payload);
-      const { accessToken, refreshToken, user_uuid, nickname } = response.data;
+      const { accessToken, refreshToken, user_uuid, dep_id , nickname} = response.data;
 
       console.log("로그인 성공, 토큰 저장:", accessToken);
       localStorage.setItem("accessToken", accessToken);
@@ -57,6 +57,7 @@ function Login() {
       localStorage.setItem("autoLogin", "true");
       localStorage.setItem("nickname", nickname);
       localStorage.setItem("user_uuid", user_uuid); 
+      localStorage.setItem("dep_id", dep_id);
 
       setIsLoggedIn(true);
       navigate("/");
@@ -68,6 +69,7 @@ function Login() {
       localStorage.removeItem("refreshToken");
       localStorage.removeItem("autoLogin");
       localStorage.removeItem("user_uuid"); 
+      localStorage.removeItem("dep_id");
 
     if (error.response?.status === 401) {
       alert("로그인 실패. 이메일 또는 비밀번호가 잘못되었습니다.");

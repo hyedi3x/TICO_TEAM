@@ -9,10 +9,13 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
 
 import com.boot.tico.login.security.JwtAuthenticationFilter;
 import com.boot.tico.login.security.OAuth2SuccessHandler;
@@ -50,7 +53,7 @@ public class SecurityConfig {
                 // 요청 권한 설정
                 .authorizeRequests(requests -> requests
                 		// 인증 없이 접근 허용할 경로들 (이외의 요청은 인증 필요)
-                        .antMatchers("/auth/test", "/auth/**", "/auth/login/employee**", "/auth/login/customer**", "/oauth2/**", "/error", "/project/**", "/api/**", "/quiz/**","/eduBlock/**", "/uploads/**", "/ws-chat/**","/ws-chat", "/").permitAll()
+                        .antMatchers("/auth/test", "/auth/**", "/auth/login/employee**", "/auth/login/customer**", "/oauth2/**", "/error", "/project/**", "/projectComments/**", "/favor/**", "/api/**", "/quiz/**","/eduBlock/**", "/uploads/**", "/ws-chat/**","/ws-chat", "/").permitAll()
                         .anyRequest().authenticated())
                 // 소셜 로그인 설정
                 .oauth2Login(login -> login
@@ -81,5 +84,21 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
+    }
+    
+    // 방화벽(Firewall) 설정 커스터마이징. 
+    // 정적 파일 요청 URL에 슬래시(//)나 백슬래시(\)가 포함되어 있을 때 차단되지 않게 하려고 넣은 설정.
+    @Bean
+    public HttpFirewall allowUrlEncodedDoubleSlashFirewall() {
+        StrictHttpFirewall firewall = new StrictHttpFirewall();		// StrictHttpFirewall: Spring Security가 사용하는 기본 방화벽. 기본 설정에서는 //,\,URL 인젝션 등을 막음.
+        firewall.setAllowUrlEncodedDoubleSlash(true);				// %2F%2F처럼 인코딩된 이중 슬래시도 허용하겠다는 설정.
+        firewall.setAllowBackSlash(true);							// 백슬래시 \를 URL에 포함해도 차단하지 않도록 설정
+        return firewall;
+    }
+
+    // Spring Security에 위에 만든 HttpFirewall 설정을 등록하는 코드
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer(HttpFirewall firewall) {
+        return web -> web.httpFirewall(firewall);
     }
 }
