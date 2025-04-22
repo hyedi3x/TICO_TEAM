@@ -13,25 +13,10 @@ import ChatbotWindow from '../pages/chatbot/ChatbotWindow';
 import ErpLogo from '../pages/erp/ErpLogo';
 import ProjectCard from './ProjectCard';
 import ProjectSelectModal from './ProjectSelectModal';
-
-// 썸네일 URL 처리
-const resolveThumbnailUrl = (url) => {
-  if (url && !url.startsWith('http')) {
-    return `http://localhost:8081${url}`;
-  }
-  return url || img1;
-};
-
-// 기본 카드 4개 슬롯 초기화
-const getDefaultStaffPickProjects = () => [
-  { projectId: null, thumbnailUrl: '', title: '등록해주세요', introduction: '' },
-  { projectId: null, thumbnailUrl: '', title: '등록해주세요', introduction: '' },
-  { projectId: null, thumbnailUrl: '', title: '등록해주세요', introduction: '' },
-  { projectId: null, thumbnailUrl: '', title: '등록해주세요', introduction: '' },
-];
+import MainBannerManage from './MainBannerManage';
 
 function MainModify() {
-  const [staffPickProjects, setStaffPickProjects] = useState(getDefaultStaffPickProjects());
+  const [staffPickProjects, setStaffPickProjects] = useState([]);
   const [allProjects, setAllProjects] = useState([]);
   const [showProjectModal, setShowProjectModal] = useState(false);
   const [selectedStaffPickIndex, setSelectedStaffPickIndex] = useState(null);
@@ -44,16 +29,16 @@ function MainModify() {
       .catch(err => console.error("전체 작품 목록 불러오기 실패", err));
   }, []);
 
-  // 스태프 선정 목록 가져오기
+  // 스태프 선정 목록 가져와서 전체 목록 중에서 화면에 표시하기
   useEffect(() => {
     const userUuid = localStorage.getItem("user_uuid");
 
     fetch('http://localhost:8081/project/staffPick')
       .then(res => res.json())
       .then(pickData => {
-        const newProjects = getDefaultStaffPickProjects();
+        const newProjects = [];
         pickData.forEach(pick => {
-          const matched = allProjects.find(p => Number(p.projectId) === Number(pick.projectId));
+          const matched = allProjects.find(all => Number(all.projectId) === Number(pick.projectId));
           if (matched) {
             newProjects[pick.slotIndex] = {
               projectId: matched.projectId,
@@ -67,7 +52,7 @@ function MainModify() {
         });
         setStaffPickProjects(newProjects);
       });
-  }, [allProjects]);
+  }, [allProjects]); // 마운트 시점에 전체 목록 가져온 후 선정 목록 가져오기
 
   // 모달 열기
   const handleOpenProjectModal = (index) => {
@@ -89,11 +74,12 @@ function MainModify() {
 
   // 작품 선택
   const handleSelectProject = (project) => {
-    if (staffPickProjects.some(pick => pick.projectId === project.projectId)) {
+    // 이미 등록된 작품인지 확인
+    if (staffPickProjects.some(pick => pick.projectId === project.projectId && pick.projectId !== null)) {
       alert("이미 등록된 작품입니다.");
       return;
     }
-
+  
     if (selectedStaffPickIndex !== null) {
       const updated = [...staffPickProjects];
       const newItem = {
@@ -103,15 +89,10 @@ function MainModify() {
         introduction: project.introduction,
         slotIndex: selectedStaffPickIndex
       };
-
-      if (updated[selectedStaffPickIndex]) {
-        updated[selectedStaffPickIndex] = newItem;
-      } else {
-        updated.push(newItem);
-      }
-
-      setStaffPickProjects(updated);
-      handleCloseProjectModal();
+  
+      updated[selectedStaffPickIndex] = newItem; // 해당 슬롯에 작품 추가
+      setStaffPickProjects(updated);  // 상태 업데이트
+      handleCloseProjectModal();  // 모달 닫기
     }
   };
 
@@ -122,13 +103,11 @@ function MainModify() {
     })
       .then((res) => {
         if (!res.ok) throw new Error('삭제 실패');
+        // staffPickProjects 배열에서 해당 항목을 제거하고 나머지 항목을 당김
         const updated = [...staffPickProjects];
-        updated[index] = {
-          projectId: null,
-          thumbnailUrl: '',
-          title: '등록해주세요',
-          introduction: ''
-        };
+        updated.splice(index, 1);  // index 위치의 항목을 제거
+
+        // 한 칸씩 당기고, 마지막 슬롯에 '등록해주세요' 내용 추가
         setStaffPickProjects(updated);
         alert('삭제 완료!');
       })
@@ -161,26 +140,13 @@ function MainModify() {
   };
 
   return (
-    <div className='main-container'>
-      {/* 상단 슬라이드 배너 */}
-      <div className='sw'>
-        <Swiper
-          spaceBetween={30}
-          centeredSlides={true}
-          autoplay={{ delay: 2500, disableOnInteraction: false }}
-          pagination={{ clickable: true }}
-          navigation={true}
-          modules={[Autoplay, Pagination, Navigation]}
-          className="mySwiper"
-        >
-          {[...Array(9)].map((_, i) => (
-            <SwiperSlide key={i}>Slide {i + 1}</SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
+
+    <div className='main-container' style={{minWidth: '1060px'}}>
+      {/* MainBannerManage 컴포넌트 추가 */}
+      <MainBannerManage />
 
       {/* 스태프 선정 작품 */}
-      <div className='maincon'>
+      <div className='maincon mt-5'>
         <div className='bt'>
           <h1 className="text-center fw-bold mb-4">스태프 선정 작품 등록하기</h1>
           <p className='p  mb-5'>⚠️ 작품을 추가하거나 변경한 후에는 반드시 <span className="text-success">"저장하기"</span> 버튼을 눌러야 적용됩니다. ⚠️</p>
@@ -192,25 +158,31 @@ function MainModify() {
         
          
           <Swiper
-            slidesPerView={3}
+            slidesPerView={4}
             slidesPerGroup={1}
             spaceBetween={30}
             navigation={true}
-            loop={false}
             modules={[Navigation]}
             className="staffSwiper mt-3"
           >
-            {staffPickProjects.map((project, index) => (
-              <SwiperSlide key={index} style={{ display: 'flex', justifyContent: 'center' }}>
-                <ProjectCard
-                  project={project}
-                  editable
-                  onSelect={() => handleOpenProjectModal(index)}
-                  onDelete={() => handleRemoveStaffPickProject(index)}
-                  showStats={false}
-                />
-              </SwiperSlide>
-            ))}
+            {staffPickProjects.length === 0 ? (
+              // 높이는 선정작품 추가 했을때와 동일하게
+              <div className="d-flex align-items-center justify-content-center w-100" style={{height:"430px"}}> 
+                <h5>스태프 선정 작품을 등록해주세요</h5>
+              </div>
+            ) : (
+              staffPickProjects.map((project, index) => (
+                <SwiperSlide key={index} style={{ display: 'flex', justifyContent: 'center' }}>
+                  <ProjectCard
+                    project={project}
+                    editable
+                    onSelect={() => handleOpenProjectModal(index)} // 중복확인
+                    onDelete={() => handleRemoveStaffPickProject(index)}
+                    showStats={false}
+                  />
+                </SwiperSlide>
+              ))
+            )}
           </Swiper>
         </div>
       </div>

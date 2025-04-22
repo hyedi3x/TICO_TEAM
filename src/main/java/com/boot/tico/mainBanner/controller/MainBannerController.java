@@ -32,14 +32,16 @@ public class MainBannerController {
         logger.info("<<< url => getBanners >>>");
         return bannerService.getAllBanners();
     }
-
+    
+    // 저장 시 bannerId 없음 -> 등록
     @PostMapping
     public ResponseEntity<?> createBanner(@RequestBody MainBannerDTO dto) {
         logger.info("<<< url => createBanner >>>");
         bannerService.saveOrUpdateBanner(dto);
         return ResponseEntity.ok().build();
     }
-
+    
+    // 저장시 bannerId 있음 -> 수정
     @PutMapping
     public ResponseEntity<?> updateBanner(@RequestBody MainBannerDTO dto) {
         logger.info("<<< url => updateBanner >>>");
@@ -47,7 +49,7 @@ public class MainBannerController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/{id}/soft")
+    @PutMapping("/{id}/soft") // 경로 변수를 @PathVariable로 받는다.
     public ResponseEntity<?> softDelete(@PathVariable int id) {
         logger.info("<<< url => softDelete >>> id = {}", id);
         bannerService.softDelete(id);

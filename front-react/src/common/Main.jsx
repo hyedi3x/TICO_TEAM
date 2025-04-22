@@ -8,29 +8,16 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
-import { Card, Col, Row } from 'react-bootstrap';
+import { Card, Col, Row, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import img1 from '../imgs/짱구1.jpg';
 import ChatbotWindow from '../pages/chatbot/ChatbotWindow';
 import ErpLogo from '../pages/erp/ErpLogo';
 import ProjectCard from './ProjectCard';
 
 function Main() {
   const [userRole, setUserRole] = useState(null);
-  const [staffPicks, setStaffPicks] = useState([]);
+  const [staffPickProjects, setStaffPickProjects] = useState([]);
   const [allProjects, setAllProjects] = useState([]);
-  const [staffPickProjects, setStaffPickProjects] = useState([
-    { projectId: null, thumbnailUrl: '', title: '등록해주세요', introduction: '' },
-    { projectId: null, thumbnailUrl: '', title: '등록해주세요', introduction: '' },
-    { projectId: null, thumbnailUrl: '', title: '등록해주세요', introduction: '' },
-    { projectId: null, thumbnailUrl: '', title: '등록해주세요', introduction: '' },
-  ]);
-  const getDefaultStaffPickProjects = () => [
-    { projectId: null, thumbnailUrl: '', title: '등록해주세요', introduction: '' },
-    { projectId: null, thumbnailUrl: '', title: '등록해주세요', introduction: '' },
-    { projectId: null, thumbnailUrl: '', title: '등록해주세요', introduction: '' },
-    { projectId: null, thumbnailUrl: '', title: '등록해주세요', introduction: '' },
-  ];
   const [popularProjects, setPopularProjects] = useState([]);
   const [banners, setBanners] = useState([]);
   const navigate = useNavigate();
@@ -47,16 +34,18 @@ function Main() {
     }
   }, []);
 
+  // 인기 작품은 10개
   useEffect(() => {
     fetch('http://localhost:8081/project/popularProjects')
       .then(res => res.json())
       .then(data => {
-        console.log('🔥 인기 작품 목록:', data);
-        setPopularProjects(data);
+        const popData = data.slice(0, 10);
+        setPopularProjects(popData);
       })
       .catch(err => console.error("인기 작품 불러오기 실패:", err));
   }, []);
 
+  // 배너 목록 가져오기
   useEffect(() => {
     fetch('http://localhost:8081/banner/list')
       .then(res => res.json())
@@ -68,7 +57,7 @@ function Main() {
     if (url && !url.startsWith('http')) {
       return `http://localhost:8081${url}`;
     }
-    return url || img1;
+    return url;
   };
 
   useEffect(() => {
@@ -86,19 +75,16 @@ function Main() {
 
         setAllProjects(projects);
 
-        const newStaffPicks = getDefaultStaffPickProjects();
-        picks.forEach(pick => {
+        const newStaffPicks = picks.length > 0 ? picks.map(pick => {
           const matched = projects.find(p => Number(p.projectId) === Number(pick.projectId));
-          if (matched) {
-            newStaffPicks[pick.slotIndex] = {
-              projectId: matched.projectId,
-              thumbnailUrl: matched.thumbnailUrl,
-              title: matched.title,
-              introduction: matched.introduction,
-              slotIndex: pick.slotIndex
-            };
-          }
-        });
+          return matched ? {
+            projectId: matched.projectId,
+            thumbnailUrl: matched.thumbnailUrl,
+            title: matched.title,
+            introduction: matched.introduction,
+            slotIndex: pick.slotIndex
+          } : null;
+        }).filter(pick => pick !== null) : []; // 빈 배열이면, 빈 배열로 처리
 
         setStaffPickProjects(newStaffPicks);
       } catch (err) {
@@ -110,31 +96,61 @@ function Main() {
   }, []);
 
   return (
-    <div className='main-container'>
+    <div className='main-container' style={{ minWidth: '1060px' }}>
       <div className='sw'>
         <Swiper
           spaceBetween={30}
           centeredSlides={true}
           autoplay={{
-            delay: 2500,
-            disableOnInteraction: false,
+            delay: 5000,
+            disableOnInteraction: false, // 슬라이드를 클릭해도 자동 재생이 멈추지 않도록
           }}
           pagination={{
             clickable: true,
           }}
           navigation={true}
+          loop={true} // 자동으로 첫 번째로 돌아가도록 설정
+          speed={1000} // 넘어가는 속도를 1000ms 설정
           modules={[Autoplay, Pagination, Navigation]}
           className="mySwiper"
         >
-          {banners.map((banner, index) => (
-            <SwiperSlide key={index} onClick={() => navigate(banner.bannerLink)}>
-              <img
-                src={resolveThumbnailUrl(banner.bannerImage)}
-                alt={banner.bannerTitle}
-                style={{ width: '100%', height: '400px', objectFit: 'cover', cursor: 'pointer' }}
-              />
+          {banners.length === 0 ? (
+            <SwiperSlide>
+              <div className="d-flex align-items-center justify-content-center w-100" style={{ height: "430px" }}>
+                <h2>배너가 없습니다. 등록해주세요.</h2>
+              </div>
             </SwiperSlide>
-          ))}
+          ) : (
+            banners.map((banner, index) => (
+              <SwiperSlide key={index} onClick={() => navigate(banner.bannerLink)}>
+                <div style={{ position: 'relative', maxHeight: '430px' }}>
+                  <img
+                    src={resolveThumbnailUrl(banner.bannerImage)}
+                    alt={banner.bannerTitle}
+                    style={{
+                      width: '100%',
+                      objectFit: 'cover',
+                    }}
+                  />
+                  <div
+                    style={{
+                      position: 'absolute',
+                      bottom: '20px',
+                      right: '20px',
+                      backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                      color: 'white',
+                      padding: '10px',
+                      borderRadius: '5px',
+                      fontSize: '24px',
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    {banner.bannerTitle}
+                  </div>
+                </div>
+              </SwiperSlide>
+            ))
+          )}
         </Swiper>
       </div>
 
@@ -142,40 +158,69 @@ function Main() {
         <div className='bt'>
           <h1 className='h1'>스태프 선정 작품</h1>
           <p className='p'>창의적이고 완성도가 높은 작품을 스태프가 직접 뽑아 소개해요.</p>
+
           <Swiper
             slidesPerView={4}
             slidesPerGroup={1}
             spaceBetween={30}
-            navigation
+            autoplay={{
+              delay: 2500,
+              disableOnInteraction: false, // 슬라이드를 클릭해도 자동 재생이 멈추지 않도록
+            }}
+            navigation={true}
             loop={true}
-            modules={[Navigation]}
+            modules={[Autoplay, Navigation]}
             className="staffSwiper mt-3"
           >
-            {staffPickProjects.map((project, index) => (
-              <SwiperSlide key={index} style={{ display: 'flex', justifyContent: 'center' }}>
-                <ProjectCard
-                  project={project}
-                  onClick={() => navigate(`/share/detail/${project.projectId}`)}
-                  showStats={false}
-                />
-              </SwiperSlide>
-            ))}
+            {staffPickProjects.length === 0 ? (
+                <div className="d-flex align-items-center justify-content-center w-100" style={{ height: "430px" }}>
+                  <h2>스태프 선정 작품이 없습니다. 등록해주세요.</h2>
+                </div>
+            ) : (
+              staffPickProjects.map((project, index) => (
+                <SwiperSlide key={index} style={{ display: 'flex', justifyContent: 'center' }}>
+                  <ProjectCard
+                    project={project}
+                    onClick={() => navigate(`/share/detail/${project.projectId}`)}
+                    showStats={false}
+                  />
+                </SwiperSlide>
+              ))
+            )}
           </Swiper>
         </div>
 
         <div className="bt1">
           <h1>인기 작품</h1>
           <p>티코미들에게 이 작품들이 최근 주목 받고 있어요!</p>
-          <Row xs={1} sm={2} md={3} lg={4} className="g-4 justify-content-center mt-3">
-            {popularProjects.map((project, index) => (
-              <Col key={index}>
-                <ProjectCard
-                  project={project}
-                  onClick={() => navigate(`/share/detail/${project.projectId}`)}
-                />
-              </Col>
-            ))}
-          </Row>
+          <Swiper
+            slidesPerView={4}
+            slidesPerGroup={1}
+            spaceBetween={30}
+            autoplay={{
+              delay: 2500,
+              disableOnInteraction: false, // 슬라이드를 클릭해도 자동 재생이 멈추지 않도록
+            }}
+            navigation={true}
+            loop={true}
+            modules={[Autoplay, Navigation]}
+            className="staffSwiper mt-3"
+          >
+            {popularProjects.length === 0 ? (
+                <div className="d-flex align-items-center justify-content-center w-100" style={{ height: "430px" }}>
+                  <h2>인기 작품이 없습니다. 등록해주세요.</h2>
+                </div>
+            ) : (
+              popularProjects.map((project, index) => (
+                <SwiperSlide key={index} style={{ display: 'flex', justifyContent: 'center' }}>
+                  <ProjectCard
+                    project={project}
+                    onClick={() => navigate(`/share/detail/${project.projectId}`)}
+                  />
+                </SwiperSlide>
+              ))
+            )}
+          </Swiper>
         </div>
       </div>
 

@@ -56,7 +56,6 @@ function App() {
           <Route path="/share" element={<ShareGallery/>}/>
           <Route path="/share/detail/:projectId" element={<ShareDetail />} />
           <Route path="/canvas/:projectId" element={<ShareCanvas />} />
-          <Route path="/mainBannerManage" element={<MainBannerManage />} />
           <Route path="/mainModify" element={<MainModify/>}/>
         </Routes>
         <Footer />

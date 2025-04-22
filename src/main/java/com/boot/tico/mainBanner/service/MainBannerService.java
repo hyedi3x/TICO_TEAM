@@ -24,16 +24,15 @@ public class MainBannerService {
     public void saveOrUpdateBanner(MainBannerDTO dto) {
         MainBannerDTO banner;
 
-        if (dto.getBannerId() == 0) {
+        if (dto.getBannerId() == -1) {
             Optional<Integer> maxId = bannerRepository.findMaxBannerId();
-            int newId = maxId.orElse(0) + 1;
+            int newId = maxId.orElse(0) + 1; // 없으면 0이고 max + 1
             banner = new MainBannerDTO();
             banner.setBannerId(newId);
         } else {
             banner = bannerRepository.findById(dto.getBannerId()).orElse(new MainBannerDTO());
             banner.setBannerId(dto.getBannerId());
         }
-
         banner.setEmpId(dto.getEmpId());
         banner.setBannerImage(dto.getBannerImage());
         banner.setBannerLink(dto.getBannerLink());

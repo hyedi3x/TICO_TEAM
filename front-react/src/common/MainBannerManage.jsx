@@ -21,13 +21,22 @@ const MainBannerManage = () => {
   const userUuid = localStorage.getItem("user_uuid");
   const [showProjectModal, setShowProjectModal] = useState(false);
   const [allProjects, setAllProjects] = useState([]);
-
+  // 이미지 요청
   const resolveThumbnailUrl = (url) => {
     if (!url) return '';
     if (url.startsWith('http')) return url;
     return `http://localhost:8081${url}`;
   };
-  
+
+  // 전체 작품 불러오기
+  useEffect(() => {
+    fetch('http://localhost:8081/project/projectList')
+      .then(res => res.json())
+      .then(data => setAllProjects(data))
+      .catch(err => console.error("전체 작품 목록 불러오기 실패", err));
+  }, []);
+
+  // 베너 목록 가져오기
   useEffect(() => {
     fetch('http://localhost:8081/banner/list')
       .then(res => res.json())
@@ -35,6 +44,7 @@ const MainBannerManage = () => {
       .catch(err => console.error('배너 불러오기 실패:', err));
   }, []);
 
+  // 베너 추가, 수정 열기
   const openModal = (index = null) => {
     setSelectedIndex(index);
     if (index !== null) {
@@ -46,51 +56,54 @@ const MainBannerManage = () => {
         displayOrder: banner.displayOrder
       });
     } else {
-      setForm({ bannerTitle: '', bannerImage: '', bannerLink: '', displayOrder: 1 });
+      setForm({ bannerTitle: '', bannerImage: '', bannerLink: '', displayOrder: banners.length+1 });
     }
     setShowModal(true);
   };
 
+  // 수정하기
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm(prev => ({ ...prev, [name]: value }));
   };
 
+  // 모달 폼에서 이미지 등록
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
-
     const formData = new FormData();
     formData.append('file', file);
-
     try {
       const response = await fetch('http://localhost:8081/project/uploadImage', {
         method: 'POST',
         body: formData,
       });
-
       if (!response.ok) {
         throw new Error('이미지 업로드 실패');
       }
       const { imageUrl } = await response.json();
       setForm(prev => ({ ...prev, bannerImage: imageUrl }));
       console.log("이미지url", imageUrl);
-
     } catch (err) {
       console.error('업로드 중 오류 발생:', err);
       alert('이미지 업로드 중 오류가 발생했습니다.');
     }
   };
 
-  const handleSave = () => {
+  // 등록 또는 수정
+  const handleSave = () => { // 저장할 때 등록자와 베너 아이디 추가
+    if (!form.bannerTitle || !form.bannerLink || !form.displayOrder || !form.bannerImage) {
+      alert('모든 필드를 채워주세요.');
+      return; // 빈 필드가 있으면 저장하지 않음
+    }
     const payload = {
       ...form,
       empId: userUuid,
-      bannerId: banners[selectedIndex]?.bannerId || null,
+      bannerId: banners[selectedIndex]?.bannerId || -1, // -1로 가면 등록, 있으면 수정
     };
 
     const url = 'http://localhost:8081/banner';
-    const method = payload.bannerId ? 'PUT' : 'POST';
+    const method = payload.bannerId ==-1 ? 'PUT' : 'POST';
 
     fetch(url, {
       method,
@@ -99,54 +112,62 @@ const MainBannerManage = () => {
     })
       .then(res => {
         if (res.ok) {
-          alert('배너가 저장되었습니다.');
-          window.location.reload();
+          // 상태 업데이트: 서버에서 저장된 데이터에 따라 상태를 갱신
+          setBanners(prevBanners => {
+            const updatedBanners = [...prevBanners];
+            if (payload.bannerId === -1) {
+              updatedBanners.push({ ...payload, isDelete: 'N' }); // 새 배너 추가, 삭제 여부를 명시적으로 설정
+            } else {
+              updatedBanners[selectedIndex] = payload; // 기존 배너 수정
+            }
+            return updatedBanners;
+          });
+          alert('배너가 저장되었습니다.'); 
+          setShowModal(false);
         }
-      })
+      }) 
       .catch(err => console.error("배너 저장 실패:", err));
   };
 
-  const handleDelete = (bannerId, type = 'soft') => {
-    const url = `http://localhost:8081/banner/${bannerId}` + (type === 'soft' ? '/soft' : '');
+  // 삭제 또는 영구삭제
+  const handleDelete = (bannerId, type) => {
+    if(type=='hard' && !window.confirm('정말 삭제하시겠습니까?')) {
+      return;
+    }
+    const url = `http://localhost:8081/banner/${bannerId}` + (type === 'soft' ? '/soft' : ''); // 타입을 경로로 만든다
     const method = type === 'soft' ? 'PUT' : 'DELETE';
 
-    fetch(url, { method })
+    fetch(url, { method }) // 변수명이 동일해서 method: key 생략
       .then(res => {
         if (res.ok) {
-          if (type === 'soft') {
-            alert('배너가 삭제 처리되었습니다.');
-            setBanners(prev => prev.map(b => b.bannerId === bannerId ? { ...b, isDelete: 'Y' } : b));
+          if (type === 'soft') { // 실시간 변경
+            setBanners(prev => prev.map(before => before.bannerId === bannerId ? { ...before, isDelete: 'Y' } : before));
           } else {
             alert('배너가 영구 삭제되었습니다.');
-            setBanners(prev => prev.filter(b => b.bannerId !== bannerId));
+            setBanners(prev => prev.filter(before => before.bannerId !== bannerId));
           }
         }
       })
       .catch(err => console.error('삭제 실패:', err));
   };
 
+  // 삭제취소
   const handleCancelDelete = (bannerId) => {
     fetch(`http://localhost:8081/banner/${bannerId}/recover`, { method: 'PUT' })
       .then(res => {
         if (res.ok) {
-          alert('삭제가 취소되었습니다.');
           setBanners(prev => prev.map(b => b.bannerId === bannerId ? { ...b, isDelete: 'N' } : b));
         }
       })
       .catch(err => console.error('삭제 취소 실패:', err));
   };
 
-  useEffect(() => {
-    fetch('http://localhost:8081/project/projectList')
-      .then(res => res.json())
-      .then(data => setAllProjects(data))
-      .catch(err => console.error("전체 작품 목록 불러오기 실패", err));
-  }, []);
-
+  // 등록 모달 -> 작품 리스트 모달
   const handleAddStaffPick = () => {
     setShowProjectModal(true);
   };
 
+  // 모달 내부 작품 선택하면 링크를 설정하고 닫음 
   const handleSelectProject = (project) => {
     const link = `/share/detail/${project.projectId}`;
     setForm(prev => ({ ...prev, bannerLink: link }));
@@ -154,72 +175,63 @@ const MainBannerManage = () => {
   };
 
   return (
-    <div className="maincon">
+    <> {/*MainModify의 자식요소로 들어가게 된다*/}
       <h1 className="text-center fw-bold mb-4">메인 배너 관리</h1>
       <div className="d-flex justify-content-end gap-2 mb-3">
         <Button variant="primary" onClick={() => openModal(null)}>+ 배너 추가</Button>
       </div>
 
       <Swiper
-        slidesPerView={5}
+        slidesPerView={4}
+        slidesPerGroup={1}
         navigation
         spaceBetween={30}
         modules={[Navigation]}
-        className="staffSwiper"
+        className="staffSwiper mt-3"
       >
-        {banners.map((banner, index) => (
-          <SwiperSlide key={index} style={{ display: 'flex', justifyContent: 'center' }}>
-            <ProjectCard
-              project={{
-                projectId: banner.bannerId,
-                title: banner.bannerTitle,
-                introduction: banner.bannerLink,
-                thumbnailUrl: resolveThumbnailUrl(banner.bannerImage)
-              }}
-              onSelect={() => openModal(index)}
-              showStats={false}
-              extraButtons={
-                banner.isDelete === 'N' ? (
-                  <div className="d-flex gap-2">
-                    <Button
-                      variant="outline-primary"
-                      size="sm"
-                      onClick={() => openModal(index)}
-                    >
-                      수정
-                    </Button>
-                    <Button
-                      variant="warning"
-                      size="sm"
-                      onClick={() => handleDelete(banner.bannerId, 'soft')}
-                    >
-                      삭제
-                    </Button>
-                  </div>
-                ) : (
-                  <>
-                    <Button
-                      variant="success"
-                      size="sm"
-                      onClick={() => handleCancelDelete(banner.bannerId)}
-                    >
-                      삭제 취소
-                    </Button>
-                    <Button
-                      variant="danger"
-                      size="sm"
-                      className="ms-1"
-                      onClick={() => handleDelete(banner.bannerId, 'hard')}
-                    >
-                      영구삭제
-                    </Button>
-                  </>
-                )
-              }
-            />
-          </SwiperSlide>
-        ))}
+        {banners.length === 0 ? (
+          <div className="d-flex align-items-center justify-content-center w-100" style={{ height: "430px" }}>
+            <h5>스태프 선정 작품을 등록해주세요</h5>
+          </div>
+        ) : (
+          banners.map((banner, index) => (
+            <SwiperSlide key={index} style={{ display: 'flex', justifyContent: 'center' }}>
+              <ProjectCard
+                project={{
+                  projectId: banner.bannerId,
+                  title: banner.bannerTitle,
+                  introduction: banner.bannerLink,
+                  thumbnailUrl: resolveThumbnailUrl(banner.bannerImage)
+                }}
+                onSelect={() => openModal(index)}
+                showStats={false}
+                extraButtons={
+                  banner.isDelete === 'N' ? (
+                    <>
+                      <Button variant="outline-primary" size="sm" onClick={() => openModal(index)}>
+                        수정
+                      </Button>
+                      <Button variant="warning" size="sm" onClick={() => handleDelete(banner.bannerId, 'soft')}>
+                        삭제
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button variant="success" size="sm" onClick={() => handleCancelDelete(banner.bannerId)}>
+                        삭제 취소
+                      </Button>
+                      <Button variant="danger" size="sm" className="ms-1" onClick={() => handleDelete(banner.bannerId, 'hard')}>
+                        영구삭제
+                      </Button>
+                    </>
+                  )
+                }
+              />
+            </SwiperSlide>
+          ))
+        )}
       </Swiper>
+
 
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
@@ -265,7 +277,7 @@ const MainBannerManage = () => {
         onProjectSelect={handleSelectProject}
         projects={allProjects}
       />
-    </div>
+    </>
   );
 };
 
