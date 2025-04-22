@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useRef } from 'react';
-import SockJS from 'sockjs-client';
-import { Client } from '@stomp/stompjs';
-import './wepChat.css';
+import React, { useEffect, useState, useRef } from "react";
+import SockJS from "sockjs-client";
+import { Client } from "@stomp/stompjs";
+import "./wepChat.css";
 
 const WepChat = () => {
   const [messages, setMessages] = useState([]);
@@ -13,7 +13,8 @@ const WepChat = () => {
   // 로그인 체크
   useEffect(() => {
     setIsLoggedIn(!!localStorage.getItem("accessToken"));
-    localStorage.getItem("nickname") && setNickname(localStorage.getItem("nickname"));
+    localStorage.getItem("nickname") &&
+      setNickname(localStorage.getItem("nickname"));
   }, []);
 
   // STOMP 클라이언트 설정
@@ -26,10 +27,10 @@ const WepChat = () => {
       reconnectDelay: 5000,
       onConnect: () => {
         client.subscribe("/topic/public", ({ body }) => {
-          setMessages(prev => [...prev, JSON.parse(body)]);
+          setMessages((prev) => [...prev, JSON.parse(body)]);
         });
       },
-      onStompError: (err) => console.error("STOMP Error", err)
+      onStompError: (err) => console.error("STOMP Error", err),
     });
     client.activate();
     stompClientRef.current = client;
@@ -42,10 +43,19 @@ const WepChat = () => {
     const chatMessage = { sender: nickname, content: inputMessage };
     stompClientRef.current.publish({
       destination: "/app/chat.send",
-      body: JSON.stringify(chatMessage)
+      body: JSON.stringify(chatMessage),
     });
     setInputMessage("");
   };
+
+  //  메시지가 추가될 때 스크롤 맨 아래로 자동 이동
+  const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   return (
     <div className="wepchat-overlay">
@@ -57,13 +67,14 @@ const WepChat = () => {
               <strong>{msg.sender}:</strong> {msg.content}
             </div>
           ))}
+          <div ref={messagesEndRef} />  {/* 자동 스크롤 기능 */}
         </div>
         <div className="chat-input">
           <input
             type="text"
             value={inputMessage}
-            onChange={e => setInputMessage(e.target.value)}
-            onKeyDown={e => e.key === 'Enter' && sendMessage()}
+            onChange={(e) => setInputMessage(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && sendMessage()}
             placeholder="메시지를 입력하세요..."
           />
           <button onClick={sendMessage}>전송</button>
