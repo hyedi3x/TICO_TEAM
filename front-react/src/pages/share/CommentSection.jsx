@@ -4,7 +4,7 @@ import { Form, Button, ListGroup, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import './CommentSection.css';
 
-function CommentSection({ projectId, userUuid, projectCreatorUuid }) {
+function CommentSection({ projectId, userUuid, projectCreatorUuid, isPrivate }) {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const navigate = useNavigate();
@@ -45,6 +45,11 @@ function CommentSection({ projectId, userUuid, projectCreatorUuid }) {
     if (!userUuid) {
       alert("댓글을 작성하려면 로그인 후 이용해주세요.");
       navigate("/login");  // 로그인 페이지로 리디렉션
+    }
+
+    if(isPrivate === 'Y'){
+      alert("비공개된 작품입니다.");
+      return;
     }
   };
 

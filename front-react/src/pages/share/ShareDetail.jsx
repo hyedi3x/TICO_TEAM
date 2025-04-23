@@ -68,6 +68,11 @@ function ShareDetail() {
       return;
     }
 
+    if(project.isPrivate === 'Y'){
+      alert("비공개된 작품입니다.");
+      return;
+    }
+
     axios.post(`http://localhost:8081/favor/toggle`, {
       projectId: parseInt(projectId),
       userUuid,
@@ -133,6 +138,7 @@ function ShareDetail() {
             projectId={project.projectId}
             userUuid={localStorage.getItem('user_uuid')}
             projectCreatorUuid={creater}
+            isPrivate={project.isPrivate}
           />
         </Col>
       </Row>
