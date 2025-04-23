@@ -507,45 +507,57 @@ function Canvas() {
       return () => canvas.removeEventListener("click", handleCanvasClick);
     }, []);
   
-  // 이미지, 작업공간 삭제
+  // 이미지 및 해당 작업공간(Blockly div 포함) 삭제 함수
   function imgDel(index) {
-    console.log('삭제할 인덱스 : ', index);
-    
-    // 1. 이미지 배열에서 제거
-    imgArr.current.splice(index, 1);
-  
-    // 2. Blockly 작업공간 제거
-    const workspaceToRemove = blocklyArr.current[index];
-    if (workspaceToRemove) {
-      workspaceToRemove.dispose(); // 내부 블록, 이벤트 등 메모리 제거
-    }
-  
-    // 3. DOM에서 블록리 작업공간 div 제거
+    // 1. 현재 오브젝트에 연결된 blockly 작업공간 div를 DOM에서 완전히 삭제
     const blocklyDivElement = document.getElementById(`blockly${index}`);
     if (blocklyDivElement) {
-      blocklyDivElement.remove(); // 실제 DOM 제거
+      blocklyDivElement.remove();
     }
-  
-    // 4. 배열에서도 제거
-    blocklyArr.current.splice(index, 1);
-  
-    // 5. 남은 작업공간들 인덱스 및 DOM ID 재정렬
-    blocklyArr.current.forEach((workspace, newIndex) => { // 마우스 클릭시, 아이디 사용, 아래 보이는 작업공간 처리를 위해서도 id 재할당 필요
-      const oldId = `blockly${workspace.index}`; // 작업공간별 저장했던 인덱스
-      const newId = `blockly${newIndex}`;
-      const div = document.getElementById(oldId); // 옛날 id 갱신
-      if (div) {
-        div.id = newId; // id 갱신
-      }
+
+    // 2. imgArr와 blocklyArr에서 해당 인덱스의 요소를 제거 (데이터 동기화)
+    imgArr.current.splice(index, 1);  // 이미지(오브젝트) 배열에서 제거
+    const workspaceToRemove = blocklyArr.current[index];
+    if (workspaceToRemove) workspaceToRemove.dispose(); // 블록리 작업공간 내부도 정리
+    blocklyArr.current.splice(index, 1);  // 작업공간 배열에서 제거
+
+    // 3. 남아있는 모든 작업공간 div의 id와 workspace.index를 실제 배열 인덱스에 맞게 재정렬
+    blocklyArr.current.forEach((workspace, i) => {
+      const oldId = `blockly${workspace.index}`; // 기존 id (혹시 id가 뒤섞였을 경우 대비)
+      const newId = `blockly${i}`;               // 새로운 id (배열 인덱스 기준)
+      const div = document.getElementById(oldId);
+      if (div) div.id = newId;                   // id를 새로운 값으로 변경
+      workspace.index = i;                       // 내부 workspace.index도 동기화
     });
-    const elements = document.querySelectorAll('[id*="blockly"][style="display: block;"]'); // *=은 부분일치
-    if(elements.length === 0){
-      const firstBlock = document.getElementById("blockly0");
-      if (firstBlock) {
-        firstBlock.style.display = "block";
-      }
+
+    // 4. blocklyDiv 부모에 남아있는 자식 div 중 blocklyArr 길이보다 많은(div가 중복된) 경우 초과분을 삭제
+    //    → 실제 blockly 작업공간 수와 DOM 상의 blockly div 수를 항상 일치시키기 위함
+    const blocklyDivParent = blocklyDiv.current;
+    if (blocklyDivParent) {
+      const childDivs = Array.from(blocklyDivParent.children);
+      childDivs.forEach((div, idx) => {
+        if (idx >= blocklyArr.current.length) div.remove();
+      });
     }
-    // 6. 전체 다시 렌더링
+
+    // 5. imgArr 내부 각 오브젝트의 index 필드도 순서대로 다시 할당 (렌더링 시 UI 동기화 목적)
+    imgArr.current.forEach((obj, i) => {
+      obj.index = i;
+    });
+
+    // 6. 남은 오브젝트가 있으면 첫 번째 오브젝트를 선택하고, 그에 해당하는 blockly div만 표시 (나머지는 숨김)
+    //    → 오브젝트가 하나도 없으면 선택 해제
+    if (imgArr.current.length > 0) {
+      setSelectedImageIndex(0);
+      blocklyArr.current.forEach((workspace, idx) => {
+        const div = document.getElementById(`blockly${idx}`);
+        if (div) div.style.display = idx === 0 ? 'block' : 'none';
+      });
+    } else {
+      setSelectedImageIndex(null);
+    }
+
+    // 7. 캔버스를 다시 렌더링하여 UI 동기화
     callImgArr();
   }
 
@@ -559,6 +571,14 @@ function Canvas() {
     return () => cleanup();
   }, []);
   
+  useEffect(() => {
+    blocklyArr.current.forEach((workspace, i) => {
+      const blocklyDivElement = document.getElementById(`blockly${workspace.index}`);
+      if (blocklyDivElement) {
+        blocklyDivElement.style.display = (workspace.index === selectedImageIndex ? 'block' : 'none');
+      }
+    });
+  }, [selectedImageIndex]);
 
   /** ─────────────── 렌더링 ─────────────── **/
   return (
@@ -597,19 +617,9 @@ function Canvas() {
                       callImgArr();
                     }}
                     i={index}
-                    onDelete={imgDel}
+                    onDelete={() => imgDel(index)}
                     isSelected={selectedImageIndex === index}
-                    onClick={() => {
-                      setSelectedImageIndex(index);
-                    
-                      // 선택된 오브젝트의 blockly 작업공간 보여주기
-                      blocklyArr.current.forEach((workspace) => {
-                        const blocklyDivElement = document.getElementById(`blockly${workspace.index}`);
-                        if (blocklyDivElement) {
-                          blocklyDivElement.style.display = (workspace.index === index ? 'block' : 'none');
-                        }
-                      });
-                    }}
+                    onClick={() => setSelectedImageIndex(index)} // 이 부분만 남김
                     />
                 </div>
             ))}

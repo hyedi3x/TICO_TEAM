@@ -28,14 +28,14 @@ function ObjectControlPanel({  object, onUpdate, i, onDelete, isSelected, onClic
         >
           <Card.Title style={{ fontSize: '15px', marginBottom: 0 }}>
             {object.hidden ? '👻 ' : '🧩 '}
-            {i + 1}번째 오브젝트 속성
+            {i + 1}번째 오브젝트 속성(index : {object.index})
           </Card.Title>
           <Button
             variant="outline-danger"
             size="sm"
             onClick={(e) => {
               e.stopPropagation(); // 카드 전체 클릭 방지
-              onDelete(object.index);
+              onDelete();
             }}
             style={{ padding: '2px 8px', fontSize: '12px' }}
           >
