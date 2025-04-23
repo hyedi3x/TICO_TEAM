@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axiosInstance from '../login/social/utils/axiosInstance';
-import { Container, Row, Col, Card, Tabs, Tab, Button } from 'react-bootstrap';
+import { Container, Row, Col, Card, Tabs, Tab, Button, Dropdown } from 'react-bootstrap';
 import './ShareDetail.css';
 import CommentSection from './CommentSection';
 import ShareCanvas from '../../blockly/components/BlocklyComponentRun';
+import { handleDeleteProject } from '../../blockly/utils/deleteProject';
 
 function ShareDetail() {
   const { projectId } = useParams();
@@ -14,6 +15,7 @@ function ShareDetail() {
   const [liked, setLiked] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
   const [creater, setCreater] = useState(null);
+  const [commentEnabled, setCommentEnabled] = useState(true);
 
   const userUuid = localStorage.getItem('user_uuid');
   const navigate = useNavigate();
@@ -92,6 +94,12 @@ function ShareDetail() {
 
   if (!project) return <div className="text-center mt-5">로딩 중...</div>;
 
+  const isOwner = project.userUuid === userUuid;
+
+  const handleToggleComment = () => {
+    setCommentEnabled(prev => !prev);
+  };
+  
   return (
     <Container className="share-detail-container py-5">
       <Row className="justify-content-center">
@@ -103,8 +111,27 @@ function ShareDetail() {
             <Card.Body>
               <Card.Title as="h2" className="text-center mb-4">
                 {project.title}
+                <Dropdown align="end" className="float-end">
+                  <Dropdown.Toggle variant="light" id="dropdown-basic">
+                    <span style={{ fontSize: "2rem" }}>⋮</span>
+                  </Dropdown.Toggle>
+                  {isOwner && (
+                      <Dropdown.Menu>
+                        <Dropdown.Item>수정하기</Dropdown.Item>
+                        <Dropdown.Item onClick={() => {handleDeleteProject(project.projectId); navigate("/MypageMain");}}>삭제하기</Dropdown.Item>
+                        <Dropdown.Item>{project.isPrivate === 'Y' ? '공개로 변경' : '비공개로 변경'}</Dropdown.Item>
+                        <Dropdown.Item onClick={handleToggleComment}>
+                          {commentEnabled ? '댓글 사용 안 함' : '댓글 사용'}
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    )}
+                  {!isOwner && (
+                      <Dropdown.Menu>
+                        <Dropdown.Item>신고하기</Dropdown.Item>
+                      </Dropdown.Menu>
+                  )}
+                  </Dropdown>
               </Card.Title>
-
               <Tabs defaultActiveKey="intro" className="mb-3 justify-content-center" fill>
                 <Tab eventKey="intro" title="소개">
                   <p className="text-center">{project.introduction || '등록된 소개글이 없습니다.'}</p>
@@ -134,12 +161,16 @@ function ShareDetail() {
               </div>
             </Card.Body>
           </Card>
-          <CommentSection
-            projectId={project.projectId}
-            userUuid={localStorage.getItem('user_uuid')}
-            projectCreatorUuid={creater}
-            isPrivate={project.isPrivate}
-          />
+          {commentEnabled ? (
+            <CommentSection
+              projectId={project.projectId}
+              userUuid={userUuid}
+              projectCreatorUuid={creater}
+              isPrivate={project.isPrivate}
+            />
+          ) : (
+            <div className="text-center my-5 text-muted">댓글을 사용하지 않습니다.</div>
+          )}
         </Col>
       </Row>
     </Container>
