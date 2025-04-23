@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({ // 서버와 통신할 때 사용하는 axios 인스턴스 생성
-  baseURL: 'http://43.202.174.19', //  baseURL : 기본 url생성 (기준)
+  baseURL: 'http://43.202.174.19:8081', //  baseURL : 기본 url생성 (기준)
   headers: {  
     'Content-Type': 'application/json' // 모든 요청에 Content-Type / application/json 포함
   }

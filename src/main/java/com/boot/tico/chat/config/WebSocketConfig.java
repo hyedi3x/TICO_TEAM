@@ -18,8 +18,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
   @Override
   public void registerStompEndpoints(StompEndpointRegistry registry) {
     registry
-      .addEndpoint("/ws-chat")                   // WebSocket 엔드포인트
-      .setAllowedOrigins("http://localhost:3000")// React 앱 주소
-      .withSockJS();                             // SockJS fallback 지원
+      .addEndpoint("/ws-chat")                   	  // WebSocket 엔드포인트
+      .setAllowedOrigins("http://43.202.174.19:3000") // React 앱 주소
+      .withSockJS();                             	  // SockJS fallback 지원
   }
 }
