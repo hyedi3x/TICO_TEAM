@@ -63,6 +63,8 @@ public class ProjectDTO {
 
     @Column(name = "updated_at")
     private Timestamp updatedAt;
+    
+    private Integer number;
 
     @PrePersist
     protected void onCreate() {

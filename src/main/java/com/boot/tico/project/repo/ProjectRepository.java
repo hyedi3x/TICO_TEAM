@@ -13,33 +13,45 @@ import com.boot.tico.project.dto.ProjectDTO;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<ProjectDTO, Integer>{
+	
 	/**
-     * [1] 가장 마지막 프로젝트 ID 반환 (project_id 기준, 없으면 0 반환)
+     * [1] 가장 마지막 프로젝트 ID 반환
+     * - 가장 큰 project_id 값을 반환하고, 없으면 0을 반환
      */
 	@Query(value = "SELECT IFNULL(MAX(project_id), 0) FROM project_tb", nativeQuery = true)
 	int getLatestProjectId();
 	
 	/**
-     * [2] 삭제되지 않은 전체 프로젝트 목록 조회
+     * [2] 사용자가 만든 작품 수를 계산
+     * - 특정 사용자가 만든 삭제되지 않은 작품 수를 반환
+     */
+	@Query(value = "SELECT COUNT(*) FROM project_tb WHERE user_uuid = :userUuid AND isdelete = 'N'", nativeQuery = true)
+	int countByUserUuid(@Param("userUuid") String userUuid);
+	
+	/**
+     * [3] 삭제되지 않은 전체 프로젝트 목록 조회
+     * - 삭제되지 않은 프로젝트 목록을 조회
      */
 	@Query(value = "SELECT * FROM project_tb WHERE isdelete = 'N' ORDER BY project_id", nativeQuery = true)
 	List<ProjectDTO> findByIsDelete(); // "N"이면 살아있는 것만
 	
 	/**
-     * [3] 특정 유저의 삭제되지 않은 프로젝트 목록 조회
+     * [4] 특정 유저의 삭제되지 않은 프로젝트 목록 조회
+     * - 특정 유저의 삭제되지 않은 프로젝트 목록을 조회
      */
 	@Query(value = "SELECT * FROM project_tb WHERE user_uuid = :userUuid AND isdelete = 'N' ORDER BY project_id", nativeQuery = true)
 	List<ProjectDTO> findByUserUuid(String userUuid);
 	
 	/**
-     * [4] 공개된 프로젝트 목록 조회 (isPrivate = 'N' AND isDelete = 'N')
+     * [5] 공개된 프로젝트 목록 조회
+     * - 공개된 프로젝트 목록을 조회 (isPrivate = 'N' AND isDelete = 'N')
      */
 	@Query(value="SELECT * FROM project_tb WHERE isPrivate = 'N' AND isDelete = 'N'", nativeQuery=true)
 	List<ProjectDTO> findByIsPrivate();
 	
 	/**
-     * [5] 프로젝트 공유 처리
-     * (공개 설정 + 태그/카테고리/소개글/가이드/참고사항 + 동의 여부 업데이트)
+     * [6] 프로젝트 공유 처리
+     * - 프로젝트의 카테고리, 태그, 소개글, 가이드, 참고사항, 동의 여부 업데이트
      */
 	@Modifying
     @Transactional
@@ -62,6 +74,12 @@ public interface ProjectRepository extends JpaRepository<ProjectDTO, Integer>{
         @Param("agree") String agree,
         @Param("priv") String priv
     );
+	
+	/**
+	 * [7] 삭제 후 존재하는 작품들 번호 재배치
+	 */
+	@Query(value = "SELECT * FROM project_tb WHERE user_uuid = :userUuid AND isdelete = 'N' ORDER BY created_at", nativeQuery = true)
+	List<ProjectDTO> findByUserUuidAndIsDelete(@Param("userUuid") String userUuid);
 	
 	// 조회수 업데이트
 	@Modifying
