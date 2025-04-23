@@ -82,7 +82,7 @@ function MypageMain() {
                   title="내 작품"
                   icon={<Icon as={FaEdit} />}
                 >
-                <Nav.Item eventKey="4-3">내 작품</Nav.Item>
+                  <Nav.Item eventKey="4-3">내 작품</Nav.Item>
                 </Nav.Menu>
               </Nav>
             </Sidenav.Body>
