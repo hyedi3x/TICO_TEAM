@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Button, Form, Row, Col, Card, Badge } from 'react-bootstrap';
+import { Modal, Button, Form, Input, SelectPicker, Checkbox, Grid, Row, Col, Card, Badge } from 'rsuite';
 import axiosInstance from '../login/social/utils/axiosInstance';
 import './ShareModal.css';
 
@@ -21,11 +21,9 @@ function ShareModal({ show, onClose }) {
 
   useEffect(() => {
     if (show) {
-      // 작품 목록 불러오기
       axiosInstance.get(`/project/userProjects/${userUuid}`)
         .then(res => setMyProjects(res.data));
-  
-      // ✅ 상태 초기화
+
       setStep(1);
       setSelected(null);
       setForm({
@@ -38,11 +36,10 @@ function ShareModal({ show, onClose }) {
       });
     }
   }, [show]);
-  
 
   const resolveThumbnailUrl = (url) => {
-    if (url.startsWith('http')) return url; // 이미 전체 URL이면 그대로
-    return `http://localhost:8081${url}`;    // 상대경로면 도메인 붙여줌
+    if (url.startsWith('http')) return url;
+    return `http://43.202.174.19:8081${url}`;
   };
 
   const handleChange = (field, value) => {
@@ -64,9 +61,7 @@ function ShareModal({ show, onClose }) {
     };
 
     try {
-      await axiosInstance.put("/project/shareProject", {
-        projectInfo,
-      });
+      await axiosInstance.put("/project/shareProject", { projectInfo });
       alert("공유 완료!");
       onClose();
     } catch (err) {
@@ -83,89 +78,95 @@ function ShareModal({ show, onClose }) {
   };
 
   return (
-    <Modal show={show} onHide={onClose} backdrop="static" keyboard={false} size="xl" centered>
-      <Modal.Header closeButton>
+    <Modal open={show} onClose={onClose} backdrop="static" keyboard={false} size="lg">
+      <Modal.Header>
         <Modal.Title>작품 공유하기</Modal.Title>
       </Modal.Header>
-
       <Modal.Body>
         {step === 1 && (
           <>
             <p>공유할 작품을 선택해주세요.</p>
-            <Row>
-              {myProjects.map(project => (
-                <Col xs={12} sm={6} md={4} key={project.projectId}>
+            <Grid fluid>
+              <Row gutter={16}>
+                {myProjects.map(project => (
+                  <Col xs={24} sm={12} md={8} key={project.projectId} style={{ marginBottom: 24 }}>
                   <Card
                     onClick={() => handleProjectSelect(project)}
-                    className={`project-card ${selected?.projectId === project.projectId ? 'selected' : ''}`}
+                    className={`rsuite-project-card${selected?.projectId === project.projectId ? ' selected' : ''}`}
+                    style={{
+                      border: selected?.projectId === project.projectId ? '2px solid #3498ff' : '1px solid #eee',
+                      cursor: 'pointer',
+                      minWidth: 260,
+                      minHeight: 330,
+                      boxShadow: '0 4px 16px rgba(0,0,0,0.09)',
+                      borderRadius: 18,
+                      fontSize: 17
+                    }}
                   >
-                    <Card.Img
-                      variant="top"
+                    <img
                       src={resolveThumbnailUrl(project.thumbnailUrl)}
-                      className="thumbnail"
+                      style={{ width: '100%', height: 200, objectFit: 'contain', borderRadius: '18px 18px 0 0' }}
+                      alt={project.title}
                     />
                     <Card.Body>
-                      <Card.Title className="title">{project.title}</Card.Title>
-                      {project.isPrivate === 'Y' && (
-                        <Badge bg="secondary" className="private-badge">비공개</Badge>
-                      )}
+                      <div style={{ fontWeight: 600, fontSize: 19, whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>{project.title}</div>
+                      {project.isPrivate === 'Y' &&
+                        <Badge content="비공개" style={{ background: '#888', fontSize: 14, marginTop: 10 }} />
+                      }
                     </Card.Body>
                   </Card>
                 </Col>
-              ))}
-            </Row>
+                ))}
+              </Row>
+            </Grid>
           </>
         )}
 
         {step === 2 && (
-          <>
+          <Form fluid>
             <p><strong>공유 정보 입력</strong></p>
-            <Form>
-              <Form.Group className="mb-2">
-                <Form.Label>카테고리</Form.Label>
-                <Form.Select value={form.category} onChange={(e) => handleChange('category', e.target.value)}>
-                  <option>기타</option>
-                  <option>게임</option>
-                  <option>예술</option>
-                  <option>도구</option>
-                </Form.Select>
-              </Form.Group>
-
-              <Form.Group className="mb-2">
-                <Form.Label>태그 (쉼표로 구분)</Form.Label>
-                <Form.Control type="text" value={form.tags} onChange={(e) => handleChange('tags', e.target.value)} />
-              </Form.Group>
-
-              <Form.Group className="mb-2">
-                <Form.Label>작품 소개</Form.Label>
-                <Form.Control as="textarea" rows={2} value={form.introduction} onChange={(e) => handleChange('introduction', e.target.value)} />
-              </Form.Group>
-
-              <Form.Group className="mb-2">
-                <Form.Label>사용 방법</Form.Label>
-                <Form.Control as="textarea" rows={2} value={form.guide} onChange={(e) => handleChange('guide', e.target.value)} />
-              </Form.Group>
-
-              <Form.Group className="mb-2">
-                <Form.Label>참고 사항</Form.Label>
-                <Form.Control as="textarea" rows={2} value={form.notes} onChange={(e) => handleChange('notes', e.target.value)} />
-              </Form.Group>
-
-              <Form.Check
-                type="checkbox"
-                label="작품 공유에 동의합니다."
-                checked={form.isAgree}
-                onChange={(e) => handleChange('isAgree', e.target.checked)}
+            <Form.Group>
+              <Form.ControlLabel>카테고리</Form.ControlLabel>
+              <SelectPicker
+                data={[
+                  { label: '기타', value: '기타' },
+                  { label: '게임', value: '게임' },
+                  { label: '예술', value: '예술' },
+                  { label: '도구', value: '도구' }
+                ]}
+                value={form.category}
+                onChange={value => handleChange('category', value)}
+                style={{ width: 200 }}
               />
-            </Form>
-          </>
+            </Form.Group>
+            <Form.Group>
+              <Form.ControlLabel>태그 (쉼표로 구분)</Form.ControlLabel>
+              <Input value={form.tags} onChange={value => handleChange('tags', value)} />
+            </Form.Group>
+            <Form.Group>
+              <Form.ControlLabel>작품 소개</Form.ControlLabel>
+              <Input as="textarea" rows={2} value={form.introduction} onChange={value => handleChange('introduction', value)} />
+            </Form.Group>
+            <Form.Group>
+              <Form.ControlLabel>사용 방법</Form.ControlLabel>
+              <Input as="textarea" rows={2} value={form.guide} onChange={value => handleChange('guide', value)} />
+            </Form.Group>
+            <Form.Group>
+              <Form.ControlLabel>참고 사항</Form.ControlLabel>
+              <Input as="textarea" rows={2} value={form.notes} onChange={value => handleChange('notes', value)} />
+            </Form.Group>
+            <Form.Group>
+              <Checkbox checked={form.isAgree} onChange={value => handleChange('isAgree', value)}>
+                작품 공유에 동의합니다.
+              </Checkbox>
+            </Form.Group>
+          </Form>
         )}
       </Modal.Body>
-
       <Modal.Footer>
-        {step === 2 && <Button variant="secondary" onClick={() => setStep(1)}>← 이전</Button>}
-        {step === 1 && <Button variant="primary" onClick={() => selected ? setStep(2) : alert("작품을 선택하세요.")}>다음 →</Button>}
-        {step === 2 && <Button variant="success" onClick={handleSubmit}>공유 완료</Button>}
+        {step === 2 && <Button appearance="subtle" onClick={() => setStep(1)}>← 이전</Button>}
+        {step === 1 && <Button appearance="primary" onClick={() => selected ? setStep(2) : alert("작품을 선택하세요.")}>다음 →</Button>}
+        {step === 2 && <Button appearance="primary" color="green" onClick={handleSubmit}>공유 완료</Button>}
       </Modal.Footer>
     </Modal>
   );

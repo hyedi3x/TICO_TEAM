@@ -39,10 +39,10 @@ export const loadProjectToCanvas = async (
     return new Promise((resolve) => {
       const img = new Image();
       img.crossOrigin = "anonymous";
-      if(obj.url === 'http://localhost:8081/uploads/entrybot.png'){
+      if(obj.url === 'http://43.202.174.19:8081/uploads/entrybot.png'){
         img.src = obj.url;
       } else {
-        img.src = `http://localhost:8081${obj.url}`;
+        img.src = `http://43.202.174.19:8081${obj.url}`;
       }
 
       img.onload = () => {
