@@ -4,10 +4,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axiosInstance from '../social/utils/axiosInstance';
 import './cert.css';
 
-export default function Cert() {
+function Cert() {
   const { state } = useLocation();
-  const ageGroup  = state?.ageGroup;  // "under14" 또는 "over14"
-  const navigate  = useNavigate();
+  const ageGroup = state?.ageGroup; // "under14" 또는 "over14"
+  const navigate = useNavigate();
 
   // 폼 상태
   const [form, setForm] = useState({
@@ -18,13 +18,13 @@ export default function Cert() {
     parentPhone: ''
   });
   const [code, setCode] = useState('');
-  const [msg, setMsg]   = useState('');
+  const [msg, setMsg] = useState('');
   const [step, setStep] = useState('send'); // 'send' → 'verify'
 
   // input 핸들러
   const onChange = e => {
     const { name, value } = e.target;
-    setForm(f => ({ ...f, [name]: value }));
+    setForm(prev => ({ ...prev, [name]: value }));
   };
 
   // 인증번호 전송
@@ -135,3 +135,5 @@ export default function Cert() {
     </div>
   );
 }
+
+export default Cert;

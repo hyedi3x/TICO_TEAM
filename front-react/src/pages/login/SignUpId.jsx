@@ -4,6 +4,7 @@ import './signUpId.css';
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from 'axios';
+import axiosInstance from "./social/utils/axiosInstance";
 
 export default function SignUpId() {
   const navigate = useNavigate();
@@ -114,7 +115,7 @@ export default function SignUpId() {
 
     setIsLoading(true);
     try {
-      await axios.post("http://localhost:8081/auth/register", {
+      await axiosInstance.post('/auth/register', {
         email: fullEmail,
         password: userPwd,
         name: userName,

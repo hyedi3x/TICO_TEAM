@@ -83,7 +83,7 @@ function Login() {
 };
 
   const handleSocialLogin = (provider) => {
-    const url = `http://localhost:8081/oauth2/authorization/${provider}?flow=login`;
+    const url = `http://43.202.174.19/oauth2/authorization/${provider}?flow=login`;
     console.log("소셜 로그인 이동 URL:", url);
     window.location.href = url;
   };
