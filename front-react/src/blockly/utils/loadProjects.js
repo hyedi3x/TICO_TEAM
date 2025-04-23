@@ -1,10 +1,10 @@
-import axios from 'axios';
+import axiosInstance from "../../pages/login/social/utils/axiosInstance";
 
 // 전체 프로젝트 불러오기
 export const fetchAllProjects = async () => {
   try {
     const userid = localStorage.getItem("user_uuid");
-    const res = await axios.get(`http://localhost:8081/project/userProjects/${userid}`);
+    const res = await axiosInstance.get(`http://localhost:8081/project/userProjects/${userid}`);
     return res.data;
   } catch (err) {
     console.error('작품 목록 불러오기 실패:', err);

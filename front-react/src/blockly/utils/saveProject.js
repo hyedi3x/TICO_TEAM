@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axiosInstance from '../../pages/login/social/utils/axiosInstance';
 import * as Blockly from 'blockly';
 
 export const handleSaveProject = async (imgArr, blocklyArr, project_id, projectTitle) => {
@@ -50,7 +50,7 @@ export const handleSaveProject = async (imgArr, blocklyArr, project_id, projectT
     let res;
     if (!project_id) {
       // INSERT (신규 저장)
-      res = await axios.post('http://localhost:8081/project/saveProject', {
+      res = await axiosInstance.post('http://localhost:8081/project/saveProject', {
         projectInfo,
         objects
       });
@@ -58,7 +58,7 @@ export const handleSaveProject = async (imgArr, blocklyArr, project_id, projectT
     } 
     else {
       // UPDATE (기존 작품 수정)
-      res = await axios.put('http://localhost:8081/project/updateProject', {
+      res = await axiosInstance.put('http://localhost:8081/project/updateProject', {
         projectInfo,
         objects
       });

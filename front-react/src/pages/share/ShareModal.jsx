@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Button, Form, Row, Col, Card, Badge } from 'react-bootstrap';
-import axios from 'axios';
+import axiosInstance from '../login/social/utils/axiosInstance';
 import './ShareModal.css';
 
 function ShareModal({ show, onClose }) {
@@ -22,7 +22,7 @@ function ShareModal({ show, onClose }) {
   useEffect(() => {
     if (show) {
       // 작품 목록 불러오기
-      axios.get(`http://localhost:8081/project/userProjects/${userUuid}`)
+      axiosInstance.get(`http://localhost:8081/project/userProjects/${userUuid}`)
         .then(res => setMyProjects(res.data));
   
       // ✅ 상태 초기화
@@ -64,7 +64,7 @@ function ShareModal({ show, onClose }) {
     };
 
     try {
-      await axios.put("http://localhost:8081/project/shareProject", {
+      await axiosInstance.put("http://localhost:8081/project/shareProject", {
         projectInfo,
       });
       alert("공유 완료!");
