@@ -1,6 +1,6 @@
-import axios from "axios";
 import React, { useState, useRef, useEffect } from "react";
 import { IoPersonCircle } from "react-icons/io5";   // 프로필 아이콘(기본 이미지 대체용)
+import axiosInstance from "../login/social/utils/axiosInstance";
 
 function ErpDTO() {
   const [empInfo, setEmpInfo] = useState(null);   // 로그인된 사원 정보 상태(초기값 null)
@@ -11,8 +11,8 @@ function ErpDTO() {
     const empId = localStorage.getItem("user_uuid");  // 로그인된 사용자 UUID를 localStorage에서 읽어서 정보 요청
   
     if (empId) {
-      axios
-        .get(`http://localhost:8081/api/notices/employee/${empId}`)
+      axiosInstance
+        .get(`/api/notices/employee/${empId}`)
         .then((response) => {
           console.log("응답 데이터 :", response.data);  // 서버 응답 로그 출력 
           setEmpInfo(response.data);   // 사원 정보 상태에 저장

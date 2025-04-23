@@ -26,7 +26,7 @@ const ObjectUploader = ({ uploadedFiles, onFileChange, onDelete, onSelect }) => 
         {uploadedFiles.map(file => (
           <div key={file.id} className="objectSelectPage-upload-preview-item">
             <img
-              src={`http://localhost:8081/uploads/${file.storedFilename}`}
+              src={`http://43.202.174.19:8081/uploads/${file.storedFilename}`}
               alt={file.originalFilename}
               className="objectSelectPage-upload-preview-img"
               onClick={() => onSelect({
