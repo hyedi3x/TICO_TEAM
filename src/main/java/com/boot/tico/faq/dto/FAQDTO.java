@@ -24,8 +24,9 @@ import lombok.ToString;
 public class FAQDTO {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private int qa_id;
+	private String emp_id;
     private String question;
 	private String answer;
+	private String modify_id;
 }

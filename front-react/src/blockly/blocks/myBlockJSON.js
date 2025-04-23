@@ -720,7 +720,7 @@ const defineMyBlocks = ()=>{
     // 접촉 여부 판단 블록
     {
       "type": "is_touching",
-      "message0": "%1 에 닿았는가?",
+      "message0": "복제본이 %1 에 닿았는가?",
       "args0": [
         {
           "type": "field_dropdown",

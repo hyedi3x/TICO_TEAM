@@ -1,4 +1,4 @@
-import axios from "axios";
+import axiosInstance from "../../pages/login/social/utils/axiosInstance";
 
 export const handleDeleteProject = async (projectId) => {
     if(!projectId){
@@ -10,8 +10,9 @@ export const handleDeleteProject = async (projectId) => {
     if(!confirmed) return;
 
     try{
-        await axios.delete(`http://localhost:8081/project/deleteProject/${projectId}`);
-        alert("삭제 완료!");
+        let res;
+        res = await axiosInstance.delete(`/project/deleteProject/${projectId}`);
+        alert(`${res.data}번째 작품이 성공적으로 삭제되었습니다.`);
         window.location.reload(); // 새로고침
     }catch(err){
         console.error("삭제 실패", err);

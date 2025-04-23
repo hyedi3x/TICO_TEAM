@@ -10,6 +10,7 @@ import './Modal.css';
 import html2canvas from 'html2canvas';
 import ticoTheme from '../../blockly/blocks/ticoTheme';
 import axios from 'axios';
+import axiosInstance from '../login/social/utils/axiosInstance';
 
 Blockly.setLocale(ko);
 
@@ -33,9 +34,9 @@ function BlockEduComponentPut() {
   // 문제 불러오기 - 기존 데이터 가져오기
   useEffect(() => {
     if (quiz_id) {
-      axios.get(`http://localhost:8081/quiz/answer?quizId=${quiz_id}`)
-        .then(res => res.json())
-        .then(data => {
+      axiosInstance.get(`/quiz/answer?quizId=${quiz_id}`)
+        .then(response => {
+          const data = response.data;  // axios는 자동으로 JSON을 파싱하므로 `response.data`를 사용합니다.
           console.log('문제 데이터:', data);
           setQuiz_title(data.quiz_title);
           setQuiz_description(data.quiz_description);
@@ -163,7 +164,7 @@ function BlockEduComponentPut() {
   // 문제 저장하기 - id가 존재해서 수정요청으로 사용됨
   const saveQuiz = async () => {
     try {
-      const response = await axios.post('http://localhost:8081/eduBlock/PostQuiz', {
+      const response = await axiosInstance.post('/eduBlock/PostQuiz', {
         quiz_id,
         quiz_title,
         quiz_description,
@@ -176,7 +177,7 @@ function BlockEduComponentPut() {
       });
   
       alert('수정 성공');
-      navigate('/EMPEduList');
+      navigate('/erpMain');
     } catch (err) {
       console.error('수정 오류:', err);
       alert('문제 저장에 실패했습니다.');

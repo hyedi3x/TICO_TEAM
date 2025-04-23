@@ -9,6 +9,7 @@ import {useNavigate, useParams } from 'react-router-dom';
 import './Modal.css';
 import ticoTheme from '../../blockly/blocks/ticoTheme';
 import axios from 'axios';
+import axiosInstance from '../login/social/utils/axiosInstance';
 
 Blockly.setLocale(ko);
 
@@ -44,7 +45,7 @@ function BlockEduComponent() {
 
     const fetchAnswerXml = async () => {
       try {
-        const response = await axios.get(`http://localhost:8081/quiz/answer?quizId=${quizId}`);
+        const response = await axiosInstance.get(`/quiz/answer?quizId=${quizId}`);
         const data = response.data;
         setQuizData(data); 
         setAnswerXml(data.answer_xml);
@@ -156,7 +157,7 @@ function BlockEduComponent() {
   
   const fetchQUiZData = async (quizId) => {
     try {
-      const response = await axios.put("http://localhost:8081/quiz/eduQuiz", {
+      const response = await axiosInstance.put("/quiz/eduQuiz", {
         user_uuid: user_uuid,
         quiz_id: quizId
       }, {

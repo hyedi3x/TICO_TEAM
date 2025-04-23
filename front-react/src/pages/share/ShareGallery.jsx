@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../login/social/utils/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import './ShareGallery.css';
@@ -16,7 +16,7 @@ function ShareGallery() {
   }, []);
 
   const fetchProjects = () => {
-    axios.get("http://localhost:8081/project/public")
+    axiosInstance.get("/project/public")
       .then((res) => setProjects(res.data))
       .catch(() => alert("작품 목록 조회 실패"));
   };

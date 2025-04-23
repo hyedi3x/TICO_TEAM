@@ -3,19 +3,21 @@ import { Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import styles from './FAQPost.module.css'; // 외부 CSS 모듈 추가
 import axios from 'axios';
+import axiosInstance from '../login/social/utils/axiosInstance';
 
 function FAQPost() {
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
-
+  const emp_id = localStorage.getItem("user_uuid");                 // 현재 로그인된 사용자 UUID
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios.post('http://localhost:8081/api/faqPost', {
+    axiosInstance.post('/api/faqPost', {
       question,
-      answer
+      answer,
+      emp_id
     }, {
       headers: {
         'Content-Type': 'application/json',

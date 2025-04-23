@@ -66,10 +66,10 @@ public class ProjectController {
 
 			// - 4단계: 서비스 계층에 DTO를 전달하여 DB 저장 로직 호출
 		    // - 내부적으로 insert 또는 update 처리
-			int projectId = service.saveProject(project, objectList);
+			int projectNum = service.saveProject(project, objectList);
 			
 			// - 5단계: 저장 성공 시 클라이언트에 projectId 반환 (200 OK)
-			return ResponseEntity.ok(projectId);
+			return ResponseEntity.ok(projectNum);
 
 		} catch (Exception e) {
 			// ❌ 예외 발생 시 로그 기록 + 클라이언트에 500 에러 반환
@@ -132,8 +132,8 @@ public class ProjectController {
 	                .collect(Collectors.toList());
 
 	        // 서비스 호출
-	        service.updateProject(project, objectList);
-	        return ResponseEntity.ok("업데이트 완료!");
+	        int number = service.updateProject(project, objectList);
+	        return ResponseEntity.ok(number);
 	    } catch (Exception e) {
 	        logger.error("❌ 프로젝트 업데이트 중 예외 발생", e);
 	        e.printStackTrace();
@@ -148,8 +148,8 @@ public class ProjectController {
 	public ResponseEntity<?> deleteProject(@PathVariable int projectId){
 		logger.info("<<< url => deleteProject >>>");
 		
-		service.deleteProject(projectId);
-		return ResponseEntity.ok().build();
+		int deleteNum = service.deleteProject(projectId);
+		return ResponseEntity.ok(deleteNum);
 	}
 	
 	

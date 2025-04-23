@@ -16,6 +16,7 @@ DB_NAME = os.getenv("DB_NAME")
 
 def insert_qa_into_mariadb_from_file(json_file_path, limit=20):
     """JSON 파일에서 질문-답변을 최대 limit개까지 읽어 MariaDB에 삽입"""
+    conn = None  # conn 변수를 None으로 초기화
     try:
         # PyMySQL로 DB 연결
         conn = pymysql.connect(
@@ -38,14 +39,21 @@ def insert_qa_into_mariadb_from_file(json_file_path, limit=20):
                 question = item["question"]
                 answer = item["answer"]
 
-                # ON DUPLICATE KEY UPDATE 사용 (question은 UNIQUE로 설정되어 있어야 함)
+                # qa_id 값을 가져오는 쿼리 실행
+                cursor.execute("SELECT MAX(qa_id) FROM faq_tb")
+                max_qa_id = cursor.fetchone()[0]  # 최대 qa_id 값 가져오기
+
+                # 만약 데이터가 없으면 qa_id를 1로 설정
+                qa_id = max_qa_id + 1 if max_qa_id else 1
+
+                # INSERT 문 실행
                 cursor.execute(
                     """
-                    INSERT INTO faq_tb (question, answer)
-                    VALUES (%s, %s)
-                    ON DUPLICATE KEY UPDATE answer = %s
+                    INSERT INTO faq_tb (qa_id, emp_id, question, answer)
+                    VALUES (%s, '10004', %s, %s)
+                    ON DUPLICATE KEY UPDATE answer = VALUES(answer)
                     """,
-                    (question, answer, answer)
+                    (qa_id, question, answer)
                 )
                 count += 1
 
@@ -64,6 +72,6 @@ def insert_qa_into_mariadb_from_file(json_file_path, limit=20):
             conn.close()
             print("✓ MariaDB 연결 종료")
 
-# json 파일 경로 설정
-json_file_path = "./src/faq/Ecommerce_FAQ_Chatbot_dataset.json"
-insert_qa_into_mariadb_from_file(json_file_path, limit=20)
+# json 파일 경로 설정 TICO_TEAM에서 실행
+json_file_path = "./front-react/src/pages/faq/Ecommerce_FAQ_Chatbot_dataset.json"
+insert_qa_into_mariadb_from_file(json_file_path, limit=30)

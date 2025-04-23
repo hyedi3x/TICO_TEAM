@@ -3,6 +3,7 @@ import { Accordion } from 'react-bootstrap';
 import styles from './FAQList.module.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import axiosInstance from '../login/social/utils/axiosInstance';
 
 function FAQList() {
   const [faqData, setFaqData] = useState([]);
@@ -11,7 +12,7 @@ function FAQList() {
   useEffect(() => {
     const fetchFaqData = async () => {
       try {
-        const response = await axios.get('http://localhost:8081/api/faqGet');
+        const response = await axiosInstance.get('/api/faqGet');
       
         // 응답 데이터 추출
         const data = response.data;

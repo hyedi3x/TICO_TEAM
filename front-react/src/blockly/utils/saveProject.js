@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axiosInstance from '../../pages/login/social/utils/axiosInstance';
 import * as Blockly from 'blockly';
 
 export const handleSaveProject = async (imgArr, blocklyArr, project_id, projectTitle) => {
@@ -50,19 +50,19 @@ export const handleSaveProject = async (imgArr, blocklyArr, project_id, projectT
     let res;
     if (!project_id) {
       // INSERT (신규 저장)
-      res = await axios.post('http://localhost:8081/project/saveProject', {
+      res = await axiosInstance.post('/project/saveProject', {
         projectInfo,
         objects
       });
-      alert(`저장 완료! 새 projectId : ${res.data}`);
+      alert(`저장 완료! ${res.data}번째 작품이 저장되었습니다.`);
     } 
     else {
       // UPDATE (기존 작품 수정)
-      res = await axios.put('http://localhost:8081/project/updateProject', {
+      res = await axiosInstance.put('/project/updateProject', {
         projectInfo,
         objects
       });
-      alert(`업데이트 완료! projectId : ${project_id}`);
+      alert(`수정 완료! ${res.data}번째 작품이 수정되었습니다.`);
     }
   } catch (err) {
     console.error("저장 실패:", err);

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '../login/social/utils/axiosInstance';
 import { Form, Button, ListGroup, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import './CommentSection.css';
 
-function CommentSection({ projectId, userUuid, projectCreatorUuid }) {
+function CommentSection({ projectId, userUuid, projectCreatorUuid, isPrivate }) {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ function CommentSection({ projectId, userUuid, projectCreatorUuid }) {
   // 댓글 불러오기
   const fetchComments = async () => {
     try {
-      const res = await axios.get(`http://localhost:8081/projectComments/${projectId}`);
+      const res = await axiosInstance.get(`/projectComments/${projectId}`);
       setComments(res.data);
     } catch (error) {
       alert('댓글 불러오기 실패:', error);
@@ -28,7 +28,7 @@ function CommentSection({ projectId, userUuid, projectCreatorUuid }) {
     if (!newComment.trim()) return;
 
     try {
-      await axios.post(`http://localhost:8081/projectComments`, {
+      await axiosInstance.post(`/projectComments`, {
         projectId,
         userUuid,
         commentText: newComment
@@ -45,6 +45,11 @@ function CommentSection({ projectId, userUuid, projectCreatorUuid }) {
     if (!userUuid) {
       alert("댓글을 작성하려면 로그인 후 이용해주세요.");
       navigate("/login");  // 로그인 페이지로 리디렉션
+    }
+
+    if(isPrivate === 'Y'){
+      alert("비공개된 작품입니다.");
+      return;
     }
   };
 
