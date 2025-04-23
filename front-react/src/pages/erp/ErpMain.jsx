@@ -24,7 +24,6 @@ import ErpNotiDetail from "./Home/ErpNotiDetail";
 import ErpNotiUpdate from "./Home/ErpNotiUpdate";
 import FAQPut from "../faq/FAQPut";
 import BlockEduComponentPost from "../blockedu/BlockEduComponentPost";
-import axios from "axios";
 import MyInfoChk from "./MyPage/MyInfoChk";
 import MyInfoModify from "./MyPage/MyInfoModify";
 import ObjectSelectPage from "../../blockly/components/ObjectSelectPage";
@@ -33,6 +32,7 @@ import UserDetail from "./CM_Team/UserDetail";
 import UserInfoEdit from "./CM_Team/UserInfoEdit";
 import MainModify from "../../common/MainModify";
 import EMPEduList from "../blockedu/EMPEduList";
+import axiosInstance from "../login/social/utils/axiosInstance";
 
 
 function ErpMain() {
@@ -47,8 +47,8 @@ function ErpMain() {
   useEffect(() => {
     const empId = localStorage.getItem("user_uuid");
     if (empId) {
-      axios
-        .get(`http://localhost:8081/api/user/depId/${empId}`)
+      axiosInstance
+        .get(`/api/user/depId/${empId}`)
         .then((response) => {
           console.log("응답 데이터 :", response.data);
           setEmpInfo(response.data);

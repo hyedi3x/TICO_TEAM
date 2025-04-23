@@ -336,7 +336,7 @@ function ObjectSelectPage({ onComplete }) {
                     src={
                       newObjectData.previewUrl
                         ? newObjectData.previewUrl
-                        : `http://localhost:8081${newObjectData.blocklyObjectFilePath.startsWith('/') ? '' : '/'}${newObjectData.blocklyObjectFilePath}`
+                        : `http://43.202.174.19:8081${newObjectData.blocklyObjectFilePath.startsWith('/') ? '' : '/'}${newObjectData.blocklyObjectFilePath}`
                     }
                     alt="오브젝트 미리보기"
                     className="image-preview-box"
@@ -473,7 +473,7 @@ function ObjectSelectPage({ onComplete }) {
                     >
                       <div className="objectSelectPage-image-wrapper" style={{ position: 'relative' }}>
                         <img
-                          src={`http://localhost:8081${obj.blocklyObjectFilePath.startsWith('/') ? '' : '/'}${obj.blocklyObjectFilePath}`}
+                          src={`http://43.202.174.19:8081${obj.blocklyObjectFilePath.startsWith('/') ? '' : '/'}${obj.blocklyObjectFilePath}`}
                           alt={obj.blocklyObjectName}
                           className="objectSelectPage-image"
                         />
@@ -506,7 +506,7 @@ function ObjectSelectPage({ onComplete }) {
           <div className="objectSelectPage-selected-object-list">
             {selectedObjects.map(obj => (
               <div key={obj.blocklyObjectId} className="objectSelectPage-selected-object-item" onClick={() => handleRemoveObject(obj.blocklyObjectId)}>
-                <img src={`http://localhost:8081${obj.blocklyObjectFilePath.startsWith('/') ? '' : '/'}${obj.blocklyObjectFilePath}`} alt={obj.blocklyObjectName} className="objectSelectPage-selected-object-image" />
+                <img src={`http://43.202.174.19:8081${obj.blocklyObjectFilePath.startsWith('/') ? '' : '/'}${obj.blocklyObjectFilePath}`} alt={obj.blocklyObjectName} className="objectSelectPage-selected-object-image" />
                 <div className="objectSelectPage-selected-object-name">{obj.blocklyObjectName}</div>
               </div>
             ))}
