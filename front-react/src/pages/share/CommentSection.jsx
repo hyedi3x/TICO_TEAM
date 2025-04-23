@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '../login/social/utils/axiosInstance';
 import { Form, Button, ListGroup, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import './CommentSection.css';
@@ -12,7 +12,7 @@ function CommentSection({ projectId, userUuid, projectCreatorUuid, isPrivate }) 
   // 댓글 불러오기
   const fetchComments = async () => {
     try {
-      const res = await axios.get(`http://localhost:8081/projectComments/${projectId}`);
+      const res = await axiosInstance.get(`http://localhost:8081/projectComments/${projectId}`);
       setComments(res.data);
     } catch (error) {
       alert('댓글 불러오기 실패:', error);
@@ -28,7 +28,7 @@ function CommentSection({ projectId, userUuid, projectCreatorUuid, isPrivate }) 
     if (!newComment.trim()) return;
 
     try {
-      await axios.post(`http://localhost:8081/projectComments`, {
+      await axiosInstance.post(`http://localhost:8081/projectComments`, {
         projectId,
         userUuid,
         commentText: newComment

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../login/social/utils/axiosInstance';
 import { Container, Row, Col, Card, Tabs, Tab, Button } from 'react-bootstrap';
 import './ShareDetail.css';
 import CommentSection from './CommentSection';
@@ -22,7 +22,7 @@ function ShareDetail() {
     if (!projectId) return;
   
     // 작품 정보 조회 후 조회수 증가
-    axios.get(`http://localhost:8081/project/${projectId}`)
+    axiosInstance.get(`http://localhost:8081/project/${projectId}`)
       .then(res => {
         const data = res.data.project || res.data;
         setProject(data);  // 프로젝트 데이터 상태 업데이트
@@ -31,7 +31,7 @@ function ShareDetail() {
         
         // 조회수 증가 (setProject 이후)
         if (data.isPrivate !== 'Y') {
-          axios.post(`http://localhost:8081/project/view/${projectId}`, null, {
+          axiosInstance.post(`http://localhost:8081/project/view/${projectId}`, null, {
             params: { userUuid }
           })
           .catch(err => console.error('조회수 업데이트 실패:', err));
@@ -45,12 +45,12 @@ function ShareDetail() {
   
     if (userUuid) {
       // 좋아요 여부 확인
-      axios.get(`http://localhost:8081/favor/status`, {
+      axiosInstance.get(`http://localhost:8081/favor/status`, {
         params: { projectId, userUuid, type: 'like' }
       }).then(res => setLiked(res.data)).catch(() => {});
   
       // 북마크 여부 확인
-      axios.get(`http://localhost:8081/favor/status`, {
+      axiosInstance.get(`http://localhost:8081/favor/status`, {
         params: { projectId, userUuid, type: 'bookmark' }
       }).then(res => setBookmarked(res.data)).catch(() => {});
     }
@@ -73,7 +73,7 @@ function ShareDetail() {
       return;
     }
 
-    axios.post(`http://localhost:8081/favor/toggle`, {
+    axiosInstance.post(`http://localhost:8081/favor/toggle`, {
       projectId: parseInt(projectId),
       userUuid,
       favorType: type

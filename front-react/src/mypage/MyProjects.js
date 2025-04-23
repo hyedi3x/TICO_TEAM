@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '../pages/login/social/utils/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card, Badge } from 'react-bootstrap';
 
@@ -13,7 +13,7 @@ function MyProjects() {
 
     if (userUuid) {
       // API 호출하여 로그인한 사용자의 작품 목록을 불러오기
-      axios.get(`http://localhost:8081/project/userProjects/${userUuid}`)
+      axiosInstance.get(`http://localhost:8081/project/userProjects/${userUuid}`)
         .then(response => {
           setWorks(response.data);  // 서버로부터 받은 작품 목록 저장
         })
