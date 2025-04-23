@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Table } from "react-bootstrap";
 import "./EduList.css";
 import axios from "axios";
+import axiosInstance from "../login/social/utils/axiosInstance";
 
 const EMPEduList = () => {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ const EMPEduList = () => {
   // 목록 불러오기
     const fetchQuizzes = async () => {
       try {
-        const response = await axios.get("http://localhost:8081/quiz/eduList");
+        const response = await axiosInstance.get("/quiz/eduList");
         const data = response.data;
         setQuizzes(data.quizDTO);
         setUser(data.solvedDTO);
@@ -49,7 +50,7 @@ const EMPEduList = () => {
   const manageQuiz = async (id, action) => {
     if (window.confirm(`정말 [${id}번] 항목을 ${action === 'delete' ? '삭제' : action === 'restore' ? '삭제 취소' : '영구 삭제'}하시겠습니까?`)) {
       try {
-        const response = await axios.patch('http://localhost:8081/eduBlock/manageQuiz', {
+        const response = await axiosInstance.patch('/eduBlock/manageQuiz', {
           quiz_id: id,
           action: action
         }, {

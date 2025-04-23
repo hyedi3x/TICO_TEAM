@@ -3,16 +3,17 @@ import { Button, Form, Row, Col, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import styles from './FAQPut.module.css'; // 외부 CSS 모듈 추가
 import axios from 'axios';
+import axiosInstance from '../login/social/utils/axiosInstance';
 
 function FAQList() {
   const [faqData, setFaqData] = useState([]); // JSON 객체를 담을 배열
   const navigate = useNavigate();
   const modCheck = useRef(0); // 변경사항 확인
-
+  const modify_id = localStorage.getItem("user_uuid");
   useEffect(() => {
     const fetchFaqData = async () => {
       try {
-        const response = await axios.get('http://localhost:8081/api/faqGet');
+        const response = await axiosInstance.get('/api/faqGet');
         const data = response.data;
         setFaqData(data);
       
@@ -35,9 +36,9 @@ function FAQList() {
 
   // 삭제
   const deleteCheck = async (id) => {
-    if (window.confirm(`정말 [${id}번] 항목을 삭제하시겠습니까?`)) {
+    if (window.confirm(`정말 삭제하시겠습니까?`)) {
       try {
-        const response = await axios.delete(`http://localhost:8081/api/faqDelete/${id}`);
+        const response = await axiosInstance.delete(`/api/faqDelete/${id}`);
         if (response.status === 200) {
           alert('삭제되었습니다.');
           setFaqData((prev) => prev.filter((dto) => dto.qa_id !== id));
@@ -52,19 +53,21 @@ function FAQList() {
   };
 
   // 개별수정
-  const handleUpdate = async (qa_id, question, answer, index) => {
+  const handleUpdate = async (qa_id, question, answer, emp_id, index) => {
     if (!question.trim() || !answer.trim()) { // 공백을 지우고 유효검사
       alert('질문과 답변은 모두 입력해야 합니다.');
       return;
     }
 
-    const confirmed = window.confirm(`${qa_id}번 FAQ를 수정하시겠습니까?`);
+    const confirmed = window.confirm(`${index+1}번 FAQ를 수정하시겠습니까?`);
     if (!confirmed) return;
 
     try {
-      const response = await axios.put(`http://localhost:8081/api/faqPut/${qa_id}`, {
+      const response = await axiosInstance.put(`/api/faqPut/${qa_id}`, {
         question,
-        answer
+        answer,
+        emp_id,
+        modify_id : modify_id,
       }, {
         headers: { 'Content-Type': 'application/json' }
       });
@@ -77,10 +80,10 @@ function FAQList() {
       );
     
       if (response.status !== 200) throw new Error('FAQ 수정 실패');
-      alert(`FAQ ${qa_id}번 항목이 성공적으로 수정되었습니다.`);
+      alert(`FAQ ${index+1}번 항목이 성공적으로 수정되었습니다.`);
     } catch (error) {
       console.error('FAQ 수정 중 오류:', error);
-      alert(`FAQ ${qa_id} 수정 중 오류가 발생했습니다.`);
+      alert(`FAQ ${index+1} 수정 중 오류가 발생했습니다.`);
     }
   };
 
@@ -115,7 +118,7 @@ function FAQList() {
                   />
                 </Col>
                 <Col xs="auto">
-                  <Button variant="warning" size="sm" onClick={() => handleUpdate(dto.qa_id, dto.question, dto.answer, index)}>
+                  <Button variant="warning" size="sm" onClick={() => handleUpdate(dto.qa_id, dto.question, dto.answer,dto.emp_id, index)}>
                     수정
                   </Button>
                 </Col>

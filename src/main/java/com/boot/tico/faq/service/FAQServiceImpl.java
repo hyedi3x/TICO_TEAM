@@ -27,6 +27,13 @@ public class FAQServiceImpl {
 	        existingFaq.setAnswer(dto.getAnswer()); //FAQDTO 클래스에 있는 Setter 메서드
 	        return repo.save(existingFaq); // 답변만 바꿔서 저장
 	    } else {
+	    	
+	    	// qa_id의 최대값을 조회하여 다음 qa_id 값을 계산
+            Integer maxQaId = repo.findMaxQaId(); // 최대 qa_id 값을 조회하는 메서드
+            // 만약 maxQaId가 null이면 1부터 시작
+            int newQaId = (maxQaId == null) ? 1 : maxQaId + 1;
+            // 새로운 FAQDTO 객체에 qa_id를 설정
+            dto.setQa_id(newQaId);
 	        // 없으면 새로 저장
 	        return repo.save(dto);
 	    }
@@ -65,6 +72,7 @@ public class FAQServiceImpl {
 			// 엔티티의 값을 변경하면 자동으로 데이터베이스(DB)도 변경
 		DTOp.setAnswer(DTO.getAnswer());
 		DTOp.setQuestion(DTO.getQuestion());
+		DTOp.setModify_id(DTO.getModify_id());
 		return DTOp;
 	}
 }

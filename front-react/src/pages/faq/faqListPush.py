@@ -72,6 +72,6 @@ def insert_qa_into_mariadb_from_file(json_file_path, limit=20):
             conn.close()
             print("✓ MariaDB 연결 종료")
 
-# json 파일 경로 설정 front-react에서 실행
-json_file_path = "./src/pages/faq/Ecommerce_FAQ_Chatbot_dataset.json"
+# json 파일 경로 설정 TICO_TEAM에서 실행
+json_file_path = "./front-react/src/pages/faq/Ecommerce_FAQ_Chatbot_dataset.json"
 insert_qa_into_mariadb_from_file(json_file_path, limit=30)

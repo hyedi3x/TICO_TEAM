@@ -15,6 +15,7 @@ import ProjectCard from './ProjectCard';
 import ProjectSelectModal from './ProjectSelectModal';
 import MainBannerManage from './MainBannerManage';
 import axios from 'axios';
+import axiosInstance from '../pages/login/social/utils/axiosInstance';
 
 function MainModify() {
   const [staffPickProjects, setStaffPickProjects] = useState([]);
@@ -24,7 +25,7 @@ function MainModify() {
 
   // 전체 프로젝트 목록
   useEffect(() => {
-    axios.get('http://localhost:8081/project/projectList')
+    axiosInstance.get('/project/projectList')
     .then(response => {
       setAllProjects(response.data);
     })
@@ -35,7 +36,7 @@ function MainModify() {
   useEffect(() => {
     const userUuid = localStorage.getItem("user_uuid");
 
-    axios.get('http://localhost:8081/project/staffPick')
+    axiosInstance.get('project/staffPick')
     .then(response => {
       const pickData = response.data;
         const newProjects = [];
@@ -100,13 +101,13 @@ function MainModify() {
 
   // 삭제
   const handleRemoveStaffPickProject = (index) => {
-    axios.delete(`http://localhost:8081/project/staffPick/${index}`)
+    axiosInstance.delete(`/project/staffPick/${index}`)
       .then((res) => {
-        if (!res.ok) throw new Error('삭제 실패');
+        console.log(res);
         // staffPickProjects 배열에서 해당 항목을 제거하고 나머지 항목을 당김
         const updated = [...staffPickProjects];
         updated.splice(index, 1);  // index 위치의 항목을 제거
-
+  
         // 한 칸씩 당기고, 마지막 슬롯에 '등록해주세요' 내용 추가
         setStaffPickProjects(updated);
         alert('삭제 완료!');
@@ -128,13 +129,13 @@ function MainModify() {
         userUuid
       }));
 
-      axios.post('http://localhost:8081/project/staffPick', payload, {
+      axiosInstance.post('/project/staffPick', payload, {
         headers: {
           'Content-Type': 'application/json',
         },
       })
       .then(res => {
-        if (res.ok) alert("저장 완료!");
+        alert("저장 완료!");
       })
       .catch(err => console.error("저장 실패:", err));
   };

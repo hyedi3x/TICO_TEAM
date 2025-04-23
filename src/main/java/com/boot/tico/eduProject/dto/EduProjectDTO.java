@@ -1,8 +1,5 @@
 package com.boot.tico.eduProject.dto;
 
-import java.sql.Timestamp;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;

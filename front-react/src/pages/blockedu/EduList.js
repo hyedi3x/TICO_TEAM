@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Table } from "react-bootstrap";
 import "./EduList.css";
 import axios from "axios";
+import axiosInstance from "../login/social/utils/axiosInstance";
 
 const EduList = () => {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ const EduList = () => {
   useEffect(() => {
     const fetchQuizzes = async () => {
       try {
-        const response = await axios.get("http://localhost:8081/quiz/eduList");
+        const response = await axiosInstance.get("/quiz/eduList");
       
         // 응답 데이터 추출
         const data = response.data;

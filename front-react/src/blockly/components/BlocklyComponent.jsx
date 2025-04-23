@@ -22,6 +22,7 @@ import { registerWhackableClickListener } from '../games/whackMoleGame';
 import { drawScoreText, showScore } from '../functions/cals/calFunctions';
 import { Modal } from 'rsuite';
 import axios from 'axios';
+import axiosInstance from '../../pages/login/social/utils/axiosInstance';
 
 Blockly.setLocale(ko); // Blockly 언어를 한국어로 설정
 
@@ -370,7 +371,7 @@ function Canvas() {
     formData.append('file', file);   // key: "file", value: 파일 객체
   
     try {
-      const response = await axios.post('http://localhost:8081/project/uploadImage', formData, {
+      const response = await axiosInstance.post('/project/uploadImage', formData, {
         headers: {
           'Content-Type': 'multipart/form-data', // 파일 전송 시 필요한 헤더
         },
