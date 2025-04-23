@@ -5,7 +5,7 @@ import img1 from '../imgs/짱구1.jpg';
 // 🔧 유틸: 썸네일 처리
 const resolveThumbnailUrl = (url) => {
   if (url && !url.startsWith('http')) {
-    return `http://localhost:8081${url}`;
+    return `http://43.202.174.19:8081${url}`;
   }
   return url || img1;
 };

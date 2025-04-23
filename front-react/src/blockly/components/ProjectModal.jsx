@@ -1,56 +1,65 @@
-// src/components/ProjectModal.jsx
 import React from 'react';
-import { Modal, Button, Card, Row, Col } from 'react-bootstrap';
+import { Modal, Button, Card, Grid, Row, Col } from 'rsuite';
 
 function ProjectModal({ show, onClose, projectList, onSelect }) {
-
   const resolveThumbnailUrl = (url) => {
-    if (url.startsWith('http')) return url; // 이미 전체 URL이면 그대로
-    console.log(url);
-    return `http://localhost:8081${url}`;    // 상대경로면 도메인 붙여줌
+    if (url.startsWith('http')) return url;
+    return `http://43.202.174.19:8081${url}`;
   };
 
   return (
-    <Modal show={show} onHide={onClose} size="lg">
+    <Modal open={show} onClose={onClose} size="lg">
       <Modal.Header>
-        <div style={{ width: '100%', textAlign: 'center' }}>
-          <Modal.Title>저장된 작품 목록</Modal.Title>
-        </div>
+        <Modal.Title style={{ width: '100%', textAlign: 'center' }}>저장된 작품 목록</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Row>
-          {projectList.map((project) => (
-            <Col 
-                key={project.projectId}
-                xs={6} 
-                md={4} 
-                lg={3} 
-                className="mb-4"
-                onClick={() => onSelect(project)}
-                style={{cursor: 'pointer'}}
-            >
-
-              <Card style={{ height: '100%', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
-              <Card.Img
-                  variant="top"
+        <Grid fluid>
+          <Row gutter={16}>
+            {projectList.map((project) => (
+              <Col xs={24} sm={12} md={8} key={project.projectId} style={{ marginBottom: 24 }}>
+                <Card 
+                  style={{
+                    cursor: 'pointer',
+                    minWidth: 260,
+                    minHeight: 330,
+                    boxShadow: '0 4px 16px rgba(0,0,0,0.09)',
+                    borderRadius: 18,
+                    fontSize: 17
+                  }}
+                  onClick={() => onSelect(project)}
+                  className="rsuite-project-card"
+                >
+                <img
                   src={resolveThumbnailUrl(project.thumbnailUrl)}
-                  style={{objectFit: 'cover' }}
+                  style={{ width: '100%', height: 200, objectFit: 'contain', borderRadius: '18px 18px 0 0' }}
+                  alt={project.title}
                 />
-                <Card.Footer className="d-flex justify-content-between text-muted" style={{ fontSize: '0.8rem' }}>
-                  <div>👁 {project.viewCount || 0}</div>
-                  <div>❤️ {project.likeCount || 0}</div>
-                  <div>💬 {project.commentCount || 0}</div>
-                </Card.Footer>
-                <Card.Title className="text-truncate" style={{"textAlign": "center"}}>{project.title}</Card.Title>
+                <Card.Body>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#888', fontSize: 16, marginBottom: 8 }}>
+                    <span>👁 {project.viewCount || 0}</span>
+                    <span>❤️ {project.likeCount || 0}</span>
+                    <span>💬 {project.commentCount || 0}</span>
+                  </div>
+                  <div style={{
+                    marginTop: 10,
+                    textAlign: 'center',
+                    fontWeight: 600,
+                    whiteSpace: 'nowrap',
+                    textOverflow: 'ellipsis',
+                    overflow: 'hidden',
+                    fontSize: 19
+                  }}>
+                    {project.title}
+                  </div>
+                </Card.Body>
               </Card>
             </Col>
-          ))}
-        </Row>
+            ))}
+          </Row>
+        </Grid>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={onClose}>
-          닫기
-        </Button>
+        <Button appearance="subtle" onClick={onClose}>닫기</Button>
       </Modal.Footer>
     </Modal>
   );
