@@ -238,7 +238,7 @@ function ChatbotEngine({ showChat }) {
 
     // 외부 서버이므로 직접 URL 사용
     axios
-      .post("http://localhost:5000/speech_to_text", formData)
+      .post("http://43.202.174.19:5000/speech_to_text", formData)
       .then((res) => {
         const data = res.data;
         if (data.transcript) {
@@ -279,7 +279,7 @@ function ChatbotEngine({ showChat }) {
   // ---------------------[Flask의 /chatbot/faq 엔드포인트로 POST 요청을 보내는 함수]-------------------------
   function sendFaqQuestion(question, user_uuid) {
     axios
-      .post("http://localhost:5000/chatbot/faq", {
+      .post("http://43.202.174.19:5000/chatbot/faq", {
         question: question, // 입력한 텍스트나 음성 데이터를 question 값으로 전송
         user_uuid: user_uuid,
       })
@@ -296,7 +296,7 @@ function ChatbotEngine({ showChat }) {
         // TTS 파일이 있으면 재생
         if (data.tts_filepath) {
           const filename = data.tts_filepath.split('/').pop();  // 파일명만 추출
-          const audio = new Audio(`http://localhost:5000/audio/${nickname}/${filename}`);
+          const audio = new Audio(`http://43.202.174.19:5000/audio/${nickname}/${filename}`);
           audio.play().catch((error) => {
             console.error("TTS 음성 재생 오류:", error);
           });
