@@ -3,7 +3,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { Navigation } from 'swiper/modules';
-import { Button, Modal, Form } from 'react-bootstrap';
+// ✨ 아래 4개만 rsuite로
+import { Modal, Button, Form, Input, InputNumber } from 'rsuite';
 import ProjectCard from './ProjectCard';
 import ProjectSelectModal from './ProjectSelectModal';
 import axios from 'axios';
@@ -27,7 +28,7 @@ const MainBannerManage = () => {
   const resolveThumbnailUrl = (url) => {
     if (!url) return '';
     if (url.startsWith('http')) return url;
-    return `http://localhost:8081${url}`;
+    return `http://43.202.174.19:8081${url}`;
   };
 
   // 전체 작품 불러오기
@@ -66,10 +67,17 @@ const MainBannerManage = () => {
     setShowModal(true);
   };
 
-  // 수정하기
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
+  // ✨ RSuite FormControl 대응 (각 폼 컨트롤마다 onChange 분리)
+  const handleBannerTitleChange = (value) => {
+    setForm(prev => ({ ...prev, bannerTitle: value }));
+  };
+
+  const handleBannerLinkChange = (value) => {
+    setForm(prev => ({ ...prev, bannerLink: value }));
+  };
+
+  const handleDisplayOrderChange = (value) => {
+    setForm(prev => ({ ...prev, displayOrder: value }));
   };
 
   // 모달 폼에서 이미지 등록
@@ -108,7 +116,7 @@ const MainBannerManage = () => {
       bannerId: banners[selectedIndex]?.bannerId || -1, // -1로 가면 등록, 있으면 수정
     };
 
-    const url = 'http://localhost:8081/banner';
+    const url = 'http://43.202.174.19:8081/banner';
     const method = payload.bannerId ==-1 ? 'PUT' : 'POST';
 
     axiosInstance({
@@ -141,7 +149,7 @@ const MainBannerManage = () => {
     if(type=='hard' && !window.confirm('정말 삭제하시겠습니까?')) {
       return;
     }
-    const url = `http://localhost:8081/banner/${bannerId}` + (type === 'soft' ? '/soft' : ''); // 타입을 경로로 만든다
+    const url = `http://43.202.174.19:8081/banner/${bannerId}` + (type === 'soft' ? '/soft' : ''); // 타입을 경로로 만든다
     const method = type === 'soft' ? 'PUT' : 'DELETE';
 
     axiosInstance({
@@ -188,7 +196,7 @@ const MainBannerManage = () => {
     <> {/*MainModify의 자식요소로 들어가게 된다*/}
       <h1 className="text-center fw-bold mb-4">메인 배너 관리</h1>
       <div className="d-flex justify-content-end gap-2 mb-3">
-        <Button variant="primary" onClick={() => openModal(null)}>+ 배너 추가</Button>
+        <Button appearance="primary" onClick={() => openModal(null)}>+ 배너 추가</Button>
       </div>
 
       <Swiper
@@ -218,19 +226,19 @@ const MainBannerManage = () => {
                 extraButtons={
                   banner.isDelete === 'N' ? (
                     <>
-                      <Button variant="outline-primary" size="sm" onClick={() => openModal(index)}>
+                      <Button appearance="primary" size="sm" onClick={() => openModal(index)}>
                         수정
                       </Button>
-                      <Button variant="warning" size="sm" onClick={() => handleDelete(banner.bannerId, 'soft')}>
+                      <Button appearance="warning" size="sm" onClick={() => handleDelete(banner.bannerId, 'soft')}>
                         삭제
                       </Button>
                     </>
                   ) : (
                     <>
-                      <Button variant="success" size="sm" onClick={() => handleCancelDelete(banner.bannerId)}>
+                      <Button appearance="success" size="sm" onClick={() => handleCancelDelete(banner.bannerId)}>
                         삭제 취소
                       </Button>
-                      <Button variant="danger" size="sm" className="ms-1" onClick={() => handleDelete(banner.bannerId, 'hard')}>
+                      <Button appearance="ghost" color="red" size="sm" className="ms-1" onClick={() => handleDelete(banner.bannerId, 'hard')}>
                         영구삭제
                       </Button>
                     </>
@@ -243,41 +251,88 @@ const MainBannerManage = () => {
       </Swiper>
 
 
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <Modal.Header closeButton>
+      <Modal open={showModal} onClose={() => setShowModal(false)}>
+        <Modal.Header>
           <Modal.Title>{selectedIndex !== null ? '배너 수정' : '배너 추가'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+        <Form fluid>
           <Form.Group className="mb-2">
-            <Form.Label>배너 제목</Form.Label>
-            <Form.Control name="bannerTitle" value={form.bannerTitle} onChange={handleChange} />
+            <Form.ControlLabel>배너 제목</Form.ControlLabel>
+            <Input
+              name="bannerTitle"
+              value={form.bannerTitle}
+              onChange={handleBannerTitleChange}
+            />
           </Form.Group>
-          <Form.Group className="mb-2">
-            <Form.Label>이미지 업로드</Form.Label>
-            <Form.Control type="file" accept="image/*" onChange={handleImageUpload} />
+          <Form.Group className="mb-2" style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <Form.ControlLabel style={{ marginBottom: 0, whiteSpace: 'nowrap' }}>
+              이미지 업로드
+            </Form.ControlLabel>
+            <div style={{ position: 'relative', display: 'inline-block' }}>
+              <Button
+                appearance="primary"
+                style={{ position: 'relative', zIndex: 1 }}
+                onClick={() => document.getElementById('file-upload-input').click()}
+              >
+                파일 선택
+              </Button>
+              <input
+                id="file-upload-input"
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                style={{
+                  position: 'absolute',
+                  left: 0,
+                  top: 0,
+                  opacity: 0,
+                  width: '100%',
+                  height: '100%',
+                  cursor: 'pointer',
+                  zIndex: 2
+                }}
+              />
+            </div>
+            {/* 선택된 파일명 출력 */}
+            <span style={{ marginLeft: 10, fontSize: 13 }}>
+              {form.bannerImage ? form.bannerImage.split('/').pop() : '선택된 파일 없음'}
+            </span>
           </Form.Group>
           {form.bannerImage && (
             <div className="mb-2 text-center">
               <img
-                src={`http://localhost:8081${form.bannerImage}`}
+                src={`http://43.202.174.19:8081${form.bannerImage}`}
                 alt="미리보기"
                 style={{ maxWidth: '100%', maxHeight: '150px', objectFit: 'contain' }}
               />
             </div>
           )}
           <Form.Group className="mb-2">
-            <Form.Label>링크 URL</Form.Label>
-            <Button variant="primary" onClick={handleAddStaffPick}>+ 추가하기</Button>
-            <Form.Control name="bannerLink" value={form.bannerLink} readOnly />
+            <Form.ControlLabel>링크 URL</Form.ControlLabel>
+            <Button appearance="primary" onClick={handleAddStaffPick} style={{ marginBottom: 6 }}>
+              + 추가하기
+            </Button>
+            <Input
+              name="bannerLink"
+              value={form.bannerLink}
+              onChange={handleBannerLinkChange}
+              readOnly
+            />
           </Form.Group>
           <Form.Group className="mb-2">
-            <Form.Label>순서</Form.Label>
-            <Form.Control type="number" name="displayOrder" value={form.displayOrder} onChange={handleChange} />
+            <Form.ControlLabel>순서</Form.ControlLabel>
+            <InputNumber
+              name="displayOrder"
+              value={form.displayOrder}
+              onChange={handleDisplayOrderChange}
+            />
           </Form.Group>
+        </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>취소</Button>
-          <Button variant="primary" onClick={handleSave}>저장</Button>
+          <Button appearance="subtle" onClick={() => setShowModal(false)}>취소</Button>
+          <Button appearance="primary" onClick={handleSave}>저장</Button>
         </Modal.Footer>
       </Modal>
 
