@@ -10,6 +10,7 @@ import './Modal.css';
 import html2canvas from 'html2canvas';
 import ticoTheme from '../../blockly/blocks/ticoTheme';
 import axios from 'axios';
+import axiosInstance from '../login/social/utils/axiosInstance';
 
 Blockly.setLocale(ko);
 
@@ -148,7 +149,7 @@ function BlockEduComponentPost() {
   // 저장하기
   const saveQuiz = async () => {
     try {
-      const response = await axios.post('http://localhost:8081/eduBlock/PostQuiz', {
+      const response = await axiosInstance.post('/eduBlock/PostQuiz', {
         quiz_title: quiz_title,
         quiz_description: quiz_description,
         quiz_level: quiz_level,

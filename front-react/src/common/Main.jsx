@@ -28,6 +28,7 @@ import ChatbotWindow from "../pages/chatbot/ChatbotWindow";
 import ErpLogo from "../pages/erp/ErpLogo";
 import ProjectCard from "./ProjectCard";
 import axios from "axios";
+import axiosInstance from "../pages/login/social/utils/axiosInstance";
 
 function Main() {
   const [userRole, setUserRole] = useState(null);
@@ -52,7 +53,7 @@ function Main() {
 
   // 인기 작품 불러오기
   useEffect(() => {
-    axios.get('http://localhost:8081/project/popularProjects')
+    axiosInstance.get('/project/popularProjects')
       .then(response => {
         const popData = response.data.slice(0, 10);
         setPopularProjects(popData);
@@ -62,7 +63,7 @@ function Main() {
 
   // 배너 목록 불러오기
   useEffect(() => {
-    axios.get('http://localhost:8081/banner/list')
+    axiosInstance.get('/banner/list')
       .then(response => {
         setBanners(response.data.sort((a, b) => a.displayOrder - b.displayOrder));
       })
@@ -82,8 +83,8 @@ function Main() {
     const fetchStaffPicksWithProjects = async () => {
       try {
         const [projectsRes, picksRes] = await Promise.all([
-          axios.get('http://localhost:8081/project/projectList'),
-          axios.get('http://localhost:8081/project/staffPick')
+          axiosInstance.get('/project/projectList'),
+          axiosInstance.get('/project/staffPick')
         ]);
 
         const projects = projectsRes.data;

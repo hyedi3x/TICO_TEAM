@@ -7,6 +7,7 @@ import { Button, Modal, Form } from 'react-bootstrap';
 import ProjectCard from './ProjectCard';
 import ProjectSelectModal from './ProjectSelectModal';
 import axios from 'axios';
+import axiosInstance from '../pages/login/social/utils/axiosInstance';
 
 const MainBannerManage = () => {
   const [banners, setBanners] = useState([]);
@@ -31,7 +32,7 @@ const MainBannerManage = () => {
 
   // 전체 작품 불러오기
   useEffect(() => {
-    axios.get('http://localhost:8081/project/projectList')
+    axiosInstance.get('/project/projectList')
     .then(response => {
       setAllProjects(response.data);
     })
@@ -40,7 +41,7 @@ const MainBannerManage = () => {
 
   // 베너 목록 가져오기
   useEffect(() => {
-    axios.get('http://localhost:8081/banner/list')
+    axiosInstance.get('/banner/list')
     .then(response => {
       setBanners(response.data);
       console.log(response.data);
@@ -78,15 +79,15 @@ const MainBannerManage = () => {
     const formData = new FormData();
     formData.append('file', file);
     try {
-      const response = await axios.post('http://localhost:8081/project/uploadImage', formData, {
+      const response = await axiosInstance.post('/project/uploadImage', formData, {
         headers: {
           'Content-Type': 'multipart/form-data', // 파일 전송 시 필요한 헤더
         },
-    });
-      if (!response.ok) {
+      });
+      if (response.status !== 200) {
         throw new Error('이미지 업로드 실패');
       }
-      const { imageUrl } = await response.json();
+      const { imageUrl } = response.data;  // ✅ axios는 자동으로 JSON 파싱함
       setForm(prev => ({ ...prev, bannerImage: imageUrl }));
       console.log("이미지url", imageUrl);
     } catch (err) {
@@ -110,14 +111,14 @@ const MainBannerManage = () => {
     const url = 'http://localhost:8081/banner';
     const method = payload.bannerId ==-1 ? 'PUT' : 'POST';
 
-    axios({
+    axiosInstance({
       method,
       url,
       headers: { 'Content-Type': 'application/json' },
       data: payload, // axios에서는 'body' 대신 'data'를 사용합니다.
     })
       .then(res => {
-        if (res.ok) {
+        if (res.status === 200) {
           // 상태 업데이트: 서버에서 저장된 데이터에 따라 상태를 갱신
           setBanners(prevBanners => {
             const updatedBanners = [...prevBanners];
@@ -143,7 +144,7 @@ const MainBannerManage = () => {
     const url = `http://localhost:8081/banner/${bannerId}` + (type === 'soft' ? '/soft' : ''); // 타입을 경로로 만든다
     const method = type === 'soft' ? 'PUT' : 'DELETE';
 
-    axios({
+    axiosInstance({
       method,  // 변수명이 동일하여 method만 전달
       url,
     })
@@ -162,7 +163,7 @@ const MainBannerManage = () => {
 
   // 삭제취소
   const handleCancelDelete = (bannerId) => {
-    axios.put(`http://localhost:8081/banner/${bannerId}/recover`)
+    axiosInstance.put(`/banner/${bannerId}/recover`)
     .then(res => {
       if (res.status === 200) {
         setBanners(prev => prev.map(b => b.bannerId === bannerId ? { ...b, isDelete: 'N' } : b));
