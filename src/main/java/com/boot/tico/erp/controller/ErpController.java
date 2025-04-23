@@ -24,7 +24,6 @@ import com.boot.tico.erp.dto.JobResponseDTO;
 import com.boot.tico.erp.service.ErpNotiService;
 import com.boot.tico.erp.service.ErpService;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api")
 public class ErpController {

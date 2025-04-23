@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import "../HR_Team/adminRegister.css";
 import "../HR_Team/adminContainer.css";
 
+import axiosInstance from "../../login/social/utils/axiosInstance";
+
 function MyInfoModify() {
   // user_uuid를 localStorage에서 받아옴
   const empId = localStorage.getItem("user_uuid");
@@ -28,9 +30,9 @@ function MyInfoModify() {
   // 컴포넌트가 처음 렌더링될 때, empId에 해당하는 사원 정보를 스프링 부트에서 호출
   useEffect(() => {
     if (empId) {
-      fetch(`http://localhost:8081/api/empId/${empId}`)
-        .then((res) => res.json())
-        .then((data) => {
+      axiosInstance.get(`/api/empId/${empId}`)
+        .then((res) => {
+          const data = res.data;
           setForm({
             empName: data.empName,
             empPwd: "", // 비밀번호는 조회 시 빈 값으로 설정, 암호화된 비밀번호를 조회하지 못하게 하려고(보안상 권장)
@@ -104,11 +106,7 @@ function MyInfoModify() {
 
       // POST	: 새로운 자원 생성, PUT :	전체 자원 수정 또는 대체, PATCH :	자원의 "일부"만 수정
       // 사용자가 수정한 사원 정보를 서버에 PUT 방식으로 전송해서 DB에 업데이트
-      const res = await fetch(`http://localhost:8081/api/employees/${empId}`, {
-        method: "PUT",  // PUT : 특정 자원(데이터)을 ID로 지정해서 수정
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      const res = await axiosInstance.put(`/api/employees/${empId}`, payload);
 
       if (res.ok) {
         alert("사원 정보 수정 성공!");

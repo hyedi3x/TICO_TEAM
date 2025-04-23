@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Panel, Grid, Row, Col, Input, SelectPicker } from "rsuite";  // rsuite UI 라이브러리에서 제공하는 컴포넌트들
 import "../HR_Team/adminRegister.css";
+import axiosInstance from "../../login/social/utils/axiosInstance";
 
 function MyInfoChk() {
 
@@ -27,10 +28,9 @@ function MyInfoChk() {
   // 컴포넌트가 처음 렌더링될 때 부서 목록과 직무 목록을 스프링 부트에서 호출
   useEffect(() => {
     // 부서 정보를 스프링 부트 서버에서 호출
-    fetch("http://localhost:8081/api/departments")
-      .then((res) => res.json())
-      .then((data) => {
-        const departmentOptions = data.map((dep) => ({  // SelectPicker에서 쓸 수 있게 {label, value}  형태로 가공 
+    axiosInstance.get("/api/departments")
+      .then((res) => {
+        const departmentOptions = res.data.map((dep) => ({  // SelectPicker에서 쓸 수 있게 {label, value}  형태로 가공 
           label: dep.depName,
           value: dep.depId
         }));
@@ -38,18 +38,17 @@ function MyInfoChk() {
       });
   
     // 직무 목록을 가져오는 요청
-    fetch("http://localhost:8081/api/jobs")
-      .then((res) => res.json())
-      .then((data) => setAllJobs(data)); // 직무 전체 목록을 가져와 저장
+    axiosInstance.get("/api/jobs")
+      .then((res) => setAllJobs(res.data)); // 직무 전체 목록을 가져와 저장
   }, []);
   
   // 폼 데이터 조회용
   useEffect(() => {
     const empId = localStorage.getItem("user_uuid");  // 로컬스토리지에서 로그인된 사원의 ID를 가져옵니다.
     if (empId) {
-      fetch(`http://localhost:8081/api/empId/${empId}`)
-        .then((res) => res.json())
-        .then((data) => {
+      axiosInstance.get(`/api/empId/${empId}`)
+        .then((res) => {
+          const data = res.data;
           setForm({
             empName: data.empName,
             empBirth: data.empBirth ? data.empBirth.split("T")[0] : "",  // 문자열로 변환 (YYYY-MM-DD 형식)
