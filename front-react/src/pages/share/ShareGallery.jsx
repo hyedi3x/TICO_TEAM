@@ -16,7 +16,7 @@ function ShareGallery() {
   }, []);
 
   const fetchProjects = () => {
-    axiosInstance.get("http://localhost:8081/project/public")
+    axiosInstance.get("/project/public")
       .then((res) => setProjects(res.data))
       .catch(() => alert("작품 목록 조회 실패"));
   };

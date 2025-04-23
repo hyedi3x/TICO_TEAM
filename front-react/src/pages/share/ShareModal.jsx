@@ -22,7 +22,7 @@ function ShareModal({ show, onClose }) {
   useEffect(() => {
     if (show) {
       // 작품 목록 불러오기
-      axiosInstance.get(`http://localhost:8081/project/userProjects/${userUuid}`)
+      axiosInstance.get(`/project/userProjects/${userUuid}`)
         .then(res => setMyProjects(res.data));
   
       // ✅ 상태 초기화
@@ -64,7 +64,7 @@ function ShareModal({ show, onClose }) {
     };
 
     try {
-      await axiosInstance.put("http://localhost:8081/project/shareProject", {
+      await axiosInstance.put("/project/shareProject", {
         projectInfo,
       });
       alert("공유 완료!");

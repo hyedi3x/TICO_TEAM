@@ -13,7 +13,7 @@ function MyProjects() {
 
     if (userUuid) {
       // API 호출하여 로그인한 사용자의 작품 목록을 불러오기
-      axiosInstance.get(`http://localhost:8081/project/userProjects/${userUuid}`)
+      axiosInstance.get(`/project/userProjects/${userUuid}`)
         .then(response => {
           setWorks(response.data);  // 서버로부터 받은 작품 목록 저장
         })
