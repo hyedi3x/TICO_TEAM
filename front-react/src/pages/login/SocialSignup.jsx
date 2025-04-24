@@ -40,6 +40,7 @@ function SocialSignup() {
       name,
       nickname,
       phone,
+      birthDate,
       provider,
       birthDate,
       providerId,
