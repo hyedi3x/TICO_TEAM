@@ -40,7 +40,6 @@ public class UserDto {
         private LocalDate birthDate;   // 생년월일
         private String phone;          // 전화번호
         private String provider;       // 로그인 방식 구분자 (local, naver, kakao 등)
-        private String accessToken;    // JWT Access Token
-        private String refreshToken;   // JWT Refresh Token
+        private String accessToken;    // JWT Access Tokens
     }
 }

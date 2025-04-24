@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -116,12 +117,15 @@ public class UserService {
         }
         User user = new User();
         user.setEmail(request.getEmail());
-        // 소셜 회원가입은 비밀번호가 없으므로 password 필드는 null
-        user.setName(request.getName());
-        user.setNickname(request.getNickname());
-        user.setPhone(request.getPhone());
         user.setProvider(request.getProvider());
         user.setProviderId(request.getProviderId());
+        user.setName(request.getName());
+
+        user.setBirthDate(request.getBirthDate());    // 전달받은 birthDate 저장
+        user.setPhone(request.getPhone());            // 전달받은 phone 저장
+        user.setNickname(request.getNickname());      // 전달받은 nickname 저장
+
+        user.setCreatedAt(LocalDateTime.now());
         return userRepository.save(user);
     }
 }
