@@ -10,10 +10,9 @@ function Callback() {
     const params = new URLSearchParams(location.search); 
     // 현재 url에 존재하는 accessToken, refreshToken 쿼리 스트링이 있다면 쉽게 읽을 수 있게 해줌
     const accessToken = params.get('accessToken'); // url에 포함된 accessToken 가져옴
-    const refreshToken = params.get('refreshToken'); // url에 포함된 refreshToken 가져옴
     const user_uuid = params.get("user_uuid");
 
-    if (!accessToken || !refreshToken) {
+    if (!accessToken) {
       console.error('JWT 토큰이 없음');
       navigate('/login');
       return;
@@ -23,7 +22,6 @@ function Callback() {
     // JWT 토큰을 로컬스토리지에 저장
     // localStorage는 브라우저에 값을 저장할 수 있는 곳이고, 토큰값들을 저장해서 나중에 api 호출시 사용
     localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('refreshToken', refreshToken);
     localStorage.setItem('user_uuid', user_uuid);
     localStorage.setItem('autoLogin', 'true'); // autoLogin은 나중에 자동 로그인 여부를 판단하기위함
 

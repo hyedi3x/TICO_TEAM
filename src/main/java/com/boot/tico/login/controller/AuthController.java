@@ -3,7 +3,9 @@ package com.boot.tico.login.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,8 +21,11 @@ import com.boot.tico.login.service.UserService;
 import com.boot.tico.login.service.VerificationCodeService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -139,65 +144,107 @@ public class AuthController {
     }
 
     // 일반 로그인 (이메일 + 비밀번호)
-    // 사용자가 로그인할 때 이메일과 비밀번호를 받아서 인증한 후, JWT 토큰(Access Token, Refresh Token)을 발급합
     @PostMapping("/login/customer")
-    public ResponseEntity<UserDto.Response> loginCustomer(@RequestBody UserDto.LoginRequest request) {
-        UsernamePasswordAuthenticationToken authToken = // 사용자가 입력한 이메일과 비밀번호를 담은 인증 토큰을 만듬
+    public ResponseEntity<UserDto.Response> loginCustomer(
+            @RequestBody UserDto.LoginRequest request,
+            HttpServletResponse response
+    ) {
+        // 1) 인증
+        UsernamePasswordAuthenticationToken authToken =
             new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());
-        authenticationManager.authenticate(authToken); 
-        // Spring Security가 제공하는 인증 매니저를 통해 사용자의 자격 증명을 확인
+        authenticationManager.authenticate(authToken);
 
+        // 2) 사용자 조회 및 클레임 생성
         User user = userService.findByEmail(request.getEmail())
             .orElseThrow(() -> new RuntimeException("User not found"));
-        // 인증 성공 시, 이메일을 db에서 정보 조회
-
         Map<String, Object> claims = Map.of(
-        		"email", user.getEmail(), 
-        		"user_uuid", user.getUser_uuid(),
-        		"userType","CUSTOMER"
+            "email",     user.getEmail(),
+            "user_uuid", user.getUser_uuid(),
+            "userType",  "CUSTOMER"
         );
-        String accessToken = jwtTokenizer.generateAccessToken(claims);
+
+        // 3) 토큰 발급
+        String accessToken  = jwtTokenizer.generateAccessToken(claims);
         String refreshToken = jwtTokenizer.generateRefreshToken(claims);
-        // email,id를 claims에 담아서 jwtToken을 이용해 새로운 accessToken,refreshToken 발급
-        
-       
-        UserDto.Response response = new UserDto.Response();
-        response.setUser_uuid(user.getUser_uuid());
-        response.setEmail(user.getEmail());
-        response.setAccessToken(accessToken);
-        response.setRefreshToken(refreshToken);
-        response.setNickname(user.getNickname());
-        // 새로 생성한 토큰값(accessToken,refreshToken)과 사용자 정보를 dto 담아 전달
-        
-        return ResponseEntity.ok(response); // 성공 시 반환
+
+        // 4) DB에 리프레시 토큰과 만료일시 저장
+        long expiryMs = jwtTokenizer.getRefreshTokenExpiration();
+        user.setRefreshToken(refreshToken);
+        user.setRefreshTokenExpiry(
+            LocalDateTime.now().plus(expiryMs, ChronoUnit.MILLIS)
+        );
+        userService.saveUser(user);
+
+        // 5) HttpOnly 쿠키에 refreshToken 세팅 (개발환경용)
+        ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken)
+            .httpOnly(true)
+            .secure(false)        // ✅ 로컬 HTTP 환경에서는 false
+            .path("/")
+            .maxAge(expiryMs / 1000)
+            .sameSite("None")     // ✅ React(front) → API(back) 간 cross-site 허용
+            .build();
+        response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+
+        // 6) JSON 응답에 accessToken 포함
+        UserDto.Response resp = new UserDto.Response();
+        resp.setUser_uuid(user.getUser_uuid());
+        resp.setEmail(user.getEmail());
+        resp.setNickname(user.getNickname());
+        resp.setAccessToken(accessToken);    // ✅ 이 줄이 빠져 있어서 토큰이 null 로 전달됐습니다
+
+        return ResponseEntity.ok(resp);
     }
+
     
     // 사원 로그인 (사전에 DB에 등록되어 있는 정보 기반 / 비밀번호 암호화 x)
     // 내부 DTO를 사용하지 않고, ERP 모듈의 EmpDTO를 @RequestBody로 직접 받습니다.
     @PostMapping("/login/employee")
-    public ResponseEntity<UserDto.Response> loginEmployee(@RequestBody EmpDTO empRequest) {
-        // empRequest에 empId와 empPassword가 포함되어 있어야 합니다.
-        Optional<EmpDTO> empOpt = employeeAuthService.authenticate(empRequest.getEmpId(), empRequest.getEmpPwd());
-        if (empOpt.isEmpty()) {
-            throw new RuntimeException("Employee not found or invalid credentials");
-        }
-        EmpDTO emp = empOpt.get();
+    public ResponseEntity<UserDto.Response> loginEmployee(
+            @RequestBody EmpDTO empRequest,
+            HttpServletResponse response   // 쿠키를 쓰려면 이 파라미터가 필요함
+    ) {
+        // 1) 사원 인증
+        EmpDTO emp = employeeAuthService.authenticate(empRequest.getEmpId(), empRequest.getEmpPwd())
+            .orElseThrow(() -> new RuntimeException("Employee not found"));
+
+        // 2) 클레임 준비 및 토큰 생성
         Map<String, Object> claims = Map.of(
-            "empId", emp.getEmpId(),
-            "dep_Id", emp.getDepId(),
-            "userType", "EMPLOYEE"
+            "empId",   emp.getEmpId(),
+            "dep_Id",  emp.getDepId(),
+            "userType","EMPLOYEE"
         );
-        String accessToken = jwtTokenizer.generateAccessToken(claims);
+        String accessToken  = jwtTokenizer.generateAccessToken(claims);
         String refreshToken = jwtTokenizer.generateRefreshToken(claims);
 
-        UserDto.Response response = new UserDto.Response();
-        response.setUser_uuid(emp.getEmpId());
-        response.setEmail(emp.getEmpEmail());
-        response.setAccessToken(accessToken);
-        response.setRefreshToken(refreshToken);
-        return ResponseEntity.ok(response);
+        // 3) DB에 refreshToken 저장
+        User user = userService.findByEmail(emp.getEmpEmail())
+            .orElseThrow(() -> new RuntimeException("User not found"));
+        long expiryMs = jwtTokenizer.getRefreshTokenExpiration();
+        user.setRefreshToken(refreshToken);
+        user.setRefreshTokenExpiry(
+            LocalDateTime.now()
+                         .plus(expiryMs, ChronoUnit.MILLIS)
+        );
+        userService.saveUser(user);
+
+        // 4) HttpOnly 쿠키에 refreshToken 내려주기
+        ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken)
+            .httpOnly(true)
+            .secure(true)
+            .path("/")
+            .maxAge(expiryMs / 1000)   // 초 단위
+            .sameSite("Strict")
+            .build();
+        response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+
+        // 5) JSON 응답에는 accessToken만
+        UserDto.Response resp = new UserDto.Response();
+        resp.setUser_uuid(emp.getEmpId());
+        resp.setEmail(emp.getEmpEmail());
+        resp.setAccessToken(accessToken);
+        // refreshToken 필드는 채우지 않습니다
+        return ResponseEntity.ok(resp);
     }
-    
     
     
     // 로그인 사용자 정보 조회 (고객,사원 통합 처리 / JWT의 principal 사용)
@@ -265,8 +312,16 @@ public class AuthController {
     	if (principal == null) {
     		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증 정보가 없습니다(이미 로그아웃 이거나 토큰 만료)");
     	}
+    	// DB에서 지우기
+    	User user = userService.findByEmail(principal.getName())
+    	    .orElseThrow(() -> new RuntimeException("User not found"));
+    	user.setRefreshToken(null);
+    	user.setRefreshTokenExpiry(null);
+    	userService.saveUser(user);
     	
+    	// 세션 무효화
         request.getSession().invalidate(); 
+        
         // HttpServletRequest의 getSession().invalidate()를 호출하여 현재 세션을 종료
         return ResponseEntity.ok("로그아웃 성공");
         // 로그아웃 성공 메세지를 클라이언트에 전달
@@ -320,7 +375,6 @@ public class AuthController {
         response.setPhone(user.getPhone());
         response.setProvider(user.getProvider());
         response.setAccessToken(accessToken);
-        response.setRefreshToken(refreshToken);
         return response;
     }
 }
