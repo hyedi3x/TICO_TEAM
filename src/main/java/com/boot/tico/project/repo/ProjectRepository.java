@@ -81,6 +81,22 @@ public interface ProjectRepository extends JpaRepository<ProjectDTO, Integer>{
 	@Query(value = "SELECT * FROM project_tb WHERE user_uuid = :userUuid AND isdelete = 'N' ORDER BY created_at", nativeQuery = true)
 	List<ProjectDTO> findByUserUuidAndIsDelete(@Param("userUuid") String userUuid);
 	
+	/**
+	 * [8] 작품 상세페이지 작품 공개/비공개 상태 변경
+	 */
+	@Modifying
+	@Transactional
+	@Query(value = "UPDATE project_tb SET isprivate = :isPrivate, isagree = :isAgree WHERE project_id = :projectId", nativeQuery = true)
+	void updateProjectPrivateStatusAndAgree(@Param("projectId") int projectId, @Param("isPrivate") String isPrivate, @Param("isAgree") String isAgree);
+
+	/**
+	 * [9] 작품 상세페이지 댓글 허용/비허용 상태 변경
+	 */
+	@Modifying
+	@Transactional
+	@Query(value = "UPDATE project_tb SET iscomment = :isComment WHERE project_id = :projectId", nativeQuery = true)
+	void updateProjectCommentStatus(@Param("projectId") int projectId, @Param("isComment") String isComment);
+	
 	// 조회수 업데이트
 	@Modifying
 	@Transactional

@@ -1,0 +1,81 @@
+/* ProjectEditMeta.css */
+
+.project-edit-bg {
+    min-height: 100vh;
+    background: #fafbfc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .project-edit-panel {
+    border-radius: 28px;
+    box-shadow: 0 10px 48px 0 rgba(0,0,0,0.11);
+    background: #fff;
+    padding: 54px 64px 46px 64px;
+    min-width: 600px;
+    max-width: 950px;
+    width: 100%;
+  }
+  
+  .project-edit-inner {
+    max-width: 710px;
+    margin: 0 auto;
+  }
+  
+  .project-edit-title {
+    text-align: center;
+    font-weight: 800;
+    font-size: 32px;
+    margin-top: 0;
+    margin-bottom: 40px;
+    letter-spacing: -1.2px;
+  }
+  
+  .project-edit-form {
+    font-size: 19px;
+  }
+  
+  .project-edit-label {
+    font-weight: 700;
+    font-size: 17px;
+    margin-bottom: 7px;
+  }
+  
+  .project-edit-input {
+    border-radius: 15px;
+    background: #f8fafd;
+    padding: 16px 19px;
+    border: 1.7px solid #b7d7ef;
+    width: 100%;
+    font-size: 17px;
+  }
+  
+  .project-edit-btn-primary {
+    background: #00D09E;
+    border: 2.5px solid #00b18f;
+    box-shadow: 0 3px 14px 0 rgba(0, 208, 158, 0.17);
+    border-radius: 22px;
+    font-weight: 800;
+    min-width: 150px;
+    min-height: 52px;
+    font-size: 22px;
+    letter-spacing: -1px;
+    margin-right: 16px;
+    transition: all .13s;
+    color: #fff;
+  }
+  
+  .project-edit-btn-ghost {
+    background: #fff;
+    border: 2.5px solid #00b18f;
+    color: #00b18f;
+    border-radius: 22px;
+    font-weight: 800;
+    min-width: 150px;
+    min-height: 52px;
+    font-size: 22px;
+    letter-spacing: -1px;
+    box-shadow: 0 3px 14px 0 rgba(0, 208, 158, 0.10);
+    transition: all .13s;
+  }

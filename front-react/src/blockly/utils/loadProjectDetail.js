@@ -118,4 +118,6 @@ export const loadProjectToCanvas = async (
     callImgArr();
   }
   setWorkspaceReady(true);
+
+  return detail.project;
 };

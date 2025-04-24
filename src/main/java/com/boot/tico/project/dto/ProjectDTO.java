@@ -65,6 +65,9 @@ public class ProjectDTO {
     private Timestamp updatedAt;
     
     private Integer number;
+    
+    @Column(name = "iscomment")
+    private String isComment;
 
     @PrePersist
     protected void onCreate() {
@@ -75,6 +78,7 @@ public class ProjectDTO {
         if (this.isPrivate == null) this.isPrivate = "Y";
         if (this.isAgree == null) this.isAgree = "N";
         if (this.isDelete == null) this.isDelete = "N";
+        if (this.isComment == null) this.isComment = "Y";
         if (this.commentCount == null) this.commentCount = 0;
         if (this.viewCount == null) this.viewCount = 0;
         if (this.likeCount == null) this.likeCount = 0;
@@ -88,6 +92,7 @@ public class ProjectDTO {
         if (this.isPrivate == null) this.isPrivate = "Y";
         if (this.isAgree == null) this.isAgree = "N";
         if (this.isDelete == null) this.isDelete = "N";
+        if (this.isComment == null) this.isComment = "Y";
         if (this.commentCount == null) this.commentCount = 0;
         if (this.viewCount == null) this.viewCount = 0;
         if (this.likeCount == null) this.likeCount = 0;

@@ -206,6 +206,36 @@ public class ProjectController {
 	    return ResponseEntity.ok("조회 기록 저장 완료");
 	}
 	
+	/**
+	 * [11] 공개/비공개 전환
+	 */
+	@PutMapping("/private/{projectId}")
+	public ResponseEntity<?> changePrivateStatus(@PathVariable int projectId, @RequestBody Map<String, String> body){
+		String isPrivate = body.get("isPrivate");
+		String isAgree = body.get("isAgree");
+		service.updatePrivateStatus(projectId, isPrivate, isAgree);
+		return ResponseEntity.ok().build();
+	}
+	
+	/**
+	 * [12] 댓글 허용/비허용 전환
+	 */
+	@PutMapping("/comment/{projectId}")
+	public ResponseEntity<?> updateCommentStatus(@PathVariable int projectId, @RequestBody Map<String, String> body) {
+	  String isComment = body.get("isComment"); // "Y" 또는 "N"
+	  service.updateCommentStatus(projectId, isComment);
+	  return ResponseEntity.ok().build();
+	}
+	
+	/**
+	 * [13] 작품의 정보만 수정(작품 상세페이지 또는 마이페이지 - 수정하기) 
+	 */
+	@PutMapping("/updateMeta")
+	public ResponseEntity<?> updateProjectMeta(@RequestBody ProjectDTO project) {
+		service.updateProjectMeta(project);
+	    return ResponseEntity.ok().build();
+	}
+	
 	// 메인화면 인기 작품 조회
 	// ProjectController.java
 	@GetMapping("/popularProjects")

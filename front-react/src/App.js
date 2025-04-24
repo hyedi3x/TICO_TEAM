@@ -27,6 +27,8 @@ import ShareGallery from './pages/share/ShareGallery';
 import ShareDetail from './pages/share/ShareDetail';
 import ShareCanvas from './blockly/components/BlocklyComponentRun';
 import Tutorial from './blockly/components/Tutorial';
+import ProjectEditMeta from './pages/share/ProjectEditMeta';
+import Remake from './blockly/components/BlocklyComponentRemake';
 import MainModify from './common/MainModify';
 import MainBannerManage from './common/MainBannerManage';
 
@@ -61,6 +63,8 @@ function App() {
           <Route path="/share/detail/:projectId" element={<ShareDetail />} />
           <Route path="/canvas/:projectId" element={<ShareCanvas />} />
           <Route path='/tutorial' element={<Tutorial />} />
+          <Route path='/project/edit/:projectId' element={<ProjectEditMeta />} />
+          <Route path='/remake' element={<Remake />}/>
           <Route path="/mainBannerManage" element={<MainBannerManage />} />
           <Route path="/mainModify" element={<MainModify/>}/>
         </Routes>

@@ -4,6 +4,11 @@ import * as Blockly from 'blockly';
 export const handleSaveProject = async (imgArr, blocklyArr, project_id, projectTitle) => {
   const userid = localStorage.getItem("user_uuid"); // 추가
 
+  if(projectTitle === ''){
+    alert('제목을 반드시 입력해야 합니다');
+    return;
+  }
+
   const projectInfo = {
     projectId: project_id,
     userUuid: userid, // ✅ 추가된 필드
