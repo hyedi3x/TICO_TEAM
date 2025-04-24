@@ -50,11 +50,10 @@ function Login() {
       }
 
       const response = await axiosInstance.post(endpoint, payload);
-      const { accessToken, refreshToken, user_uuid, dep_id , nickname} = response.data;
+      const { accessToken, user_uuid, dep_id , nickname} = response.data;
 
       console.log("로그인 성공, 토큰 저장:", accessToken);
       localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
       localStorage.setItem("autoLogin", "true");
       localStorage.setItem("nickname", nickname);
       localStorage.setItem("user_uuid", user_uuid); 
@@ -67,8 +66,8 @@ function Login() {
 
       // 로그인 실패 시, 관련 토큰 및 플래그 제거 안하면 500 error 발생
       localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
       localStorage.removeItem("autoLogin");
+      localStorage.setItem("nickname");
       localStorage.removeItem("user_uuid"); 
       localStorage.removeItem("dep_id");
 
