@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axiosInstance from '../login/social/utils/axiosInstance';
 import './SocialSignup.css';
@@ -7,22 +7,30 @@ function SocialSignup() {
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const email = queryParams.get('email') || '';
-  const provider = queryParams.get('provider') || '';
+  const email      = queryParams.get('email') || '';
+  const provider   = queryParams.get('provider') || '';
   const providerId = queryParams.get('providerId') || '';
-  const name = queryParams.get('name') || '';
+  const name       = queryParams.get('name') || '';
   
   // 추가 입력받을 항목: 닉네임, 전화번호 , 생년월일
   const [nickname, setNickname] = useState('');
   const [phone, setPhone] = useState('');
-  const [brithDate, setBirthDate] = useState('');
+  const [birthDate, setBirthDate] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+
+  // 컴포넌트 마운트 시, 쿼리 파라미터로 넘어온 birthDate/phone/nickname 초기값 세팅
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    setBirthDate(params.get('birthDate') || '');
+    setPhone(    params.get('phone')     || '');
+    setNickname(params.get('nickname')   || '');
+  }, [location.search]);
 
   // 폼 제출 시 소셜 회원가입 API 호출
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if(!brithDate) {
+    if(!birthDate) {
       setErrorMessage('생년월일을 선택해주세요');
       return;
     }
@@ -32,7 +40,9 @@ function SocialSignup() {
       name,
       nickname,
       phone,
+      birthDate,
       provider,
+      birthDate,
       providerId,
       password: null  // 소셜 회원가입은 password가 필요없음
     };
@@ -63,7 +73,7 @@ function SocialSignup() {
           <label>생년월일:</label>
           <input
             type="date"
-            value={brithDate}
+            value={birthDate}
             onChange={(e) => setBirthDate(e.target.value)}
             required
           />

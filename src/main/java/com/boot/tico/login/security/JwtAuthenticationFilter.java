@@ -13,6 +13,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -31,30 +32,32 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
 
         log.info("JwtAuthenticationFilter 실행됨 - 요청 URI: {}", request.getRequestURI());
-        
-        String token = resolveToken(request);
+
+        String token = resolveToken(request); // ✅ Header 또는 쿠키에서 토큰 추출
 
         if (StringUtils.hasText(token)) {
             try {
                 Claims claims = jwtTokenizer.parseClaims(token);
-                // 우선 email 클레임이 있는지 먼저 확인하고, 없으면 empId 클레임 사용
-                String principal;
-                if(claims.containsKey("email")) {
-                	principal = claims.get("email", String.class);
-                } else if(claims.containsKey("empId")) {
-                	principal = claims.get("empId", String.class);
-                } else {
-                	principal = null;
-                }
-                
-                log.debug("토큰에서 추출된 이메일: {}", principal);
 
+                // ✅ email 또는 empId 중 하나 추출
+                String principal = claims.containsKey("email")
+                        ? claims.get("email", String.class)
+                        : claims.get("empId", String.class);
+
+                // ✅ userType이 존재한다면 요청에 강제 세팅
+                if (request.getAttribute("userType") == null && claims.get("userType") != null) {
+                    request.setAttribute("userType", claims.get("userType", String.class));
+                    log.debug("JWT 필터에서 추출된 userType 강제 세팅: {}", claims.get("userType", String.class));
+                }
+
+                // ✅ 인증 정보가 없다면 SecurityContext에 저장
                 if (principal != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                    log.debug("JWT 필터에서 추출한 이메일: {}", principal); 
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                    		principal, null, Collections.emptyList());
+                    log.debug("JWT 필터에서 추출된 principal: {}", principal);
+                    UsernamePasswordAuthenticationToken authentication =
+                            new UsernamePasswordAuthenticationToken(principal, null, Collections.emptyList());
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
+
             } catch (ExpiredJwtException e) {
                 log.warn("JWT 토큰 만료됨: {}", e.getMessage());
             } catch (JwtException e) {
@@ -66,12 +69,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
+
     
     // Authorization 헤더에서 Bearer 토큰 추출
     private String resolveToken(HttpServletRequest request) {
         String bearer = request.getHeader("Authorization");
         if (StringUtils.hasText(bearer) && bearer.startsWith("Bearer ")) {
             return bearer.substring(7);
+        }
+     // 2) 없으면 쿠키에서 refreshToken 찾아보기
+        if (request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if ("refreshToken".equals(cookie.getName())) {
+                    return cookie.getValue();
+                }
+            }
         }
         return null;
     }

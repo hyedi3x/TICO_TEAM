@@ -1,10 +1,9 @@
 package com.boot.tico.erp.dto;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -66,4 +65,11 @@ public class EmpDTO {
     @Column(name = "emp_pwd")
     private String empPwd;
 
+    // 직원 로그인 JWT 로그인 인가 refresh_token
+    @Column(name = "refresh_token", length = 255)
+    private String refreshToken;
+
+    // 만료일시 컬럼
+    @Column(name = "refresh_token_expiry")
+    private LocalDateTime refreshTokenExpiry;
 }

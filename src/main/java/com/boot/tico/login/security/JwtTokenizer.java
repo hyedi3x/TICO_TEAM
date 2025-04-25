@@ -24,6 +24,10 @@ public class JwtTokenizer {
     @Value("${jwt.refresh-token-expiration}")
     private long refreshTokenExpiration; // 리프레시 토큰 만료시간 (yml에 설정되어 있음)
     
+    public long getRefreshTokenExpiration() {
+        return refreshTokenExpiration;
+    }
+    
     // 액세스 토큰 생성
     public String generateAccessToken(Map<String, Object> claims) { // 토큰에 담을 사용자 정보 (email,userType)
         return Jwts.builder()
