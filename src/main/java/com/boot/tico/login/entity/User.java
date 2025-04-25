@@ -55,14 +55,6 @@ public class User {
 
     @Column(name = "provider_id", length = 255)
     private String providerId;
-    
-    // refresh token 컬럼
-    @Column(name = "refresh_token", length = 255)
-    private String refreshToken;
-
-    // 만료일시 컬럼
-    @Column(name = "refresh_token_expiry")
-    private LocalDateTime refreshTokenExpiry;
 
     @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
