@@ -38,7 +38,7 @@ public class User {
     @Column(length = 100)
     private String nickname;
     
-    @Column(name = "birth_date", nullable = false)
+    @Column(name = "birth_date", nullable = true)
     private LocalDate birthDate;   
     
     // refresh token 컬럼
