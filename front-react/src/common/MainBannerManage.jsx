@@ -42,7 +42,7 @@ const MainBannerManage = () => {
 
   // 베너 목록 가져오기
   useEffect(() => {
-    axiosInstance.get('/banner/list')
+    axiosInstance.get('/api/banner/list')
     .then(response => {
       setBanners(response.data);
       console.log(response.data);
@@ -116,7 +116,7 @@ const MainBannerManage = () => {
       bannerId: banners[selectedIndex]?.bannerId || -1, // -1로 가면 등록, 있으면 수정
     };
 
-    const url = 'http://43.202.174.19:8081/banner';
+    const url = '/api/banner';
     const method = payload.bannerId ==-1 ? 'PUT' : 'POST';
 
     axiosInstance({
@@ -149,7 +149,7 @@ const MainBannerManage = () => {
     if(type=='hard' && !window.confirm('정말 삭제하시겠습니까?')) {
       return;
     }
-    const url = `http://43.202.174.19:8081/banner/${bannerId}` + (type === 'soft' ? '/soft' : ''); // 타입을 경로로 만든다
+    const url = `/api/banner/${bannerId}` + (type === 'soft' ? '/soft' : ''); // 타입을 경로로 만든다
     const method = type === 'soft' ? 'PUT' : 'DELETE';
 
     axiosInstance({
@@ -171,7 +171,7 @@ const MainBannerManage = () => {
 
   // 삭제취소
   const handleCancelDelete = (bannerId) => {
-    axiosInstance.put(`/banner/${bannerId}/recover`)
+    axiosInstance.put(`/api/banner/${bannerId}/recover`)
     .then(res => {
       if (res.status === 200) {
         setBanners(prev => prev.map(b => b.bannerId === bannerId ? { ...b, isDelete: 'N' } : b));
@@ -187,8 +187,8 @@ const MainBannerManage = () => {
 
   // 모달 내부 작품 선택하면 링크를 설정하고 닫음 
   const handleSelectProject = (project) => {
-    const link = `/share/detail/${project.projectId}`;
-    setForm(prev => ({ ...prev, bannerLink: link }));
+    const bannerLink = `/share/detail/${project.projectId}`;
+    setForm(prev => ({ ...prev, bannerLink: bannerLink }));
     setShowProjectModal(false);
   };
 
@@ -218,27 +218,38 @@ const MainBannerManage = () => {
                 project={{
                   projectId: banner.bannerId,
                   title: banner.bannerTitle,
-                  introduction: banner.bannerLink,
-                  thumbnailUrl: resolveThumbnailUrl(banner.bannerImage)
+                  bannerLink: banner.bannerLink,
+                  thumbnailUrl: resolveThumbnailUrl(banner.bannerImage),
+                  likeCount : banner.likeCount,
+                  bookMarkCount : banner.bookMarkCount,
+                  viewCount : banner.viewCount,
                 }}
                 onSelect={() => openModal(index)}
                 showStats={false}
                 extraButtons={
                   banner.isDelete === 'N' ? (
                     <>
-                      <Button appearance="primary" size="sm" onClick={() => openModal(index)}>
+                      <Button appearance="primary" size="sm" style={{ borderRadius: 20, padding: '0.4rem 1rem', marginRight: 8 }}
+                        onClick={() => openModal(index)}
+                      >
                         수정
                       </Button>
-                      <Button appearance="warning" size="sm" onClick={() => handleDelete(banner.bannerId, 'soft')}>
+                      <Button appearance="ghost" color="orange"size="sm" style={{ borderRadius: 20, padding: '0.4rem 1rem', marginRight: 8 }}
+                        onClick={() => handleDelete(banner.bannerId, 'soft')}
+                      >
                         삭제
                       </Button>
                     </>
                   ) : (
                     <>
-                      <Button appearance="success" size="sm" onClick={() => handleCancelDelete(banner.bannerId)}>
-                        삭제 취소
+                      <Button appearance="ghost" color="green" size="sm" style={{ borderRadius: 20, padding: '0.4rem 1rem', marginRight: 8 }}
+                        onClick={() => handleCancelDelete(banner.bannerId)}
+                      >
+                        삭제취소
                       </Button>
-                      <Button appearance="ghost" color="red" size="sm" className="ms-1" onClick={() => handleDelete(banner.bannerId, 'hard')}>
+                      <Button appearance="ghost" color="red" size="sm" style={{ borderRadius: 20, padding: '0.4rem 1rem' }}
+                        onClick={() => handleDelete(banner.bannerId, 'hard')}
+                      >
                         영구삭제
                       </Button>
                     </>

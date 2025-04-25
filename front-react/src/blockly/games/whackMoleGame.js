@@ -17,7 +17,7 @@ export const registerWhackableClickListener = ({ imgArr, canvasRef, callImgArr }
           offsetY >= obj.y &&
           offsetY <= obj.y + obj.height
         ) {
-          if(window.running){
+          if(window.running && !window.isPaused){
             obj.hidden = true;
             callImgArr();
             window.score += 1;

@@ -45,7 +45,7 @@ function BlockEduComponent() {
 
     const fetchAnswerXml = async () => {
       try {
-        const response = await axiosInstance.get(`/quiz/answer?quizId=${quizId}`);
+        const response = await axiosInstance.get(`/api/quiz/answer?quizId=${quizId}`);
         const data = response.data;
         setQuizData(data); 
         setAnswerXml(data.answer_xml);
@@ -157,7 +157,7 @@ function BlockEduComponent() {
   
   const fetchQUiZData = async (quizId) => {
     try {
-      const response = await axiosInstance.put("/quiz/eduQuiz", {
+      const response = await axiosInstance.put("/api/quiz/eduQuiz", {
         user_uuid: user_uuid,
         quiz_id: quizId
       }, {

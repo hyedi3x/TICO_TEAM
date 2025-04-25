@@ -19,7 +19,7 @@ const EduList = () => {
   useEffect(() => {
     const fetchQuizzes = async () => {
       try {
-        const response = await axiosInstance.get("/quiz/eduList");
+        const response = await axiosInstance.get("/api/quiz/eduList");
       
         // 응답 데이터 추출
         const data = response.data;

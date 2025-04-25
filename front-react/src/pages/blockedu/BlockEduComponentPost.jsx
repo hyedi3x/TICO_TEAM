@@ -149,7 +149,7 @@ function BlockEduComponentPost() {
   // 저장하기
   const saveQuiz = async () => {
     try {
-      const response = await axiosInstance.post('/eduBlock/PostQuiz', {
+      const response = await axiosInstance.post('/api/eduBlock/PostQuiz', {
         quiz_title: quiz_title,
         quiz_description: quiz_description,
         quiz_level: quiz_level,

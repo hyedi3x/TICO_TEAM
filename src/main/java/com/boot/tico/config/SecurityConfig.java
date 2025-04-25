@@ -64,13 +64,10 @@ public class SecurityConfig {
                         		"/project/**", 
                             "/projectComments/**",
                             "/favor/**", 
-                        		"/api/**", 
-                        		"/quiz/**",
-                        		"/eduBlock/**", 
-                        		"/uploads/**", 
+                        		"/api/**",
+                        		"/uploads/**",
                             "/ws-chat/**",
                             "/ws-chat",
-                            "/banner/**",
                         		"/"
                         		).permitAll()
                         .anyRequest().authenticated())

@@ -175,9 +175,30 @@ function MainModify() {
                 <SwiperSlide key={index} style={{ display: 'flex', justifyContent: 'center' }}>
                   <ProjectCard
                     project={project}
-                    editable
-                    onSelect={() => handleOpenProjectModal(index)} // 중복확인
-                    onDelete={() => handleRemoveStaffPickProject(index)}
+                    editable = {
+                      <>
+                        <Button
+                          appearance="primary"
+                          size="sm"
+                          style={{ borderRadius: 20, padding: '0.4rem 1rem', marginRight: 8, background: '#3485ff', color: '#fff', borderColor: '#3485ff' }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleOpenProjectModal(index);
+                          }}
+                        >
+                          수정
+                        </Button>
+                        <Button appearance="ghost" size="sm" style={{ borderRadius: 20, padding: '0.4rem 1rem', color: '#ff3333', borderColor: '#ff3333', background: 'transparent' 
+                          }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleRemoveStaffPickProject(index);
+                          }}
+                        >
+                          삭제
+                        </Button>
+                      </>
+                    }
                     showStats={false}
                   />
                 </SwiperSlide>

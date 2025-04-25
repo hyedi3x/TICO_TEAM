@@ -22,7 +22,7 @@ import com.boot.tico.quiz.dto.SolvedDTO;
 import com.boot.tico.quiz.service.QuizService;
 
 @RestController
-@RequestMapping("/quiz")
+@RequestMapping("/api/quiz")
 public class QuizController {
 	
 	@Autowired

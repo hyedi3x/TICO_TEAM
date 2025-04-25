@@ -57,6 +57,13 @@ function Canvas() {
 
   const [showObjectSelect, setShowObjectSelect] = useState(false);
 
+  // 시작 상태 백업
+  const [backupState, setBackupState] = useState({
+    imgArr: [],         // 이미지 배열 복사본
+    blockXmlArr: []     // 각 workspace의 XML 상태
+  });
+  const [btn_toggle, setBtn_toggle] = useState(true);
+  const [pauseToggle, setPauseToggle] = useState(false); // true: 일시정지 상태
   // 요소(오브젝트) 추가
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -86,7 +93,6 @@ function Canvas() {
           hidden: false,
           isClone: false
         });
-  
         // Blockly 작업공간 생성
         const blocklyDivElement = document.createElement('div');
         blocklyDivElement.id = `blockly${imgArr.current.length - 1}`;
@@ -348,6 +354,9 @@ function Canvas() {
     e.preventDefault();
     setCoordinates({ x:  offsetX, y:  offsetY, });
     
+    // 일시정지 시 이동 금지
+    if (window.isPaused) return;
+
     // 선택 상태이면
     if (selectedImageIndex !== null &&
       panningRef.current && // ✅ 마우스를 누르고 있을 때만
@@ -388,9 +397,38 @@ function Canvas() {
     event.target.value = '';  // value를 비워서 리셋, 동일파일도 onChange가 적용되도록
   };
 
-    // 1. 실행하기 버튼 핸들러
+  // 1. 실행하기 버튼
   const runStartBtnCode = () => {
     window.running = true; // 실행 상태 ON
+    // 1. 상태 백업 (깊은 복사 후, img 객체 새로 만들기)
+    const newImgArr = imgArr.current.map(item => {
+      // 깊은 복사
+      const deepCopy = JSON.parse(JSON.stringify(item));
+
+      // 새로운 이미지 객체를 생성하고 URL을 복사하여 설정
+      const img = new Image();
+      img.src = item.img.src; // 기존 이미지의 src로 새 이미지 객체 생성
+
+      // img를 깊은 복사된 객체의 img에 덮어쓰기
+      deepCopy.img = img;
+
+      return deepCopy; // 깊은 복사된 item 반환
+    });
+
+    const newBlockXmlArr = blocklyArr.current.map(ws =>
+      Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(ws))
+    );
+
+    // 상태 업데이트
+    setBackupState(prevState => ({
+      ...prevState,
+      imgArr: newImgArr,
+      blockXmlArr: newBlockXmlArr
+    }));
+
+    console.log('시작으로 변환전 이미지', imgArr.current);
+
+    // 2. 실행
     blocklyArr.current.forEach((workspace, index) => {
       generateStart(workspace, imgArr, index, 'start_btn');
       const code = imgArr.current[index]?.code;
@@ -400,11 +438,96 @@ function Canvas() {
     });
   };
 
-  // ✅ 멈춤 버튼 핸들러
+  // 2. 멈추기 버튼에서 이미지를 복원할 때
   const runStopBtnCode = () => {
     window.running = false; // 실행 상태 OFF
-    console.log("🔴 실행 중지됨!");
+    window.cloneArr = [];
+    // 1. 작업공간 초기화: 기존 작업공간 및 블록 초기화
+    blocklyArr.current.forEach((workspace, index) => {
+      workspace.clear();  // 기존 워크스페이스 내용을 지움
+    });
+
+    // 이미지 복원: imgPromises 사용하여 이미지가 모두 로드될 때까지 기다림
+    const imgPromises = backupState.imgArr.map(item => {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.src = item.img.src; // deep copy에서 저장된 이미지를 사용
+        // 이미지가 로드되었을 때
+        img.onload = () => {
+          // img 객체가 로드된 후 imgArr.current에 추가
+          imgArr.current[item.index] = {
+            ...item,
+            img, // 로드된 img 객체로 복원
+          };
+          resolve(); // 로드 완료 후 resolve 호출
+        };
+        // 이미지 로딩 실패 시 처리
+        img.onerror = (err) => {
+          console.error('이미지 로딩 실패:', err);
+          reject(err); // 로딩 실패 시 reject
+        };
+      });
+    });
+
+    // 모든 이미지가 로드될 때까지 기다림
+    Promise.all(imgPromises)
+      .then(() => {
+        // 이미지가 모두 로드된 후 블록 복원 작업 진행
+        blocklyArr.current.forEach((ws, index) => {
+          const xmlString = backupState.blockXmlArr[index];
+          if (xmlString) {
+            const xml = Blockly.utils.xml.textToDom(xmlString);
+            Blockly.Xml.domToWorkspace(xml, ws);
+          } else {
+            console.error(`블록 복원 실패: 인덱스 ${index}의 XML이 존재하지 않습니다.`);
+          }
+        });
+
+        // 캔버스 리렌더링
+        callImgArr(); // 이미지를 모두 복원한 후 캔버스를 다시 그리기
+        setWorkspaceReady(true); // 작업공간 준비 완료 상태 업데이트
+      })
+      .catch(err => {
+        console.error("이미지 로딩 중 오류가 발생했습니다:", err);
+      });
   };
+  
+  function runStartBtnCodeWithReset() {
+    runStartBtnCode();
+    start_toggle();
+
+    setPauseToggle(false);
+    window.isPaused = false;
+  }
+  function runStopBtnCodeWithReset() {
+    runStopBtnCode();
+    start_toggle();
+
+    setPauseToggle(false);
+    window.isPaused = false;
+  }
+  function start_toggle(){
+    if(!btn_toggle){
+      setBtn_toggle(true); // 버튼 토글
+      return;
+    }
+    setBtn_toggle(false);
+  };
+
+  function pause_toggle() {
+    // 일시정지
+    if (!pauseToggle) {
+      window.isPaused = true;
+      setPauseToggle(true);
+      // 실행 상태여야만 일시정지 허용
+      return;
+    }
+    // 다시시작(일시정지 해제)
+    window.isPaused = false;
+    setPauseToggle(false);
+  }
+
+
 
   //애니메이선 체크 하려면 사용
   const handleKeyDown = (e) => {
@@ -607,7 +730,7 @@ function Canvas() {
           </div>
 
           {/* 아래에 전체 오브젝트 속성 나열 */}
-          <div className="object-panel-container" style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', marginTop: '1rem' }}>
+          <div className="object-panel-container" style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', marginTop: '1rem', position: 'relative' }}>
             {imgArr.current.map((obj, index) => (
                 <div key={index} className="object-panel-item">
                   <ObjectControlPanel
@@ -623,12 +746,58 @@ function Canvas() {
                     />
                 </div>
             ))}
+             {/* 오버레이 */}
+            {!btn_toggle && (
+              <div style={{
+                position: "absolute",
+                top: 0, left: 0, right: 0, bottom: 0,
+                background: "rgba(0,0,0,0.3)",
+                zIndex: 999,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}>
+                <div style={{
+                  background: "#fff",
+                  borderRadius: "16px",
+                  padding: "16px 24px",
+                  fontSize: "24px",
+                  fontWeight: "bold",
+                  textAlign: "center"
+                }}>
+                  ⏹️ 정지하기 버튼을 먼저 눌러주세요!
+                </div>
+              </div>
+            )}
           </div>
         </div>
   
         {/* Blockly 작업공간 */}
         <div className="blockly-area">
-          <div ref={blocklyDiv}></div>
+          <div ref={blocklyDiv} style={{position:'relative'}}>
+          {!btn_toggle && blocklyDiv &&(
+              <div style={{
+                position: "absolute",
+                top: 0, left: 0, right: 0, bottom: 0,
+                background: "rgba(0,0,0,0.3)",
+                zIndex: 999,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}>
+                <div style={{
+                  background: "#fff",
+                  borderRadius: "16px",
+                  padding: "16px 24px",
+                  fontSize: "24px",
+                  fontWeight: "bold",
+                  textAlign: "center"
+                }}>
+                  ⏹️ 정지하기 버튼을 먼저 눌러주세요!
+                </div>
+              </div>
+            )}
+          </div>
           <div className="project-title-input" style={{ marginBottom: '0.5rem' }}>
             <label htmlFor="projectTitle">📝 작품명: </label>
             <input
@@ -643,8 +812,14 @@ function Canvas() {
           <div className="button-blockly">
             <input type="file" id="imgInput" accept="image/*" style={{ display: 'none' }} onChange={selectimg} />
             <button onClick={() => setShowObjectSelect(true)}>➕ 요소 추가</button>
-            <button onClick={runStartBtnCode}>▶️ 실행하기</button>
-            <button onClick={runStopBtnCode}>⏹️ 멈추기</button>
+            {btn_toggle && <button onClick={()=>{runStartBtnCodeWithReset();start_toggle();}}>▶️ 실행하기</button>}
+            {!btn_toggle && <button onClick={()=>{runStopBtnCodeWithReset(); start_toggle();}}>⏹️ 정지하기</button> }
+            {!btn_toggle && !pauseToggle && (
+              <button onClick={pause_toggle}>⏸️ 일시정지</button>
+            )}
+            {!btn_toggle && pauseToggle && (
+              <button onClick={pause_toggle}>▶️ 다시 시작</button>
+            )}
             <button onClick={() => handleSaveProject(imgArr, blocklyArr, currentProjectId.current, projectTitle)}>
               💾 저장하기
             </button>

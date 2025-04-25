@@ -3,7 +3,7 @@ import { javascriptGenerator } from "blockly/javascript";
 import runGeneratedCode from "../../blocks/codeRunner";
 
 const createClone = function(target, currentIndex) {
-    if (!window.running) return;
+    if (!window.running || window.isPaused) return;
     window.cloneArr = window.cloneArr || [];
 
     // 1. index 결정
@@ -44,7 +44,7 @@ const createClone = function(target, currentIndex) {
 };
 
 const deleteThisClone = function(index) {
-    if (!window.running) return;
+    if (!window.running || window.isPaused) return;
     if (!window.cloneArr || !window.cloneArr[index]) return;
     
     // 배열에서 복제본 완전 삭제

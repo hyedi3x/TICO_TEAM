@@ -5,11 +5,9 @@
   text-align: center;
   font-size: 18px;
   background: #fff;
-  height: 430px !important;
-
   display: flex !important;
-  justify-content: center; /* 가로 방향 가운데 정렬 */
-  align-items: center;     /* 세로 방향 가운데 정렬 */
+  justify-content: center !important; /* 가로 방향 가운데 정렬 */
+  align-items: center !important;     /* 세로 방향 가운데 정렬 */
 }
 
 /* 스와이퍼 이미지 */
@@ -41,11 +39,6 @@
     padding-left: 10px;
     padding-right: 10px;
   }
-
-  .swiper-slide {
-    height: 300px; /* 슬라이드 높이  */
-  }
-
   .oneCard > .col {
     width: 100%; /* 1개 카드씩 배치 */
     scrollbar-gutter: 10px;
@@ -130,18 +123,18 @@
 }
 
 .staff-card .btn {
-  font-size: 0.85rem;
-  padding: 0.4rem 0.8rem;
+  font-size: 12px;
+  padding: 5px 10px;
   border-radius: 20px;
 }
 
 /* 스태프 선정작 스와이퍼 */
 .staffSwiper {
-  padding: 0 1rem;
+  padding: 0 8px;
 }
 
 .staffSwiper {
-  padding: 0 1rem;
+  padding: 0 8px;
   position: relative; /* ✅ navigation 위치 기준 */
 }
 
@@ -157,3 +150,17 @@
   flex-shrink: 0;
 }
 
+.staffSwiper .swiper-slide {
+  height: 320px !important;      /* 카드와 동일하게 */
+  background: transparent !important;
+  align-items: flex-start;       /* 세로 위쪽 정렬 (카드가 꼭대기에 붙음) */
+  display: flex !important;
+  justify-content: center;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+.swiper-slide swiper-slide-active {
+  display: flex;
+  align-items: center;
+}
