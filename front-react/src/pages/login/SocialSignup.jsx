@@ -30,6 +30,11 @@ function SocialSignup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (nickname.includes('*')) {
+      alert("닉네임이 마스킹되어 있습니다. 닉네임을 수정해주세요.");
+      return;
+    }
+
     if(!birthDate) {
       setErrorMessage('생년월일을 선택해주세요');
       return;
@@ -48,9 +53,8 @@ function SocialSignup() {
     };
     try {
       const res = await axiosInstance.post('/auth/social/register', payload);
-      const { accessToken, refreshToken } = res.data;
+      const { accessToken } = res.data;
       localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('refreshToken', refreshToken);
       navigate('/welcome');
     } catch (error) {
       setErrorMessage(error.response?.data || '회원가입 실패');
