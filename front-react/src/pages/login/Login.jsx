@@ -54,7 +54,7 @@ function Login() {
       console.log("로그인 성공, 토큰 저장:", accessToken);
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("autoLogin", "true");
-      localStorage.setItem("nickname", nickname);
+      if (nickname)   localStorage.setItem("nickname", nickname);  // 사원 로그인 시 undefined 가능성 있음
       localStorage.setItem("user_uuid", user_uuid); 
 
       setIsLoggedIn(true);
@@ -65,7 +65,7 @@ function Login() {
       // 로그인 실패 시, 관련 토큰 및 플래그 제거 안하면 500 error 발생
       localStorage.removeItem("accessToken");
       localStorage.removeItem("autoLogin");
-      localStorage.setItem("nickname");
+      localStorage.removeItem("nickname");
       localStorage.removeItem("user_uuid"); 
 
     if (error.response?.status === 401) {
