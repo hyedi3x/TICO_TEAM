@@ -67,11 +67,5 @@ build/
 __pycache__/  
 requirements.txt
 
-# docker
-*.yml
-DockerFile
-Dockerfile
-DockerFile.spring
-
 # key
 *.pem

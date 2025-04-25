@@ -1,0 +1,28 @@
+version: '3'
+services:
+  react:
+    build: ./front-react
+    image: tico-react
+    ports:
+      - "80:80"
+
+  flask:
+    build: ./python
+    image: tico-python
+    ports:
+      - "5000:5000"
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/my-project-tico-d3f43b48a318.json
+      - DB_PORT=3306
+    volumes:
+      - ./python/my-project-tico-d3f43b48a318.json:/app/my-project-tico-d3f43b48a318.json
+
+  spring:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.spring
+    image: tico-spring-boot
+    ports:
+      - "8081:8081"
+    volumes:
+      - /home/ec2-user/TICO_TEAM/uploads:/uploads
