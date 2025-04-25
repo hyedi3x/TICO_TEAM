@@ -48,7 +48,7 @@ axiosInstance.interceptors.response.use(
         // 여기서는 데이터(예: JSON 객체)를 사람이 읽을 수 없는 형태의 문자열(알파벳, 숫자, 특수문자 등)로 변환하는 것
         // 그럼 디코딩은 인코딩을 반대로 한다 생각하면 이해하기 쉬움 : 사람이 읽지 못하는 데이터를 읽을 수 있게 변환
         const claims = {...payload};
-        const res = await axios.post('http://43.202.174.19/auth/refresh', claims)
+        const res = await axios.post('http://43.202.174.19:8081/auth/refresh', claims)
           // /auth/refresh 엔드 포인트에 post 요청을 보내서 accessToken을 받아옴
 
         const newAccessToken = res.data.accessToken;

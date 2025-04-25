@@ -15,7 +15,7 @@ import com.boot.tico.project.dto.ProjectCommentDTO;
 import com.boot.tico.project.service.ProjectCommentService;
 
 @RestController
-@RequestMapping("/projectComments")
+@RequestMapping("/api/projectComments")
 public class ProjectCommentController {
 
 	@Autowired

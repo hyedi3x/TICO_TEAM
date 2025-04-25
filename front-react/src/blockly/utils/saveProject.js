@@ -55,7 +55,7 @@ export const handleSaveProject = async (imgArr, blocklyArr, project_id, projectT
     let res;
     if (!project_id) {
       // INSERT (신규 저장)
-      res = await axiosInstance.post('/project/saveProject', {
+      res = await axiosInstance.post('/api/project/saveProject', {
         projectInfo,
         objects
       });
@@ -63,7 +63,7 @@ export const handleSaveProject = async (imgArr, blocklyArr, project_id, projectT
     } 
     else {
       // UPDATE (기존 작품 수정)
-      res = await axiosInstance.put('/project/updateProject', {
+      res = await axiosInstance.put('/api/project/updateProject', {
         projectInfo,
         objects
       });

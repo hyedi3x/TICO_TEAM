@@ -380,7 +380,7 @@ function Canvas() {
     formData.append('file', file);   // key: "file", value: 파일 객체
   
     try {
-      const response = await axiosInstance.post('/project/uploadImage', formData, {
+      const response = await axiosInstance.post('/api/project/uploadImage', formData, {
         headers: {
           'Content-Type': 'multipart/form-data', // 파일 전송 시 필요한 헤더
         },

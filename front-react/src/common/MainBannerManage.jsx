@@ -33,7 +33,7 @@ const MainBannerManage = () => {
 
   // 전체 작품 불러오기
   useEffect(() => {
-    axiosInstance.get('/project/projectList')
+    axiosInstance.get('/api/project/projectList')
     .then(response => {
       setAllProjects(response.data);
     })
@@ -87,7 +87,7 @@ const MainBannerManage = () => {
     const formData = new FormData();
     formData.append('file', file);
     try {
-      const response = await axiosInstance.post('/project/uploadImage', formData, {
+      const response = await axiosInstance.post('/api/project/uploadImage', formData, {
         headers: {
           'Content-Type': 'multipart/form-data', // 파일 전송 시 필요한 헤더
         },

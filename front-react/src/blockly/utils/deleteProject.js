@@ -11,7 +11,7 @@ export const handleDeleteProject = async (projectId) => {
 
     try{
         let res;
-        res = await axiosInstance.delete(`/project/deleteProject/${projectId}`);
+        res = await axiosInstance.delete(`/api/project/deleteProject/${projectId}`);
         alert(`${res.data}번째 작품이 성공적으로 삭제되었습니다.`);
         window.location.reload(); // 새로고침
     }catch(err){

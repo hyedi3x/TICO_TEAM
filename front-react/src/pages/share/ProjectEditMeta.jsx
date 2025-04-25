@@ -17,7 +17,7 @@ function ProjectEditMeta() {
   const [project, setProject] = useState(null);
 
   useEffect(() => {
-    axiosInstance.get(`/project/${projectId}`)
+    axiosInstance.get(`/api/project/${projectId}`)
       .then(res => {
         const data = res.data.project || res.data;
         setProject({
@@ -32,7 +32,7 @@ function ProjectEditMeta() {
 
   const handleSave = () => {
     const projectToSend = { ...project, tags: Array.isArray(project.tags) ? project.tags.join(',') : project.tags };
-    axiosInstance.put('/project/updateMeta', projectToSend)
+    axiosInstance.put('/api/project/updateMeta', projectToSend)
     .then(() => {
         alert('수정 완료!');
         navigate(`/share/detail/${projectId}`);

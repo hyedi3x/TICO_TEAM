@@ -25,7 +25,7 @@ function MainModify() {
 
   // 전체 프로젝트 목록
   useEffect(() => {
-    axiosInstance.get('/project/projectList')
+    axiosInstance.get('/api/project/projectList')
     .then(response => {
       setAllProjects(response.data);
     })
@@ -101,7 +101,7 @@ function MainModify() {
 
   // 삭제
   const handleRemoveStaffPickProject = (index) => {
-    axiosInstance.delete(`/project/staffPick/${index}`)
+    axiosInstance.delete(`/api/project/staffPick/${index}`)
       .then((res) => {
         console.log(res);
         // staffPickProjects 배열에서 해당 항목을 제거하고 나머지 항목을 당김
@@ -129,7 +129,7 @@ function MainModify() {
         userUuid
       }));
 
-      axiosInstance.post('/project/staffPick', payload, {
+      axiosInstance.post('/api/project/staffPick', payload, {
         headers: {
           'Content-Type': 'application/json',
         },

@@ -23,7 +23,7 @@ function ShareDetail() {
     if (!projectId) return;
   
     // 작품 정보 조회 후 조회수 증가
-    axiosInstance.get(`/project/${projectId}`)
+    axiosInstance.get(`/api/project/${projectId}`)
       .then(res => {
         const data = res.data.project || res.data;
         setProject(data);  // 프로젝트 데이터 상태 업데이트
@@ -32,7 +32,7 @@ function ShareDetail() {
         
         // 조회수 증가 (setProject 이후)
         if (data.isPrivate !== 'Y') {
-          axiosInstance.post(`/project/view/${projectId}`, null, {
+          axiosInstance.post(`/api/project/view/${projectId}`, null, {
             params: { userUuid }
           })
           .catch(err => console.error('조회수 업데이트 실패:', err));
@@ -46,12 +46,12 @@ function ShareDetail() {
   
     if (userUuid) {
       // 좋아요 여부 확인
-      axiosInstance.get(`/favor/status`, {
+      axiosInstance.get(`/api/favor/status`, {
         params: { projectId, userUuid, type: 'like' }
       }).then(res => setLiked(res.data)).catch(() => {});
   
       // 북마크 여부 확인
-      axiosInstance.get(`/favor/status`, {
+      axiosInstance.get(`/api/favor/status`, {
         params: { projectId, userUuid, type: 'bookmark' }
       }).then(res => setBookmarked(res.data)).catch(() => {});
     }
@@ -74,7 +74,7 @@ function ShareDetail() {
       return;
     }
 
-    axiosInstance.post(`/favor/toggle`, {
+    axiosInstance.post(`/api/favor/toggle`, {
       projectId: parseInt(projectId),
       userUuid,
       favorType: type
@@ -124,7 +124,7 @@ function ShareDetail() {
       const data = nextState === 'N'
         ? { isPrivate: nextState, isAgree: 'Y' }
         : { isPrivate: nextState, isAgree: 'N' };
-      axiosInstance.put(`/project/private/${project.projectId}`, data)
+      axiosInstance.put(`/api/project/private/${project.projectId}`, data)
         .then(() => {
           alert('공개/비공개 상태가 변경되었습니다.');
           setProject({ ...project, isPrivate: nextState, isAgree: nextState === 'N' ? 'Y' : project.isAgree });
@@ -136,7 +136,7 @@ function ShareDetail() {
   const handleToggleComment = () => {
     // next 상태 결정
     const nextState = project.isComment === 'Y' ? 'N' : 'Y';
-    axiosInstance.put(`/project/comment/${project.projectId}`, { isComment: nextState })
+    axiosInstance.put(`/api/project/comment/${project.projectId}`, { isComment: nextState })
       .then(() => {
         alert('댓글 허용/비허용 상태가 변경되었습니다.');
         setProject({ ...project, isComment: nextState });

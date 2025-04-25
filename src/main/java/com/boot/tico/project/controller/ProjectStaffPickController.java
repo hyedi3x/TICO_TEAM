@@ -18,7 +18,7 @@ import com.boot.tico.project.dto.ProjectStaffPickDTO;
 import com.boot.tico.project.service.ProjectStaffPickService;
 
 @RestController
-@RequestMapping("/project")
+@RequestMapping("/api/project")
 public class ProjectStaffPickController {
 	@Autowired
 	private ProjectStaffPickService service;
