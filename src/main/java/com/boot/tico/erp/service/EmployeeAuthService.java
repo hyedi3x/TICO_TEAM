@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Slf4j
@@ -42,4 +43,18 @@ public class EmployeeAuthService {
     public Optional<EmpDTO> findByEmpId(String empId) {
         return empRepository.findById(empId);
     }
+    
+    // RefreshToken db에 저장
+    public void saveRefreshToken(String empId, String refreshToken, LocalDateTime expiry) {
+        Optional<EmpDTO> empOpt = empRepository.findById(empId);
+        if (empOpt.isPresent()) {
+            EmpDTO emp = empOpt.get();
+            emp.setRefreshToken(refreshToken);             // null일 경우 삭제
+            emp.setRefreshTokenExpiry(expiry);             // null일 경우 삭제
+            empRepository.save(emp);
+        } else {
+            throw new RuntimeException("Employee not found");
+        }
+    }
+
 }
