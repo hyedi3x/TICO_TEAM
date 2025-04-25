@@ -71,10 +71,26 @@ const RegisterBlockGenerator = (props) => {
     });\n`;
   };
 
-  // 몇 초 동안 기다리기
+  // 몇 초 동안 기다리기, 정지는 바로 클리어, 일시정지는 기다림
   javascriptGenerator.forBlock['wait_seconds'] = function(block) {
     const seconds = block.getFieldValue('seconds');
-    return `await new Promise(resolve => setTimeout(resolve, ${seconds} * 1000));\n`;
+    return `await new Promise(resolve => {
+        let waited = 0;
+        const interval = setInterval(() => {
+          if (!window.running) {
+            clearInterval(interval);
+            resolve();
+            return;
+          }
+          if (!window.isPaused) {
+            waited += 50;
+            if (waited >= ${seconds} * 1000) {
+              clearInterval(interval);
+              resolve();
+            }
+          }
+        }, 50);
+      });\n`;
   };
 
   // 모든 코드 멈추기

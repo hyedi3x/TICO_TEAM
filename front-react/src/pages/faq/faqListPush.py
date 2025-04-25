@@ -4,8 +4,7 @@ from dotenv import load_dotenv  # pip install python-dotenv
 import os
 
 # .env 파일 로드
-load_dotenv()
-
+load_dotenv(dotenv_path="D:/Git/TICO_TEAM/.env")
 # 환경 변수에서 DB 설정 불러오기
 DB_HOST = os.getenv("DB_HOST")
 DB_PORT = int(os.getenv("DB_PORT", 3306))  # 기본값 3306

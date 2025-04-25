@@ -21,7 +21,7 @@ function ShareModal({ show, onClose }) {
 
   useEffect(() => {
     if (show) {
-      axiosInstance.get(`/project/userProjects/${userUuid}`)
+      axiosInstance.get(`/api/project/userProjects/${userUuid}`)
         .then(res => setMyProjects(res.data));
 
       setStep(1);
@@ -61,7 +61,7 @@ function ShareModal({ show, onClose }) {
     };
 
     try {
-      await axiosInstance.put("/project/shareProject", { projectInfo });
+      await axiosInstance.put("/api/project/shareProject", { projectInfo });
       alert("공유 완료!");
       onClose();
     } catch (err) {

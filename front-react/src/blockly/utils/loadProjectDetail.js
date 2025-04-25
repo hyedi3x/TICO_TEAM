@@ -8,7 +8,7 @@ import axiosInstance from "../../pages/login/social/utils/axiosInstance";
 // 상세 조회
 export const fetchProjectDetail = async (project_id) => {
     try{
-        const res = await axiosInstance.get(`/project/${project_id}`);
+        const res = await axiosInstance.get(`/api/project/${project_id}`);
         return res.data;
     }
     catch (err){
@@ -118,4 +118,6 @@ export const loadProjectToCanvas = async (
     callImgArr();
   }
   setWorkspaceReady(true);
+
+  return detail.project;
 };

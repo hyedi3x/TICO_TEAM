@@ -19,7 +19,7 @@ import com.boot.tico.mainBanner.dto.MainBannerDTO;
 import com.boot.tico.mainBanner.service.MainBannerService;
 
 @RestController
-@RequestMapping("/banner")
+@RequestMapping("/api/banner")
 public class MainBannerController {
 
     @Autowired

@@ -116,6 +116,7 @@ public class ProjectService {
        if (project.getCommentCount() == null) project.setCommentCount(existing.getCommentCount());
        if (project.getBookmarkCount() == null) project.setBookmarkCount(existing.getBookmarkCount());
        if (project.getNumber() == null) project.setNumber(existing.getNumber());
+       if (project.getIsComment() == null) project.setIsComment(existing.getIsComment());
 
        // 프로젝트 저장
        projectRepository.save(project);
@@ -243,6 +244,51 @@ public class ProjectService {
    public void incrementViewCount(int projectId) {
        projectRepository.incrementViewCount(projectId); // 조회수 증가
    }
+   
+   /**
+    * [13] 작품 공개/비공개 변경 처리
+    */
+   @Transactional
+   public void updatePrivateStatus(int projectId, String isPrivate, String isAgree) {
+	   ProjectDTO project = projectRepository.findById(projectId)
+			   .orElseThrow(() -> new RuntimeException("해당 작품이 존재하지 않습니다."));
+	   project.setIsPrivate(isPrivate);
+	   project.setIsAgree(isAgree);
+	   projectRepository.updateProjectPrivateStatusAndAgree(projectId, isPrivate, isAgree);
+   }
+   
+   /**
+    * [14] 댓글 허용/비허용 변경 처리
+    */
+   @Transactional
+   public void updateCommentStatus(int projectId, String isComment) {
+       ProjectDTO project = projectRepository.findById(projectId)
+               .orElseThrow(() -> new RuntimeException("해당 작품이 존재하지 않습니다."));
+       project.setIsComment(isComment);
+       projectRepository.save(project);
+   }
+   
+   /**
+    * [15] 작품의 정보만 수정 처리
+    */
+   @Transactional
+   public void updateProjectMeta(ProjectDTO dto) {
+       ProjectDTO entity = projectRepository.findById(dto.getProjectId())
+           .orElseThrow(() -> new RuntimeException("해당 작품이 존재하지 않습니다."));
+       
+       // 필요한 메타데이터만 갱신
+       entity.setTitle(dto.getTitle());
+       entity.setCategory(dto.getCategory());
+       entity.setTags(dto.getTags());
+       entity.setIntroduction(dto.getIntroduction());
+       entity.setGuide(dto.getGuide());
+       entity.setNotes(dto.getNotes());
+       entity.setIsPrivate(dto.getIsPrivate());
+       entity.setIsComment(dto.getIsComment());
+
+       projectRepository.save(entity);
+   }
+
    
    // 메인화면 인기작품 조회
    @Transactional

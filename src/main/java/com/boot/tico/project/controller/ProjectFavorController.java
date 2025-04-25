@@ -12,7 +12,7 @@ import com.boot.tico.project.dto.ProjectFavorDTO;
 import com.boot.tico.project.service.ProjectFavorService;
 
 @RestController
-@RequestMapping("/favor")
+@RequestMapping("/api/favor")
 public class ProjectFavorController {
 
 	@Autowired

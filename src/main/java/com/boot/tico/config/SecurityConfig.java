@@ -61,16 +61,10 @@ public class SecurityConfig {
                         		"/auth/login/customer**", 
                         		"/oauth2/**", 
                         		"/error", 
-                        		"/project/**", 
-                            "/projectComments/**",
-                            "/favor/**", 
-                        		"/api/**", 
-                        		"/quiz/**",
-                        		"/eduBlock/**", 
-                        		"/uploads/**", 
+                        		"/api/**",
+                        		"/uploads/**",
                             "/ws-chat/**",
                             "/ws-chat",
-                            "/banner/**",
                         		"/"
                         		).permitAll()
                         .anyRequest().authenticated())

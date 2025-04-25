@@ -25,7 +25,7 @@ function MainModify() {
 
   // 전체 프로젝트 목록
   useEffect(() => {
-    axiosInstance.get('/project/projectList')
+    axiosInstance.get('/api/project/projectList')
     .then(response => {
       setAllProjects(response.data);
     })
@@ -101,7 +101,7 @@ function MainModify() {
 
   // 삭제
   const handleRemoveStaffPickProject = (index) => {
-    axiosInstance.delete(`/project/staffPick/${index}`)
+    axiosInstance.delete(`/api/project/staffPick/${index}`)
       .then((res) => {
         console.log(res);
         // staffPickProjects 배열에서 해당 항목을 제거하고 나머지 항목을 당김
@@ -129,7 +129,7 @@ function MainModify() {
         userUuid
       }));
 
-      axiosInstance.post('/project/staffPick', payload, {
+      axiosInstance.post('/api/project/staffPick', payload, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -175,9 +175,30 @@ function MainModify() {
                 <SwiperSlide key={index} style={{ display: 'flex', justifyContent: 'center' }}>
                   <ProjectCard
                     project={project}
-                    editable
-                    onSelect={() => handleOpenProjectModal(index)} // 중복확인
-                    onDelete={() => handleRemoveStaffPickProject(index)}
+                    editable = {
+                      <>
+                        <Button
+                          appearance="primary"
+                          size="sm"
+                          style={{ borderRadius: 20, padding: '0.4rem 1rem', marginRight: 8, background: '#3485ff', color: '#fff', borderColor: '#3485ff' }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleOpenProjectModal(index);
+                          }}
+                        >
+                          수정
+                        </Button>
+                        <Button appearance="ghost" size="sm" style={{ borderRadius: 20, padding: '0.4rem 1rem', color: '#ff3333', borderColor: '#ff3333', background: 'transparent' 
+                          }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleRemoveStaffPickProject(index);
+                          }}
+                        >
+                          삭제
+                        </Button>
+                      </>
+                    }
                     showStats={false}
                   />
                 </SwiperSlide>

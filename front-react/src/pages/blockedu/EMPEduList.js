@@ -15,7 +15,7 @@ const EMPEduList = () => {
   // 목록 불러오기
     const fetchQuizzes = async () => {
       try {
-        const response = await axiosInstance.get("/quiz/eduList");
+        const response = await axiosInstance.get("/api/quiz/eduList");
         const data = response.data;
         setQuizzes(data.quizDTO);
         setUser(data.solvedDTO);
@@ -50,7 +50,7 @@ const EMPEduList = () => {
   const manageQuiz = async (id, action) => {
     if (window.confirm(`정말 [${id}번] 항목을 ${action === 'delete' ? '삭제' : action === 'restore' ? '삭제 취소' : '영구 삭제'}하시겠습니까?`)) {
       try {
-        const response = await axiosInstance.patch('/eduBlock/manageQuiz', {
+        const response = await axiosInstance.patch('/api/eduBlock/manageQuiz', {
           quiz_id: id,
           action: action
         }, {

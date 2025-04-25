@@ -19,9 +19,6 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import { Card, Col, Row, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-// 이미지
-import img1 from "../imgs/짱구1.jpg";
-
 // 챗 컴포넌트
 import WepChat from "../pages/wep_chat/WepChat";
 import ChatbotWindow from "../pages/chatbot/ChatbotWindow";
@@ -33,11 +30,11 @@ import axiosInstance from "../pages/login/social/utils/axiosInstance";
 function Main() {
   const [userRole, setUserRole] = useState(null);
   const [staffPickProjects, setStaffPickProjects] = useState([]);
-  const [allProjects, setAllProjects] = useState([]);
   const [popularProjects, setPopularProjects] = useState([]);
   const [banners, setBanners] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false); // ⭐ 로딩 상태 추가
   const navigate = useNavigate();
-
+  
   // 로그인 유저 정보 추출
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -51,23 +48,43 @@ function Main() {
     }
   }, []);
 
-  // 인기 작품 불러오기
+  // 모든 데이터 한 번에 불러오기 (병렬)
   useEffect(() => {
-    axiosInstance.get('/project/popularProjects')
-      .then(response => {
-        const popData = response.data.slice(0, 10);
-        setPopularProjects(popData);
-      })
-      .catch(err => console.error("인기 작품 불러오기 실패:", err));
-  }, []);
-
-  // 배너 목록 불러오기
-  useEffect(() => {
-    axiosInstance.get('/banner/list')
-      .then(response => {
-        setBanners(response.data.sort((a, b) => a.displayOrder - b.displayOrder));
-      })
-      .catch(err => console.error("배너 불러오기 실패:", err));
+    const fetchAll = async () => {
+      try {
+        const [projectsRes, picksRes, popRes, bannerRes] = await Promise.all([ 
+          // Promise.all로 모든 요청 기다림, 요청결과를 배열로 담고 모든 요청을 기다린다.
+          // 배열 구조분해 할당을 사용해 순서대로 요청 결과가 담긴다.
+          axiosInstance.get('/project/projectList'),
+          axiosInstance.get('/project/staffPick'),
+          axiosInstance.get('/project/popularProjects'),
+          axiosInstance.get('/api/banner/list')
+        ]);
+        // 모든 프로젝트
+        const allProjects = projectsRes.data;
+        // 스선
+        const staffPicks = picksRes.data.map(pick => {
+          const matched = allProjects.find(p => Number(p.projectId) === Number(pick.projectId));
+          return matched ? {
+            projectId: matched.projectId,
+            thumbnailUrl: matched.thumbnailUrl,
+            title: matched.title,
+            introduction: matched.introduction,
+            slotIndex: pick.slotIndex
+          } : null;
+        }).filter(Boolean); //filter(Boolean)은 true가 되는 값만 남긴다 (null, undefinded도 걸러줌)
+        setStaffPickProjects(staffPicks);
+        // 인작
+        setPopularProjects(popRes.data.slice(0, 10));
+        // banner
+        setBanners(bannerRes.data.sort((a, b) => a.displayOrder - b.displayOrder));
+        // 로딩 완료
+        setIsLoaded(true);
+      } catch (err) {
+        console.error('데이터 로딩 실패:', err);
+      }
+    };
+    fetchAll();
   }, []);
 
   // 이미지 경로 처리
@@ -78,40 +95,14 @@ function Main() {
     return url;
   };
 
-  // 스태프 선정 작품 불러오기
-  useEffect(() => {
-    const fetchStaffPicksWithProjects = async () => {
-      try {
-        const [projectsRes, picksRes] = await Promise.all([
-          axiosInstance.get('/project/projectList'),
-          axiosInstance.get('/project/staffPick')
-        ]);
+  // staffPick, popular id 배열 (태그 조건용)
+  const staffPickIds = staffPickProjects.map(p => Number(p.projectId));
+  const popularIds = popularProjects.map(p => Number(p.projectId));
 
-        const projects = projectsRes.data;
-        const picks = picksRes.data;
-
-        setAllProjects(projects);
-
-        const newStaffPicks = picks.length > 0 ? picks.map(pick => {
-          const matched = projects.find(p => Number(p.projectId) === Number(pick.projectId));
-          return matched ? {
-            projectId: matched.projectId,
-            thumbnailUrl: matched.thumbnailUrl,
-            title: matched.title,
-            introduction: matched.introduction,
-            slotIndex: pick.slotIndex
-          } : null;
-        }).filter(pick => pick !== null) : [];
-
-        setStaffPickProjects(newStaffPicks);
-      } catch (err) {
-        console.error("스태프 선정 데이터 로딩 실패:", err);
-      }
-    };
-
-    fetchStaffPicksWithProjects();
-  }, []);
-
+  // ⭐ 로딩중 처리
+  if (!isLoaded) {
+    return <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>로딩중...</div>;
+  }
   return (
     <div className='main-wrapper'>
       {/* ── 유저간 채팅 ── */}
@@ -198,6 +189,8 @@ function Main() {
                     project={project}
                     onClick={() => navigate(`/share/detail/${project.projectId}`)}
                     showStats={false}
+                    isStaff={staffPickIds.includes(Number(project.projectId))}
+                    isPopular={popularIds.includes(Number(project.projectId))}
                   />
                 </SwiperSlide>
               ))
@@ -229,6 +222,8 @@ function Main() {
                   <ProjectCard
                     project={project}
                     onClick={() => navigate(`/share/detail/${project.projectId}`)}
+                    isStaff={staffPickIds.includes(Number(project.projectId))}
+                    isPopular={popularIds.includes(Number(project.projectId))}
                   />
                 </SwiperSlide>
               ))
