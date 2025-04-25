@@ -22,7 +22,7 @@ const WepChat = () => {
     if (!isLoggedIn) return;
     const token = localStorage.getItem("accessToken");
     const client = new Client({
-      webSocketFactory: () => new SockJS("http://43.202.174.19/ws-chat"),
+      webSocketFactory: () => new SockJS("http://43.202.174.19:8081/ws-chat"),
       connectHeaders: { Authorization: `Bearer ${token}` },
       reconnectDelay: 5000,
       onConnect: () => {

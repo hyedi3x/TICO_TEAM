@@ -19,7 +19,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
   public void registerStompEndpoints(StompEndpointRegistry registry) {
     registry
       .addEndpoint("/ws-chat")                   	  // WebSocket 엔드포인트
-      .setAllowedOrigins("http://43.202.174.19:3000") // React 앱 주소
+      .setAllowedOrigins("http://43.202.174.19:80") // React 앱 주소
       .withSockJS();                             	  // SockJS fallback 지원
   }
 }
