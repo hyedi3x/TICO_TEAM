@@ -55,9 +55,9 @@ function Main() {
         const [projectsRes, picksRes, popRes, bannerRes] = await Promise.all([ 
           // Promise.all로 모든 요청 기다림, 요청결과를 배열로 담고 모든 요청을 기다린다.
           // 배열 구조분해 할당을 사용해 순서대로 요청 결과가 담긴다.
-          axiosInstance.get('/project/projectList'),
-          axiosInstance.get('/project/staffPick'),
-          axiosInstance.get('/project/popularProjects'),
+          axiosInstance.get('/api/project/projectList'),
+          axiosInstance.get('/api/project/staffPick'),
+          axiosInstance.get('/api/project/popularProjects'),
           axiosInstance.get('/api/banner/list')
         ]);
         // 모든 프로젝트
