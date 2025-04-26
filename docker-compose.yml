@@ -15,6 +15,8 @@ services:
       - GOOGLE_APPLICATION_CREDENTIALS=/app/my-project-tico-d3f43b48a318.json
       - DB_PORT=3306
     volumes:
+      # env 파일을 도커 컨테이너에서 인식하기 위해서 설정한다./app은 Dockerfile의 WORKDIR와 일치해야 함
+      - ./python/chatbot/.env:/app/.env  
       - ./python/my-project-tico-d3f43b48a318.json:/app/my-project-tico-d3f43b48a318.json
 
   spring:
