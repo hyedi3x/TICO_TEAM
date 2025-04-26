@@ -573,7 +573,11 @@ function Canvas() {
     };
   
     const handleKeyDown = (e) => {
+      const tag = e.target.tagName.toLowerCase();
+    if (tag === 'input' || tag === 'textarea') return;
+
       pressedKeys[e.key] = true;
+      
       if (keysToPrevent.includes(e.key)) e.preventDefault();
   
       if (!animationFrameId) {
