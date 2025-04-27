@@ -75,7 +75,7 @@ function Canvas() {
   
     selectedObjects.forEach((obj, idx) => {
       const img = new Image();
-      img.src = `http://43.202.174.19:8081${obj.blocklyObjectFilePath}`;
+      img.src = `https://tico.kro.kr${obj.blocklyObjectFilePath}`;
   
       img.onload = () => {
         if (!canvasRef.current) return;
@@ -150,7 +150,7 @@ function Canvas() {
   /** ─────────────── 초기 로딩 ─────────────── **/
   useEffect(() => {
     defineMyBlocks(); // 사용자 정의 블록 등록
-    callimage('http://43.202.174.19:8081/uploads/entrybot.png');
+    callimage('https://tico.kro.kr/uploads/entrybot.png');
     // eslint-disable-next-line
   }, []);
   
@@ -158,10 +158,10 @@ function Canvas() {
   const callimage= (imgUrl)=>{  
     const img = new Image();
     // onload와 분리해서 처리할 것(src로 로드 된 후 onload가 실행되기 때문)
-    if(imgUrl === 'http://43.202.174.19:8081/uploads/entrybot.png'){
+    if(imgUrl === 'https://tico.kro.kr/uploads/entrybot.png'){
       img.src = imgUrl;
     } else {
-      img.src = `http://43.202.174.19:8081${imgUrl}`;
+      img.src = `https://tico.kro.kr${imgUrl}`;
 
   }
       

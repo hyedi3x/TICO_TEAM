@@ -5,7 +5,7 @@ import ProjectCard from './ProjectCard';
 // 썸네일 URL 처리 함수
 const resolveThumbnailUrl = (url) => {
   if (url && !url.startsWith('http')) {
-    return `http://43.202.174.19:8081${url}`;
+    return `https://tico.kro.kr${url}`;
   }
   return url || '';
 };

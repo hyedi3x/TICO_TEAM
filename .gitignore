@@ -66,6 +66,5 @@ build/
 *.pyc
 __pycache__/  
 requirements.txt
-
 # key
 *.pem

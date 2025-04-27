@@ -44,7 +44,7 @@ function Signup() {
     if (type === 'id') {
       setShowAgeModal(true);
     } else {
-      window.location.href = `http://43.202.174.19:8081/oauth2/authorization/${type}?flow=signup`;
+      window.location.href = `https://tico.kro.kr/oauth2/authorization/${type}?flow=signup`;
     }
   };
 

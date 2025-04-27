@@ -15,8 +15,7 @@ public class CorsConfig {
         
         config.setAllowCredentials(true); // 쿠키/세션 사용 시 필요
         
-        config.addAllowedOrigin("http://43.202.174.19:80");
-        config.addAllowedOrigin("http://43.202.174.19"); // 프론트엔드 주소
+        config.addAllowedOrigin("https://tico.kro.kr"); // 프론트엔드 주소
         
         config.addAllowedHeader("*"); // 모든 헤더 허용
         

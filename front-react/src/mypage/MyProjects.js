@@ -25,7 +25,7 @@ function MyProjects() {
 
   const resolveThumbnailUrl = (url) => {
     if (url.startsWith('http')) return url; // 이미 전체 URL이면 그대로
-    return `http://43.202.174.19:8081${url}`;    // 상대경로면 도메인 붙여줌
+    return `https://tico.kro.kr${url}`;    // 상대경로면 도메인 붙여줌
   };
 
   return (
