@@ -28,4 +28,22 @@ public interface ProjectCommentRepository extends JpaRepository<ProjectCommentDT
 		    ORDER BY c.created_at ASC
 		""", nativeQuery = true)
 		List<Object[]> findByProjectIdWithNickname(@Param("projectId") int projectId);
+		
+		@Query(value = """
+			    SELECT 
+			        c.comment_id,
+			        c.project_id,
+			        c.user_uuid,
+			        c.comment_text,
+			        c.created_at,
+			        u.nickname,
+			        p.title
+			    FROM project_comment_tb c
+			    JOIN users u ON c.user_uuid = u.user_uuid
+			    JOIN project_tb p ON c.project_id = p.project_id
+			    WHERE c.comment_text LIKE %:keyword%
+			    ORDER BY c.created_at DESC
+			""", nativeQuery = true)
+			List<Object[]> searchProjectComments(@Param("keyword") String keyword);
+
 }

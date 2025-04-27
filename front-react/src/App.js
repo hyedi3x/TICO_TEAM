@@ -31,6 +31,8 @@ import ProjectEditMeta from './pages/share/ProjectEditMeta';
 import Remake from './blockly/components/BlocklyComponentRemake';
 import MainModify from './common/MainModify';
 import MainBannerManage from './common/MainBannerManage';
+import ReportForm from './pages/share/ReportForm';
+import SearchResult from './pages/search/SearchResult';
 
 
 function App() {
@@ -41,6 +43,7 @@ function App() {
         <Routes>
           <Route path="/createBlock" exact={true} element={<BlocklyComponent />} />
           <Route path="/" element={<Main/>}/>
+          <Route path='/search' element={<SearchResult />} />
           <Route path="/login" element={<Login/>}/>
           <Route path="/callback" element={<Callback />} />
           <Route path="/signUp" element={<Signup/>} />
@@ -64,6 +67,7 @@ function App() {
           <Route path="/canvas/:projectId" element={<ShareCanvas />} />
           <Route path='/tutorial' element={<Tutorial />} />
           <Route path='/project/edit/:projectId' element={<ProjectEditMeta />} />
+          <Route path="/report/:projectId" element={<ReportForm />} />
           <Route path='/remake' element={<Remake />}/>
           <Route path="/mainBannerManage" element={<MainBannerManage />} />
           <Route path="/mainModify" element={<MainModify/>}/>

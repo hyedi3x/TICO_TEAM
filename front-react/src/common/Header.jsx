@@ -15,9 +15,11 @@ function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(!!token);
   const [user, setUser] = useState(null);
   const [userRole, setUserRole] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
+    setSearchTerm('');
     setIsLoggedIn(!!localStorage.getItem('accessToken'));
     if (localStorage.getItem('accessToken')) {
       axiosInstance.get('/auth/user')
@@ -56,6 +58,16 @@ function Header() {
     navigate('/login');
   };
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (!searchTerm.trim()) {
+      alert('검색어를 입력해 주세요.');
+      return;
+    }
+    // 검색 결과 페이지로 이동 (예시: /search?query=검색어)
+    navigate(`/search?query=${encodeURIComponent(searchTerm.trim())}`);
+  };
+
   return (
     <div className='header'>
       <Navbar expand="lg" className="bg-white mb-3 border-bottom" style={{ height: '90px', padding: '20px' }}>
@@ -81,7 +93,6 @@ function Header() {
                 </NavDropdown>
                 <NavDropdown title="만들기" id="offcanvasNavbarDropdown">
                   <NavDropdown.Item href="/createBlock">작품 만들기</NavDropdown.Item>
-                  <NavDropdown.Item href="/#action5">학습 하기</NavDropdown.Item>
                 </NavDropdown>
                 <NavDropdown title="공유하기" id="offcanvasNavbarDropdown">
                   <NavDropdown.Item href="/share">작품 공유하기</NavDropdown.Item>
@@ -89,16 +100,13 @@ function Header() {
                 </NavDropdown>
                 <NavDropdown title="커뮤니티" id="offcanvasNavbarDropdown">
                   <NavDropdown.Item href="/#action3">묻고 답하기</NavDropdown.Item>
-                  <NavDropdown.Item href="/#action4">노하우&팁</NavDropdown.Item>
-                  <NavDropdown.Item href="/#action4">티코 이야기</NavDropdown.Item>
                   <NavDropdown.Item href="/#action4">공지사항</NavDropdown.Item>
                   <NavDropdown.Item href="/faqlist">FAQ</NavDropdown.Item>
-                  <NavDropdown.Item href="/#action5">탐험하기</NavDropdown.Item>
                 </NavDropdown>
               </Nav>
-              <Form className="d-flex">
-                <Form.Control type="search" placeholder="Search" className="me-2" aria-label="Search" />
-                <Button className='button' variant="outline-success">
+              <Form className="d-flex" onSubmit={handleSearch}>
+                <Form.Control type="search" placeholder="Search" className="me-2" aria-label="Search" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+                <Button className='button' variant="outline-success" type='submit'>
                   <FontAwesomeIcon icon={faMagnifyingGlass} />
                 </Button>
               </Form>
