@@ -251,7 +251,7 @@ const RegisterBlockGenerator = (props) => {
     return `
       const canvas = document.querySelector("canvas");
       if (canvas) {
-        canvas.style.cursor = 'url("http://43.202.174.19:8081/uploads/${encoded}") 24 24, auto';
+        canvas.style.cursor = 'url("https://tico.kro.kr/uploads/${encoded}") 24 24, auto';
       } else {
         console.warn("❌ 캔버스 요소를 찾을 수 없습니다.");
       }
