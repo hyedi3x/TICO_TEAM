@@ -1,24 +1,39 @@
-version: '3'
 services:
+  # ------------------------
+  # 1) React 컨테이너(Nginx + 정적파일 서빙)
   react:
     build: ./front-react
     image: tico-react
     ports:
       - "80:80"
+      - "443:443"
+    volumes:
+      # front-react 폴더 안에 있는 nginx.conf 를 컨테이너 default.conf 로 덮어씌웁니다.
+      - ./front-react/nginx.conf:/etc/nginx/conf.d/default.conf:ro
 
+      # SSL 인증서 체인, 최상위 인증서, 개인키
+      - ./ssl/certificate.crt:/etc/ssl/certs/certificate.crt:ro
+      - ./ssl/private.key:/etc/ssl/private/private.key:ro
+
+      # 빌드된 정적 파일
+      # ./front-react/build:/usr/share/nginx/html:ro
+
+  # ------------------------
+  # 3) Flask
   flask:
     build: ./python
     image: tico-python
-    ports:
-      - "5000:5000"
+    expose:
+      - "5000"  # 내부망에서만 접근 가능
     environment:
       - GOOGLE_APPLICATION_CREDENTIALS=/app/my-project-tico-d3f43b48a318.json
       - DB_PORT=3306
     volumes:
-      # env 파일을 도커 컨테이너에서 인식하기 위해서 설정한다./app은 Dockerfile의 WORKDIR와 일치해야 함
       - ./python/chatbot/.env:/app/.env  
       - ./python/my-project-tico-d3f43b48a318.json:/app/my-project-tico-d3f43b48a318.json
 
+  # ------------------------
+  # 4) Spring Boot
   spring:
     build:
       context: .
