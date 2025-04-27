@@ -111,8 +111,7 @@ function ShareCanvas() {
       img.src = imgUrl;
     } else {
       img.src = `https://tico.kro.kr${imgUrl}`;
-
-  }
+    }
       
     // 객체 로드시 배열에 js객체로 변수와 속성값을 추가
     img.onload = () =>{
