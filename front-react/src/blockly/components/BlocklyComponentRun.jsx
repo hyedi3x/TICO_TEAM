@@ -14,10 +14,9 @@ import "../components/BlocklyComponent.css";
 import ticoTheme from '../blocks/ticoTheme';
 import { registerWhackableClickListener } from '../games/whackMoleGame';
 import { drawScoreText } from '../functions/cals/calFunctions';
-import axios from 'axios';
 import axiosInstance from '../../pages/login/social/utils/axiosInstance';
-
-Blockly.setLocale(ko); // Blockly 언어를 한국어로 설정
+import ScoreModal from './ScoreModal';
+;Blockly.setLocale(ko); // Blockly 언어를 한국어로 설정
 
 function ShareCanvas() {
   /** ─────────────── Refs & States ─────────────── **/
@@ -30,25 +29,27 @@ function ShareCanvas() {
   
   // 마우스 이동 관련 상태 및 참조값
   const INITIAL_POSITION = { x: 0, y: 0 }; // 초기 위치
-  const viewPosRef = useRef(INITIAL_POSITION); // 캔버스 뷰포트 위치
   const startPosRef = useRef(INITIAL_POSITION); // 마우스 드래그 시작위치 저장
   const panningRef = useRef(false); // 이동(패닝) 상태
   
   // 마우스 좌표
   const [coordinates, setCoordinates] = useState({ x: 0, y: 0 }); // 마우스 이동위치
-  
   const [workspaceReady, setWorkspaceReady] = useState(false); // 작업 공간 준비 상태
   const [imagePosition, setImagePosition] = useState([]); // 이미지 위치 상태 배열
 
   // 모달 상태 및 프로젝트 목록
   const currentProjectId = useRef(null); // 현재 작업 중인 project_id
-
   const navigate = useNavigate(); // 페이지 이동 함수
 
-  const handleButtonClick = () => {
-    // ObjectSelectPage 경로로 이동
-    navigate('/select-object');
-  };
+  // 시작 상태 백업
+    const [backupState, setBackupState] = useState({
+      imgArr: [],         // 이미지 배열 복사본
+      blockXmlArr: []     // 각 workspace의 XML 상태
+    });
+
+  // 실행 버튼들
+  const [btn_toggle, setBtn_toggle] = useState(true);
+  const [pauseToggle, setPauseToggle] = useState(false); // true: 일시정지 상태
 
 
   // 키보드 상태 트래킹
@@ -59,10 +60,23 @@ function ShareCanvas() {
     // eslint-disable-next-line
     canvas.width = canvas.width;// 캔버스의 너비를 다시 할당, 캔버스 내부 내용 지워짐
   };
-
-
-
+  // 실행할 작품
   const { projectId } = useParams();
+
+// 점수창 모달
+const [showScoreModal, setShowScoreModal] = useState(false);
+
+// 이 안에서 window에 할당해야 함!
+useEffect(() => {
+  window.openScoreModal = () => setShowScoreModal(true);
+  window.closeScoreModal = () => setShowScoreModal(false);
+
+  // 컴포넌트 unmount 시 window에서 제거해주면 더 좋음
+  return () => {
+    delete window.openScoreModal;
+    delete window.closeScoreModal;
+  };
+}, []);
 
   /** ─────────────── 초기 로딩 ─────────────── **/
   useEffect(() => {
@@ -97,11 +111,12 @@ function ShareCanvas() {
   }, [projectId]);
   
 
+  // id 없을 때만 로딩창을 띄운다.
   useEffect(() => {
     defineMyBlocks(); // 사용자 정의 블록 등록
-    callimage('http://localhost:8081/uploads/loading.png');
+    callimage('/uploads/loading.png');
     // eslint-disable-next-line
-  }, []);
+  }, [projectId]);
   
   /** ─────────────── 이미지 및 Blockly 생성 ─────────────── **/
   const callimage= (imgUrl)=>{  
@@ -134,8 +149,8 @@ function ShareCanvas() {
       // Blockly 작업공간 DOM 생성 및 주입
       const blocklyDivElement = document.createElement('div');
       blocklyDivElement.id = `blockly${imgArr.current.length-1}`;
-      blocklyDivElement.style.height = '700px';
-      blocklyDivElement.style.width = '800px';
+      blocklyDivElement.style.height = '900px';
+      blocklyDivElement.style.width = '1000px';
       blocklyDiv.current.appendChild(blocklyDivElement); // 부모요소.appendChild(추가할 자식요소) : HTML div 하위에 해당 작업공간 추가
 
       // 작업공간 주입
@@ -304,6 +319,9 @@ function ShareCanvas() {
     e.preventDefault();
     setCoordinates({ x:  offsetX, y:  offsetY, });
     
+    // 일시정지 시 이동 금지
+    if (window.isPaused) return;
+
     // 선택 상태이면
     if (selectedImageIndex !== null &&
       panningRef.current && // ✅ 마우스를 누르고 있을 때만
@@ -317,36 +335,39 @@ function ShareCanvas() {
       
     }
   };
-  
-  // 이미지 파일 선택
-  const selectimg = async (event) => {
-    const file = event.target.files[0]; // 한 개만 선택
-    if (!file) return;
-  
-    const formData = new FormData(); // 파일 전송용 객체 생성, JSON과 다른 파일 전송 가능, Content-Type 자동 설정
-    formData.append('file', file);   // key: "file", value: 파일 객체
-  
-    try {
-      const response = await axiosInstance.post('/api/project/uploadImage', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data', // 파일 전송 시 필요한 헤더
-        },
-      });
-  
-      const { imageUrl } = await response.json(); // 백엔드가 준 URL 추출
-      console.log('콘솔',imageUrl);
-      callimage(imageUrl); // 정적 URL로 이미지 호출 함수 실행
-    } catch (err) {
-      console.error('업로드 중 오류 발생:', err);
-      alert('이미지 업로드 중 오류가 발생했습니다.');
-    }
-    // 파일 처리 후 input reset
-    event.target.value = '';  // value를 비워서 리셋, 동일파일도 onChange가 적용되도록
-  };
 
-    // 1. 실행하기 버튼 핸들러
+  // 1. 실행하기 버튼
   const runStartBtnCode = () => {
     window.running = true; // 실행 상태 ON
+    // 1. 상태 백업 (깊은 복사 후, img 객체 새로 만들기)
+    const newImgArr = imgArr.current.map(item => {
+      // 깊은 복사
+      const deepCopy = JSON.parse(JSON.stringify(item));
+
+      // 새로운 이미지 객체를 생성하고 URL을 복사하여 설정
+      const img = new Image();
+      img.src = item.img.src; // 기존 이미지의 src로 새 이미지 객체 생성
+
+      // img를 깊은 복사된 객체의 img에 덮어쓰기
+      deepCopy.img = img;
+
+      return deepCopy; // 깊은 복사된 item 반환
+    });
+
+    const newBlockXmlArr = blocklyArr.current.map(ws =>
+      Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(ws))
+    );
+
+    // 상태 업데이트
+    setBackupState(prevState => ({
+      ...prevState,
+      imgArr: newImgArr,
+      blockXmlArr: newBlockXmlArr
+    }));
+
+    console.log('시작으로 변환전 이미지', imgArr.current);
+
+    // 2. 실행
     blocklyArr.current.forEach((workspace, index) => {
       generateStart(workspace, imgArr, index, 'start_btn');
       const code = imgArr.current[index]?.code;
@@ -356,10 +377,93 @@ function ShareCanvas() {
     });
   };
 
-  // ✅ 멈춤 버튼 핸들러
+  // 2. 멈추기 버튼에서 이미지를 복원할 때
   const runStopBtnCode = () => {
     window.running = false; // 실행 상태 OFF
-    console.log("🔴 실행 중지됨!");
+    window.cloneArr = [];
+    // 1. 작업공간 초기화: 기존 작업공간 및 블록 초기화
+    blocklyArr.current.forEach((workspace, index) => {
+      workspace.clear();  // 기존 워크스페이스 내용을 지움
+    });
+
+    // 이미지 복원: imgPromises 사용하여 이미지가 모두 로드될 때까지 기다림
+    const imgPromises = backupState.imgArr.map(item => {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.src = item.img.src; // deep copy에서 저장된 이미지를 사용
+        // 이미지가 로드되었을 때
+        img.onload = () => {
+          // img 객체가 로드된 후 imgArr.current에 추가
+          imgArr.current[item.index] = {
+            ...item,
+            img, // 로드된 img 객체로 복원
+          };
+          resolve(); // 로드 완료 후 resolve 호출
+        };
+        // 이미지 로딩 실패 시 처리
+        img.onerror = (err) => {
+          console.error('이미지 로딩 실패:', err);
+          reject(err); // 로딩 실패 시 reject
+        };
+      });
+    });
+
+    // 모든 이미지가 로드될 때까지 기다림
+    Promise.all(imgPromises)
+      .then(() => {
+        // 이미지가 모두 로드된 후 블록 복원 작업 진행
+        blocklyArr.current.forEach((ws, index) => {
+          const xmlString = backupState.blockXmlArr[index];
+          if (xmlString) {
+            const xml = Blockly.utils.xml.textToDom(xmlString);
+            Blockly.Xml.domToWorkspace(xml, ws);
+          } else {
+            console.error(`블록 복원 실패: 인덱스 ${index}의 XML이 존재하지 않습니다.`);
+          }
+        });
+
+        // 캔버스 리렌더링
+        callImgArr(); // 이미지를 모두 복원한 후 캔버스를 다시 그리기
+        setWorkspaceReady(true); // 작업공간 준비 완료 상태 업데이트
+      })
+      .catch(err => {
+        console.error("이미지 로딩 중 오류가 발생했습니다:", err);
+      });
+  };
+  
+  function runStartBtnCodeWithReset() {
+    runStartBtnCode();
+    start_toggle();
+
+    setPauseToggle(false);
+    window.isPaused = false;
+  }
+  function runStopBtnCodeWithReset() {
+    runStopBtnCode();
+    start_toggle();
+
+    setPauseToggle(false);
+    window.isPaused = false;
+  }
+  function start_toggle(){
+    if(!btn_toggle){
+      setBtn_toggle(true); // 버튼 토글
+      return;
+    }
+    setBtn_toggle(false);
+  };
+
+  function pause_toggle() {
+    // 일시정지
+    if (!pauseToggle) {
+      window.isPaused = true;
+      setPauseToggle(true);
+      // 실행 상태여야만 일시정지 허용
+      return;
+    }
+    // 다시시작(일시정지 해제)
+    window.isPaused = false;
+    setPauseToggle(false);
   };
 
   const handleKeyDown = (e) => {
@@ -468,48 +572,6 @@ function ShareCanvas() {
     canvas.addEventListener("click", handleCanvasClick);
     return () => canvas.removeEventListener("click", handleCanvasClick);
   }, []);
-  
-  // 이미지, 작업공간 삭제
-  function imgDel(index) {
-    console.log('삭제할 인덱스 : ', index);
-  
-    // 1. 이미지 배열에서 제거
-    imgArr.current.splice(index, 1);
-  
-    // 2. Blockly 작업공간 제거
-    const workspaceToRemove = blocklyArr.current[index];
-    if (workspaceToRemove) {
-      workspaceToRemove.dispose(); // 내부 블록, 이벤트 등 메모리 제거
-    }
-  
-    // 3. DOM에서 블록리 작업공간 div 제거
-    const blocklyDivElement = document.getElementById(`blockly${index}`);
-    if (blocklyDivElement) {
-      blocklyDivElement.remove(); // 실제 DOM 제거
-    }
-  
-    // 4. 배열에서도 제거
-    blocklyArr.current.splice(index, 1);
-  
-    // 5. 🔁 남은 작업공간들 인덱스 및 DOM ID 재정렬
-    blocklyArr.current.forEach((workspace, newIndex) => { // 마우스 클릭시, 아이디 사용, 아래 보이는 작업공간 처리를 위해서도 id 재할당 필요
-      const oldId = `blockly${workspace.index}`; // 작업공간별 저장했던 인덱스
-      const newId = `blockly${newIndex}`;
-      const div = document.getElementById(oldId); // 옛날 id 갱신
-      if (div) {
-        div.id = newId; // id 갱신
-      }
-    });
-    const elements = document.querySelectorAll('[id*="blockly"][style="display: block;"]'); // *=은 부분일치
-    if(elements.length === 0){
-      const firstBlock = document.getElementById("blockly0");
-      if (firstBlock) {
-        firstBlock.style.display = "block";
-      }
-    }
-    // 6. 전체 다시 렌더링
-    callImgArr();
-  }
 
   // 내부 useEffect
   useEffect(() => {
@@ -521,7 +583,16 @@ function ShareCanvas() {
     return () => cleanup();
   }, []);
   
-
+  // 내부 useEffect
+  useEffect(() => {
+    const cleanup = registerWhackableClickListener({
+      imgArr,
+      canvasRef,
+      callImgArr,
+    });
+    return () => cleanup();
+  }, []);
+  
   /** ─────────────── 렌더링 ─────────────── **/
   return (
     <div className="blockly-container">
@@ -543,13 +614,19 @@ function ShareCanvas() {
           >
             <canvas
               ref={canvasRef}
-              width="500"
+              width="800"
               height="500"
               style={{ border: '1px solid', backgroundColor: 'transparent' }}
             />
             <div className="button-blockly mt-3">
-              <button onClick={runStartBtnCode} className="btn btn-success me-2">▶️ 실행하기</button>
-              <button onClick={runStopBtnCode} className="btn btn-secondary">⏹️ 멈추기</button>
+              {btn_toggle && <button onClick={()=>{runStartBtnCodeWithReset();start_toggle();}}>▶️ 실행하기</button>}
+              {!btn_toggle && <button onClick={()=>{runStopBtnCodeWithReset(); start_toggle();}}>⏹️ 정지하기</button> }
+              {!btn_toggle && !pauseToggle && (
+                <button onClick={pause_toggle}>⏸️ 일시정지</button>
+              )}
+              {!btn_toggle && pauseToggle && (
+                <button onClick={pause_toggle}>▶️ 다시 시작</button>
+              )}
             </div>
           </div>
         </div>
@@ -558,6 +635,15 @@ function ShareCanvas() {
           <div ref={blocklyDiv}></div>
         </div>
       </div>
+
+      {/* 점수가 존재하면 종료 블럭을 만날 때만 점수 출력 */}
+      {showScoreModal && (
+        <ScoreModal
+          score={window.score}
+          onClose={() => {setShowScoreModal(false);runStopBtnCodeWithReset();start_toggle();}}
+          onRetry={()=> {setShowScoreModal(false);runStopBtnCodeWithReset();runStartBtnCodeWithReset();}}
+        />
+      )}
     </div>
   );
 }

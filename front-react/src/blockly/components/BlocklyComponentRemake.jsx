@@ -102,8 +102,8 @@ function RemakeCanvas() {
       callImgArr();
       const blocklyDivElement = document.createElement('div');
       blocklyDivElement.id = `blockly${imgArr.current.length - 1}`;
-      blocklyDivElement.style.height = '700px';
-      blocklyDivElement.style.width = '800px';
+      blocklyDivElement.style.height = '800px';
+      blocklyDivElement.style.width = '1200px';
       blocklyDiv.current.appendChild(blocklyDivElement);
 
       const workspace = Blockly.inject(blocklyDivElement, {
@@ -450,7 +450,7 @@ function RemakeCanvas() {
             <h6> 🖱 마우스좌표  ( x좌표 : {coordinates.x} &nbsp; y좌표 : {coordinates.y})</h6>
             <canvas
               ref={canvasRef}
-              width="500"
+              width="800"
               height="500"
               style={{ border: '1px solid', backgroundColor: 'transparent' }}
             />

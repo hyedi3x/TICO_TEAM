@@ -50,6 +50,7 @@ const checkCollision = function(index, targetType, isClone = false) {
     // 두 원의 중심 간 거리 계산
     const distanceX = cloneCenterX - targetCenterX;
     const distanceY = cloneCenterY - targetCenterY;
+    // 가로 차이 제곱 + 세로 차이 제곱 = 두 점 사이의 거리
     const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY); // 두원 중심간의 거리
   
     // 두 원이 충돌하는지 확인 (거리 <= 반지름 합)

@@ -153,3 +153,29 @@ textarea {
   height: 400px;
   object-fit: contain;
 }
+
+/* 1단계: 작업공간 아래로 */
+
+@media (max-width: 2280px) {
+  .e_blockly-container {
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  .e_editor-wrapper {
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+}
+
+/* 2단계: 문제/정답/출력 1줄 세로 쌓기 */
+@media (max-width: 1000px) {
+  .e_textarea-div {
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  .e_textarea-div div {
+    margin: 30px 0;
+    width: 100%;
+    max-width: 450px;
+  }
+}

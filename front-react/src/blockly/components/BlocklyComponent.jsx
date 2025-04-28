@@ -96,8 +96,8 @@ function Canvas() {
         // Blockly 작업공간 생성
         const blocklyDivElement = document.createElement('div');
         blocklyDivElement.id = `blockly${imgArr.current.length - 1}`;
-        blocklyDivElement.style.height = '700px';
-        blocklyDivElement.style.width = '800px';
+        blocklyDivElement.style.height = '800px';
+        blocklyDivElement.style.width = '1200px';
         blocklyDiv.current.appendChild(blocklyDivElement);
   
         const workspace = Blockly.inject(blocklyDivElement, {
@@ -150,7 +150,7 @@ function Canvas() {
   /** ─────────────── 초기 로딩 ─────────────── **/
   useEffect(() => {
     defineMyBlocks(); // 사용자 정의 블록 등록
-    callimage('http://localhost:8081/uploads/entrybot.png');
+    callimage('/uploads/entrybot.png');
     // eslint-disable-next-line
   }, []);
   
@@ -188,8 +188,8 @@ function Canvas() {
       // Blockly 작업공간 DOM 생성 및 주입
       const blocklyDivElement = document.createElement('div');
       blocklyDivElement.id = `blockly${imgArr.current.length-1}`;
-      blocklyDivElement.style.height = '700px';
-      blocklyDivElement.style.width = '800px';
+      blocklyDivElement.style.height = '800px';
+      blocklyDivElement.style.width = '1200px';
       blocklyDiv.current.appendChild(blocklyDivElement); // 부모요소.appendChild(추가할 자식요소) : HTML div 하위에 해당 작업공간 추가
 
       // 작업공간 주입
@@ -281,7 +281,7 @@ function Canvas() {
     // 💡 여기서 한 번만 setState
     setImagePosition(updatedPositions);
 
-    if (window.elapsedTime > 0) {
+    if (window.elapsedTime >= 0) {
       window.drawTimerText(); // 항상 타이머 위에 그리기
     }
 
@@ -433,6 +433,7 @@ function Canvas() {
       generateStart(workspace, imgArr, index, 'start_btn');
       const code = imgArr.current[index]?.code;
       if (code) {
+        console.log('이미지별 코드',code);
         runGeneratedCode(code, index, false);
       }
     });
@@ -727,7 +728,7 @@ function Canvas() {
             <h6> 🖱 마우스좌표  ( x좌표 : {coordinates.x} &nbsp; y좌표 : {coordinates.y})</h6>
             <canvas // 스타일과 마우스 핸들러 연결
               ref={canvasRef}
-              width="500"
+              width="800"
               height="500"
               style={{ border: '1px solid', backgroundColor: 'transparent' }}
               />
