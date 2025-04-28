@@ -97,6 +97,9 @@ public interface ProjectRepository extends JpaRepository<ProjectDTO, Integer>{
 	@Query(value = "UPDATE project_tb SET iscomment = :isComment WHERE project_id = :projectId", nativeQuery = true)
 	void updateProjectCommentStatus(@Param("projectId") int projectId, @Param("isComment") String isComment);
 	
+	@Query(value = "SELECT * FROM project_tb WHERE isprivate = 'N' AND (title LIKE %:keyword% OR introduction LIKE %:keyword%)", nativeQuery = true)
+	List<ProjectDTO> searchProjects(@Param("keyword") String keyword);
+	
 	// 조회수 업데이트
 	@Modifying
 	@Transactional

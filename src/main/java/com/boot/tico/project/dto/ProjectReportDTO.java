@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,40 +15,35 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity
-@Table(name = "project_comment_tb")
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString
-public class ProjectCommentDTO {
+@Entity
+@Table(name = "project_report_tb")
+public class ProjectReportDTO {
+
 	@Id
-	@Column(name = "comment_id")
-	private int commentId; 
+	@Column(name = "report_id")
+	private int reportId;
 	
 	@Column(name = "project_id")
 	private int projectId;
 	
-	@Column(name="user_uuid")
+	@Column(name = "user_uuid")
 	private String userUuid;
 	
-	@Column(name="comment_text")
-	private String commentText;
+	@Column(name = "reason")
+	private String reason;
 	
-	@Column(name = "created_at")
-	private Timestamp createdAt;
-	
-	@Transient
-	private String nickname;
-
-	@Transient
-	private String title;
+	@Column(name = "created_at", updatable = false)
+    private Timestamp createdAt;
 	
 	@PrePersist
 	protected void onCreate() {
 		Timestamp now = new Timestamp(System.currentTimeMillis());
-        this.createdAt = now;
+		this.createdAt = now;
 	}
 }
