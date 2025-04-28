@@ -14,7 +14,6 @@ import "../components/BlocklyComponent.css";
 import ticoTheme from '../blocks/ticoTheme';
 import { registerWhackableClickListener } from '../games/whackMoleGame';
 import { drawScoreText } from '../functions/cals/calFunctions';
-import axios from 'axios';
 import axiosInstance from '../../pages/login/social/utils/axiosInstance';
 
 Blockly.setLocale(ko); // Blockly 언어를 한국어로 설정
@@ -111,7 +110,8 @@ function ShareCanvas() {
       img.src = imgUrl;
     } else {
       img.src = `http://localhost:8081${imgUrl}`;
-    }
+
+  }
       
     // 객체 로드시 배열에 js객체로 변수와 속성값을 추가
     img.onload = () =>{
