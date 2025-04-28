@@ -1,0 +1,43 @@
+.purchase-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.purchase-panel {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.purchase-description {
+  font-size: 15px;
+  line-height: 1.5;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.purchase-options {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.option-box {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  width: 220px;
+  text-align: center;
+  background-color: #f9f9f9;
+}
+
+.option-box .price {
+  font-size: 18px;
+  color: #1a73e8;
+  margin: 10px 0;
+}
+
+.purchase-note {
+  margin-top: 20px;
+}
