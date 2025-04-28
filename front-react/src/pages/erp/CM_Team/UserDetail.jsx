@@ -53,7 +53,8 @@ const UserDetail = ({ uuid, onBack, onEdit }) => {
           <div className="stat-box">작품 수: <span>3</span></div>
           <div className="stat-box">퀴즈 완료: <span>5</span></div>
           <div className="stat-box">커뮤니티 활동: <span>12</span></div>
-          <div className="stat-box">이용권 상태: <span>Premium</span></div>
+          <div className="stat-box">이용권 상태: <span>{user.active ? "✅ 활성화" : "❌ 비활성"}</span></div>
+          <div className="stat-box">이용권 유형: <span>{user.subscriptionType}</span></div>
         </div>
 
         {/* 버튼 영역 - 뒤로가기, 수정 */}
