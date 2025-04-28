@@ -150,7 +150,7 @@ function Canvas() {
   /** ─────────────── 초기 로딩 ─────────────── **/
   useEffect(() => {
     defineMyBlocks(); // 사용자 정의 블록 등록
-    callimage('http://localhost:8081/uploads/entrybot.png');
+    callimage('/uploads/entrybot.png');
     // eslint-disable-next-line
   }, []);
   
@@ -162,8 +162,7 @@ function Canvas() {
       img.src = imgUrl;
     } else {
       img.src = `http://localhost:8081${imgUrl}`;
-
-  }
+    }
       
     // 객체 로드시 배열에 js객체로 변수와 속성값을 추가
     img.onload = () =>{
