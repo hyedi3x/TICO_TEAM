@@ -36,7 +36,7 @@ function MainModify() {
   useEffect(() => {
     const userUuid = localStorage.getItem("user_uuid");
 
-    axiosInstance.get('project/staffPick')
+    axiosInstance.get('/api/project/staffPick')
     .then(response => {
       const pickData = response.data;
         const newProjects = [];

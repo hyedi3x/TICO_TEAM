@@ -150,7 +150,7 @@ function Canvas() {
   /** ─────────────── 초기 로딩 ─────────────── **/
   useEffect(() => {
     defineMyBlocks(); // 사용자 정의 블록 등록
-    callimage('https://tico.kro.kr/uploads/entrybot.png');
+    callimage('/uploads/entrybot.png');
     // eslint-disable-next-line
   }, []);
   
