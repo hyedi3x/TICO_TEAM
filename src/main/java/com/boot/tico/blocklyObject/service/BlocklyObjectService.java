@@ -38,7 +38,7 @@ public class BlocklyObjectService {
     }
     
     // 오브젝트 업로드 및 저장
-    public void saveUploadedObject(MultipartFile file, String userUuid, String category, String name, String description) throws IOException {
+    public void saveUploadedObject(MultipartFile file, String userUuid, String category, String name, String description, Boolean isPaid) throws IOException {
         // 1. 저장 디렉토리 설정(없으면 생성)
         File dir = new File(FILE_BASE_PATH);
         if (!dir.exists()) dir.mkdirs();
@@ -66,7 +66,7 @@ public class BlocklyObjectService {
                 .blocklyObjectFilePath("/uploads/images/blocklyObjects/" + originalFilename)
                 .blocklyObjectDescription(description)
                 .empId(userUuid)
-                .blocklyObjectPoint(false)	// 기본은 무료 오브젝트
+                .blocklyObjectPoint(isPaid)	
                 .blocklyObjectCreatedAt(Timestamp.valueOf(LocalDateTime.now()))
                 .build();
 
@@ -75,7 +75,7 @@ public class BlocklyObjectService {
     }
     
     // 오브젝트 수정(파일 교체도 포함)
-    public void updateObject(Long id, String name, String category, String description, MultipartFile file, String userUuid) throws IOException {
+    public void updateObject(Long id, String name, String category, String description, MultipartFile file, String userUuid, Boolean isPaid) throws IOException {
         Optional<BlocklyObject> optional = blocklyObRepo.findById(id);
         if (optional.isEmpty()) throw new IOException("오브젝트를 찾을 수 없습니다.");
 
@@ -85,6 +85,7 @@ public class BlocklyObjectService {
         obj.setBlocklyObjectName(name);
         obj.setBlocklyObjectCategory(category);
         obj.setBlocklyObjectDescription(description);
+        obj.setBlocklyObjectPoint(isPaid);
 
         // 파일이 존재할 경우 기존 파일 삭제 및 새 파일 저장
         if (file != null && !file.isEmpty()) {

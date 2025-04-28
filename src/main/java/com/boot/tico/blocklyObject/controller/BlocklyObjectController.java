@@ -46,9 +46,10 @@ public class BlocklyObjectController {
     	    @RequestParam("user_uuid") String userUuid,
     	    @RequestParam("name") String name,
     	    @RequestParam("category") String category,
-    	    @RequestParam("description") String description) {
+    	    @RequestParam("description") String description,
+    		@RequestParam("blocklyObjectPoint") Boolean isPaid) {	// boolean은 파싱 실패 시 400에러 발생, Boolean은 null허용. 안정성을 위해 Boolean 권장.
         try {
-        	service.saveUploadedObject(file, userUuid, category, name, description);
+        	service.saveUploadedObject(file, userUuid, category, name, description, isPaid);
             return ResponseEntity.ok("success");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error: " + e.getMessage());
@@ -63,10 +64,10 @@ public class BlocklyObjectController {
             @RequestParam("category") String category,
             @RequestParam("description") String description,
             @RequestParam(value = "file", required = false) MultipartFile file,	//새로운 이미지 파일
-            @RequestParam("user_uuid") String userUuid
-    ) {
+            @RequestParam("user_uuid") String userUuid,
+            @RequestParam("blocklyObjectPoint") Boolean isPaid) {
         try {
-            service.updateObject(id, name, category, description, file, userUuid);
+            service.updateObject(id, name, category, description, file, userUuid, isPaid);
             return ResponseEntity.ok("수정 성공");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("수정 실패: " + e.getMessage());
