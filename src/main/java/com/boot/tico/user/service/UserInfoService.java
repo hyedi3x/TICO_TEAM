@@ -5,7 +5,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.boot.tico.login.entity.User;
-
+import com.boot.tico.purchase.dto.Purchase;
+import com.boot.tico.purchase.repo.PurchaseRepo;
 import com.boot.tico.user.dto.UserDetailDTO;
 import com.boot.tico.user.dto.UserListDTO;
 import com.boot.tico.user.repository.UserListRepository;
@@ -17,23 +18,31 @@ import lombok.RequiredArgsConstructor;
 public class UserInfoService {
 	
 	private final UserListRepository userRepo;
+	private final PurchaseRepo purchaseRepo;
 
-	// 검색 + 페이징
+	// 회원 목록 (검색 + 페이징)
     public Page<UserListDTO> searchUsersByName(String keyword, Pageable pageable) {
         return userRepo.findByNameContainingIgnoreCase(keyword, pageable)
-                       .map(user -> new UserListDTO(
+                       .map(user -> {
+                       	boolean isActive = purchaseRepo.findById(user.getUser_uuid())
+                       						.map(Purchase::isActive)
+                       						.orElse(false);
+                       return new UserListDTO(
                            user.getUser_uuid(),
                            user.getEmail(),
                            user.getName(),
                            user.getNickname(),
-                           false // active 여부는 추후 로직 반영
-                       ));
+                           isActive
+                           );
+                       });
     }
     
     // 개별 회원 상세 정보 조회
     public UserDetailDTO getUserDetail(String uuid) {
         User user = userRepo.findById(uuid)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+        
+        Purchase purchase = purchaseRepo.findById(uuid).orElse(null);
 
         UserDetailDTO dto = new UserDetailDTO();
         dto.setUserUuid(user.getUser_uuid());
@@ -42,11 +51,19 @@ public class UserInfoService {
         dto.setNickname(user.getNickname());
         dto.setPhone(user.getPhone());
         dto.setProvider(user.getProvider());
-        dto.setActive(false);               // TODO: 추후 연동
-        dto.setSubscriptionType("basic");   // TODO
-        dto.setProjectCount(0);             // TODO
-        dto.setQuizCount(0);                // TODO
-        dto.setCommunityActivity(0);        // TODO
+        
+        if (purchase != null) {
+            dto.setActive(purchase.isActive());
+            dto.setSubscriptionType(purchase.getSubscriptionType());
+        } else {
+            dto.setActive(false);
+            dto.setSubscriptionType("basic");
+        }
+        
+        // TODO : 추후 통계 항목 연결
+        dto.setProjectCount(0);             
+        dto.setQuizCount(0);                
+        dto.setCommunityActivity(0);        
         return dto;
     }
     
