@@ -52,7 +52,6 @@ function RemakeCanvas() {
   useEffect(() => {
     if (!remakeProjectId) return;
     defineMyBlocks();
-    callimage('https://tico.kro.kr/uploads/loading.png');
 
     window.cloneArr = [];
     loadProjectToCanvas(
