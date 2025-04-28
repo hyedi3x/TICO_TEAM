@@ -8,6 +8,10 @@ function ObjectControlPanel({  object, onUpdate, i, onDelete, isSelected, onClic
     onUpdate({ ...object, [field]: value });
   };
 
+  const title = object.isText
+  ? `${i + 1}번째 글상자 속성(index : ${object.index})`
+  : `${i + 1}번째 오브젝트 속성(index : ${object.index})`;
+
   return (
     <Card
       style={{
@@ -28,7 +32,7 @@ function ObjectControlPanel({  object, onUpdate, i, onDelete, isSelected, onClic
         >
           <Card.Title style={{ fontSize: '15px', marginBottom: 0 }}>
             {object.hidden ? '👻 ' : '🧩 '}
-            {i + 1}번째 오브젝트 속성(index : {object.index})
+            {title}
           </Card.Title>
           <Button
             variant="outline-danger"

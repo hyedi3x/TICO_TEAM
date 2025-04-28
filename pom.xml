@@ -27,6 +27,15 @@
       <tag/>
       <url/>
    </scm>
+   
+  <!-- 아임포트 repositories 추가 -->
+  <repositories>
+    <repository>
+      <id>jitpack.io</id>
+      <url>https://jitpack.io</url>
+    </repository>
+  </repositories>
+  
    <properties>
       <java.version>17</java.version>
    </properties>
@@ -132,7 +141,27 @@
 	      <artifactId>sdk</artifactId>
 	      <version>4.3.0</version>
 	  </dependency>
-      
+	  
+       <!-- 아임포트 라이브러리 추가 -->
+	   <dependency>
+	      <groupId>com.github.iamport</groupId>
+	      <artifactId>iamport-rest-client-java</artifactId>
+	      <version>0.2.23</version>
+	   </dependency>
+	   
+	   <!-- Apache POI 엑셀 파일 변환 -->
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi</artifactId>
+		    <version>5.2.3</version> <!-- 2024년 안정 버전 -->
+		</dependency>
+
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi-ooxml</artifactId>
+		    <version>5.2.3</version>
+		</dependency>
+
       <!-- done -->
       <dependency>
          <groupId>org.springframework.boot</groupId>

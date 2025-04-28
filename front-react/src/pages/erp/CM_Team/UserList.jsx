@@ -67,7 +67,7 @@ function UserList({ onUserClick }) {
 
   return (
     <div className="UserList-container">
-      <Panel bordered shaded className="UserList-card" header={<h4>👤 회원 목록</h4>}>
+      <Panel bordered shaded className="UserList-card" header="👤 회원 목록">
 
         {/* 검색 영역 */}
         <div className="UserList-search-bar">
@@ -99,7 +99,7 @@ function UserList({ onUserClick }) {
                   <td>{user.name}</td>
                   <td>{user.email}</td>
                   <td>{user.nickname}</td>
-                  <td className={user.active ? 'active' : 'inactive'}>
+                  <td className={user.active ? '1' : '0'}>
                     {user.active ? '✅ active' : '❌ inactive'}
                   </td>
                 </tr>

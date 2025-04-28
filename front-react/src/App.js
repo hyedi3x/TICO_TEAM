@@ -26,6 +26,7 @@ import BlockEduComponentPut from './pages/blockedu/BlockEduComponentPut';
 import ShareGallery from './pages/share/ShareGallery';
 import ShareDetail from './pages/share/ShareDetail';
 import ShareCanvas from './blockly/components/BlocklyComponentRun';
+import PurchasePage from './mypage/PurchasePage';
 import Tutorial from './blockly/components/Tutorial';
 import ProjectEditMeta from './pages/share/ProjectEditMeta';
 import Remake from './blockly/components/BlocklyComponentRemake';
@@ -33,7 +34,6 @@ import MainModify from './common/MainModify';
 import MainBannerManage from './common/MainBannerManage';
 import ReportForm from './pages/share/ReportForm';
 import SearchResult from './pages/search/SearchResult';
-
 
 function App() {
   return (
@@ -65,6 +65,7 @@ function App() {
           <Route path="/share" element={<ShareGallery/>}/>
           <Route path="/share/detail/:projectId" element={<ShareDetail />} />
           <Route path="/canvas/:projectId" element={<ShareCanvas />} />
+          <Route path="/purchase" element={<PurchasePage />}/>
           <Route path='/tutorial' element={<Tutorial />} />
           <Route path='/project/edit/:projectId' element={<ProjectEditMeta />} />
           <Route path="/report/:projectId" element={<ReportForm />} />
