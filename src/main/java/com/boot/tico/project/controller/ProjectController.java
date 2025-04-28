@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import com.boot.tico.project.dto.ProjectDTO;
 import com.boot.tico.project.dto.ProjectObjectDTO;
+import com.boot.tico.project.dto.ProjectReportDTO;
 import com.boot.tico.project.service.ProjectService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -234,6 +235,19 @@ public class ProjectController {
 	public ResponseEntity<?> updateProjectMeta(@RequestBody ProjectDTO project) {
 		service.updateProjectMeta(project);
 	    return ResponseEntity.ok().build();
+	}
+	
+	/**
+	 * [14] 신고 접수 내역 추가
+	 */
+	@PostMapping("/report")
+	public ResponseEntity<?> reportProject(@RequestBody ProjectReportDTO reportDto) {
+	    try {
+	        service.saveProjectReport(reportDto);
+	        return ResponseEntity.ok().body("신고가 접수되었습니다.");
+	    } catch (Exception e) {
+	        return ResponseEntity.status(500).body("신고 처리 실패");
+	    }
 	}
 	
 	// 메인화면 인기 작품 조회

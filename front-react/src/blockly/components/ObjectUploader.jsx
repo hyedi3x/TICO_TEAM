@@ -26,7 +26,7 @@ const ObjectUploader = ({ uploadedFiles, onFileChange, onDelete, onSelect }) => 
         {uploadedFiles.map(file => (
           <div key={file.id} className="objectSelectPage-upload-preview-item">
             <img
-              src={`https://tico.kro.kr/uploads/${file.storedFilename}`}
+              src={`http://localhost:8081/uploads/${file.storedFilename}`}
               alt={file.originalFilename}
               className="objectSelectPage-upload-preview-img"
               onClick={() => onSelect({

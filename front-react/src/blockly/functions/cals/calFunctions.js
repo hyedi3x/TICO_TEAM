@@ -1,7 +1,7 @@
 // --------- 전역 상태 초기화 ---------
 window.timerInterval = null;   // 초시계 setInterval ID
 window.elapsedTime = 0;        // 초시계 경과 시간
-window.score = -1;              // 점수
+window.score = 0;              // 점수
 window.showScore = false;      // 점수 출력 여부
 window.scoreInterval = null;   // 점수 표시용 setInterval ID (추가: 중복 방지용)
 
@@ -105,7 +105,7 @@ const startScore = function () {
     delete window.scoreInterval;
   }
 
-  window.score = -1;
+  window.score = 0;
   window.showScore = true;
   drawScoreText(); // 처음 1회 그리기
 
@@ -123,7 +123,7 @@ const startScore = function () {
 // --------- 점수 누적 ---------
 const controlScore = function(score){
   if (!window.running || window.isPaused) {
-    window.score = -1;
+    window.score = 0;
     return;
   }
   window.score += score;

@@ -52,7 +52,7 @@ function RemakeCanvas() {
   useEffect(() => {
     if (!remakeProjectId) return;
     defineMyBlocks();
-    callimage('https://tico.kro.kr/uploads/loading.png');
+    callimage('http://localhost:8081/uploads/loading.png');
 
     window.cloneArr = [];
     loadProjectToCanvas(
@@ -80,10 +80,10 @@ function RemakeCanvas() {
   // 이미지 + Blockly 작업공간 생성 함수 (원본에서 복사)
   const callimage = (imgUrl) => {
     const img = new Image();
-    if (imgUrl === 'https://tico.kro.kr/uploads/loading.png') {
+    if (imgUrl === 'http://localhost:8081/uploads/loading.png') {
       img.src = imgUrl;
     } else {
-      img.src = `https://tico.kro.kr${imgUrl}`;
+      img.src = `http://localhost:8081${imgUrl}`;
     }
     img.onload = () => {
       imgArr.current.push({

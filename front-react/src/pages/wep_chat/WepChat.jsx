@@ -22,7 +22,7 @@ const WepChat = () => {
     if (!isLoggedIn) return;
     const token = localStorage.getItem("accessToken");
     const client = new Client({
-      webSocketFactory: () => new SockJS("https://tico.kro.kr/ws-chat"),
+      webSocketFactory: () => new SockJS("http://localhost:8081/ws-chat"),
       connectHeaders: { Authorization: `Bearer ${token}` },
       reconnectDelay: 5000,
       onConnect: () => {

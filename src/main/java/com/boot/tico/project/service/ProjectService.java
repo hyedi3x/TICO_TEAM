@@ -13,8 +13,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.boot.tico.project.dto.ProjectDTO;
 import com.boot.tico.project.dto.ProjectObjectDTO;
+import com.boot.tico.project.dto.ProjectReportDTO;
 import com.boot.tico.project.dto.ProjectViewDTO;
 import com.boot.tico.project.repo.ProjectObjectRepository;
+import com.boot.tico.project.repo.ProjectReportRepository;
 import com.boot.tico.project.repo.ProjectRepository;
 import com.boot.tico.project.repo.ProjectViewRepository;
 
@@ -29,6 +31,9 @@ public class ProjectService {
    
    @Autowired
    private ProjectViewRepository viewRepository;
+   
+   @Autowired
+   private ProjectReportRepository reportRepository;
 
    /**
     * [1] 프로젝트 + 오브젝트 저장
@@ -287,6 +292,17 @@ public class ProjectService {
        entity.setIsComment(dto.getIsComment());
 
        projectRepository.save(entity);
+   }
+   
+   /**
+    * [16] 신고내역 저장
+    */
+   @Transactional
+   public void saveProjectReport(ProjectReportDTO dto) {
+	   // 신고내역 ID 수동 생성
+       int newReportId = reportRepository.getLatestReportId() + 1;
+       dto.setReportId(newReportId);
+       reportRepository.save(dto);
    }
 
    
