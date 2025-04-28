@@ -52,7 +52,7 @@ function RemakeCanvas() {
   useEffect(() => {
     if (!remakeProjectId) return;
     defineMyBlocks();
-    callimage('http://localhost:8081/uploads/loading.png');
+    callimage('/uploads/loading.png');
 
     window.cloneArr = [];
     loadProjectToCanvas(
@@ -80,11 +80,7 @@ function RemakeCanvas() {
   // 이미지 + Blockly 작업공간 생성 함수 (원본에서 복사)
   const callimage = (imgUrl) => {
     const img = new Image();
-    if (imgUrl === 'http://localhost:8081/uploads/loading.png') {
-      img.src = imgUrl;
-    } else {
-      img.src = `http://localhost:8081${imgUrl}`;
-    }
+    img.src = `http://localhost:8081${imgUrl}`;
     img.onload = () => {
       imgArr.current.push({
         img,
