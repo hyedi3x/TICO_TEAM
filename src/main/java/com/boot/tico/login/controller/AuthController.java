@@ -22,6 +22,7 @@ import com.boot.tico.login.service.VerificationCodeService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
@@ -30,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
 
 @Slf4j // 로깅 쉽게 확인할 수 있는 Lombok 어노테이션
 @RestController  // 메서드들이 JSON 형태의 응답을 클라이언트에 반환 (인코딩된 코드)
@@ -118,24 +120,127 @@ public class AuthController {
     }
     
     
+    /** 1) 가입 전(미등록) 이메일로 코드 발송 */
+    @PostMapping("/send-register-code")
+    public ResponseEntity<?> sendRegisterCode(
+            @RequestBody Map<String,String> payload,
+            HttpSession session
+    ) {
+        String email = payload.get("email");
+        // 이미 가입된 이메일이면 충돌 처리
+        if (userService.findByEmail(email).isPresent()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                                 .body("이미 사용중인 이메일입니다.");
+        }
+        // 6자리 랜덤 코드 생성
+        String code = String.format("%06d", new Random().nextInt(1_000_000));
+        // 메일 발송
+        emailService.sendMail(
+            email,
+            "TICO 회원가입 이메일 인증 코드",
+            "인증 코드: " + code
+        );
+
+        // 세션에 저장 + 3분 TTL
+        session.setAttribute("registerEmail", email);
+        session.setAttribute("registerCode", code);
+        session.setAttribute("isEmailVerified", false);
+        session.setMaxInactiveInterval(3 * 60);
+
+        return ResponseEntity.ok("인증 코드 발송 완료");
+    }
+
+    /** 2) 가입 전 이메일 코드 검증 */
+    @PostMapping("/verify-register-code")
+    public ResponseEntity<?> verifyRegisterCode(
+            @RequestBody Map<String,String> payload,
+            HttpSession session
+    ) {
+        String email = payload.get("email");
+        String code  = payload.get("code");
+
+        String savedEmail = (String) session.getAttribute("registerEmail");
+        String savedCode  = (String) session.getAttribute("registerCode");
+
+        if (savedEmail == null || savedCode == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                 .body("인증 코드가 만료되었습니다. 다시 요청해주세요.");
+        }
+        if (!savedEmail.equals(email) || !savedCode.equals(code)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                 .body("인증 코드가 올바르지 않습니다.");
+        }
+
+        // 검증 성공 → 세션 플래그 업데이트
+        session.setAttribute("isEmailVerified", true);
+        // 코드 재사용 방지
+        session.removeAttribute("registerCode");
+
+        return ResponseEntity.ok("이메일 인증 성공");
+    }
+    
     
     
     // 일반 사용자 회원가입
     // 사용자가 회원가입할 때 입력한 정보를 받아 DB에 저장
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody UserDto.Request request) {
+    public ResponseEntity<?> register(@RequestBody UserDto.Request request,  HttpSession session) {
+        
+    	// 세션에서 인증 여부 확인
+        Boolean verified = (Boolean) session.getAttribute("isEmailVerified");
+        String   savedEmail = (String) session.getAttribute("registerEmail");
+        if (verified == null || !verified || !request.getEmail().equals(savedEmail)) {
+            return ResponseEntity.badRequest()
+                                 .body("이메일 인증을 먼저 완료해주세요.");
+        }
+    	
         try {
-            // provider가 null이면 local(일반) 회원가입으로 처리
-                // provider는 naver,kakao등 소셜로그인 구별가능
-            if(request.getProvider() == null) {
+            if (request.getProvider() == null) {
                 request.setProvider("local");
             }
-            User user = userService.registerUser(request); 
-            // userService 이동해서 중복처리, 비밀번호 암호화 진행
-            return ResponseEntity.ok(createUserResponse(user));
-            // 중복처리 암호화 성공 시 jwt 토큰과 사용자 정보 전달
-        } catch (IllegalArgumentException ex) { // 실패 시 400,409 오류 반환
-            log.error("회원가입 유효성 검사 실패: {}", ex.getMessage());
+            User user = userService.registerUser(request);
+
+            // 세션 플래그 제거(재사용 방지)
+            session.removeAttribute("isEmailVerified");
+            session.removeAttribute("registerEmail");
+
+            // 회원 생성 후 JWT 응답 생성
+            Map<String, Object> claims = Map.of(
+                "email", user.getEmail(),
+                "user_uuid", user.getUser_uuid(),
+                "userType", "CUSTOMER"
+            );
+            String accessToken  = jwtTokenizer.generateAccessToken(claims);
+            String refreshToken = jwtTokenizer.generateRefreshToken(claims);
+            long expiryMs = jwtTokenizer.getRefreshTokenExpiration();
+
+            // DB에 리프레시 토큰 저장
+            user.setRefreshToken(refreshToken);
+            user.setRefreshTokenExpiry(
+                LocalDateTime.now().plus(expiryMs, ChronoUnit.MILLIS)
+            );
+            userService.saveUser(user);
+
+            // 쿠키 세팅
+            ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken)
+                .httpOnly(true)
+                .secure(false)
+                .path("/")
+                .maxAge(expiryMs / 1000)
+                .sameSite("None")
+                .build();
+
+            return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .body(Map.of(
+                    "user_uuid", user.getUser_uuid(),
+                    "email", user.getEmail(),
+                    "nickname", user.getNickname(),
+                    "accessToken", accessToken
+                ));
+
+        } catch (IllegalArgumentException ex) {
+            log.error("회원가입 유효성 오류: {}", ex.getMessage());
             return ResponseEntity.badRequest().body(ex.getMessage());
         } catch (RuntimeException ex) {
             log.error("회원가입 실패: {}", ex.getMessage());

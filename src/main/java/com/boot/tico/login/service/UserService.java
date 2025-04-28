@@ -6,6 +6,7 @@ import com.boot.tico.login.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,25 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final StringRedisTemplate redis;               
 
+    private static final String REDIS_PREFIX = "register:verified:";
+    
+    
+    // ----------------------------------------------------------------
+    // 이메일 인증 확인 여부 (REDIS_PREFIX + email 상자에서 값꺼내기 값이 ok면 ture / 아니면 false 반환)
+    // ----------------------------------------------------------------
+    public boolean isEmailAlreadyVerified(String email) {
+        String flag = redis.opsForValue().get(REDIS_PREFIX + email);
+        return "OK".equals(flag);
+    }
+
+    // 인증 단계에서 코드가 맞으면 Redis 에 플래그를 남기는 메서드 (예시)
+    public void markEmailVerified(String email) {
+        redis.opsForValue().set(REDIS_PREFIX + email, "OK");
+    }
+    
+    
     // 일반 회원가입 처리
     public User registerUser(UserDto.Request request) {
         // 이메일 형식 검증
