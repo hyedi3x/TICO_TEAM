@@ -22,6 +22,9 @@ function ProjectEditMeta() {
         const data = res.data.project || res.data;
         setProject({
           ...data,
+          introduction: typeof data.introduction === 'string' ? data.introduction : '',
+          guide: typeof data.guide === 'string' ? data.guide : '',
+          notes: typeof data.notes === 'string' ? data.notes : '',
           tags: data.tags ? data.tags.split(',').map(t => t.trim()) : [],
         });
       })
@@ -31,7 +34,13 @@ function ProjectEditMeta() {
   const handleFormChange = formValue => setProject(formValue);
 
   const handleSave = () => {
-    const projectToSend = { ...project, tags: Array.isArray(project.tags) ? project.tags.join(',') : project.tags };
+    const projectToSend = { 
+      ...project, 
+      tags: Array.isArray(project.tags) ? project.tags.join(',') : project.tags,
+      introduction: typeof project.introduction === 'string' ? project.introduction : '',
+      guide: typeof project.guide === 'string' ? project.guide : '',
+      notes: typeof project.notes === 'string' ? project.notes : ''
+    };
     axiosInstance.put('/api/project/updateMeta', projectToSend)
     .then(() => {
         alert('수정 완료!');
@@ -138,7 +147,7 @@ function ProjectEditMeta() {
                 rows={3}
                 accepter="textarea"
                 className="project-edit-input"
-                value={project.motes}
+                value={project.notes}
               />
             </Form.Group>
             <Form.Group style={{ textAlign: "center" }}>
