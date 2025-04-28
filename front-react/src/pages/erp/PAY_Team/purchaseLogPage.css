@@ -1,0 +1,53 @@
+.purchaseLog-container {
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.purchaseLog-card {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  min-width: 600px;
+  background-color: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  padding: 30px;
+  text-align: center;
+  overflow-x: auto; /* ✅ 패널 안에서 가로 스크롤 허용 */
+}
+
+/* 🔍 검색 바 */
+.purchaseLog-search-bar {
+  display: flex;
+  justify-content: left;
+  margin-bottom: 50px;
+}
+
+/* 📄 테이블 */
+.purchaseLog-table {
+  font-size: 14px;
+  border-radius: 8px;
+  min-width: 900px;  /* ✅ 테이블 최소 너비 설정 */
+  word-break: break-word; /* ✅ 긴 단어 줄바꿈 */
+  table-layout: fixed; /* ✅ 컬럼 폭 고정 */
+}
+
+.purchaseLog-table .rs-table-header-row {
+  background-color: #f1f5f9;
+  font-weight: bold;
+  color: #374151;
+}
+
+/* 📄 페이지네이션 */
+.purchaseLog-pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* 로딩 메시지 및 에러 메시지 여백 */
+.purchaseLog-loader,
+.rs-message {
+  margin-top: 20px;
+}
