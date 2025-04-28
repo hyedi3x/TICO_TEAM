@@ -245,3 +245,63 @@
   background-color: #dbeafe;
 }
 
+
+/* 인증 코드 입력 + 버튼 래퍼 */
+.email-code-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;            /* 입력창과 버튼 사이 여백 */
+  margin-top: 8px;     /* 레이블과의 간격 */
+  width: 100%;         /* 부모(.input-group) 폭 가득 채우기 */
+  box-sizing: border-box;
+}
+
+/* 인증 코드 입력창 */
+.email-code-wrapper .input-field {
+  flex: 1 1 auto;      /* 버튼을 뺀 나머지 공간 모두 차지 */
+  width: auto;         /* 기본 width:100% 무시 */
+  height: 40px;
+  padding: 0 12px;     /* 세로 패딩 제거, 좌우 12px */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* 재전송 / 코드 인증 버튼 공통 스타일 */
+.email-verify-button,
+.verify-code-button {
+  flex: 0 0 auto;      /* 고정 크기 */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 16px;
+  background-color: #20c997;
+  color: #fff;
+  font-size: 14px;
+  line-height: 1;      /* 텍스트 중앙 정렬 */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+/* 버튼 비활성화 스타일 */
+.email-verify-button:disabled,
+.verify-code-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* 호버 효과 */
+.email-verify-button:not(:disabled):hover,
+.verify-code-button:not(:disabled):hover {
+  background-color: #1e8e72;
+}
+
+/* 오류 메시지와 충돌 방지: 바로 아래에만 나타나도록 */
+.input-group .error-message {
+  margin-top: 4px;
+}
+
+

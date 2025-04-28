@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import './login.css';
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom"; // ✅ useLocation 추가
 import axiosInstance from "../login/social/utils/axiosInstance";
 
 function Login() {
@@ -9,6 +9,10 @@ function Login() {
   const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState(""); // 로그인 폼에 입력하는 비밀번호 저장
   const navigate = useNavigate();
+
+  const location = useLocation(); // ✅ 현재 URL 정보를 얻기 위해 필요
+  const queryParams = new URLSearchParams(location.search);
+  const loginError = queryParams.get("error") === "true"; // ✅ 쿼리 파라미터로 로그인 실패 여부 확인
 
   useEffect(() => {
     const savedAutoLogin = localStorage.getItem("autoLogin") === "true";
@@ -30,7 +34,6 @@ function Login() {
         });
     }
     // 컴포넌트가 처음 렌더링될 때 한 번 실행되어 로컬스토리지에 저장된 accessToken과 autoLogin 정보를 확인
-    
   }, []);
 
   const handleLogin = async (e) => {
@@ -50,11 +53,11 @@ function Login() {
       }
 
       const response = await axiosInstance.post(endpoint, payload);
-      const { accessToken, user_uuid, nickname} = response.data;
+      const { accessToken, user_uuid, nickname } = response.data;
       console.log("로그인 성공, 토큰 저장:", accessToken);
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("autoLogin", "true");
-      if (nickname)   localStorage.setItem("nickname", nickname);  // 사원 로그인 시 undefined 가능성 있음
+      if (nickname) localStorage.setItem("nickname", nickname);  // 사원 로그인 시 undefined 가능성 있음
       localStorage.setItem("user_uuid", user_uuid); 
 
       setIsLoggedIn(true);
@@ -68,15 +71,15 @@ function Login() {
       localStorage.removeItem("nickname");
       localStorage.removeItem("user_uuid"); 
 
-    if (error.response?.status === 401) {
-      alert("로그인 실패. 이메일 또는 비밀번호가 잘못되었습니다.");
-    } else if (error.response?.status === 404) {
-      alert("존재하지 않는 사용자입니다.");
-    } else {
-      alert("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      if (error.response?.status === 401) {
+        alert("로그인 실패. 이메일 또는 비밀번호가 잘못되었습니다.");
+      } else if (error.response?.status === 404) {
+        alert("존재하지 않는 사용자입니다.");
+      } else {
+        alert("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      }
     }
-  }
-};
+  };
 
   const handleSocialLogin = (provider) => {
     const url = `https://tico.kro.kr/oauth2/authorization/${provider}?flow=login`;
@@ -130,6 +133,13 @@ function Login() {
       <div className="login-box">
         <h2>{isLoggedIn ? "환영합니다!" : "로그인"}</h2>
 
+        {/* 로그인 실패 시 에러 메시지 출력 */}
+        {!isLoggedIn && loginError && (
+          <p style={{ color: "red", fontWeight: "bold", textAlign: "center", marginTop: "10px" }}>
+            ❌ 로그인에 실패했습니다. 다시 시도해주세요.
+          </p>
+        )}
+
         {isLoggedIn ? (
           <div className="user-info">
             <p>이메일: {userInfo?.email}</p>
@@ -155,7 +165,7 @@ function Login() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
               />
-                <button className="login-button" onClick={handleLogin}>로그인</button>
+              <button className="login-button" onClick={handleLogin}>로그인</button>
             </div>
 
             <div className="social-login">
