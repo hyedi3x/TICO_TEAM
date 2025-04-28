@@ -156,7 +156,7 @@ function ShareModal({ show, onClose }) {
               <Input as="textarea" rows={2} value={form.notes} onChange={value => handleChange('notes', value)} />
             </Form.Group>
             <Form.Group>
-              <Checkbox checked={form.isAgree} onChange={value => handleChange('isAgree', value)}>
+              <Checkbox checked={form.isAgree} onChange={(_, checked) => handleChange('isAgree', checked)}>
                 작품 공유에 동의합니다.
               </Checkbox>
             </Form.Group>
