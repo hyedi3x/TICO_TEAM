@@ -31,9 +31,11 @@ import UserList from "./CM_Team/UserList";
 import UserDetail from "./CM_Team/UserDetail";
 import UserInfoEdit from "./CM_Team/UserInfoEdit";
 import MainModify from "../../common/MainModify";
+import SubscriptionManager from "./PAY_Team/SubscriptionManager";
+import PurchaseLogPage from "./PAY_Team/PurchaseLogPage";
 import EMPEduList from "../blockedu/EMPEduList";
-import axiosInstance from "../login/social/utils/axiosInstance";
 
+import axiosInstance from "../login/social/utils/axiosInstance";
 
 function ErpMain() {
   const [expanded, setExpanded] = useState(true); // 사이드바 확장 여부
@@ -84,6 +86,8 @@ function ErpMain() {
       case "3-1": setViewMode("admin-register"); break;
       case "3-2": setViewMode("admin-info"); break;
       case "4-1": setViewMode("userList"); break;
+      case "5-1": setViewMode("subscription-manage"); break;
+      case "5-2": setViewMode("purchaseLog"); break;
       case "7-4": setViewMode("faq"); break;
       case "8-4": setViewMode("blockEduPost"); break;
       case "8-5": setViewMode("EMPEduList"); break;
@@ -149,13 +153,8 @@ function ErpMain() {
                   icon={<Icon as={MdPayments} />}
                   className={empInfo.depId === "DEP003" ? "" : "disabled-menu"}
                 >
-                  <Nav.Item eventKey="5-1">결제 상품 관리</Nav.Item>
+                  <Nav.Item eventKey="5-1">결제 회원 관리</Nav.Item>
                   <Nav.Item eventKey="5-2">결제 내역 관리</Nav.Item>
-                  <Nav.Item eventKey="5-3">게임 이용 결제</Nav.Item>
-                  <Nav.Item eventKey="5-4">
-                    인기 작품 선정 및 포인트 지급
-                  </Nav.Item>
-                  <Nav.Item eventKey="5-5">오브젝트 결제</Nav.Item>
                 </Nav.Menu>
 
                 {/* 통계 분석팀 메뉴 (DEP004 부서만 활성화) */}
@@ -299,7 +298,9 @@ function ErpMain() {
             {viewMode === "EMPEduList" && <EMPEduList/>} {/* 블록학습 관리 */}
             {viewMode === "ObjectSelectPage" && <ObjectSelectPage/>} {/* 오브젝트 관리 */}
             {viewMode === "MainModify" && <MainModify/>} {/* 메인화면 */}
-            
+
+            {viewMode === "subscription-manage" && <SubscriptionManager/>} {/* 결제 회원 관리 */}
+            {viewMode === "purchaseLog" && <PurchaseLogPage/>} {/* 결제 내역 로그 관리 */}
           </div>
         </Content>
       </div>
