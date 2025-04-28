@@ -505,9 +505,36 @@ function ObjectSelectPage({ onComplete }) {
         ) : (
           <div className="objectSelectPage-selected-object-list">
             {selectedObjects.map(obj => (
-              <div key={obj.blocklyObjectId} className="objectSelectPage-selected-object-item" onClick={() => handleRemoveObject(obj.blocklyObjectId)}>
-                <img src={`https://tico.kro.kr${obj.blocklyObjectFilePath.startsWith('/') ? '' : '/'}${obj.blocklyObjectFilePath}`} alt={obj.blocklyObjectName} className="objectSelectPage-selected-object-image" />
-                <div className="objectSelectPage-selected-object-name">{obj.blocklyObjectName}</div>
+              <div
+                key={`${obj.source || obj.type || 'default'}_${obj.id || obj.blocklyObjectId}`}
+                className="objectSelectPage-selected-object-item"
+                onClick={() => handleRemoveObject(obj.id || obj.blocklyObjectId)}
+              >
+
+                {/* 🖼️ 타입이 image인 경우 */}
+                {obj.type === 'image' || obj.blocklyObjectFilePath ? (
+                  <img
+                    src={`https://tico.kro.kr${obj.blocklyObjectFilePath.startsWith('/') ? '' : '/'}${obj.blocklyObjectFilePath}`}
+                    alt={obj.blocklyObjectName}
+                    className="objectSelectPage-selected-object-image"
+                  />
+                ) : obj.type === 'text' ? (
+                  <div
+                    className="objectSelectPage-textbox-preview"
+                    style={{
+                      fontSize: obj.fontSize,
+                      fontFamily: obj.fontFamily,
+                      color: obj.color,
+                      margin: '0 auto',
+                    }}
+                  >
+                    {obj.text}
+                  </div>
+                ) : null}
+
+                <div className="objectSelectPage-selected-object-name">
+                  {obj.blocklyObjectName || obj.text}
+                </div>
               </div>
             ))}
           </div>

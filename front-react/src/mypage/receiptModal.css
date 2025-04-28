@@ -1,0 +1,85 @@
+/* receiptModal.css */
+
+.receipt-modern-container {
+  padding: 20px;
+  font-size: 14px;
+}
+
+.receipt-section {
+  margin-bottom: 20px;
+}
+
+.receipt-section h5 {
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #333;
+}
+
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 4px 0;
+}
+
+.receipt-row strong {
+  flex: 1;
+  text-align: left;
+}
+
+.receipt-row span {
+  flex: 1;
+  text-align: right;
+}
+
+.receipt-total {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 20px;
+  text-align: right;
+}
+
+.total-amount {
+  color: green;
+  font-size: 22px;
+}
+
+.receipt-button-wrapper {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.receipt-footer-note {
+  margin-top: 20px;
+  font-size: 12px;
+  color: #777;
+  text-align: center;
+}
+
+@media print {
+  body {
+    background: white;
+  }
+
+  .rs-modal {
+    all: unset;
+    display: block;
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+    background: white;
+  }
+
+  .rs-modal-dialog {
+    all: unset;
+  }
+
+  .receipt-modern-container {
+    padding: 20px;
+  }
+
+  .rs-modal-header,
+  .rs-modal-footer,
+  .receipt-button-wrapper {
+    display: none !important;
+  }
+}

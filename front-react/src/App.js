@@ -33,6 +33,7 @@ import MainModify from './common/MainModify';
 import MainBannerManage from './common/MainBannerManage';
 import ReportForm from './pages/share/ReportForm';
 import SearchResult from './pages/search/SearchResult';
+import PurchasePage from './mypage/PurchasePage';
 
 
 function App() {
@@ -65,6 +66,7 @@ function App() {
           <Route path="/share" element={<ShareGallery/>}/>
           <Route path="/share/detail/:projectId" element={<ShareDetail />} />
           <Route path="/canvas/:projectId" element={<ShareCanvas />} />
+          <Route path="/purchase" element={<PurchasePage />}/>
           <Route path='/tutorial' element={<Tutorial />} />
           <Route path='/project/edit/:projectId' element={<ProjectEditMeta />} />
           <Route path="/report/:projectId" element={<ReportForm />} />
