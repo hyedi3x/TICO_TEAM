@@ -3,7 +3,7 @@ import { Container, Sidebar, Sidenav, Nav, Content, Header, ButtonGroup, Button,
 import 'rsuite/dist/rsuite.min.css';
 import './objectSelectPage.css';
 import axiosInstance from '../../pages/login/social/utils/axiosInstance';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 
 // 아이콘
@@ -27,12 +27,16 @@ function ObjectSelectPage({ onComplete }) {
   const [selectedCategory, setSelectedCategory] = useState('사람');    // 선택된 카테고리
   const [objectList, setObjectList] = useState([]);                   // 전체 오브젝트 목록
   const [selectedObjects, setSelectedObjects] = useState([]);         // 선택된 오브젝트
-  const [uploadedFiles, setUploadedFiles] = useState([]);             // 업로드된 파일 목록
   const [activeMode, setActiveMode] = useState('object');             // 모드 상태(object, upload, draw, textbox)
   const userUuid = localStorage.getItem("user_uuid");                 // 현재 로그인된 사용자 UUID
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);  // 결제 모달 상태 정의
 
   const navigate = useNavigate();
+
+  // 구매 완료 여부 확인
+  const location = useLocation();
+  const purchased = location.state?.purchased || false;
+  const [isPurchased, setIsPurchased] = useState(false);
 
   // JWT 토큰에서 사용자 역할 추출 (EMPLOYEE인지 확인)
   const [userRole, setUserRole] = useState(null);  // 사용자 역할 상태
@@ -68,6 +72,36 @@ function ObjectSelectPage({ onComplete }) {
   };
 
   useEffect(fetchObjectList, []);
+
+  // 구매 완료 상태를 저장해서 유료 오브젝트 락 해제를 해야함.
+  useEffect(() => {
+    if (purchased) {
+      setIsPurchased(true);
+    }
+  }, [purchased]);
+
+  // 구매 여부를 서버에서 확인
+  useEffect(() => {
+    const checkPurchaseStatus = async () => {
+      if (!userUuid) return;
+      try {
+        const res = await axiosInstance.get(`/api/purchase/${userUuid}`);
+        console.log('✅ 이용권 조회 결과:', res.data);
+
+        // 예를 들어 서버에서 active: true 면 구매 완료라고 가정
+        if (res.data.active) {
+          setIsPurchased(true);
+        } else {
+          setIsPurchased(false);
+        }
+      } catch (error) {
+        console.error('❌ 이용권 상태 확인 실패:', error);
+        setIsPurchased(false);  // 실패했을 때는 잠겨있는 걸로 가정
+      }
+    };
+
+    checkPurchaseStatus();
+  }, [userUuid]);
 
   //--------------------------------[ 오브젝트 등록(관리자) ]-------------------------------------
   // 오브젝트 등록 모달 초기값 및 상태
@@ -219,19 +253,6 @@ function ObjectSelectPage({ onComplete }) {
     }
   };
 
-  //--------------------------------[ 파일 업로드 ]----------------------------
-  // 📥 파일 업로드 전용 목록 조회 (업로드 모드일 때만)
-  useEffect(() => {
-    if (activeMode === 'upload') {
-      axiosInstance.get(`/api/blockly-objects/uploaded/${userUuid}`)
-        .then(res => setUploadedFiles(res.data))
-        .catch(err => {
-          console.error("업로드 이미지 로딩 실패:", err);
-          setUploadedFiles([]);
-        });
-    }
-  }, [activeMode, userUuid]);
-
   //--------------------------------[ 그 외의 핸들러 ]----------------------------
   //  카테고리 정의 및 필터링
   const categories = [
@@ -248,39 +269,17 @@ function ObjectSelectPage({ onComplete }) {
 
   // 오브젝트 선택/해제 관련 핸들러
   const handleSelectObject = (obj) => {
-    setSelectedObjects(prev => prev.some(o => o.blocklyObjectId === obj.blocklyObjectId) ? prev : [...prev, obj]);
+    setSelectedObjects(prev => {
+      const exists = prev.some(item => (item.id ?? item.blocklyObjectId) === (obj.id ?? obj.blocklyObjectId));
+      if (exists) return prev;
+      return [...prev, obj];
+    });
   };
 
   const handleRemoveObject = (id) => {
-    setSelectedObjects(prev => prev.filter(obj => obj.blocklyObjectId !== id));
-  };
-
-  // ⬆파일 업로드 핸들러
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("user_uuid", userUuid);
-
-    axiosInstance.post("/api/blockly-objects/upload", formData)
-      .then(() => {
-        alert("✅ 업로드 성공!");
-        setActiveMode('upload');
-      })
-      .catch(() => alert("❌ 업로드 실패"));
-  };
-
-  // 업로드된 이미지 삭제
-  const handleDeleteUploadedFile = (fileId) => {
-    if (!window.confirm("정말 삭제하시겠습니까?")) return;
-    axiosInstance.delete(`/api/blockly-objects/upload/${fileId}`)
-      .then(() => {
-        alert("삭제 성공!");
-        setUploadedFiles(prev => prev.filter(f => f.id !== fileId));
-      })
-      .catch(() => alert("삭제 실패"));
+    setSelectedObjects(prev =>
+      prev.filter(obj => (obj.id ?? obj.blocklyObjectId) !== id)
+    );
   };
 
   // 선택된 오브젝트를 캔버스로 전송
@@ -291,7 +290,6 @@ function ObjectSelectPage({ onComplete }) {
     }
     onComplete(selectedObjects); // 👈 모달 부모로 선택 결과 전달
   };
-
 
   //--------------------------------[ 랜더링 ]----------------------------
   return (
@@ -432,10 +430,44 @@ function ObjectSelectPage({ onComplete }) {
         <Header className="objectSelectPage-toolbar">
           {/* 상단 모드 전환 버튼 */}
           <ButtonGroup>
-            <Button appearance="default" startIcon={<MdOutlineEmojiObjects />} onClick={() => setActiveMode('object')} className={activeMode === 'object' ? 'objectSelectPage-active-toolbar-btn' : ''}>오브젝트 선택</Button>
-            <Button appearance="default" startIcon={<FaFileUpload />} onClick={() => setActiveMode('upload')} className={activeMode === 'upload' ? 'objectSelectPage-active-toolbar-btn' : ''}>파일 올리기</Button>
-            <Button appearance="default" startIcon={<MdDraw />} onClick={() => setActiveMode('draw')} className={activeMode === 'draw' ? 'objectSelectPage-active-toolbar-btn' : ''}>새로 그리기</Button>
-            <Button appearance="default" startIcon={<PiTextboxFill />} onClick={() => setActiveMode('textbox')} className={activeMode === 'textbox' ? 'objectSelectPage-active-toolbar-btn' : ''}>글상자</Button>
+            <Button
+              appearance="default"
+              startIcon={<MdOutlineEmojiObjects />}
+              onClick={() => setActiveMode('object')}
+              className={activeMode === 'object' ? 'objectSelectPage-active-toolbar-btn' : ''}
+            >
+              오브젝트 선택
+            </Button>
+
+            {/* 관리자(EMPLOYEE) + 콘텐츠팀(MO)이 아니면 파일올리기/그리기/글상자 보여주기 */}
+            {!(userRole === 'EMPLOYEE' && userDepId === 'DEP006') && (
+              <>
+                <Button
+                  appearance="default"
+                  startIcon={<FaFileUpload />}
+                  onClick={() => setActiveMode('upload')}
+                  className={activeMode === 'upload' ? 'objectSelectPage-active-toolbar-btn' : ''}
+                >
+                  파일 올리기
+                </Button>
+                <Button
+                  appearance="default"
+                  startIcon={<MdDraw />}
+                  onClick={() => setActiveMode('draw')}
+                  className={activeMode === 'draw' ? 'objectSelectPage-active-toolbar-btn' : ''}
+                >
+                  새로 그리기
+                </Button>
+                <Button
+                  appearance="default"
+                  startIcon={<PiTextboxFill />}
+                  onClick={() => setActiveMode('textbox')}
+                  className={activeMode === 'textbox' ? 'objectSelectPage-active-toolbar-btn' : ''}
+                >
+                  글상자
+                </Button>
+              </>
+            )}
           </ButtonGroup>
 
           {/* 관리자 전용 등록/수정/삭제 버튼 */}
@@ -457,17 +489,18 @@ function ObjectSelectPage({ onComplete }) {
                 .filter(obj => obj.blocklyObjectCategory === selectedCategory)
                 .map(obj => {
                   const isPaid = obj.blocklyObjectPoint === true;
+                  const isAdmin = userRole === 'EMPLOYEE' && userDepId === 'DEP006';
 
                   return (
                     <div
                       key={obj.blocklyObjectId}
-                      className={`objectSelectPage-item ${isPaid ? 'locked' : ''}`}
+                      className={`objectSelectPage-item ${(isPaid && !isPurchased && !isAdmin) ? 'locked' : ''}`}
                       onClick={() => {
-                        if (isPaid) {
-                          setShowPurchaseModal(true);   // 결제 페이지 이동 모달 열기
+                        if (isPaid && !isPurchased && !isAdmin) {
+                          setShowPurchaseModal(true);   // 유료 + 미결제인 경우만 모달
                           return;
                         }
-                        handleSelectObject(obj);
+                        handleSelectObject(obj);         // 무료거나 결제했으면 바로 선택
                       }}
                       title={obj.blocklyObjectName}
                     >
@@ -477,7 +510,9 @@ function ObjectSelectPage({ onComplete }) {
                           alt={obj.blocklyObjectName}
                           className="objectSelectPage-image"
                         />
-                        {isPaid && <div className="lock-overlay">🔒</div>}
+                        {(isPaid && !isPurchased && !isAdmin) && (
+                          <div className="lock-overlay">🔒</div>
+                        )}  {/* 결제 되었으면 자물쇠풀림 */}
                       </div>
                       <div className="objectSelectPage-name">{obj.blocklyObjectName}</div>
                     </div>
@@ -487,27 +522,73 @@ function ObjectSelectPage({ onComplete }) {
           )}
           {/* 모듈화된 모드 컴포넌트 */}
           {activeMode === 'upload' && (
-            <ObjectUploader uploadedFiles={uploadedFiles} onFileChange={handleFileChange} onDelete={handleDeleteUploadedFile} onSelect={handleSelectObject} />
+            <ObjectUploader onSelect={handleSelectObject} fileInputId="uploadHiddenInput" />
           )}
-          {activeMode === 'draw' && <ObjectDraw />}
-          {activeMode === 'textbox' && <ObjectTextbox />}
+
+          {activeMode === 'draw' && (
+            <ObjectDraw onComplete={setSelectedObjects} />
+          )}
+          {activeMode === 'textbox' && (
+            <ObjectTextbox
+              onComplete={(textObjects) => {
+                if (!Array.isArray(textObjects) || textObjects.length === 0) return;
+
+                setSelectedObjects(prev => {
+                  const newObjects = textObjects.filter(newObj =>
+                    !prev.some(obj => obj.id === newObj.id)
+                  );
+                  return [...prev, ...newObjects];
+                });
+              }}
+            />
+          )}
         </Content>
       </Container>
 
       {/* 우측 선택된 오브젝트 목록 */}
       <div className="objectSelectPage-right-selected">
-        <div className="objectSelectPage-add-button-container">
-          <Button appearance="primary" size="sm" onClick={handleAddToCanvas}>➕ 추가하기</Button>
-        </div>
+        {/* 관리자일 때 추가하기 버튼 숨기기 */}
+        {!(userRole === 'EMPLOYEE' && userDepId === 'DEP006') && (
+          <div className="objectSelectPage-add-button-container">
+            <Button appearance="primary" size="sm" onClick={handleAddToCanvas}>➕ 추가하기</Button>
+          </div>
+        )}
         <h6 className="objectSelectPage-select-title">🧺 선택된 오브젝트</h6>
         {selectedObjects.length === 0 ? (
           <p className="objectSelectPage-empty-text">선택된 항목이 없습니다.</p>
         ) : (
           <div className="objectSelectPage-selected-object-list">
             {selectedObjects.map(obj => (
-              <div key={obj.blocklyObjectId} className="objectSelectPage-selected-object-item" onClick={() => handleRemoveObject(obj.blocklyObjectId)}>
-                <img src={`http://localhost:8081${obj.blocklyObjectFilePath.startsWith('/') ? '' : '/'}${obj.blocklyObjectFilePath}`} alt={obj.blocklyObjectName} className="objectSelectPage-selected-object-image" />
-                <div className="objectSelectPage-selected-object-name">{obj.blocklyObjectName}</div>
+              <div
+                key={`${obj.source || obj.type || 'default'}_${obj.id || obj.blocklyObjectId}`}
+                className="objectSelectPage-selected-object-item"
+                onClick={() => handleRemoveObject(obj.id || obj.blocklyObjectId)}
+              >
+
+                {/* 🖼️ 타입이 image인 경우 */}
+                {obj.type === 'image' || obj.blocklyObjectFilePath ? (
+                  <img
+                    src={`http://localhost:8081${obj.blocklyObjectFilePath.startsWith('/') ? '' : '/'}${obj.blocklyObjectFilePath}`}
+                    alt={obj.blocklyObjectName}
+                    className="objectSelectPage-selected-object-image"
+                  />
+                ) : obj.type === 'text' ? (
+                  <div
+                    className="objectSelectPage-textbox-preview"
+                    style={{
+                      fontSize: obj.fontSize,
+                      fontFamily: obj.fontFamily,
+                      color: obj.color,
+                      margin: '0 auto',
+                    }}
+                  >
+                    {obj.text}
+                  </div>
+                ) : null}
+
+                <div className="objectSelectPage-selected-object-name">
+                  {obj.blocklyObjectName || obj.text}
+                </div>
               </div>
             ))}
           </div>

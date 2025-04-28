@@ -225,7 +225,7 @@
 /* 선택된 오브젝트 목록 */
 .objectSelectPage-selected-object-list {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  flex-direction: column;  /* ⬇️ 세로로 쌓기 */
   gap: 8px;
 }
 
@@ -250,6 +250,9 @@
 .objectSelectPage-selected-object-name {
   font-size: 12px;
   margin-top: 4px;
+  overflow: hidden;       /* 넘치는 텍스트 숨김 */
+  white-space: nowrap;    /* 줄바꿈 금지 */
+  text-overflow: ellipsis; /* 넘치면 ... 표시 */
 }
 
 /* 관리자 전용 버튼 영역 */
@@ -290,4 +293,43 @@
   font-size: 0.9rem;
   text-align: center;
   padding: 0 10px;
+}
+
+/* --------------------------- 글상자 부분 ----------------------- */
+/* 글상자 고정 부분 */
+.objectSelectPage-textbox-preview {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.objectTextbox-saved-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 80px);
+  gap: 1rem;
+  margin-top: 1rem;
+  justify-content: center;
+}
+
+.objectTextbox-saved-item {
+  text-align: center;
+}
+
+.objectTextbox-preview {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
 }
