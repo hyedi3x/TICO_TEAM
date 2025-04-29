@@ -38,8 +38,6 @@ const createClone = function(target, currentIndex) {
         code += javascriptGenerator.blockToCode(block);
     }
     }
-
-    console.log("🧠 최종 실행 코드:", code);
     runGeneratedCode(code, clone.index, true);
 };
 

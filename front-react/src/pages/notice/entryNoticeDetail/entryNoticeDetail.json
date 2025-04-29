@@ -1,0 +1,1112 @@
+{
+    "data": {
+        "discuss": {
+            "id": "6809f55180a962a9596910ec",
+            "title": "2025년 4월 업데이트 안내",
+            "content": "<div class=\"se-viewer se-theme-default\" lang=\"ko-KR\">\n    <!-- SE_DOC_HEADER_START -->\n    <!--@CONTENTS_HEADER-->\n    <!-- SE_DOC_HEADER_END -->\n    <div class=\"se-main-container\">\n                <div class=\"se-component se-text se-l-default\" id=\"SE-447cd77b-421e-41bc-8844-0b0f919a36f6\">\n                    <div class=\"se-component-content\">\n                        <div class=\"se-section se-section-text se-l-default\">\n                            <div class=\"se-module se-module-text\">\n                                    <!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-3ee6806d-ca95-48b7-b4be-26e6b4a5952f\"><span style=\"color:#000000;background-color:#ffffff;\" class=\"se-fs-fs15 se-ff-nanumgothic   \" id=\"SE-1bbef870-dd19-4276-9882-1b841b6329f2\">안녕하세요? 엔트리팀입니다. </span></p><!-- } SE-TEXT --><!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-4190c38f-d3f9-4c2f-a209-50673f1f9247\"><span style=\"color:#000000;background-color:#ffffff;\" class=\"se-fs-fs15 se-ff-nanumgothic   \" id=\"SE-e543463f-2fc0-4469-8193-bedae0191a53\">2025년 4월 업데이트가 진행되었습니다. 자세한 내용은 아래를 참고해 주세요.</span></p><!-- } SE-TEXT --><!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-e7f4cdbb-1d53-48d5-acd4-04998ae27c9c\"><span style=\"color:#0095e9;background-color:#ffffff;\" class=\"se-fs-fs13 se-ff-nanumgothic   \" id=\"SE-04a3f5f8-d079-4e2d-8c18-302b879671dc\">​</span></p><!-- } SE-TEXT --><!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-edfa342c-6f85-4a94-af97-eaadf0216d9d\"><span style=\"color:#0095e9;background-color:#ffffff;\" class=\"se-fs-fs13 se-ff-nanumgothic   \" id=\"SE-23fae6e6-c97c-43fa-a907-e0023d2da809\">아래 사항이 정상적으로 보이지 않거나, 작품 만들기에 접속되지 않는 경우,</span></p><!-- } SE-TEXT --><!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-7a16018a-af4f-4be6-9507-0cc6689fd5b1\"><span style=\"color:#0095e9;background-color:#ffffff;\" class=\"se-fs-fs13 se-ff-nanumgothic   \" id=\"SE-0b8a38c1-5993-47b0-bf66-51ca03d62d51\">인터넷 브라우저의 설정에서 캐시를 삭제한 후 다시 한번 확인해보세요. </span><span style=\"color:#608cba;background-color:#ffffff;\" class=\"se-fs-fs13 se-ff-nanumgothic   \" id=\"SE-6d3444e9-7f21-46e1-8532-40a59cc8c4ff\"><u>[캐시 삭제 방법]</u></span></p><!-- } SE-TEXT -->\n                            </div>\n                        </div>\n                    </div>\n                    <script type=\"text/data\" class=\"__se_module_data\" data-module-v2='{\"type\": \"v2_text\", \"id\": \"SE-447cd77b-421e-41bc-8844-0b0f919a36f6\", \"data\": {\"ctype\": \"text\"  }}'></script>\n                </div>                <div class=\"se-component se-horizontalLine se-l-line1\" id=\"SE-627868b5-a567-4d4d-abad-f3587eac87d6\">\n                    <div class=\"se-component-content\">\n                        <div class=\"se-section se-section-horizontalLine se-l-line1 se-section-align-left\">\n                            <div class=\"se-module se-module-horizontalLine\">\n                                <hr class=\"se-hr\" />\n                            </div>\n                        </div>\n                    </div>\n                </div>                <div class=\"se-component se-text se-l-default\" id=\"SE-5548ceed-744e-4e13-a69a-49840744977e\">\n                    <div class=\"se-component-content\">\n                        <div class=\"se-section se-section-text se-l-default\">\n                            <div class=\"se-module se-module-text\">\n                                    <!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-73aea0b0-2eb4-43fe-90db-70e00e4634cf\"><span style=\"color:#000000;background-color:#ffffff;\" class=\"se-fs-fs15 se-ff-nanumgothic   \" id=\"SE-ea97d643-a472-44e2-80a9-cc26fb2413f5\">​</span><span style=\"color:#333333;background-color:#ffffff;\" class=\"se-fs-fs30 se-ff-nanumgothic   \" id=\"SE-e91dc915-9f34-49ed-9b07-0014e9409d37\">🔬</span><span style=\"color:#2c313d;background-color:#ffffff;\" class=\"se-fs-fs30 se-ff-nanumgothic   \" id=\"SE-0f836eaf-719d-4713-8068-6f0a308fc7bf\"><b>개선된 기능</b></span></p><!-- } SE-TEXT --><!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-62325c3a-8e5d-478f-a88f-69d66706912c\"><span style=\"color:#000000;background-color:#ffffff;\" class=\"se-fs-fs15 se-ff-nanumgothic   \" id=\"SE-a960556e-af14-4700-b1c9-b98884fbc509\">​</span></p><!-- } SE-TEXT --><!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-e9abf1df-b13c-4a6d-808b-0049a1ce8bf3\"><span style=\"color:#000000;background-color:#ffffff;\" class=\"se-fs-fs19 se-ff-nanumgothic   \" id=\"SE-9690aac8-e66f-4c37-beaa-37cad541df18\"><b>1. 나의 학급에서 설정할 수 있는 학급 이름의 최대 글자 수를 한글 10자로 확대했어요.</b></span></p><!-- } SE-TEXT -->\n                            </div>\n                        </div>\n                    </div>\n                    <script type=\"text/data\" class=\"__se_module_data\" data-module-v2='{\"type\": \"v2_text\", \"id\": \"SE-5548ceed-744e-4e13-a69a-49840744977e\", \"data\": {\"ctype\": \"text\"  }}'></script>\n                </div>                <div class=\"se-component se-horizontalLine se-l-line5\" id=\"SE-b4ff78d2-c350-4fc4-9a69-92189e29b819\">\n                    <div class=\"se-component-content\">\n                        <div class=\"se-section se-section-horizontalLine se-l-line5 se-section-align-left\">\n                            <div class=\"se-module se-module-horizontalLine\">\n                                <hr class=\"se-hr\" />\n                            </div>\n                        </div>\n                    </div>\n                </div>                <div class=\"se-component se-text se-l-default\" id=\"SE-92303913-a332-4e37-8e34-cb8ada04cb7d\">\n                    <div class=\"se-component-content\">\n                        <div class=\"se-section se-section-text se-l-default\">\n                            <div class=\"se-module se-module-text\">\n                                    <!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-3257403f-1d55-4be4-a7fb-419372e62438\"><span style=\"color:#2c313d;background-color:#ffffff;\" class=\"se-fs-fs30 se-ff-nanumgothic   \" id=\"SE-b580bdb6-d6c0-4898-9abe-181927540925\"><b>🔧수정된 오류</b></span></p><!-- } SE-TEXT --><!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-df079500-50fd-408f-9d4c-89160dca7ba8\"><span style=\"color:#000000;background-color:#ffffff;\" class=\"se-fs-fs15 se-ff-nanumgothic   \" id=\"SE-fcacfd1f-e96c-41d2-a9f2-5680ba69f3f5\"><b>​</b></span></p><!-- } SE-TEXT --><!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-e1cd70f7-df07-4a60-8f5f-d547372d0a49\"><span style=\"color:#000000;background-color:#ffffff;\" class=\"se-fs-fs15 se-ff-nanumgothic   \" id=\"SE-e71be22a-3fe4-4355-9508-303c9b4bf866\"><b>​</b></span><span style=\"color:#000000;background-color:#ffffff;\" class=\"se-fs-fs16 se-ff-nanumgothic   \" id=\"SE-8ffc00f5-76df-40f9-b8d5-2388a067a162\"><b>1. 나의 학급에서 생성한 학급 계정의 아이디가 마스킹되어 표시되던 오류를 해결했어요. </b></span></p><!-- } SE-TEXT --><!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-dc14e3da-4fb5-49ba-9caa-c6bb68f51490\"><span style=\"color:#000000;background-color:#ffffff;\" class=\"se-fs-fs16 se-ff-nanumgothic   \" id=\"SE-2fb9e121-71c9-4910-8adf-cd192fe2963a\">학급에 가입한 일반/선생님 계정은 이전과 같이 계속 마스킹되어 표시됩니다.</span></p><!-- } SE-TEXT --><!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-1fb6f39c-7b3a-4742-9185-cc905ea4b8ad\"><span style=\"color:#000000;background-color:#ffffff;\" class=\"se-fs-fs16 se-ff-nanumgothic   \" id=\"SE-b1f41ca3-4b7d-4406-8ebf-5785988331dc\"><b>​</b></span></p><!-- } SE-TEXT --><!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-ce97003f-57ac-466b-a40c-329d3e4c5679\"><span style=\"color:#000000;background-color:#ffffff;\" class=\"se-fs-fs16 se-ff-nanumgothic   \" id=\"SE-850f2b0d-da00-4e85-9e31-604c1f9e70c0\"><b>2. 메인 페이지의 &#x27;탐험하기&#x27; 영역에서 프로필 이미지가 표시되지 않는 오류를 해결했어요.</b></span></p><!-- } SE-TEXT --><!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-486b21f8-4764-4321-ab4c-54ce2cac02d4\"><span style=\"color:#000000;background-color:#ffffff;\" class=\"se-fs-fs16 se-ff-nanumgothic   \" id=\"SE-33b37417-0432-4c3a-8d66-748239173ad1\"><b>​</b></span></p><!-- } SE-TEXT --><!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-4111a31c-ff66-4470-8025-e78073363a45\"><span style=\"color:#000000;background-color:#ffffff;\" class=\"se-fs-fs16 se-ff-nanumgothic   \" id=\"SE-9d7bda3c-4336-47d7-b70b-7eafa517b0a9\"><b>3. 챌린지 페이지에서 일부 텍스트가 올바르게 표시되지 않던 오류를 해결했어요.</b></span></p><!-- } SE-TEXT -->\n                            </div>\n                        </div>\n                    </div>\n                    <script type=\"text/data\" class=\"__se_module_data\" data-module-v2='{\"type\": \"v2_text\", \"id\": \"SE-92303913-a332-4e37-8e34-cb8ada04cb7d\", \"data\": {\"ctype\": \"text\"  }}'></script>\n                </div>                <div class=\"se-component se-horizontalLine se-l-line5\" id=\"SE-16a11bfe-843e-4f51-b8b1-5613bb2077b2\">\n                    <div class=\"se-component-content\">\n                        <div class=\"se-section se-section-horizontalLine se-l-line5 se-section-align-left\">\n                            <div class=\"se-module se-module-horizontalLine\">\n                                <hr class=\"se-hr\" />\n                            </div>\n                        </div>\n                    </div>\n                </div>                <div class=\"se-component se-text se-l-default\" id=\"SE-fe9de423-743f-4b5e-855e-095d069f55c0\">\n                    <div class=\"se-component-content\">\n                        <div class=\"se-section se-section-text se-l-default\">\n                            <div class=\"se-module se-module-text\">\n                                    <!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-eb8b0799-fa8a-486d-8360-1f62cad30dbf\"><span style=\"color:#000000;background-color:#ffffff;\" class=\"se-fs-fs30 se-ff-nanumgothic   \" id=\"SE-cdf45431-4181-4799-a7d6-f82a9abe7ca8\"><b>🤖 하드웨어/오프라인</b></span></p><!-- } SE-TEXT --><!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-94165c26-56b4-4e05-a0f0-84119fb9f571\"><span style=\"color:#000000;background-color:#ffffff;\" class=\"se-fs-fs15 se-ff-nanumgothic   \" id=\"SE-4b0c1cf9-98d8-43a7-ac32-47413d2d1249\">​</span></p><!-- } SE-TEXT --><!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-e3fa28b2-48a1-430d-a8df-61a37c9b03d8\"><span style=\"color:#000000;background-color:#ffffff;\" class=\"se-fs-fs16 se-ff-nanumgothic   \" id=\"SE-a8069b7e-2500-4e8b-b581-22783cc9e031\"><b>1. 새로운 하드웨어를 추가했어요.</b></span></p><!-- } SE-TEXT --><!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-cbb8ec41-2e55-4202-8375-fb259dd8f580\"><span style=\"color:#000000;background-color:#ffffff;\" class=\"se-fs-fs15 se-ff-nanumgothic   \" id=\"SE-e054a4f6-31e0-4b4a-9224-5d87f1416a96\">- [사이언스타임] 스마트코딩하우스 </span></p><!-- } SE-TEXT --><!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-f9e27651-e329-4d92-ac6a-51f4af7e52b1\"><span style=\"color:#000000;background-color:#ffffff;\" class=\"se-fs-fs15 se-ff-nanumgothic   \" id=\"SE-5690ddc4-9f59-4e0c-a903-1c9eabb81ce9\">- [위즈윙] 위즈윙 조종기 R4-A 웹연결 </span></p><!-- } SE-TEXT --><!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-0d6d0def-d13b-483a-9e8e-6b7c0510b07c\"><span style=\"color:#000000;background-color:#ffffff;\" class=\"se-fs-fs15 se-ff-nanumgothic   \" id=\"SE-6cfc3a51-e439-4229-8aea-815696b41894\">- [에이럭스] 네모, 프로보커넥트, 프로보테크 일반/파워 웹연결</span></p><!-- } SE-TEXT --><!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-e2744367-d36f-49da-b742-1e8aed784066\"><span style=\"color:#000000;background-color:#ffffff;\" class=\"se-fs-fs16 se-ff-nanumgothic   \" id=\"SE-bbc866c9-8435-47ed-91ee-5d35af2e4149\"><b>​</b></span></p><!-- } SE-TEXT --><!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-8462e166-dca9-4c10-8291-a039cbea47df\"><span style=\"color:#000000;background-color:#ffffff;\" class=\"se-fs-fs16 se-ff-nanumgothic   \" id=\"SE-936912e1-9b7b-4a39-9ce4-2532e4a50c22\"><b>2. 기존에 연동한 하드웨어를 수정했어요.</b></span></p><!-- } SE-TEXT --><!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-2ebfc492-ed12-4cc2-8fe5-b14ee3bc78ce\"><span style=\"color:#000000;background-color:#ffffff;\" class=\"se-fs-fs15 se-ff-nanumgothic   \" id=\"SE-9ccf1ea4-e2f4-45a2-9d50-ff8b1d86dac7\">- [모빌리안] 엘리오(elio) </span></p><!-- } SE-TEXT --><!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-396f2ac4-c820-48bc-83bf-e61e97404b9b\"><span style=\"color:#000000;background-color:#ffffff;\" class=\"se-fs-fs15 se-ff-nanumgothic   \" id=\"SE-fdd55d0b-215a-40ef-a0f1-637e3f3d58b2\">- [코더블] 코드위즈</span></p><!-- } SE-TEXT --><!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-94474f19-023c-4038-b881-d40b7bd782ea\"><span style=\"color:#000000;background-color:#ffffff;\" class=\"se-fs-fs16 se-ff-nanumgothic   \" id=\"SE-23373cd6-287a-490d-984b-938953574a2a\"><b>​</b></span></p><!-- } SE-TEXT --><!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-728d11ef-d8db-4344-9316-fa5d66cdeec7\"><span style=\"color:#000000;background-color:#ffffff;\" class=\"se-fs-fs16 se-ff-nanumgothic   \" id=\"SE-e3c0a9db-a98c-4c30-b1e8-e010ec2b398a\"><b>3. 마이크로비트에서 일부 블록의 명칭을 변경했어요. </b></span></p><!-- } SE-TEXT --><!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-51309319-5148-4651-939b-4630a65fc2c0\"><span style=\"color:#000000;background-color:#ffffff;\" class=\"se-fs-fs15 se-ff-nanumgothic   \" id=\"SE-b3e0338d-c8a7-4867-83c8-ac07eeab5249\">&#x27;LED에 ~ 을(를) 밝히기&#x27; → &#x27;LED에 ~ 을(를) 나타내기&#x27;</span></p><!-- } SE-TEXT --><!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-04e96003-b701-4fb2-afec-3aff1add6159\"><span style=\"color:#000000;background-color:#ffffff;\" class=\"se-fs-fs16 se-ff-nanumgothic   \" id=\"SE-17fb950e-1acd-4f45-bf34-e4f38ed7b306\"><b>​</b></span></p><!-- } SE-TEXT --><!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-a540ed92-0b41-4694-a593-579a6c8f2b39\"><span style=\"color:#000000;background-color:#ffffff;\" class=\"se-fs-fs16 se-ff-nanumgothic   \" id=\"SE-fef587f4-57b7-43a3-9d8b-2792911576b8\"><b>4. 오프라인 프로그램에 내장된 하드웨어 연결 프로그램을 1.9.65 버전으로 업데이트 했어요.</b></span></p><!-- } SE-TEXT -->\n                            </div>\n                        </div>\n                    </div>\n                    <script type=\"text/data\" class=\"__se_module_data\" data-module-v2='{\"type\": \"v2_text\", \"id\": \"SE-fe9de423-743f-4b5e-855e-095d069f55c0\", \"data\": {\"ctype\": \"text\"  }}'></script>\n                </div>                <div class=\"se-component se-horizontalLine se-l-line1\" id=\"SE-1b011b45-2727-40d0-9968-5dc54cebd035\">\n                    <div class=\"se-component-content\">\n                        <div class=\"se-section se-section-horizontalLine se-l-line1 se-section-align-left\">\n                            <div class=\"se-module se-module-horizontalLine\">\n                                <hr class=\"se-hr\" />\n                            </div>\n                        </div>\n                    </div>\n                </div>                <div class=\"se-component se-text se-l-default\" id=\"SE-9bb0e790-232a-4c3a-902e-7e31ad1f4e64\">\n                    <div class=\"se-component-content\">\n                        <div class=\"se-section se-section-text se-l-default\">\n                            <div class=\"se-module se-module-text\">\n                                    <!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-56f1b398-be98-4533-b10c-58fb18f58aeb\"><span style=\"color:#000000;background-color:#ffffff;\" class=\"se-fs-fs15 se-ff-nanumgothic   \" id=\"SE-99c9846a-f72e-4d40-8b13-060f8bc26e71\">엔둥이 여러분이 엔트리를 언제나 쾌적하게 이용하실 수 있도록, </span></p><!-- } SE-TEXT --><!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-ddcf4e95-02b4-4ecd-924e-717009932c74\"><span style=\"color:#000000;background-color:#ffffff;\" class=\"se-fs-fs15 se-ff-nanumgothic   \" id=\"SE-1b1f0ce4-7ebe-4a07-be6c-de79bb34eca1\">엔트리팀은 앞으로도 최선을 다하겠습니다.</span></p><!-- } SE-TEXT --><!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-4252f433-255b-419f-984d-6e23ac56834f\"><span style=\"color:#000000;background-color:#ffffff;\" class=\"se-fs-fs15 se-ff-nanumgothic   \" id=\"SE-6a9a4691-143e-409a-9d8f-f8f63e61b420\">​</span></p><!-- } SE-TEXT --><!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-3cd6d5cb-5e5d-4bf3-9ead-29782a2c6497\"><span style=\"color:#000000;background-color:#ffffff;\" class=\"se-fs-fs15 se-ff-nanumgothic   \" id=\"SE-79cde2a4-92f8-453e-84d2-4c72b49517e8\">그럼 다음 업데이트에서 또 만나요👋🏻</span></p><!-- } SE-TEXT --><!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"line-height:1.8;\" id=\"SE-71d9157c-5075-40e3-baa6-91481640cf25\"><span style=\"color:#2c313d;background-color:#ffffff;\" class=\"se-fs-fs15 se-ff-nanumgothic   \" id=\"SE-4b784c80-158f-44a9-a501-917aaa53e872\">​</span></p><!-- } SE-TEXT --><!-- SE-TEXT { --><p class=\"se-text-paragraph se-text-paragraph-align-left \" style=\"\" id=\"SE-ab7ab4e4-2dd7-4144-8df7-508463692369\"><span style=\"\" class=\"se-fs- se-ff-nanumgothic   \" id=\"SE-398b953b-bd26-42c7-a544-7ca32cb5b56f\">​</span></p><!-- } SE-TEXT -->\n                            </div>\n                        </div>\n                    </div>\n                    <script type=\"text/data\" class=\"__se_module_data\" data-module-v2='{\"type\": \"v2_text\", \"id\": \"SE-9bb0e790-232a-4c3a-902e-7e31ad1f4e64\", \"data\": {\"ctype\": \"text\"  }}'></script>\n                </div>    </div>\n</div>\n",
+            "seContent": {
+                "documentId": "6809f55180a962a9596910ec",
+                "document": {
+                    "version": "2.8.0",
+                    "theme": "default",
+                    "language": "ko-KR",
+                    "components": [
+                        {
+                            "@ctype": "text",
+                            "id": "SE-447cd77b-421e-41bc-8844-0b0f919a36f6",
+                            "layout": "default",
+                            "value": [
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-3ee6806d-ca95-48b7-b4be-26e6b4a5952f",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-1bbef870-dd19-4276-9882-1b841b6329f2",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#000000",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs15",
+                                                "backgroundColor": "#ffffff"
+                                            },
+                                            "value": "안녕하세요? 엔트리팀입니다. "
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                },
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-4190c38f-d3f9-4c2f-a209-50673f1f9247",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-e543463f-2fc0-4469-8193-bedae0191a53",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#000000",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs15",
+                                                "backgroundColor": "#ffffff"
+                                            },
+                                            "value": "2025년 4월 업데이트가 진행되었습니다. 자세한 내용은 아래를 참고해 주세요."
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                },
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-e7f4cdbb-1d53-48d5-acd4-04998ae27c9c",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-04a3f5f8-d079-4e2d-8c18-302b879671dc",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#0095e9",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs13",
+                                                "backgroundColor": "#ffffff"
+                                            },
+                                            "value": "​"
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                },
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-edfa342c-6f85-4a94-af97-eaadf0216d9d",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-23fae6e6-c97c-43fa-a907-e0023d2da809",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#0095e9",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs13",
+                                                "backgroundColor": "#ffffff"
+                                            },
+                                            "value": "아래 사항이 정상적으로 보이지 않거나, 작품 만들기에 접속되지 않는 경우,"
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                },
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-7a16018a-af4f-4be6-9507-0cc6689fd5b1",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-0b8a38c1-5993-47b0-bf66-51ca03d62d51",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#0095e9",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs13",
+                                                "backgroundColor": "#ffffff"
+                                            },
+                                            "value": "인터넷 브라우저의 설정에서 캐시를 삭제한 후 다시 한번 확인해보세요. "
+                                        },
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-6d3444e9-7f21-46e1-8532-40a59cc8c4ff",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#608cba",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs13",
+                                                "backgroundColor": "#ffffff",
+                                                "underline": true
+                                            },
+                                            "value": "[캐시 삭제 방법]"
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "@ctype": "horizontalLine",
+                            "id": "SE-627868b5-a567-4d4d-abad-f3587eac87d6",
+                            "layout": "line1",
+                            "align": "left"
+                        },
+                        {
+                            "@ctype": "text",
+                            "id": "SE-5548ceed-744e-4e13-a69a-49840744977e",
+                            "layout": "default",
+                            "value": [
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-73aea0b0-2eb4-43fe-90db-70e00e4634cf",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-ea97d643-a472-44e2-80a9-cc26fb2413f5",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#000000",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs15",
+                                                "backgroundColor": "#ffffff"
+                                            },
+                                            "value": "​"
+                                        },
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-e91dc915-9f34-49ed-9b07-0014e9409d37",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#333333",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs30",
+                                                "backgroundColor": "#ffffff"
+                                            },
+                                            "value": "🔬"
+                                        },
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-0f836eaf-719d-4713-8068-6f0a308fc7bf",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#2c313d",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs30",
+                                                "backgroundColor": "#ffffff",
+                                                "bold": true
+                                            },
+                                            "value": "개선된 기능"
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                },
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-62325c3a-8e5d-478f-a88f-69d66706912c",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-a960556e-af14-4700-b1c9-b98884fbc509",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#000000",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs15",
+                                                "backgroundColor": "#ffffff"
+                                            },
+                                            "value": "​"
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                },
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-e9abf1df-b13c-4a6d-808b-0049a1ce8bf3",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-9690aac8-e66f-4c37-beaa-37cad541df18",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#000000",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs19",
+                                                "backgroundColor": "#ffffff",
+                                                "bold": true
+                                            },
+                                            "value": "1. 나의 학급에서 설정할 수 있는 학급 이름의 최대 글자 수를 한글 10자로 확대했어요."
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "@ctype": "horizontalLine",
+                            "id": "SE-b4ff78d2-c350-4fc4-9a69-92189e29b819",
+                            "layout": "line5",
+                            "align": "left"
+                        },
+                        {
+                            "@ctype": "text",
+                            "id": "SE-92303913-a332-4e37-8e34-cb8ada04cb7d",
+                            "layout": "default",
+                            "value": [
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-3257403f-1d55-4be4-a7fb-419372e62438",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-b580bdb6-d6c0-4898-9abe-181927540925",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#2c313d",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs30",
+                                                "backgroundColor": "#ffffff",
+                                                "bold": true
+                                            },
+                                            "value": "🔧수정된 오류"
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                },
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-df079500-50fd-408f-9d4c-89160dca7ba8",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-fcacfd1f-e96c-41d2-a9f2-5680ba69f3f5",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#000000",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs15",
+                                                "backgroundColor": "#ffffff",
+                                                "bold": true
+                                            },
+                                            "value": "​"
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                },
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-e1cd70f7-df07-4a60-8f5f-d547372d0a49",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-e71be22a-3fe4-4355-9508-303c9b4bf866",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#000000",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs15",
+                                                "backgroundColor": "#ffffff",
+                                                "bold": true
+                                            },
+                                            "value": "​"
+                                        },
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-8ffc00f5-76df-40f9-b8d5-2388a067a162",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#000000",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs16",
+                                                "backgroundColor": "#ffffff",
+                                                "bold": true
+                                            },
+                                            "value": "1. 나의 학급에서 생성한 학급 계정의 아이디가 마스킹되어 표시되던 오류를 해결했어요. "
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                },
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-dc14e3da-4fb5-49ba-9caa-c6bb68f51490",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-2fb9e121-71c9-4910-8adf-cd192fe2963a",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#000000",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs16",
+                                                "backgroundColor": "#ffffff"
+                                            },
+                                            "value": "학급에 가입한 일반/선생님 계정은 이전과 같이 계속 마스킹되어 표시됩니다."
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                },
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-1fb6f39c-7b3a-4742-9185-cc905ea4b8ad",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-b1f41ca3-4b7d-4406-8ebf-5785988331dc",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#000000",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs16",
+                                                "backgroundColor": "#ffffff",
+                                                "bold": true
+                                            },
+                                            "value": "​"
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                },
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-ce97003f-57ac-466b-a40c-329d3e4c5679",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-850f2b0d-da00-4e85-9e31-604c1f9e70c0",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#000000",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs16",
+                                                "backgroundColor": "#ffffff",
+                                                "bold": true
+                                            },
+                                            "value": "2. 메인 페이지의 '탐험하기' 영역에서 프로필 이미지가 표시되지 않는 오류를 해결했어요."
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                },
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-486b21f8-4764-4321-ab4c-54ce2cac02d4",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-33b37417-0432-4c3a-8d66-748239173ad1",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#000000",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs16",
+                                                "backgroundColor": "#ffffff",
+                                                "bold": true
+                                            },
+                                            "value": "​"
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                },
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-4111a31c-ff66-4470-8025-e78073363a45",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-9d7bda3c-4336-47d7-b70b-7eafa517b0a9",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#000000",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs16",
+                                                "backgroundColor": "#ffffff",
+                                                "bold": true
+                                            },
+                                            "value": "3. 챌린지 페이지에서 일부 텍스트가 올바르게 표시되지 않던 오류를 해결했어요."
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "@ctype": "horizontalLine",
+                            "id": "SE-16a11bfe-843e-4f51-b8b1-5613bb2077b2",
+                            "layout": "line5",
+                            "align": "left"
+                        },
+                        {
+                            "@ctype": "text",
+                            "id": "SE-fe9de423-743f-4b5e-855e-095d069f55c0",
+                            "layout": "default",
+                            "value": [
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-eb8b0799-fa8a-486d-8360-1f62cad30dbf",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-cdf45431-4181-4799-a7d6-f82a9abe7ca8",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#000000",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs30",
+                                                "backgroundColor": "#ffffff",
+                                                "bold": true
+                                            },
+                                            "value": "🤖 하드웨어/오프라인"
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                },
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-94165c26-56b4-4e05-a0f0-84119fb9f571",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-4b0c1cf9-98d8-43a7-ac32-47413d2d1249",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#000000",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs15",
+                                                "backgroundColor": "#ffffff"
+                                            },
+                                            "value": "​"
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                },
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-e3fa28b2-48a1-430d-a8df-61a37c9b03d8",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-a8069b7e-2500-4e8b-b581-22783cc9e031",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#000000",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs16",
+                                                "backgroundColor": "#ffffff",
+                                                "bold": true
+                                            },
+                                            "value": "1. 새로운 하드웨어를 추가했어요."
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                },
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-cbb8ec41-2e55-4202-8375-fb259dd8f580",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-e054a4f6-31e0-4b4a-9224-5d87f1416a96",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#000000",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs15",
+                                                "backgroundColor": "#ffffff"
+                                            },
+                                            "value": "- [사이언스타임] 스마트코딩하우스 "
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                },
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-f9e27651-e329-4d92-ac6a-51f4af7e52b1",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-5690ddc4-9f59-4e0c-a903-1c9eabb81ce9",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#000000",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs15",
+                                                "backgroundColor": "#ffffff"
+                                            },
+                                            "value": "- [위즈윙] 위즈윙 조종기 R4-A 웹연결 "
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                },
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-0d6d0def-d13b-483a-9e8e-6b7c0510b07c",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-6cfc3a51-e439-4229-8aea-815696b41894",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#000000",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs15",
+                                                "backgroundColor": "#ffffff"
+                                            },
+                                            "value": "- [에이럭스] 네모, 프로보커넥트, 프로보테크 일반/파워 웹연결"
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                },
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-e2744367-d36f-49da-b742-1e8aed784066",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-bbc866c9-8435-47ed-91ee-5d35af2e4149",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#000000",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs16",
+                                                "backgroundColor": "#ffffff",
+                                                "bold": true
+                                            },
+                                            "value": "​"
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                },
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-8462e166-dca9-4c10-8291-a039cbea47df",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-936912e1-9b7b-4a39-9ce4-2532e4a50c22",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#000000",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs16",
+                                                "backgroundColor": "#ffffff",
+                                                "bold": true
+                                            },
+                                            "value": "2. 기존에 연동한 하드웨어를 수정했어요."
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                },
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-2ebfc492-ed12-4cc2-8fe5-b14ee3bc78ce",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-9ccf1ea4-e2f4-45a2-9d50-ff8b1d86dac7",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#000000",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs15",
+                                                "backgroundColor": "#ffffff"
+                                            },
+                                            "value": "- [모빌리안] 엘리오(elio) "
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                },
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-396f2ac4-c820-48bc-83bf-e61e97404b9b",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-fdd55d0b-215a-40ef-a0f1-637e3f3d58b2",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#000000",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs15",
+                                                "backgroundColor": "#ffffff"
+                                            },
+                                            "value": "- [코더블] 코드위즈"
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                },
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-94474f19-023c-4038-b881-d40b7bd782ea",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-23373cd6-287a-490d-984b-938953574a2a",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#000000",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs16",
+                                                "backgroundColor": "#ffffff",
+                                                "bold": true
+                                            },
+                                            "value": "​"
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                },
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-728d11ef-d8db-4344-9316-fa5d66cdeec7",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-e3c0a9db-a98c-4c30-b1e8-e010ec2b398a",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#000000",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs16",
+                                                "backgroundColor": "#ffffff",
+                                                "bold": true
+                                            },
+                                            "value": "3. 마이크로비트에서 일부 블록의 명칭을 변경했어요. "
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                },
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-51309319-5148-4651-939b-4630a65fc2c0",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-b3e0338d-c8a7-4867-83c8-ac07eeab5249",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#000000",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs15",
+                                                "backgroundColor": "#ffffff"
+                                            },
+                                            "value": "'LED에 ~ 을(를) 밝히기' → 'LED에 ~ 을(를) 나타내기'"
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                },
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-04e96003-b701-4fb2-afec-3aff1add6159",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-17fb950e-1acd-4f45-bf34-e4f38ed7b306",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#000000",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs16",
+                                                "backgroundColor": "#ffffff",
+                                                "bold": true
+                                            },
+                                            "value": "​"
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                },
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-a540ed92-0b41-4694-a593-579a6c8f2b39",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-fef587f4-57b7-43a3-9d8b-2792911576b8",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#000000",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs16",
+                                                "backgroundColor": "#ffffff",
+                                                "bold": true
+                                            },
+                                            "value": "4. 오프라인 프로그램에 내장된 하드웨어 연결 프로그램을 1.9.65 버전으로 업데이트 했어요."
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "@ctype": "horizontalLine",
+                            "id": "SE-1b011b45-2727-40d0-9968-5dc54cebd035",
+                            "layout": "line1",
+                            "align": "left"
+                        },
+                        {
+                            "@ctype": "text",
+                            "id": "SE-9bb0e790-232a-4c3a-902e-7e31ad1f4e64",
+                            "layout": "default",
+                            "value": [
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-56f1b398-be98-4533-b10c-58fb18f58aeb",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-99c9846a-f72e-4d40-8b13-060f8bc26e71",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#000000",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs15",
+                                                "backgroundColor": "#ffffff"
+                                            },
+                                            "value": "엔둥이 여러분이 엔트리를 언제나 쾌적하게 이용하실 수 있도록, "
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                },
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-ddcf4e95-02b4-4ecd-924e-717009932c74",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-1b1f0ce4-7ebe-4a07-be6c-de79bb34eca1",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#000000",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs15",
+                                                "backgroundColor": "#ffffff"
+                                            },
+                                            "value": "엔트리팀은 앞으로도 최선을 다하겠습니다."
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                },
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-4252f433-255b-419f-984d-6e23ac56834f",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-6a9a4691-143e-409a-9d8f-f8f63e61b420",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#000000",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs15",
+                                                "backgroundColor": "#ffffff"
+                                            },
+                                            "value": "​"
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                },
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-3cd6d5cb-5e5d-4bf3-9ead-29782a2c6497",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-79cde2a4-92f8-453e-84d2-4c72b49517e8",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#000000",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs15",
+                                                "backgroundColor": "#ffffff"
+                                            },
+                                            "value": "그럼 다음 업데이트에서 또 만나요👋🏻"
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                },
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-71d9157c-5075-40e3-baa6-91481640cf25",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-4b784c80-158f-44a9-a501-917aaa53e872",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontColor": "#2c313d",
+                                                "fontFamily": "nanumgothic",
+                                                "fontSizeCode": "fs15",
+                                                "backgroundColor": "#ffffff"
+                                            },
+                                            "value": "​"
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left",
+                                        "lineHeight": 1.8
+                                    }
+                                },
+                                {
+                                    "@ctype": "paragraph",
+                                    "id": "SE-ab7ab4e4-2dd7-4144-8df7-508463692369",
+                                    "nodes": [
+                                        {
+                                            "@ctype": "textNode",
+                                            "id": "SE-398b953b-bd26-42c7-a544-7ca32cb5b56f",
+                                            "style": {
+                                                "@ctype": "nodeStyle",
+                                                "fontFamily": "nanumgothic"
+                                            },
+                                            "value": ""
+                                        }
+                                    ],
+                                    "style": {
+                                        "@ctype": "paragraphStyle",
+                                        "align": "left"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "created": "2025-04-24T08:24:49.033Z",
+            "commentsLength": 89,
+            "likesLength": 17,
+            "favorite": 0,
+            "visit": 559,
+            "category": "notice",
+            "prefix": "feature",
+            "groupNotice": false,
+            "user": {
+                "id": "53eef21dce8dd2c54f0cb721",
+                "nickname": "엔트리팀",
+                "profileImage": {
+                    "id": "67e4abf2ff58c32d767f3065",
+                    "name": "entrybot_entryteam_01.png",
+                    "label": {
+                        "ko": "entrybot_entryteam_01.png",
+                        "en": "entrybot_entryteam_01.png",
+                        "ja": null,
+                        "vn": "entrybot_entryteam_01.png"
+                    },
+                    "filename": "fdc2e704m8qop6a90006d0db89cqzf3q",
+                    "imageType": "png",
+                    "dimension": {
+                        "width": null,
+                        "height": null
+                    },
+                    "trimmed": {
+                        "filename": null,
+                        "width": null,
+                        "height": null
+                    }
+                },
+                "status": {
+                    "following": 4,
+                    "follower": 6065
+                },
+                "description": "Let's Entry! 엔트리팀 공식 계정입니다. 엔트리에서 함께 만들고 공유하며 놀아봐요!",
+                "role": "admin",
+                "mark": {
+                    "id": "671f09306832a61012e441b3",
+                    "name": "admin.svg",
+                    "label": {
+                        "ko": "admin.svg",
+                        "en": "admin.svg",
+                        "ja": null,
+                        "vn": "admin.svg"
+                    },
+                    "filename": "b5ef6311m2sh9bmd000y31e04aatug15",
+                    "imageType": "svg",
+                    "dimension": {
+                        "width": 45,
+                        "height": 40
+                    },
+                    "trimmed": {
+                        "filename": null,
+                        "width": null,
+                        "height": null
+                    }
+                }
+            },
+            "images": [],
+            "sticker": null,
+            "progress": null,
+            "thumbnail": null,
+            "reply": null,
+            "bestComment": {
+                "id": "680b6d8311814ee05453ff54",
+                "user": {
+                    "id": "5eac0678c22bdb0062030362",
+                    "nickname": "사기란",
+                    "profileImage": {
+                        "id": "67ef8aa4301e3622a670331a",
+                        "name": "당분간쓸내배사.png",
+                        "label": {
+                            "ko": "당분간쓸내배사.png",
+                            "en": "당분간쓸내배사.png",
+                            "ja": null,
+                            "vn": "당분간쓸내배사.png"
+                        },
+                        "filename": "cf7fd5f4m92gtqfu0006a2c943a8f9p4",
+                        "imageType": "png",
+                        "dimension": {
+                            "width": null,
+                            "height": null
+                        },
+                        "trimmed": {
+                            "filename": null,
+                            "width": null,
+                            "height": null
+                        }
+                    },
+                    "status": {
+                        "following": 1,
+                        "follower": 1341
+                    },
+                    "description": "무려 231일동안 답변을 못 받은 제건의 소유자 (100동의 214일) | 이래 봐도 둣교 5년차 | 갱신일: 2025.4.28",
+                    "role": "member",
+                    "mark": null
+                },
+                "content": "이제 업데이트를 기대할 가치가 없다. 제건은 잊히고 탐험하기만 밀어주고 있잖아. 그러니 더이상 둣교를 할 가치가 없다. 그동안 즐거웠다; 잘 가거라 과거의 둣교여...",
+                "created": "2025-04-25T11:09:55.472Z",
+                "removed": null,
+                "blamed": false,
+                "blamedBy": null,
+                "commentsLength": 3,
+                "likesLength": 5,
+                "isLike": false,
+                "hide": false,
+                "pinned": false,
+                "image": null,
+                "sticker": null
+            },
+            "blamed": false,
+            "description1": null,
+            "description2": null,
+            "description3": null,
+            "tags": []
+        }
+    },
+    "extensions": {
+        "runTime": 31
+    }
+}
