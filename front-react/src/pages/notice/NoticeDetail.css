@@ -1,0 +1,57 @@
+/* ===== 레이아웃 ===== */
+.notice-detail-wrap{
+    max-width: 840px;
+    margin: 0 auto;
+    padding: 32px 16px 64px;
+    font-family: "Pretendard","Malgun Gothic",sans-serif;
+    line-height: 1.7;
+    color:#2d3436;
+  }
+  
+  /* ===== 상단 ===== */
+  .notice-detail-page-title{
+    font-size:32px;
+    font-weight:700;
+    margin:0 0 24px;
+  }
+  
+  .notice-detail-title-row{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:8px;
+    font-size:20px;
+    font-weight:600;
+  }
+  
+  .notice-label{
+    padding:2px 8px;
+    border-radius:4px;
+    font-size:14px;
+    color:#fff;
+  }
+  .notice-label-new      { background:#00b894; }
+  .notice-label-default  { background:#636e72; }
+  
+  .notice-detail-title{
+    flex:1;
+  }
+  
+  /* 메타 정보 */
+  .notice-detail-meta{
+    margin-top:6px;
+    font-size:14px;
+    color:#636e72;
+  }
+  .notice-detail-meta span+span{ margin-left:6px; }
+  
+  /* 구분선 */
+  .notice-detail-divider{
+    margin:10px 0;
+    border:none;
+  }
+
+.notice-detail-content,
+.notice-detail-content *{
+  text-align:left;
+}

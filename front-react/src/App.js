@@ -33,6 +33,8 @@ import MainModify from './common/MainModify';
 import MainBannerManage from './common/MainBannerManage';
 import ReportForm from './pages/share/ReportForm';
 import SearchResult from './pages/search/SearchResult';
+import Notice from './pages/notice/Notice';
+import NoticeDetail from './pages/notice/NoticeDetail';
 
 
 function App() {
@@ -71,6 +73,8 @@ function App() {
           <Route path='/remake' element={<Remake />}/>
           <Route path="/mainBannerManage" element={<MainBannerManage />} />
           <Route path="/mainModify" element={<MainModify/>}/>
+          <Route path="/noticeList" element={<Notice/>}/>
+          <Route path="/noticeDetail/:noticeId" element={<NoticeDetail/>}/>
         </Routes>
         <Footer />
       </BrowserRouter>

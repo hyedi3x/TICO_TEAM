@@ -70,7 +70,11 @@ function Main() {
             thumbnailUrl: matched.thumbnailUrl,
             title: matched.title,
             introduction: matched.introduction,
-            slotIndex: pick.slotIndex
+            slotIndex: pick.slotIndex,
+            likeCount : matched.likeCount,           
+            bookmarkCount : matched.bookmarkCount,   
+            viewCount : matched.viewCount,          
+
           } : null;
         }).filter(Boolean); //filter(Boolean)은 true가 되는 값만 남긴다 (null, undefinded도 걸러줌)
         setStaffPickProjects(staffPicks);
@@ -188,7 +192,6 @@ function Main() {
                   <ProjectCard
                     project={project}
                     onClick={() => navigate(`/share/detail/${project.projectId}`)}
-                    showStats={false}
                     isStaff={staffPickIds.includes(Number(project.projectId))}
                     isPopular={popularIds.includes(Number(project.projectId))}
                   />
