@@ -7,7 +7,6 @@ import "./erpMain.css";
 import Icon from "@rsuite/icons/esm/Icon";
 import { FaHome } from "react-icons/fa";
 import { BsFillPeopleFill } from "react-icons/bs";
-import { FaPeopleRobbery } from "react-icons/fa6";
 import { MdPayments } from "react-icons/md";
 import { ImStatsDots } from "react-icons/im";
 import { MdOutlineEmojiPeople } from "react-icons/md";
@@ -27,15 +26,16 @@ import BlockEduComponentPost from "../blockedu/BlockEduComponentPost";
 import MyInfoChk from "./MyPage/MyInfoChk";
 import MyInfoModify from "./MyPage/MyInfoModify";
 import ObjectSelectPage from "../../blockly/components/ObjectSelectPage";
-import UserList from "./CM_Team/UserList";
-import UserDetail from "./CM_Team/UserDetail";
-import UserInfoEdit from "./CM_Team/UserInfoEdit";
+import UserList from "./CS_TEAM/UserList";
+import UserDetail from "./CS_TEAM/UserDetail";
+import UserInfoEdit from "./CS_TEAM/UserInfoEdit";
 import MainModify from "../../common/MainModify";
 import SubscriptionManager from "./PAY_Team/SubscriptionManager";
 import PurchaseLogPage from "./PAY_Team/PurchaseLogPage";
 import EMPEduList from "../blockedu/EMPEduList";
 
 import axiosInstance from "../login/social/utils/axiosInstance";
+import NotificationList from "./MyPage/NotificationList";
 
 function ErpMain() {
   const [expanded, setExpanded] = useState(true); // 사이드바 확장 여부
@@ -83,16 +83,17 @@ function ErpMain() {
       case "1-2": setViewMode("create"); break;
       case "2-1": setViewMode("myinfoModify"); break;
       case "2-2": setViewMode("myinfoChk"); break;
+      case "2-3": setViewMode("notifications"); break;
       case "3-1": setViewMode("admin-register"); break;
       case "3-2": setViewMode("admin-info"); break;
-      case "4-1": setViewMode("userList"); break;
-      case "5-1": setViewMode("subscription-manage"); break;
-      case "5-2": setViewMode("purchaseLog"); break;
-      case "7-4": setViewMode("faq"); break;
-      case "8-4": setViewMode("blockEduPost"); break;
-      case "8-5": setViewMode("EMPEduList"); break;
-      case "8-6": setViewMode("ObjectSelectPage"); break;
-      case "8-7": setViewMode("MainModify"); break;
+      case "4-1": setViewMode("subscription-manage"); break;
+      case "4-2": setViewMode("purchaseLog"); break;
+      case "6-1": setViewMode("userList"); break;
+      case "6-6": setViewMode("faq"); break;
+      case "7-4": setViewMode("blockEduPost"); break;
+      case "7-5": setViewMode("EMPEduList"); break;
+      case "7-6": setViewMode("ObjectSelectPage"); break;
+      case "7-7": setViewMode("MainModify"); break;
       default: setViewMode("home"); break;
     }
   };
@@ -122,6 +123,7 @@ function ErpMain() {
                 >
                   <Nav.Item eventKey="2-1">나의 정보 수정</Nav.Item>
                   <Nav.Item eventKey="2-2">나의 정보 조회</Nav.Item>
+                  <Nav.Item eventKey="2-3">알림 목록</Nav.Item>
                 </Nav.Menu>
 
                 {/* 인사팀 메뉴 (DEP001 부서만 활성화) */}
@@ -133,84 +135,76 @@ function ErpMain() {
                 >
                   <Nav.Item eventKey="3-1">관리자 등록</Nav.Item>
                   <Nav.Item eventKey="3-2">관리자 조회/수정/삭제</Nav.Item>
-                </Nav.Menu>
+                </Nav.Menu>     
 
-                {/* 고객 관리팀 메뉴 (DEP002 부서만 활성화) */}
+                {/* 결제 관리팀 메뉴 (DEP002 부서만 활성화) */}
                 <Nav.Menu
                   eventKey="4"
-                  title="고객 관리팀(CM)"
-                  icon={<Icon as={FaPeopleRobbery} />}
-                  className={empInfo.depId === "DEP002" ? "" : "disabled-menu"}
-                >
-                  <Nav.Item eventKey="4-1">회원 목록 조회</Nav.Item>
-                  <Nav.Item eventKey="4-2">회원 활동 관리</Nav.Item>
-                </Nav.Menu>
-
-                {/* 결제 관리팀 메뉴 (DEP003 부서만 활성화) */}
-                <Nav.Menu
-                  eventKey="5"
                   title="결제 관리팀(PAY)"
                   icon={<Icon as={MdPayments} />}
-                  className={empInfo.depId === "DEP003" ? "" : "disabled-menu"}
+                  className={empInfo.depId === "DEP002" ? "" : "disabled-menu"}
                 >
-                  <Nav.Item eventKey="5-1">결제 회원 관리</Nav.Item>
-                  <Nav.Item eventKey="5-2">결제 내역 관리</Nav.Item>
+                  <Nav.Item eventKey="4-1">결제 회원 관리</Nav.Item>
+                  <Nav.Item eventKey="4-2">결제 내역 관리</Nav.Item>
                 </Nav.Menu>
 
-                {/* 통계 분석팀 메뉴 (DEP004 부서만 활성화) */}
+                {/* 통계 분석팀 메뉴 (DEP003 부서만 활성화) */}
                 <Nav.Menu
-                  eventKey="6"
+                  eventKey="5"
                   title="통계 분석팀(DA)"
                   icon={<Icon as={ImStatsDots} />}
-                  className={empInfo.depId === "DEP004" ? "" : "disabled-menu"}
+                  className={empInfo.depId === "DEP003" ? "" : "disabled-menu"}
                 >
-                  <Nav.Item eventKey="6-1">결제 통계</Nav.Item>
-                  <Nav.Item eventKey="6-2">회원 통계</Nav.Item>
-                  <Nav.Item eventKey="6-3">콘텐츠 통계</Nav.Item>
-                  <Nav.Item eventKey="6-4">보고서 생성</Nav.Item>
+                  <Nav.Item eventKey="5-1">결제 통계</Nav.Item>
+                  <Nav.Item eventKey="5-2">회원 통계</Nav.Item>
+                  <Nav.Item eventKey="5-3">콘텐츠 통계</Nav.Item>
+                  <Nav.Item eventKey="5-4">보고서 생성</Nav.Item>
                 </Nav.Menu>
 
-                {/* 고객 지원팀 메뉴 (DEP005 부서만 활성화) */}
+                {/* 고객 지원팀 메뉴 (DEP004 부서만 활성화) */}
                 <Nav.Menu
-                  eventKey="7"
+                  eventKey="6"
                   title="고객 지원팀(CS)"
                   icon={<Icon as={MdOutlineEmojiPeople} />}
-                  className={empInfo.depId === "DEP005" ? "" : "disabled-menu"}
+                  className={empInfo.depId === "DEP004" ? "" : "disabled-menu"}
                 >
-                  <Nav.Item eventKey="7-1">결제 관련 문의 관리</Nav.Item>
-                  <Nav.Item eventKey="7-2">환불/취소 문의 관리</Nav.Item>
-                  <Nav.Item eventKey="7-3">공지사항 관리</Nav.Item>
-                  <Nav.Item eventKey="7-4">FAQ 관리</Nav.Item>
+                  <Nav.Item eventKey="6-1">회원 목록 조회</Nav.Item>
+                  <Nav.Item eventKey="6-2">회원 활동 관리</Nav.Item>
+                  <Nav.Item eventKey="6-3">결제 관련 문의 관리</Nav.Item>
+                  <Nav.Item eventKey="6-4">환불/취소 문의 관리</Nav.Item>
+                  <Nav.Item eventKey="6-5">공지사항 관리</Nav.Item>
+                  <Nav.Item eventKey="6-6">FAQ 관리</Nav.Item>
+                  
                 </Nav.Menu>
 
-                {/* 콘텐츠 관리팀 메뉴 (DEP006 부서만 활성화) */}
+                {/* 콘텐츠 관리팀 메뉴 (DEP005 부서만 활성화) */}
                 <Nav.Menu
-                  eventKey="8"
+                  eventKey="7"
                   title="콘텐츠 관리팀(MO)"
                   icon={<Icon as={TbPlayCardStarFilled} />}
-                  className={empInfo.depId === "DEP006" ? "" : "disabled-menu"}
+                  className={empInfo.depId === "DEP005" ? "" : "disabled-menu"}
                 >
-                  <Nav.Item eventKey="8-1">작품 관리</Nav.Item>
-                  <Nav.Item eventKey="8-2">커뮤니티 관리</Nav.Item>
-                  <Nav.Item eventKey="8-3">스터디 관리</Nav.Item>
-                  <Nav.Item eventKey="8-4">블럭 학습 퀴즈 등록</Nav.Item>
-                  <Nav.Item eventKey="8-5">블럭 학습 퀴즈 관리 목록</Nav.Item>
-                  <Nav.Item eventKey="8-6">오브젝트 관리</Nav.Item>
-                  <Nav.Item eventKey="8-7">메인화면 관리</Nav.Item>
+                  <Nav.Item eventKey="7-1">작품 관리</Nav.Item>
+                  <Nav.Item eventKey="7-2">커뮤니티 관리</Nav.Item>
+                  <Nav.Item eventKey="7-3">스터디 관리</Nav.Item>
+                  <Nav.Item eventKey="7-4">블럭 학습 퀴즈 등록</Nav.Item>
+                  <Nav.Item eventKey="7-5">블럭 학습 퀴즈 관리 목록</Nav.Item>
+                  <Nav.Item eventKey="7-6">오브젝트 관리</Nav.Item>
+                  <Nav.Item eventKey="7-7">메인화면 관리</Nav.Item>
                 </Nav.Menu>
 
-                {/* 시스템 관리팀 메뉴 (DEP007 부서만 활성화) */}
+                {/* 시스템 관리팀 메뉴 (DEP006 부서만 활성화) */}
                 <Nav.Menu
-                  eventKey="9"
+                  eventKey="8"
                   title="시스템 관리팀(SYSO)"
                   icon={<Icon as={FaGear} />}
-                  className={empInfo.depId === "DEP007" ? "" : "disabled-menu"}
+                  className={empInfo.depId === "DEP006" ? "" : "disabled-menu"}
                 >
-                  <Nav.Item eventKey="9-1">권한 관리</Nav.Item>
-                  <Nav.Item eventKey="9-2">보안 관리</Nav.Item>
-                  <Nav.Item eventKey="9-3">알림 관리</Nav.Item>
-                  <Nav.Item eventKey="9-4">로그 관리</Nav.Item>
-                  <Nav.Item eventKey="9-5">백업 및 복구 관리</Nav.Item>
+                  <Nav.Item eventKey="8-1">권한 관리</Nav.Item>
+                  <Nav.Item eventKey="8-2">보안 관리</Nav.Item>
+                  <Nav.Item eventKey="8-3">알림 관리</Nav.Item>
+                  <Nav.Item eventKey="8-4">로그 관리</Nav.Item>
+                  <Nav.Item eventKey="8-5">백업 및 복구 관리</Nav.Item>
                 </Nav.Menu>
               </Nav>
             </Sidenav.Body>
@@ -292,7 +286,7 @@ function ErpMain() {
             {viewMode === "admin-info" && <AdminInfo />} {/* 관리자 정보 조회 */}
             {viewMode === "myinfoChk" && <MyInfoChk />} {/* 관리자 정보 조회 */}
             {viewMode === "myinfoModify" && <MyInfoModify />} {/* 관리자 정보 조회 */}
-
+            {viewMode === "notifications" && <NotificationList/>} {/* 관리자 정보 조회 */}
             {viewMode === "faq" && <FAQPut />} {/* FAQ 관리 */}
             {viewMode === "blockEduPost" && <BlockEduComponentPost />} {/* 블럭 학습 등록 */}
             {viewMode === "EMPEduList" && <EMPEduList/>} {/* 블록학습 관리 */}

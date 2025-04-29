@@ -40,6 +40,9 @@ const WepChat = () => {
   const sendMessage = () => {
     if (!isLoggedIn) return alert("로그인 후 이용해주세요.");
     if (!inputMessage.trim()) return;
+    if (!stompClientRef.current || !stompClientRef.current.connected) {
+      return alert("서버와 연결되지 않았습니다. 잠시 후 다시 시도해주세요.");
+    }
     const chatMessage = { sender: nickname, content: inputMessage };
     stompClientRef.current.publish({
       destination: "/app/chat.send",

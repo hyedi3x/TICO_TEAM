@@ -49,7 +49,7 @@ function ObjectSelectPage({ onComplete }) {
       try {
         const decoded = jwtDecode(token);
         setUserRole(decoded.userType);  // 예: EMPLOYEE, CUSTOMER
-        setUserDepId(decoded.dep_Id);   // 예: DEP006
+        setUserDepId(decoded.dep_Id);   // 예: DEP005(콘텐츠 담당자)
       } catch (error) {
         console.error("토큰 디코딩 실패:", error);
       }
@@ -440,7 +440,7 @@ function ObjectSelectPage({ onComplete }) {
             </Button>
 
             {/* 관리자(EMPLOYEE) + 콘텐츠팀(MO)이 아니면 파일올리기/그리기/글상자 보여주기 */}
-            {!(userRole === 'EMPLOYEE' && userDepId === 'DEP006') && (
+            {!(userRole === 'EMPLOYEE' && userDepId === 'DEP005') && (
               <>
                 <Button
                   appearance="default"
@@ -471,7 +471,7 @@ function ObjectSelectPage({ onComplete }) {
           </ButtonGroup>
 
           {/* 관리자 전용 등록/수정/삭제 버튼 */}
-          {userRole === 'EMPLOYEE' && userDepId === 'DEP006' && (
+          {userRole === 'EMPLOYEE' && userDepId === 'DEP005' && (
             <div className="objectSelectPage-admin-controls">
               <Button appearance="primary" size="sm" color="green" onClick={() => { setMode("create"); setNewObjectData(initObj); setShowModal(true); }}>➕ 등록</Button>
               <Button appearance="ghost" size="sm" color="blue" onClick={() => selectedObjects.length === 1 ? handleEditClick(selectedObjects[0]) : alert("하나의 오브젝트를 선택해주세요!")}>✏️ 수정</Button>
@@ -489,7 +489,7 @@ function ObjectSelectPage({ onComplete }) {
                 .filter(obj => obj.blocklyObjectCategory === selectedCategory)
                 .map(obj => {
                   const isPaid = obj.blocklyObjectPoint === true;
-                  const isAdmin = userRole === 'EMPLOYEE' && userDepId === 'DEP006';
+                  const isAdmin = userRole === 'EMPLOYEE' && userDepId === 'DEP005';
 
                   return (
                     <div
@@ -548,7 +548,7 @@ function ObjectSelectPage({ onComplete }) {
       {/* 우측 선택된 오브젝트 목록 */}
       <div className="objectSelectPage-right-selected">
         {/* 관리자일 때 추가하기 버튼 숨기기 */}
-        {!(userRole === 'EMPLOYEE' && userDepId === 'DEP006') && (
+        {!(userRole === 'EMPLOYEE' && userDepId === 'DEP005') && (
           <div className="objectSelectPage-add-button-container">
             <Button appearance="primary" size="sm" onClick={handleAddToCanvas}>➕ 추가하기</Button>
           </div>
