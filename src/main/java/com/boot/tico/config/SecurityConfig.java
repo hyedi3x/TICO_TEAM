@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -40,6 +41,14 @@ public class SecurityConfig {
                 .cors(withDefaults())
                 // CSRF 비활성화 (JWT 기반 API 인증에 필요 없음)
                 .csrf(csrf -> csrf.disable())
+                
+                // ── (4) 세션 관리 설정 추가 ───────────────────────────────
+                // 모든 요청은 세션을 생성/사용하지 않고, 오직 JWT만으로 인증한다!
+                .sessionManagement(sm -> 
+                    sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                // ────────────────────────────────────────────────────────
+                
                 // 폼 로그인 비활성화 (리다이렉트 제거)
                 .formLogin(form -> form.disable())
                 // HTTP Basic 인증 비활성화 (토큰 인증 방식 사용)
@@ -55,9 +64,8 @@ public class SecurityConfig {
                 		// 인증 없이 접근 허용할 경로들 (이외의 요청은 인증 필요)
 
                         .antMatchers(
-                            "/auth/test",
                             "/auth/**", 
-                        		"/auth/login/employee**", 
+                        	    "/auth/login/employee**", 
                         		"/auth/login/customer**", 
                         		"/oauth2/**", 
                         		"/error", 

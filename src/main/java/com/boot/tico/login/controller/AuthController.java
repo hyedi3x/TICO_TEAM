@@ -20,6 +20,10 @@ import com.boot.tico.login.service.EmailService;
 import com.boot.tico.login.service.UserService;
 import com.boot.tico.login.service.VerificationCodeService;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -474,9 +478,41 @@ public class AuthController {
 
     // JWT 토큰 재발급 API
     @PostMapping("/refresh")
-    public ResponseEntity<Map<String, String>> refresh(@RequestBody Map<String, Object> claims) {
-        String newAccessToken = jwtTokenizer.generateAccessToken(claims);
-        return ResponseEntity.ok(Map.of("accessToken", newAccessToken));
+    public ResponseEntity<Map<String, String>> refresh(HttpServletRequest request) {
+        // 1) 쿠키에서 refreshToken 찾기
+        String refreshToken = null;
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie c : cookies) {
+                if ("refreshToken".equals(c.getName())) {
+                    refreshToken = c.getValue();
+                    break;
+                }
+            }
+        }
+        if (refreshToken == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        try {
+            // 2) Refresh Token 유효성 검사
+            Claims claims = jwtTokenizer.parseClaims(refreshToken);
+
+            // 3) 클레임 기반으로 새 Access Token 생성
+            Map<String, Object> newClaims = Map.of(
+                "email",     claims.get("email", String.class),
+                "user_uuid", claims.get("user_uuid", String.class),
+                "userType",  claims.get("userType", String.class)
+            );
+            String newAccessToken = jwtTokenizer.generateAccessToken(newClaims);
+
+            // 4) 새 토큰 반환
+            return ResponseEntity.ok(Map.of("accessToken", newAccessToken));
+
+        } catch (ExpiredJwtException e) {
+            // Refresh Token도 만료된 경우
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
     
     // 소셜 회원가입 API (추가 정보 입력 후 DB 저장)

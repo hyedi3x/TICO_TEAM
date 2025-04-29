@@ -77,14 +77,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (StringUtils.hasText(bearer) && bearer.startsWith("Bearer ")) {
             return bearer.substring(7);
         }
-     // 2) 없으면 쿠키에서 refreshToken 찾아보기
-        if (request.getCookies() != null) {
-            for (Cookie cookie : request.getCookies()) {
-                if ("refreshToken".equals(cookie.getName())) {
-                    return cookie.getValue();
-                }
-            }
-        }
         return null;
     }
 }
