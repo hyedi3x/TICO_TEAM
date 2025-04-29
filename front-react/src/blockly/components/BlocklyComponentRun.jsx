@@ -80,6 +80,8 @@ useEffect(() => {
 
   /** ─────────────── 초기 로딩 ─────────────── **/
   useEffect(() => {
+    
+    defineMyBlocks(); // 사용자 정의 블록 등록
     let isMounted = true; // 컴포넌트가 마운트된 상태인지 체크
   
     if (projectId) {
@@ -111,77 +113,10 @@ useEffect(() => {
   }, [projectId]);
   
 
-  // id 없을 때만 로딩창을 띄운다.
-  useEffect(() => {
-    defineMyBlocks(); // 사용자 정의 블록 등록
-    callimage('/uploads/loading.png');
-    // eslint-disable-next-line
-  }, [projectId]);
+
   
   /** ─────────────── 이미지 및 Blockly 생성 ─────────────── **/
-  const callimage= (imgUrl)=>{  
-    const img = new Image();
-    // onload와 분리해서 처리할 것(src로 로드 된 후 onload가 실행되기 때문)
-    img.src = `http://localhost:8081${imgUrl}`;
-      
-    // 객체 로드시 배열에 js객체로 변수와 속성값을 추가
-    img.onload = () =>{
-      imgArr.current.push({
-        img,
-        url: imgUrl,
-        x: canvasRef.current.width/2 - 300/2, // 이미지 위치 조정
-        y: canvasRef.current.height/2 - 300/2,
-        width: 300, //임시 로딩 사이즈
-        height: 300, //임시 로딩 사이즈
-        angle: 0, 
-        moveDirection: 90,
-        index: imgArr.current.length, // index 할당
-        hidden: false,  // 이미지 숨김 여부
-      })
-      console.log("이미지 URL:", imgUrl);
-      console.log("이미지 객체:", img);
-      callImgArr(); // 이미지 추가 후 전체 다시 그리기
-      
-      // Blockly 작업공간 DOM 생성 및 주입
-      const blocklyDivElement = document.createElement('div');
-      blocklyDivElement.id = `blockly${imgArr.current.length-1}`;
-      blocklyDivElement.style.height = '900px';
-      blocklyDivElement.style.width = '1000px';
-      blocklyDiv.current.appendChild(blocklyDivElement); // 부모요소.appendChild(추가할 자식요소) : HTML div 하위에 해당 작업공간 추가
-
-      // 작업공간 주입
-      const workspace = Blockly.inject(blocklyDivElement, {
-        toolbox: toolboxXML(),
-        theme: ticoTheme,
-        move: { scrollbars: { horizontal: false, vertical: false }, drag: false, wheel: false },
-        zoom: { controls: true, wheel: false, startScale: 1.0, maxScale: 3, minScale: 0.3, scaleSpeed: 1.2, pinch: true }
-      });
-
-      blocklyArr.current.push(workspace); // 작업공간 담기, 작업 공간을 제어가능
-      workspace.index = imgArr.current.length - 1;
-      setWorkspaceReady(true); // 작업 공간 준비 완료 상태 업데이트
-      
-      // 블록 변경 이벤트 → 코드 저장
-      workspace.addChangeListener(() => {
-        const code = javascriptGenerator.workspaceToCode(workspace); //코드 변환
-        // ✅ 방어 코드 추가
-        if (imgArr.current[workspace.index]) {
-          imgArr.current[workspace.index].code = code;
-        }
-      });
-
-      // 최신 추가 작업공간만 표시(마지막 workspace만)
-      blocklyArr.current.forEach((item, index)=>{
-        const blocklyDivElement = document.getElementById(`blockly${index}`);
-        blocklyDivElement.style.display = (index === (blocklyArr.current.length-1) ? 'block' : 'none');
-      });
-    };
-    img.onerror = (error) => {
-      console.error('이미지 로드 실패:', error);
-      alert('이미지 로드에 실패했습니다.');
-    };
-  };
-
+  
   // 이미지와 말풍선을 모두 그리는 함수
   const callImgArr = () => {
    
