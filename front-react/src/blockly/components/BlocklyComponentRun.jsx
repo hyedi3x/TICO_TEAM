@@ -98,7 +98,7 @@ function ShareCanvas() {
 
   useEffect(() => {
     defineMyBlocks(); // 사용자 정의 블록 등록
-    callimage('http://localhost:8081/uploads/loading.png');
+    callimage('/uploads/loading.png');
     // eslint-disable-next-line
   }, []);
   
@@ -106,12 +106,7 @@ function ShareCanvas() {
   const callimage= (imgUrl)=>{  
     const img = new Image();
     // onload와 분리해서 처리할 것(src로 로드 된 후 onload가 실행되기 때문)
-    if(imgUrl === 'http://localhost:8081/uploads/loading.png'){
-      img.src = imgUrl;
-    } else {
-      img.src = `http://localhost:8081${imgUrl}`;
-
-  }
+    img.src = `http://localhost:8081${imgUrl}`;
       
     // 객체 로드시 배열에 js객체로 변수와 속성값을 추가
     img.onload = () =>{
