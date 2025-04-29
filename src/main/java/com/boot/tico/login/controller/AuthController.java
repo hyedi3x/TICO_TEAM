@@ -224,7 +224,7 @@ public class AuthController {
             // 쿠키 세팅
             ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken)
                 .httpOnly(true)
-                .secure(false)
+                .secure(true) // HTTP에서는 FALSE로 설정 가능하지만 HTTPS 환경에서는 TRUE 환경 이여야함
                 .path("/")
                 .maxAge(expiryMs / 1000)
                 .sameSite("None")
@@ -285,10 +285,10 @@ public class AuthController {
         // 5) HttpOnly 쿠키에 refreshToken 세팅 (개발환경용)
         ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken)
             .httpOnly(true)
-            .secure(false)        // ✅ 로컬 HTTP 환경에서는 false
+            .secure(true)        // 로컬 HTTP 환경에서는 false / HTTPS 환경에서는 ture
             .path("/")
             .maxAge(expiryMs / 1000)
-            .sameSite("None")     // ✅ React(front) → API(back) 간 cross-site 허용
+            .sameSite("None")     // React(front) → API(back) 간 cross-site 허용
             .build();
         response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
@@ -297,9 +297,12 @@ public class AuthController {
         resp.setUser_uuid(user.getUser_uuid());
         resp.setEmail(user.getEmail());
         resp.setNickname(user.getNickname());
-        resp.setAccessToken(accessToken);    // ✅ 이 줄이 빠져 있어서 토큰이 null 로 전달됐습니다
-
-        return ResponseEntity.ok(resp);
+        resp.setAccessToken(accessToken);    
+        
+        // ResponseEntity로 헤더에 달아 주면 덮어쓰임 없이 한 번에 확실히 설정딤
+        return ResponseEntity.ok()
+        		.header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .body(resp);
     }
 
     

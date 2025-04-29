@@ -85,11 +85,10 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             // HttpOnly Secure 쿠키에 refresh token 세팅
             ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken)
                 .httpOnly(true)
-                .secure(false)      // HTTP 환경이므로 false
-                .sameSite("None")   // cross-site 허용
+                .secure(true)      // HTTPS 환경이므로 true
+                .sameSite("None")   // cross-site 허용 (다른 도메인 요청허용)
                 .path("/")
                 .maxAge(expiryMs / 1000)       // 초 단위
-                .sameSite("Strict")            // 크로스 사이트 환경에서는 "None"으로 설정 필요
                 .build();
             response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
