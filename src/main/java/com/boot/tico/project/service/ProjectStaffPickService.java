@@ -42,7 +42,7 @@ public class ProjectStaffPickService {
 
     // 삭제
     @Transactional  
-    public void deleteStaffPickBySlotIndex(int slotIndex) {
-        repository.deleteBySlotIndex(slotIndex);
+    public void deleteStaffPickByProjectId(int projectId) {
+        repository.deleteByProjectId(projectId);
     }
 }

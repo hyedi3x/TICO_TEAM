@@ -90,17 +90,20 @@ function Notice() {
           <div className="notice-empty">검색 결과가 없습니다.</div>
         ) : (
           paged.map(n => (
-            <div key={n.noticeId} className="notice-row">
-              <span className={`notice-type ${getTypeClass(n.type)}`}>
-                {n.type}
-              </span>
-              <span className="notice-title-text" onClick={()=>navigate(`/noticeDetail/${n.noticeId}`)}>{n.title}</span>
-              <span className="notice-info">
-                <span>{n.createdAt?.slice(0,10)}</span>
-                <span>조회 {n.visitLength}</span>
-                <span>좋아요 {n.likesLength}</span>
-                <span>댓글 {n.commentsLength}</span>
-              </span>
+            <div className="notice-wrapper" key={n.noticeId}>
+              <div className="notice-row">
+                <span className={`notice-type ${getTypeClass(n.type)}`}>
+                  {n.type}
+                </span>
+                <span className="notice-title-text" onClick={()=>navigate(`/noticeDetail/${n.noticeId}`)}>{n.title}</span>
+              </div>
+              <div className="notice-row2">
+                <span className="notice-info">
+                  <span>{n.createdAt?.slice(0,10)}</span>
+                  <span>조회 {n.visitLength}</span>
+                  <span>좋아요 {n.likesLength}</span>
+                </span>
+              </div>
             </div>
           ))
         )}

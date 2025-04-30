@@ -57,14 +57,15 @@ conn = pymysql.connect(
 cursor = conn.cursor()
 
 # notice_id, content_id를 COALESCE(MAX(content_id),0)+1로 동일하게 지정
-cursor.execute("SELECT COALESCE(MAX(content_id), 0) + 1 FROM notice_content_tb")
+cursor.execute("SELECT COALESCE(MAX(notice_id), 0) + 1 FROM notice_tb WHERE content IS not null")
 next_id = cursor.fetchone()[0]
 
 sql = """
-    INSERT INTO notice_content_tb (content_id, notice_id, content)
-    VALUES (%s, %s, %s)
+    UPDATE notice_tb
+    SET content = %s
+    WHERE notice_id = %s
 """
-cursor.execute(sql, (next_id, next_id, content_str))
+cursor.execute(sql, (content_str, next_id))
 
 conn.commit()
 cursor.close()

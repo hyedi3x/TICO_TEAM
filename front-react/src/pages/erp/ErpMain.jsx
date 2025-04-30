@@ -36,6 +36,7 @@ import PurchaseLogPage from "./PAY_Team/PurchaseLogPage";
 import EMPEduList from "../blockedu/EMPEduList";
 
 import axiosInstance from "../login/social/utils/axiosInstance";
+import NoticeAdmin from "../notice/NoticeAdmin";
 
 function ErpMain() {
   const [expanded, setExpanded] = useState(true); // 사이드바 확장 여부
@@ -88,6 +89,7 @@ function ErpMain() {
       case "4-1": setViewMode("userList"); break;
       case "5-1": setViewMode("subscription-manage"); break;
       case "5-2": setViewMode("purchaseLog"); break;
+      case "7-3": setViewMode("notice"); break;
       case "7-4": setViewMode("faq"); break;
       case "8-4": setViewMode("blockEduPost"); break;
       case "8-5": setViewMode("EMPEduList"); break;
@@ -293,6 +295,7 @@ function ErpMain() {
             {viewMode === "myinfoChk" && <MyInfoChk />} {/* 관리자 정보 조회 */}
             {viewMode === "myinfoModify" && <MyInfoModify />} {/* 관리자 정보 조회 */}
 
+            {viewMode === "notice" && <NoticeAdmin />} {/* FAQ 관리 */}
             {viewMode === "faq" && <FAQPut />} {/* FAQ 관리 */}
             {viewMode === "blockEduPost" && <BlockEduComponentPost />} {/* 블럭 학습 등록 */}
             {viewMode === "EMPEduList" && <EMPEduList/>} {/* 블록학습 관리 */}
