@@ -91,6 +91,12 @@
   flex-direction: row;
   padding-left: 300px;
   position: relative;
+
+  /* 배경 이미지 추가 */
+  background-image: url('../../../front-react/public/mainBack.png');
+  background-size: cover; /* 배경 이미지가 영역에 맞게 확대/축소됨 */
+  background-position: center; /* 이미지가 중앙에 위치하게 설정 */
+  background-repeat: no-repeat; /* 이미지 반복 방지 */
 }
 
 /* 왼쪽 사이드 채팅 */
