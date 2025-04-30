@@ -40,15 +40,12 @@ public class NoticeDTO {
 	private String  type;  // 기본값
 	@Column(name = "modify_id")
 	private String modifyId;
-	@Column(name = "likes_length")
-	private Integer likesLength;
 	@Column(name = "visit_length")
 	private Integer visitLength;
 	@Column(name = "created_at")
 	private Timestamp createdAt;
 	@Column(name = "show_flag")
 	private String showFlag;
-	
 	// insert 전에 실행되는 메서드
 	@PrePersist
     public void prePersist() {

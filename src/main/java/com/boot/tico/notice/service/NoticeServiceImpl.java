@@ -86,6 +86,7 @@ public class NoticeServiceImpl {
 	        existingNotice.setTitle(updatedDTO.getTitle());
 	        existingNotice.setType(updatedDTO.getType());
 	        existingNotice.setContent(updatedDTO.getContent());
+	        existingNotice.setModifyId(updatedDTO.getModifyId());
 	        repo.save(existingNotice); // ✅ 수정된 내용 저장
 	    } else {
 	        throw new IllegalArgumentException("공지사항을 찾을 수 없습니다. ID: " + noticeId);

@@ -82,11 +82,26 @@ useEffect(() => {
   useEffect(() => {
     
     defineMyBlocks(); // 사용자 정의 블록 등록
+     // 👉 로딩용 더미 오브젝트 삽입 (index: 0)
+    imgArr.current.push({
+      img: new Image(),
+      url: '/uploads/loading.png',
+      x: 0,
+      y: 0,
+      width: 100,
+      height: 100,
+      angle: 0,
+      moveDirection: 90,
+      hidden: true,
+      index: 0
+    });
+    setWorkspaceReady(true);
     let isMounted = true; // 컴포넌트가 마운트된 상태인지 체크
   
     if (projectId) {
       (async () => {
         try {
+          console.log("🔍 불러오는 프로젝트 ID:", projectId);
           window.cloneArr = [];
           await loadProjectToCanvas(
             Number(projectId),
@@ -96,7 +111,7 @@ useEffect(() => {
             callImgArr,
             setWorkspaceReady
           );
-          if (isMounted) { // 컴포넌트가 마운트 상태일 때만 상태 업데이트
+          if (isMounted) { // 컴포넌트가 마운트 상태일 때만 상태 업데이트ㅁ
             currentProjectId.current = Number(projectId);
           }
         } catch (err) {
@@ -190,6 +205,7 @@ useEffect(() => {
   // handleMouseDown: 마우스 다운 이벤트를 처리하고 패닝을 시작
   const handleMouseDown = (e) => { 
     const { offsetX, offsetY } = e.nativeEvent; 
+    if (!window.running || window.isPaused) return;
     // offsetX와 offsetY는 마우스 이벤트가 발생한 위치를 이벤트가 발생한 요소(캔버스)의 왼쪽 상단 모서리를 기준으로 나타내는 값 
     // event.clientX - rect.left와 동일, 이 값들은 SyntheticEvent 객체에서 직접적으로 제공되지 않기에 nativeEvent가 필요하다.
     e.preventDefault(); // 해당 이벤트의 기본 동작을 중단시키는 역할 (텍스트 선택, 이미지 드래그 등 방지), 캔버스 요소는 기본적으로 사용자가 마우스로 드래그할 때 텍스트 선택이나 이미지 드래그와 같은 기본 동작을 수행, 사용자 정의 기능과 충돌 방지
@@ -302,6 +318,7 @@ useEffect(() => {
     blocklyArr.current.forEach((workspace, index) => {
       generateStart(workspace, imgArr, index, 'start_btn');
       const code = imgArr.current[index]?.code;
+      console.log('실행되는 코드 ',index,' : ',code);
       if (code) {
         runGeneratedCode(code, index, false);
       }
@@ -360,21 +377,19 @@ useEffect(() => {
       .catch(err => {
         console.error("이미지 로딩 중 오류가 발생했습니다:", err);
       });
+
   };
   
   function runStartBtnCodeWithReset() {
     runStartBtnCode();
-    start_toggle();
-
+    setBtn_toggle(false); // 실행 중 상태 고정
     setPauseToggle(false);
     window.isPaused = false;
   }
+  
   function runStopBtnCodeWithReset() {
-    runStopBtnCode();
-    start_toggle();
-
-    setPauseToggle(false);
-    window.isPaused = false;
+    window.location.reload();
+    
   }
   function start_toggle(){
     if(!btn_toggle){
@@ -479,6 +494,7 @@ useEffect(() => {
 
 
   useEffect(() => {
+    window.running=false;
     const canvas = document.querySelector('canvas');
     if(!canvas) return;
 
@@ -550,13 +566,13 @@ useEffect(() => {
               style={{ border: '1px solid', backgroundColor: 'transparent' }}
             />
             <div className="button-blockly mt-3">
-              {btn_toggle && <button onClick={()=>{runStartBtnCodeWithReset();start_toggle();}}>▶️ 실행하기</button>}
-              {!btn_toggle && <button onClick={()=>{runStopBtnCodeWithReset(); start_toggle();}}>⏹️ 정지하기</button> }
+              {btn_toggle && <button onClick={()=>{runStartBtnCodeWithReset()}}>▶️ 실행하기</button>}
+              {!btn_toggle && <button onClick={()=>{runStopBtnCodeWithReset()}}>⏹️ 정지하기</button> }
               {!btn_toggle && !pauseToggle && (
-                <button onClick={pause_toggle}>⏸️ 일시정지</button>
+                <button onClick={()=>{pause_toggle()}}>⏸️ 일시정지</button>
               )}
               {!btn_toggle && pauseToggle && (
-                <button onClick={pause_toggle}>▶️ 다시 시작</button>
+                <button onClick={()=>{pause_toggle()}}>▶️ 다시 시작</button>
               )}
             </div>
           </div>
@@ -571,8 +587,8 @@ useEffect(() => {
       {showScoreModal && (
         <ScoreModal
           score={window.score}
-          onClose={() => {setShowScoreModal(false);runStopBtnCodeWithReset();start_toggle();}}
-          onRetry={()=> {setShowScoreModal(false);runStopBtnCodeWithReset();runStartBtnCodeWithReset();}}
+          onClose={() => {runStopBtnCodeWithReset();navigate('/share')}}
+          onRetry={()=> {setShowScoreModal(false);runStopBtnCodeWithReset();}}
         />
       )}
     </div>

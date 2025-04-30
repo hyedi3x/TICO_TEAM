@@ -2,15 +2,15 @@ import React, { useEffect, useRef } from "react";
 import "./ScoreModal.css";
 
 const ScoreModal = ({ score, onClose, onRetry }) => {
-  // ESC 키로도 닫을 수 있게 (선택)
+  // ESC 키로도 닫을 수 있게
   const boxRef = useRef(null);
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") onRetry();
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [onClose]);
+  }, [onRetry]);
 
   return (
     <div className="score-modal-overlay" onClick={onClose}>
@@ -27,7 +27,7 @@ const ScoreModal = ({ score, onClose, onRetry }) => {
         </div>
         <div className="score-modal-buttons">
           <button className="score-modal-btn exit" onClick={onClose}>
-            나가기
+            목록으로
           </button>
           <button className="score-modal-btn retry" onClick={onRetry}>
             다시하기

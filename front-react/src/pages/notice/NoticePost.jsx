@@ -7,9 +7,11 @@ function NoticePost() {
   const [title, setTitle] = useState("");
   const [type, setType] = useState("새로운 기능");
   const [content, setContent] = useState("");
-  const empId = localStorage.getItem("user_uuid");
+  const [empId, setEmpId] = useState(localStorage.getItem("user_uuid")); // 작성자
+  const [modifyId, setModifyId] = useState(""); // 최종 수정자
+
   const navigate = useNavigate();
-  const { noticeId } = useParams(); // 🔥 URL에서 noticeId 읽어옴
+  const { noticeId } = useParams(); // 수정인지 판단
 
   useEffect(() => {
     if (noticeId) {
@@ -20,6 +22,8 @@ function NoticePost() {
           setTitle(data.title);
           setType(data.type);
           setContent(data.content);
+          setEmpId(data.empId); // 기존 작성자 유지
+          setModifyId(data.modifyId || ""); // 수정자가 있다면 표시
         })
         .catch(err => {
           console.error("공지 불러오기 실패:", err);
@@ -31,10 +35,24 @@ function NoticePost() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const dto = { empId, title, type, content };
+
+    const dto = noticeId
+      ? {
+          empId, // 기존 작성자
+          title,
+          type,
+          content,
+          modifyId: localStorage.getItem("user_uuid") // 최종 수정자
+        }
+      : {
+          empId: localStorage.getItem("user_uuid"), // 등록자는 로그인 사용자
+          title,
+          type,
+          content
+        };
 
     if (noticeId) {
-      // 수정모드
+      // 수정
       axiosInstance.put(`/api/noticePut/${noticeId}`, dto)
         .then(() => {
           alert("공지 수정 완료!");
@@ -45,7 +63,7 @@ function NoticePost() {
           alert("수정 실패했습니다.");
         });
     } else {
-      // 등록모드
+      // 등록
       axiosInstance.post("/api/noticePost", dto)
         .then(() => {
           const move = window.confirm("공지 등록 성공! 목록으로 이동하시겠습니까?");
@@ -62,13 +80,20 @@ function NoticePost() {
           alert("등록 실패했습니다.");
         });
     }
-  }
+  };
 
   return (
     <div className="notice-post-wrapper">
       <h2 className="notice-post-title">{noticeId ? "공지사항 수정" : "공지사항 등록"}</h2>
-      <div className="empId-div"> 작성자 {empId} </div>
-      
+      <div className="empId-div">
+        작성자: {empId}
+        {noticeId && (
+          <span style={{ marginLeft: 20 }}>
+            최종 수정자: {modifyId ? modifyId : "수정된 적 없음"}
+          </span>
+        )}
+      </div>
+
       <form className="notice-post-form" onSubmit={handleSubmit}>
         <div className="notice-form-group">
           <label htmlFor="title">제목</label>

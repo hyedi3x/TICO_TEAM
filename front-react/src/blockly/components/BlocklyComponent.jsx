@@ -156,8 +156,10 @@ function Canvas() {
 
   /** ─────────────── 초기 로딩 ─────────────── **/
   useEffect(() => {
+    window.running=false;
     defineMyBlocks(); // 사용자 정의 블록 등록
     callimage('/uploads/entrybot.png');
+    
     // eslint-disable-next-line
   }, []);
 
@@ -447,8 +449,6 @@ function Canvas() {
       imgArr: newImgArr,
       blockXmlArr: newBlockXmlArr
     }));
-
-    console.log('시작으로 변환전 이미지', imgArr.current);
 
     // 2. 실행
     blocklyArr.current.forEach((workspace, index) => {

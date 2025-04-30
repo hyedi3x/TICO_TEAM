@@ -38,7 +38,6 @@ emp_id = '10004'  # 모든 공지의 사번을 10004로 고정
 
 for notice in notices:
     title = remove_emoji(notice["title"])
-    likes_length = notice["likesLength"]
     visit_length = notice["visit"]
     created_at = notice["created"].replace('T', ' ').replace('Z', '')
     # COALESCE로 최대값 + 1 (없으면 1)
@@ -46,10 +45,10 @@ for notice in notices:
     next_id = cursor.fetchone()[0] # 첫줄만 반환
 
     sql = """
-    INSERT INTO notice_tb (notice_id, title, emp_id, likes_length, visit_length, created_at)
-    VALUES (%s, %s, %s, %s, %s, %s)
+    INSERT INTO notice_tb (notice_id, title, emp_id, visit_length, created_at)
+    VALUES (%s, %s, %s, %s, %s)
     """
-    cursor.execute(sql, (next_id, title, emp_id, likes_length, visit_length, created_at))
+    cursor.execute(sql, (next_id, title, emp_id, visit_length, created_at))
 
 conn.commit()
 cursor.close()
