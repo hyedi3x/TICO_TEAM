@@ -48,7 +48,6 @@ const NoticeDetail = () => {
               <span>{notice.createdAt?.slice(0, 10)}</span>
               <span>· 작성자 {notice.empId}</span>
               <span>· 조회 {notice.visitLength}</span>
-              <span>· 좋아요 {notice.likesLength}</span>
             </div>
           </header>
   

@@ -79,7 +79,6 @@ function Notice() {
         >
           <option value="latest">최신순</option>
           <option value="oldest">오래된순</option>
-          <option value="like">좋아요순</option>
           <option value="view">조회순</option>
         </select>
       </div>
@@ -101,7 +100,6 @@ function Notice() {
                 <span className="notice-info">
                   <span>{n.createdAt?.slice(0,10)}</span>
                   <span>조회 {n.visitLength}</span>
-                  <span>좋아요 {n.likesLength}</span>
                 </span>
               </div>
             </div>
