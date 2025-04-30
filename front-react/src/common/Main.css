@@ -12,6 +12,7 @@
 
 /* 스와이퍼 이미지 */
 .swiper-slide img {
+  border-radius: 0px !important;
   display: block;
   width: 100%;
   height: 100%;
@@ -51,10 +52,6 @@
     padding-left: 20px;
     padding-right: 20px;
   }
-  .maincon {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
   .row {
     display: flex !important;
     justify-content: center;
@@ -76,7 +73,6 @@
     width: 230px;
     margin: 0 auto;
     flex: 0;
-    /* width: 25%;  4개 카드씩 배치 */
   } 
 }
 
@@ -97,6 +93,9 @@
   background-size: cover; /* 배경 이미지가 영역에 맞게 확대/축소됨 */
   background-position: center; /* 이미지가 중앙에 위치하게 설정 */
   background-repeat: no-repeat; /* 이미지 반복 방지 */
+
+  /* 배경 투명도 추가 */
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 /* 왼쪽 사이드 채팅 */
@@ -117,16 +116,6 @@
   flex: 1;
   padding: 0 20px;
 } 
-
-.staff-card {
-  transition: all 0.3s ease;
-  border: 1px solid #e0e0e0;
-}
-
-.staff-card:hover {
-  transform: translateY(-20px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-}
 
 .staff-card .btn {
   font-size: 12px;
