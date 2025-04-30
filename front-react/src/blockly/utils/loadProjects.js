@@ -14,6 +14,9 @@ export const fetchAllProjects = async () => {
 
 // setState를 외부에서 받아서 사용하는 형태
 export const handleLoadClick = async (setProjectList, setShowProjectModal) => {
+  if(window.running){
+    return;
+  }
   try {
     const data = await fetchAllProjects();
     setProjectList(data);

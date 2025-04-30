@@ -36,6 +36,8 @@ import ReportForm from './pages/share/ReportForm';
 import SearchResult from './pages/search/SearchResult';
 import Notice from './pages/notice/Notice';
 import NoticeDetail from './pages/notice/NoticeDetail';
+import NoticePost from './pages/notice/NoticePost';
+import NoticeAdmin from './pages/notice/NoticeAdmin';
 
 function App() {
   return (
@@ -75,7 +77,10 @@ function App() {
           <Route path="/mainBannerManage" element={<MainBannerManage />} />
           <Route path="/mainModify" element={<MainModify/>}/>
           <Route path="/noticeList" element={<Notice/>}/>
+          <Route path="/noticeAdmin" element={<NoticeAdmin/>}/>
           <Route path="/noticeDetail/:noticeId" element={<NoticeDetail/>}/>
+          <Route path="/noticePost/" element={<NoticePost/>}/>
+          <Route path="/noticePut/:noticeId" element={<NoticePost/>}/>
         </Routes>
         <Footer />
       </BrowserRouter>

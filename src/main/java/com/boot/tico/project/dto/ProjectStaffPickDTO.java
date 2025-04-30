@@ -32,7 +32,7 @@ public class ProjectStaffPickDTO {
 	@Column(name = "slot_index")
 	private int slotIndex;
 	@Column(name = "project_id")
-	private String projectId;
+	private int projectId;
 	//  JPA가 이 필드를 INSERT 시 SQL에 포함하지 않음, JPA가 UPDATE 시에도 이 필드를 무시함
 	@Column(name = "created_at", insertable = false, updatable = false)
 	private Timestamp createdAt;

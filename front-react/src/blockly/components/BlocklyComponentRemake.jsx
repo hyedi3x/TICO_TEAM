@@ -60,9 +60,24 @@ function RemakeCanvas() {
   
   // 1. 진입 시 원본 프로젝트 자동 로딩 (리메이크)
   useEffect(() => {
+    window.running=false;
     if (!remakeProjectId) return;
     defineMyBlocks();
 
+    imgArr.current.push({
+      img: new Image(),
+      url: '/uploads/loading.png',
+      x: 0,
+      y: 0,
+      width: 100,
+      height: 100,
+      angle: 0,
+      moveDirection: 90,
+      hidden: true,
+      index: 0
+    });
+    setWorkspaceReady(true);
+    
     window.cloneArr = [];
     loadProjectToCanvas(
       remakeProjectId,
@@ -624,9 +639,6 @@ function RemakeCanvas() {
             )}
             <button onClick={() => handleSaveProject(imgArr, blocklyArr, currentProjectId.current, projectTitle)}>
               💾 저장하기
-            </button>
-            <button onClick={() => handleLoadClick(setProjectList, setShowProjectModal)}>
-              📂 불러오기
             </button>
             {currentProjectId.current && (
             <button onClick={() => handleDeleteProject(currentProjectId.current)}>

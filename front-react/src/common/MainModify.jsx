@@ -100,15 +100,12 @@ function MainModify() {
   };
 
   // 삭제
-  const handleRemoveStaffPickProject = (index) => {
-    axiosInstance.delete(`/api/project/staffPick/${index}`)
+  const handleRemoveStaffPickProject = (projectId) => {
+    axiosInstance.delete(`/api/project/staffPick/${projectId}`)
       .then((res) => {
         console.log(res);
         // staffPickProjects 배열에서 해당 항목을 제거하고 나머지 항목을 당김
-        const updated = [...staffPickProjects];
-        updated.splice(index, 1);  // index 위치의 항목을 제거
-  
-        // 한 칸씩 당기고, 마지막 슬롯에 '등록해주세요' 내용 추가
+        const updated = staffPickProjects.filter(project => project.projectId !== projectId);
         setStaffPickProjects(updated);
         alert('삭제 완료!');
       })
@@ -192,7 +189,7 @@ function MainModify() {
                           }}
                           onClick={(e) => {
                             e.stopPropagation();
-                            handleRemoveStaffPickProject(index);
+                            handleRemoveStaffPickProject(project.projectId);
                           }}
                         >
                           삭제

@@ -82,7 +82,7 @@ const ProjectCard = ({ project, onClick, extraButtons=false, editable=false, isP
         {editable}
       </div>
       {project &&  
-        (project.likeCount != null || project.bookMarkCount != null || project.viewCount != null) && (
+        (project.likeCount != null || project.bookmarkCount != null || project.viewCount != null) && (
           <div style={{
             borderTop: '1px solid #f1f1f1',
             background: '#fff',
@@ -100,7 +100,7 @@ const ProjectCard = ({ project, onClick, extraButtons=false, editable=false, isP
             </span>
             <span style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
               <span style={{ fontSize: 14 }}>🔖</span>
-              {project.bookMarkCount || 0}
+              {project.bookmarkCount || 0}
             </span>
             <span style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
               <span style={{ fontSize: 14 }}>👁</span>

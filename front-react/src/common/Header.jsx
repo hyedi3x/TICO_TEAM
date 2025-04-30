@@ -100,7 +100,7 @@ function Header() {
                 </NavDropdown>
                 <NavDropdown title="커뮤니티" id="offcanvasNavbarDropdown">
                   <NavDropdown.Item href="/#action3">묻고 답하기</NavDropdown.Item>
-                  <NavDropdown.Item href="/#action4">공지사항</NavDropdown.Item>
+                  <NavDropdown.Item href="/noticeList">공지사항</NavDropdown.Item>
                   <NavDropdown.Item href="/faqlist">FAQ</NavDropdown.Item>
                 </NavDropdown>
               </Nav>

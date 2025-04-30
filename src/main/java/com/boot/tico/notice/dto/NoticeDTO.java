@@ -1,10 +1,12 @@
 package com.boot.tico.notice.dto;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import com.boot.tico.faq.dto.FAQDTO;
@@ -30,17 +32,29 @@ public class NoticeDTO {
 	private Integer noticeId;      // PK
 	@Column(name = "title")
 	private String  title;
+	@Column(name = "content")
+	private String content; 
 	@Column(name = "emp_id")
 	private String  empId;         // 작성 직원 ID (FK)
 	@Column(name = "type")
 	private String  type;  // 기본값
-	@Column(name = "comments_length")
-	private Integer commentsLength;
-	@Column(name = "likes_length")
-	private Integer likesLength;
+	@Column(name = "modify_id")
+	private String modifyId;
 	@Column(name = "visit_length")
 	private Integer visitLength;
 	@Column(name = "created_at")
 	private Timestamp createdAt;
+	@Column(name = "show_flag")
+	private String showFlag;
+	// insert 전에 실행되는 메서드
+	@PrePersist
+    public void prePersist() {
+        if (this.createdAt == null) {
+            this.createdAt = Timestamp.from(Instant.now());
+        }
+        if (this.showFlag == null) {
+            this.showFlag = "Y";
+        }
+    }
 	
 }

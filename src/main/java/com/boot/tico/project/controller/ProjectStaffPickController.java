@@ -41,10 +41,10 @@ public class ProjectStaffPickController {
 	    }
 
 	    // ✅ 3. 스태프 선정 삭제
-	    @DeleteMapping("/staffPick/{slotIndex}")
-	    public ResponseEntity<Void> deleteStaffPick(@PathVariable int slotIndex) {
-	        logger.info("<<< url => /staffPick/{} (DELETE) >>>", slotIndex);
-	        service.deleteStaffPickBySlotIndex(slotIndex);
+	    @DeleteMapping("/staffPick/{projectId}")
+	    public ResponseEntity<Void> deleteStaffPick(@PathVariable("projectId") int projectId) {
+	        logger.info("<<< url => /staffPick/{} (DELETE) >>>", projectId);
+	        service.deleteStaffPickByProjectId(projectId);
 	        return ResponseEntity.ok().build();
 	    }
 	    
