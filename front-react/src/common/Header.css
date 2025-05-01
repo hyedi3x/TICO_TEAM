@@ -1,5 +1,9 @@
 /* Header.css */
+.header {
+  background-color: #fff;
+  color: #333;
 
+}
 .button {
   box-sizing: border-box;
   width: auto;

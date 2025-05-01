@@ -70,7 +70,7 @@ function Header() {
 
   return (
     <div className='header'>
-      <Navbar expand="lg" className="bg-white mb-3 border-bottom" style={{ height: '90px', padding: '20px' }}>
+      <Navbar expand="lg" className="bg-white border-bottom" style={{ height: '90px', padding: '20px' }}>
         <Container fluid className='main-container'>
           <Link to="/">
             <Navbar.Brand>

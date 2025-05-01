@@ -24,7 +24,6 @@ import WepChat from "../pages/wep_chat/WepChat";
 import ChatbotWindow from "../pages/chatbot/ChatbotWindow";
 import ErpLogo from "../pages/erp/ErpLogo";
 import ProjectCard from "./ProjectCard";
-import axios from "axios";
 import axiosInstance from "../pages/login/social/utils/axiosInstance";
 
 function Main() {
@@ -34,6 +33,7 @@ function Main() {
   const [banners, setBanners] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false); // ⭐ 로딩 상태 추가
   const navigate = useNavigate();
+  const [isChatVisible, setIsChatVisible] = useState(false); // 웹챗 표시 여부
   
   // 로그인 유저 정보 추출
   useEffect(() => {
@@ -91,6 +91,17 @@ function Main() {
     fetchAll();
   }, []);
 
+  // 웹챗 반응형처리
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1800);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 1800);
+    // 브라우저 창의 크기가 변경될 때 발생하는 이벤트
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+
   // 이미지 경로 처리
   const resolveThumbnailUrl = (url) => {
     if (url && !url.startsWith('http')) {
@@ -103,6 +114,12 @@ function Main() {
   const staffPickIds = staffPickProjects.map(p => Number(p.projectId));
   const popularIds = popularProjects.map(p => Number(p.projectId));
 
+  // 아이콘 클릭 시 웹챗 토글
+  const toggleChat = () => {
+    setIsChatVisible(prev => !prev);
+  };
+
+
   // ⭐ 로딩중 처리
   if (!isLoaded) {
     return <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>로딩중...</div>;
@@ -110,10 +127,24 @@ function Main() {
   return (
     <div className='main-wrapper'>
       {/* ── 유저간 채팅 ── */}
-      {userRole !== "EMPLOYEE" && (
-        <div className="chat-side-panel">
+      
+      {userRole !== "EMPLOYEE" && !isMobile && (
+        <div className="chat-side-panel visible">
           <WepChat />
         </div>
+      )}
+
+      {userRole !== "EMPLOYEE" && isMobile && (
+        <>
+          {isChatVisible && (
+            <div className="chat-side-panel visible">
+              <WepChat />
+            </div>
+          )}
+          <div className="chat-icon" onClick={toggleChat}>
+            <span>💬</span>
+          </div>
+        </>
       )}
 
       <div className='main-container' style={{ minWidth: '1060px' }}>

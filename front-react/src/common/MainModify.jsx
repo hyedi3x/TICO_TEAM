@@ -6,7 +6,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
-import { Button } from 'react-bootstrap';
+import { Button } from 'rsuite';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import img1 from '../imgs/짱구1.jpg';
 import ChatbotWindow from '../pages/chatbot/ChatbotWindow';
@@ -147,11 +147,11 @@ function MainModify() {
       <div className='maincon mt-5'>
         <div className='bt'>
           <h1 className="text-center fw-bold mb-4">스태프 선정 작품 등록하기</h1>
-          <p className='p  mb-5'>⚠️ 작품을 추가하거나 변경한 후에는 반드시 <span className="text-success">"저장하기"</span> 버튼을 눌러야 적용됩니다. ⚠️</p>
+          <p className='p mb-2'>⚠️ 작품을 추가하거나 변경한 후에는 반드시 <span className="text-success">"저장하기"</span> 버튼을 눌러야 적용됩니다. ⚠️</p>
 
           <div className="d-flex justify-content-end align-items-center gap-2">
-            <Button variant="primary" onClick={handleAddStaffPick}>+ 추가하기</Button>
-            <Button variant="success" onClick={handleSaveStaffPicks}>💾 저장하기</Button>
+            <Button appearance="ghost" onClick={handleAddStaffPick}>+ 추가하기</Button>
+            <Button appearance="ghost"  color="green" onClick={handleSaveStaffPicks}>💾 저장하기</Button>
           </div>
         
          
@@ -175,9 +175,9 @@ function MainModify() {
                     editable = {
                       <>
                         <Button
-                          appearance="primary"
+                          appearance="ghost"
                           size="sm"
-                          style={{ borderRadius: 20, padding: '0.4rem 1rem', marginRight: 8, background: '#3485ff', color: '#fff', borderColor: '#3485ff' }}
+                          style={{ borderRadius: 20, padding: '0.4rem 1rem', marginRight: 8 }}
                           onClick={(e) => {
                             e.stopPropagation();
                             handleOpenProjectModal(index);
@@ -185,8 +185,7 @@ function MainModify() {
                         >
                           수정
                         </Button>
-                        <Button appearance="ghost" size="sm" style={{ borderRadius: 20, padding: '0.4rem 1rem', color: '#ff3333', borderColor: '#ff3333', background: 'transparent' 
-                          }}
+                        <Button appearance="ghost" color="red" size="sm" style={{ borderRadius: 20, padding: '0.4rem 1rem'}}
                           onClick={(e) => {
                             e.stopPropagation();
                             handleRemoveStaffPickProject(project.projectId);

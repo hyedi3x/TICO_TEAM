@@ -4,7 +4,7 @@
 .swiper-slide {
   text-align: center;
   font-size: 18px;
-  background: #fff;
+  background: rgb(128, 216, 255);
   display: flex !important;
   justify-content: center !important; /* 가로 방향 가운데 정렬 */
   align-items: center !important;     /* 세로 방향 가운데 정렬 */
@@ -18,62 +18,9 @@
   height: 100%;
   object-fit: cover;  /* 이미지 비율 유지 및 컨테이너에 맞춤 */
 }
-
 /* 스와이퍼와 섹션 하단 여백 */
 .sw, .bt {
   margin-bottom: 100px;
-}
-
-.card {
-  margin-bottom: 15px;
-}
-
-/* 메인 컨테이너 밑 여백 */
-.maincon {
-  margin-bottom: 100px;
-}
-
-/* 반응형 디자인 : 미디어 쿼리 */
-/* 최대 너비 567px */
-@media (max-width: 576px) {
-  .maincon {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-  .oneCard > .col {
-    width: 100%; /* 1개 카드씩 배치 */
-    scrollbar-gutter: 10px;
-  }
-}
-
-/* 최대 너비 1170px */
-@media (max-width: 1170px) {
-  .maincon {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-  .row {
-    display: flex !important;
-    justify-content: center;
-  }
-  .oneCard > .col {
-    width: 50%; /* 2개 카드씩 배치 */
-    margin: 0 50px; /* 조절해서 */
-    flex: 0;
-  }
-}
-
-/* 최소 너비 1185px */
-@media (min-width: 1185px) {
-  .main-maincon {
-    margin-left: 50px;
-    margin-right: 50px;
-  }
-  .oneCard > .col {
-    width: 230px;
-    margin: 0 auto;
-    flex: 0;
-  } 
 }
 
 /* ── 스와이퍼 컨테이너를 기준으로 절대위치 ── */
@@ -84,38 +31,73 @@
 /* 전체 감싸는 바깥 래퍼 */
 .main-wrapper {
   display: flex;
-  flex-direction: row;
-  padding-left: 300px;
+  flex-direction: column; /* 세로로 배치 */
+  align-items: center;    /* 가로 방향 가운데 정렬 */
+  justify-content: flex-start; /* 세로 방향 위쪽 정렬 */
+  padding: 20px; /* 적당한 여백 추가 */
   position: relative;
-
-  /* 배경 이미지 추가 */
+  width: 100%; /* 전체 너비 설정 */
   background-image: url('../../../front-react/public/mainBack.png');
-  background-size: cover; /* 배경 이미지가 영역에 맞게 확대/축소됨 */
-  background-position: center; /* 이미지가 중앙에 위치하게 설정 */
-  background-repeat: no-repeat; /* 이미지 반복 방지 */
-
-  /* 배경 투명도 추가 */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   background-color: rgba(255, 255, 255, 0.9);
 }
 
 /* 왼쪽 사이드 채팅 */
+/* 기본 채팅 사이드 패널 */
 .chat-side-panel {
   width: 300px;
-  position: fixed;
-  top: 100px;
-  left: 0;
-  height: calc(100vh - 100px);
-  backdrop-filter: blur(12px); 
+  height: 800px;
+  backdrop-filter: blur(12px);
   z-index: 1000;
   display: flex;
   flex-direction: column;
+  position: fixed;
+  top: 150px;
+  left: 5%;
+  transition: all 0.3s ease;
+  display: block; /* 기본적으로 보이게 설정 */
 }
+
+/* 화면이 2000px 이하일 때 왼쪽에 딱 붙음 */
+@media (max-width: 2000px) {
+  .chat-side-panel {
+    left: 0;
+  }
+}
+
+/* 화면이 1800px 이하일 때 웹챗을 아이콘으로 변경 */
+.chat-side-panel.hidden {
+  display: none;
+}
+.chat-side-panel.visible {
+  display: block;
+}
+@media (max-width: 1800px) {
+
+  .chat-icon {
+    display: block; /* 아이콘 보이기 */
+    position: fixed;
+    bottom: 30px;
+    left: 30px; /* 좌측 하단에 아이콘 배치 */
+    background-color: #007bff; /* 아이콘 배경색 */
+    border-radius: 50%;
+    padding: 15px;
+    color: white;
+    cursor: pointer;
+    z-index: 1000;
+  }
+}
+
 
 /* 메인 콘텐츠 */
 .main-container {
   flex: 1;
+  width: 100%; /* 메인 콘텐츠의 너비를 100%로 설정 */
+  max-width: 1200px; /* 최대 너비 설정 */
   padding: 0 20px;
-} 
+}
 
 .staff-card .btn {
   font-size: 12px;
