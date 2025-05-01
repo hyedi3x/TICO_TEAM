@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Content, Footer, Header, Nav, Sidenav } from "rsuite";
+import { useLocation } from "react-router-dom";
+import { Content, Footer, Nav, Sidenav } from "rsuite";
 import "rsuite/dist/rsuite.min.css";
 import "./erpMain.css";
 
@@ -35,6 +36,7 @@ import PurchaseLogPage from "./PAY_Team/PurchaseLogPage";
 import EMPEduList from "../blockedu/EMPEduList";
 import NoticeAdmin from "../notice/NoticeAdmin";
 import axiosInstance from "../login/social/utils/axiosInstance";
+import NotificationList from "./MyPage/NotificationList";
 
 function ErpMain() {
   const [expanded, setExpanded] = useState(true); // 사이드바 확장 여부
@@ -43,6 +45,17 @@ function ErpMain() {
   const [comNotiId, setComNotiId] = useState(null); // 상세/수정 대상 ID
   const [empInfo, setEmpInfo] = useState(null); // 로그인된 사원 정보 상태(초기값 null)
   const [selectedUserId, setSelectedUserId] = useState(null); // 유저 상세 페이지용
+
+  // URL 쿼리파라미터
+  const location = useLocation();
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const viewParam = params.get('view');
+    const idParam = params.get('id');
+
+    if (viewParam) setViewMode(viewParam);
+    if (idParam) setComNotiId(idParam);
+  }, [location.search]);
 
   // 컴포넌트 마운트 시(처음 렌더링 시) 사원 정보를 서버에서 불러오는 useEffect
   useEffect(() => {
@@ -100,8 +113,6 @@ function ErpMain() {
 
   return (
     <div className="erp-main-container">
-      <Header></Header>
-
       {/* 좌측 사이드바 + 우측 메인 콘텐츠 */}
       <div className="content-wrapper">
         {/* 사이드바 영역 */}
@@ -135,7 +146,7 @@ function ErpMain() {
                 >
                   <Nav.Item eventKey="3-1">관리자 등록</Nav.Item>
                   <Nav.Item eventKey="3-2">관리자 조회/수정/삭제</Nav.Item>
-                </Nav.Menu>     
+                </Nav.Menu>
 
                 {/* 결제 관리팀 메뉴 (DEP002 부서만 활성화) */}
                 <Nav.Menu
@@ -174,7 +185,7 @@ function ErpMain() {
                   <Nav.Item eventKey="6-4">환불/취소 문의 관리</Nav.Item>
                   <Nav.Item eventKey="6-5">공지사항 관리</Nav.Item>
                   <Nav.Item eventKey="6-6">FAQ 관리</Nav.Item>
-                  
+
                 </Nav.Menu>
 
                 {/* 콘텐츠 관리팀 메뉴 (DEP005 부서만 활성화) */}
@@ -287,14 +298,15 @@ function ErpMain() {
             {viewMode === "myinfoChk" && <MyInfoChk />} {/* 관리자 정보 조회 */}
             {viewMode === "myinfoModify" && <MyInfoModify />} {/* 관리자 정보 조회 */}
             {viewMode === "notice" && <NoticeAdmin />} {/* 공지사항 관리 */}
+            {viewMode === "notifications" && <NotificationList/>} {/* 알림 정보 조회 */}
             {viewMode === "faq" && <FAQPut />} {/* FAQ 관리 */}
             {viewMode === "blockEduPost" && <BlockEduComponentPost />} {/* 블럭 학습 등록 */}
-            {viewMode === "EMPEduList" && <EMPEduList/>} {/* 블록학습 관리 */}
-            {viewMode === "ObjectSelectPage" && <ObjectSelectPage/>} {/* 오브젝트 관리 */}
-            {viewMode === "MainModify" && <MainModify/>} {/* 메인화면 */}
+            {viewMode === "EMPEduList" && <EMPEduList />} {/* 블록학습 관리 */}
+            {viewMode === "ObjectSelectPage" && <ObjectSelectPage />} {/* 오브젝트 관리 */}
+            {viewMode === "MainModify" && <MainModify />} {/* 메인화면 */}
 
-            {viewMode === "subscription-manage" && <SubscriptionManager/>} {/* 결제 회원 관리 */}
-            {viewMode === "purchaseLog" && <PurchaseLogPage/>} {/* 결제 내역 로그 관리 */}
+            {viewMode === "subscription-manage" && <SubscriptionManager />} {/* 결제 회원 관리 */}
+            {viewMode === "purchaseLog" && <PurchaseLogPage />} {/* 결제 내역 로그 관리 */}
           </div>
         </Content>
       </div>
