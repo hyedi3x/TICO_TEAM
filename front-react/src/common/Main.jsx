@@ -15,10 +15,6 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 
-// Bootstrap
-import { Card, Col, Row, Button } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
-
 // 챗 컴포넌트
 import WepChat from "../pages/wep_chat/WepChat";
 import ChatbotWindow from "../pages/chatbot/ChatbotWindow";
