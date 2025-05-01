@@ -141,3 +141,13 @@
   display: flex;
   align-items: center;
 }
+
+/* 카드 기본 스타일 */
+.project-card {
+  transition: transform 0.3s ease; /* 부드러운 이동 효과 */
+}
+
+/* 카드 호버 시 Y-10 이동 효과 */
+.project-card:hover {
+  transform: translateY(-10px); /* y축으로 10px 위로 이동 */
+}
