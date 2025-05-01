@@ -1,8 +1,10 @@
 .notice-container {
   max-width: 1000px;
-  margin: 40px auto;
+  margin: 20px auto;
   font-family: 'NanumGothic', sans-serif;
   background: #fff;
+  padding: 30px 20px;
+  border-radius: 20px;
 }
 
 .notice-header-main {
@@ -48,14 +50,6 @@
 .notice-divider {
   border: none;
   border-bottom: 2px solid #222;
-  margin: 0 0 0.8rem 0;
-}
-
-.notice-header-row {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-bottom: 1.5rem;
 }
 
 .notice-sort span {
@@ -81,10 +75,6 @@
   vertical-align: middle;
 }
 
-.notice-list {
-  margin-top: 1.5rem;
-}
-
 .notice-row {
   display: flex;
   align-items: center;
@@ -105,7 +95,6 @@
   margin-right: 10px;
   font-weight: bold;
   font-size: 1em;
-  letter-spacing: -1px;
 }
 
 .notice-type-new { color: #10c469; }
@@ -134,7 +123,6 @@
 .notice-sort-row {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 1.2rem;
 }
 
 /* 드롭다운(select) */
@@ -163,7 +151,7 @@
   display:flex;
   justify-content:center;
   gap:6px;
-  margin:20px 0;
+  margin-top :20px;
 }
 
 .notice-pagination button{
@@ -171,7 +159,7 @@
   border:1px solid #ccc;
   padding:4px 9px;
   cursor:pointer;
-  border-radius:9999px;   /* ⬅️  이 줄 추가!   */
+  border-radius:30px;
 }
 
 .notice-pagination button.active{

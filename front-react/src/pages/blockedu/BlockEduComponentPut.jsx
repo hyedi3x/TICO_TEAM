@@ -89,7 +89,7 @@ function BlockEduComponentPut() {
       const blocklyDivElement = document.createElement('div');
       blocklyDivElement.id = 'blocklyWorkspace';
       blocklyDivElement.style.height = '800px';
-      blocklyDivElement.style.width = '1200px';
+      blocklyDivElement.style.width = '800px';
       blocklyDiv.current.appendChild(blocklyDivElement);
 
       const newWorkspace = Blockly.inject(blocklyDivElement, {

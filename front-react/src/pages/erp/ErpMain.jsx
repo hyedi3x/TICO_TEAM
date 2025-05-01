@@ -33,9 +33,8 @@ import MainModify from "../../common/MainModify";
 import SubscriptionManager from "./PAY_Team/SubscriptionManager";
 import PurchaseLogPage from "./PAY_Team/PurchaseLogPage";
 import EMPEduList from "../blockedu/EMPEduList";
-
+import NoticeAdmin from "../notice/NoticeAdmin";
 import axiosInstance from "../login/social/utils/axiosInstance";
-import NotificationList from "./MyPage/NotificationList";
 
 function ErpMain() {
   const [expanded, setExpanded] = useState(true); // 사이드바 확장 여부
@@ -89,6 +88,7 @@ function ErpMain() {
       case "4-1": setViewMode("subscription-manage"); break;
       case "4-2": setViewMode("purchaseLog"); break;
       case "6-1": setViewMode("userList"); break;
+      case "6-5": setViewMode("notice"); break;
       case "6-6": setViewMode("faq"); break;
       case "7-4": setViewMode("blockEduPost"); break;
       case "7-5": setViewMode("EMPEduList"); break;
@@ -286,7 +286,7 @@ function ErpMain() {
             {viewMode === "admin-info" && <AdminInfo />} {/* 관리자 정보 조회 */}
             {viewMode === "myinfoChk" && <MyInfoChk />} {/* 관리자 정보 조회 */}
             {viewMode === "myinfoModify" && <MyInfoModify />} {/* 관리자 정보 조회 */}
-            {viewMode === "notifications" && <NotificationList/>} {/* 관리자 정보 조회 */}
+            {viewMode === "notice" && <NoticeAdmin />} {/* 공지사항 관리 */}
             {viewMode === "faq" && <FAQPut />} {/* FAQ 관리 */}
             {viewMode === "blockEduPost" && <BlockEduComponentPost />} {/* 블럭 학습 등록 */}
             {viewMode === "EMPEduList" && <EMPEduList/>} {/* 블록학습 관리 */}

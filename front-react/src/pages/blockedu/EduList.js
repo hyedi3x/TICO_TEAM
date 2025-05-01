@@ -59,7 +59,7 @@ const EduList = () => {
 
   return (
     <div className="quiz-wrapper">
-      <h5 className="quiz-count">총 {quizzes.length}문제</h5>
+      <h2 className="quiz-count">총 {quizzes.length}문제</h2>
       {/* 드롭다운을 테이블 우측 상단에 배치 */}
       <div className="quiz-sort-container">
         <select

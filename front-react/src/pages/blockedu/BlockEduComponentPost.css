@@ -33,6 +33,7 @@
     flex-direction: column;
     align-items: center;
     box-sizing: border-box; /* ✅ 내부 여백 포함 정확한 영역 설정 */
+    margin-bottom: 10px;
   }
   
   .e2_code-output p {
@@ -247,3 +248,26 @@
     object-fit: contain;
   }
   
+  @media (max-width: 2150px) {
+    .e2_blockly-container {
+      flex-direction: column !important;
+      align-items: center !important;
+    }
+    .e2_editor-wrapper {
+      flex-direction: column !important;
+      align-items: center !important;
+    }
+  }
+  
+  /* 2단계: 문제/정답/출력 1줄 세로 쌓기 */
+  @media (max-width: 1250px) {
+    .e2_textarea-div {
+      flex-direction: column !important;
+      align-items: center !important;
+    }
+    .e2_textarea-div div {
+      margin: 30px 0;
+      width: 100%;
+      max-width: 450px;
+    }
+  }
