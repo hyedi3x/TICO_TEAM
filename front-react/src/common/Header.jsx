@@ -8,7 +8,7 @@ import logo from '../imgs/TICO_logo_icon.png';
 import logo1 from '../imgs/TICO_logo.png';
 import './Header.css';
 import axiosInstance from '../pages/login/social/utils/axiosInstance';
-
+import NotificationDropdown from './NotificationDropdown';
 
 function Header() {
   const token = localStorage.getItem('accessToken');
@@ -111,31 +111,25 @@ function Header() {
               {/* 로그인 상태에 따라 로그인/로그아웃 버튼 전환 */}
               {isLoggedIn ? (
                 <>
-                  {/* 드롭다운을 사용하여 클릭 시 Mypage가 보이도록 구성 */}
-                  <Dropdown style={{ marginRight: '10px' }}>
-                    <Dropdown.Toggle
-                      variant="light"
-                      id="dropdown-basic"
-                      style={{ color: 'black' }}
-                    >
-                      { 
-                        user 
-                          ? (user.provider === 'employee' ? user.user_uuid : user.email) 
-                          : "My Account"
-                      }
-                    </Dropdown.Toggle>
-
-                    <Dropdown.Menu>
-                      <Dropdown.Item onClick={() => navigate('/MypageMain')}>
-                        Mypage
-                      </Dropdown.Item>
-                      {/* 필요시 추가 메뉴 아이템 */}
-                    </Dropdown.Menu>
-                  </Dropdown>
-                  
-                <Button className='button2' variant="outline-danger" onClick={handleLogout}>
-                  로그아웃
-                </Button>
+                  {user?.provider === 'employee' ? (
+                    <NotificationDropdown 
+                    userUuid={user.user_uuid} 
+                    onAllViewClick={() => navigate("/main?view=notifications")}/>
+                  ) : (
+                    <Dropdown style={{ marginRight: '10px' }}>
+                      <Dropdown.Toggle variant="light" style={{ color: 'black' }}>
+                        {user?.email || 'My Account'}
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu>
+                        <Dropdown.Item onClick={() => navigate('/MypageMain')}>
+                          Mypage
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  )}
+                  <Button className='button2' variant="outline-danger" onClick={handleLogout}>
+                    로그아웃
+                  </Button>
                 </>
               ) : (
                 <Button className='button1' variant="outline-success" onClick={handleLogin}>
