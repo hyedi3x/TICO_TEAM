@@ -124,17 +124,14 @@ def map_position_to_department(job_id):
     # HR: Administrative Assistant, Shared Services Manager
     if job_id in {"JOB002", "JOB027"}:
         return dep_map["HR"]
-    # CM: Area Sales Manager, Director of Operations, Director of Sales, Sales Manager
-    elif job_id in {"JOB003", "JOB011", "JOB012", "JOB025"}:
-        return dep_map["CM"]
     # PAY: Accountant I, Sr. Accountant
     elif job_id in {"JOB001", "JOB030"}:
         return dep_map["PAY"]
     # DA: BI Developer, BI Director, Data Analyst, Data Analyst, Data Architect, Principal Data Architect, Senior BI Developer
     elif job_id in {"JOB004", "JOB005", "JOB007", "JOB008", "JOB009", "JOB021",  "JOB026"}:
         return dep_map["DA"]
-    # CS: IT Support
-    elif job_id in {"JOB018"}:
+    # CS: Area Sales Manager, Director of Operations, Director of Sales, Sales Manager, IT Support
+    elif job_id in {"JOB003", "JOB011", "JOB012", "JOB025", "JOB018"}:
         return dep_map["CS"]
     # MO: President & CEO, Production Manager, Production Technician I, Production Technician II
     elif job_id in {"JOB020", "JOB022", "JOB023", "JOB024"}:
@@ -142,8 +139,6 @@ def map_position_to_department(job_id):
     # SYSO: CIO, IT Director, IT Manager - DB, IT Manager - Infra, IT Manager - Support, Network Engineer, Software Engineer, Software Engineering Manager, Sr. DBA, Sr. Network Engineer, Database Administrator, Enterprise Architect
     elif job_id in {"JOB006", "JOB014", "JOB015", "JOB016", "JOB017", "JOB019", "JOB028", "JOB029", "JOB031", "JOB032", "JOB010", "JOB013"}:
         return dep_map["SYSO"]
-    else:
-        return None
 
 # job_id 컬럼을 이용해 dep_id 생성
 # apply() : 함수 적용 메서드-> map_position_to_department 함수 실행 

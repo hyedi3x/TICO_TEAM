@@ -296,7 +296,7 @@ function Canvas() {
 
     setImagePosition(updatedPositions);
 
-    if (window.elapsedTime >= 0) {
+    if (window.elapsedTime > 0) {
       window.drawTimerText(); // 항상 타이머 위에 그리기
     }
 

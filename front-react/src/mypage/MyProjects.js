@@ -31,7 +31,7 @@ function MyProjects() {
   return (
     <Container className="my-works py-5">
       <h2 className="mb-4 text-center">내 작품</h2>
-      <Row className='project-grid'>
+      <Row className='project-grid justify-content-center'>
         {works.length === 0 ? (
           <p className="text-center">만든 작품이 없습니다.</p>
         ) : (
