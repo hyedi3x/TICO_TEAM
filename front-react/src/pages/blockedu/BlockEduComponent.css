@@ -11,6 +11,7 @@
 .e_textarea-div {
   display: flex;
   flex-direction: row;
+  margin-bottom: 10px;
 }
 
 textarea {

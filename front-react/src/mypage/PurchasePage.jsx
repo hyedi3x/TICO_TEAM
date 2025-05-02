@@ -2,11 +2,9 @@ import React, { useEffect, useState } from 'react';
 import './purchasePage.css';
 import { Button, Panel, Message } from 'rsuite';
 import axiosInstance from '../pages/login/social/utils/axiosInstance';
-import { useNavigate } from 'react-router-dom';
 
 function PurchasePage({ goToStatus }) {
   const userUuid = localStorage.getItem('user_uuid');
-  const navigate = useNavigate(); 
 
   const [isPaying, setIsPaying] = useState(false);
   const [status, setStatus] = useState('IDLE');   // PAID / FAILED / IDLE
@@ -67,7 +65,7 @@ function PurchasePage({ goToStatus }) {
           setStatus("PAID");
           setAlreadySubscribed(true); // UI 업데이트
           if (goToStatus) {
-            navigate('/object-select', { state: { purchased: true } });  
+            goToStatus();
           }
         } catch (error) {
           console.error("❌ 서버 검증 실패:", error);

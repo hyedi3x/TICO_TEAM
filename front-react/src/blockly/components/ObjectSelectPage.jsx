@@ -3,7 +3,7 @@ import { Container, Sidebar, Sidenav, Nav, Content, Header, ButtonGroup, Button,
 import 'rsuite/dist/rsuite.min.css';
 import './objectSelectPage.css';
 import axiosInstance from '../../pages/login/social/utils/axiosInstance';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 
 // 아이콘
@@ -17,6 +17,7 @@ import { SiLinuxcontainers } from "react-icons/si";
 import ObjectUploader from './ObjectUploader';
 import ObjectDraw from './ObjectDraw';
 import ObjectTextbox from './ObjectTextbox';
+import PurchasePage from '../../mypage/PurchasePage';
 
 // ObjectSelectPage.jsx
 // 블록 오브젝트 선택 및 관리(등록, 수정, 삭제, 업로드 등)를 담당하는 메인 컴포넌트
@@ -29,9 +30,7 @@ function ObjectSelectPage({ onComplete }) {
   const [selectedObjects, setSelectedObjects] = useState([]);         // 선택된 오브젝트
   const [activeMode, setActiveMode] = useState('object');             // 모드 상태(object, upload, draw, textbox)
   const userUuid = localStorage.getItem("user_uuid");                 // 현재 로그인된 사용자 UUID
-  const [showPurchaseModal, setShowPurchaseModal] = useState(false);  // 결제 모달 상태 정의
-
-  const navigate = useNavigate();
+  const [showPurchasePageModal, setShowPurchasePageModal] = useState(false);  // 결제 페이지 모달로 띄우기
 
   // 구매 완료 여부 확인
   const location = useLocation();
@@ -296,22 +295,27 @@ function ObjectSelectPage({ onComplete }) {
 
     <Container className="objectSelectPage-container">
 
-      {/* 결제 모달창 */}
-      <Modal open={showPurchaseModal} onClose={() => setShowPurchaseModal(false)}>
-        <Modal.Header>
-          <Modal.Title>이용권이 필요합니다</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          이 오브젝트는 유료입니다. 이용권을 구매하시겠습니까?
-        </Modal.Body>
-        <Modal.Footer>
-          <Button appearance="primary" onClick={() => {
-            setShowPurchaseModal(false);
-            navigate('/purchase'); // 👉 원하는 결제 페이지 URL
-          }}>예</Button>
-          <Button appearance="subtle" onClick={() => setShowPurchaseModal(false)}>아니오</Button>
-        </Modal.Footer>
-      </Modal>
+<Modal
+  open={showPurchasePageModal}
+  onClose={() => setShowPurchasePageModal(false)}
+  size="sm"
+  backdrop="static"
+  keyboard={false}
+>
+  <Modal.Header>
+    <Modal.Title>프리미엄 이용권 구매</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    <PurchasePage
+      goToStatus={() => {
+        setShowPurchasePageModal(false);
+        setIsPurchased(true);      // ✅ 결제 완료 후 락 해제
+        fetchObjectList();         // ✅ 최신 오브젝트 목록 재로드
+      }}
+    />
+  </Modal.Body>
+</Modal>
+
 
       {/* 오브젝트 등록, 수정 모달창 */}
       <Modal open={showModal} onClose={() => {
@@ -497,7 +501,7 @@ function ObjectSelectPage({ onComplete }) {
                       className={`objectSelectPage-item ${(isPaid && !isPurchased && !isAdmin) ? 'locked' : ''}`}
                       onClick={() => {
                         if (isPaid && !isPurchased && !isAdmin) {
-                          setShowPurchaseModal(true);   // 유료 + 미결제인 경우만 모달
+                          setShowPurchasePageModal(true); // ✅ 결제 페이지 모달 띄움
                           return;
                         }
                         handleSelectObject(obj);         // 무료거나 결제했으면 바로 선택

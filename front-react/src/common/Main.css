@@ -4,7 +4,7 @@
 .swiper-slide {
   text-align: center;
   font-size: 18px;
-  background: rgb(128, 216, 255);
+  background: none;
   display: flex !important;
   justify-content: center !important; /* 가로 방향 가운데 정렬 */
   align-items: center !important;     /* 세로 방향 가운데 정렬 */
@@ -140,4 +140,14 @@
 .swiper-slide swiper-slide-active {
   display: flex;
   align-items: center;
+}
+
+/* 카드 기본 스타일 */
+.project-card {
+  transition: transform 0.3s ease; /* 부드러운 이동 효과 */
+}
+
+/* 카드 호버 시 Y-10 이동 효과 */
+.project-card:hover {
+  transform: translateY(-10px); /* y축으로 10px 위로 이동 */
 }

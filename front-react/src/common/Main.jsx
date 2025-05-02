@@ -216,12 +216,14 @@ function Main() {
             ) : (
               staffPickProjects.map((project, index) => (
                 <SwiperSlide key={index} style={{ display: 'flex', justifyContent: 'center' }}>
-                  <ProjectCard
-                    project={project}
-                    onClick={() => navigate(`/share/detail/${project.projectId}`)}
-                    isStaff={staffPickIds.includes(Number(project.projectId))}
-                    isPopular={popularIds.includes(Number(project.projectId))}
-                  />
+                  <div className="project-card">
+                    <ProjectCard
+                      project={project}
+                      onClick={() => navigate(`/share/detail/${project.projectId}`)}
+                      isStaff={staffPickIds.includes(Number(project.projectId))}
+                      isPopular={popularIds.includes(Number(project.projectId))}
+                    />
+                  </div>  
                 </SwiperSlide>
               ))
             )}
@@ -249,12 +251,14 @@ function Main() {
             ) : (
               popularProjects.map((project, index) => (
                 <SwiperSlide key={index} style={{ display: 'flex', justifyContent: 'center' }}>
-                  <ProjectCard
-                    project={project}
-                    onClick={() => navigate(`/share/detail/${project.projectId}`)}
-                    isStaff={staffPickIds.includes(Number(project.projectId))}
-                    isPopular={popularIds.includes(Number(project.projectId))}
-                  />
+                  <div className="project-card">
+                    <ProjectCard
+                      project={project}
+                      onClick={() => navigate(`/share/detail/${project.projectId}`)}
+                      isStaff={staffPickIds.includes(Number(project.projectId))}
+                      isPopular={popularIds.includes(Number(project.projectId))}
+                    />
+                  </div>
                 </SwiperSlide>
               ))
             )}
