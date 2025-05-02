@@ -21,6 +21,7 @@ public class SubscriptionResponseDTO {
 	private boolean expired;
 	
 	private String name;	// 회원 이름
+	private String nickname; // 회원 닉네임(중복가입 안됨)
 
     private String transactionId;
 }
