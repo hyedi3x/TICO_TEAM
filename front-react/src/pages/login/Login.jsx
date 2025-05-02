@@ -56,7 +56,7 @@ function Login() {
       localStorage.setItem("autoLogin", "true");
       if (nickname)   localStorage.setItem("nickname", nickname);  // 사원 로그인 시 undefined 가능성 있음
       localStorage.setItem("user_uuid", user_uuid); 
-
+      localStorage.removeItem("viewMode");  // 처음 로그인시 무조건 viewMode를 localStorage에서 제거 (로그아웃시 안되므로)
       setIsLoggedIn(true);
       navigate("/");
     } catch (error) {
@@ -96,21 +96,19 @@ function Login() {
         localStorage.removeItem("refreshToken");
         localStorage.removeItem("nickname");
         localStorage.removeItem("autoLogin");
+        localStorage.removeItem("user_uuid");
+        localStorage.removeItem("viewMode");
 
         // 로그아웃 처리 상태 저장 (리렌더링을 막기 위한 상태)
         sessionStorage.setItem("loggedOut", "true");
 
         setIsLoggedIn(false);
         setUserInfo(null);
-  
-        console.log('accessToken:', localStorage.getItem("accessToken"));
-        console.log('user_uuid:', localStorage.getItem("user_uuid"));
-        console.log('autoLogin:', localStorage.getItem("autoLogin"));
           
         // navigate를 약간 지연시켜서 alert 먼저 보이게 함
         setTimeout(() => {
-          navigate("/login");
-        }, 100); // 0.1초 딜레이
+          window.location.href = "/"; // navigate 대신 강제 새로고침
+        }, 100);
       })
       .catch((error) => {
         console.error("로그아웃 실패:", error);
