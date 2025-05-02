@@ -35,6 +35,7 @@ import PurchaseLogPage from "./PAY_Team/PurchaseLogPage";
 import EMPEduList from "../blockedu/EMPEduList";
 import NoticeAdmin from "../notice/NoticeAdmin";
 import axiosInstance from "../login/social/utils/axiosInstance";
+import CsDashboard from "./Analyze_TEAM/CsDashboard";
 
 function ErpMain() {
   const [expanded, setExpanded] = useState(true); // 사이드바 확장 여부
@@ -87,6 +88,7 @@ function ErpMain() {
       case "3-2": setViewMode("admin-info"); break;
       case "4-1": setViewMode("subscription-manage"); break;
       case "4-2": setViewMode("purchaseLog"); break;
+      case "5-2": setViewMode("csDashboard"); break;
       case "6-1": setViewMode("userList"); break;
       case "6-5": setViewMode("notice"); break;
       case "6-6": setViewMode("faq"); break;
@@ -295,6 +297,9 @@ function ErpMain() {
 
             {viewMode === "subscription-manage" && <SubscriptionManager/>} {/* 결제 회원 관리 */}
             {viewMode === "purchaseLog" && <PurchaseLogPage/>} {/* 결제 내역 로그 관리 */}
+
+            {viewMode === "csDashboard" && <CsDashboard/>} {/* 결제 내역 로그 관리 */}
+
           </div>
         </Content>
       </div>
