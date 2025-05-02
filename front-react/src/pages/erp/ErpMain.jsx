@@ -64,6 +64,7 @@ function ErpMain() {
   useEffect(() => {
     if (empInfo) {
       console.log("empInfo 로드됨:", empInfo); // 상태가 정확히 로드되었는지 확인
+      
     }
   }, [empInfo]); // empInfo가 변경될 때마다 확인
 
@@ -131,7 +132,7 @@ function ErpMain() {
                   eventKey="3"
                   title="인사팀(HR)"
                   icon={<Icon as={BsFillPeopleFill} />}
-                  className={empInfo.depId === "DEP001" ? "" : "disabled-menu"}
+                  className={empInfo.depId === "DEP001" || empInfo.depId === "DEP000" ? "" : "disabled-menu"}
                 >
                   <Nav.Item eventKey="3-1">관리자 등록</Nav.Item>
                   <Nav.Item eventKey="3-2">관리자 조회/수정/삭제</Nav.Item>
@@ -142,7 +143,7 @@ function ErpMain() {
                   eventKey="4"
                   title="결제 관리팀(PAY)"
                   icon={<Icon as={MdPayments} />}
-                  className={empInfo.depId === "DEP002" ? "" : "disabled-menu"}
+                  className={(empInfo.depId === "DEP002" || empInfo.depId === "DEP001") ? "" : "disabled-menu"}
                 >
                   <Nav.Item eventKey="4-1">결제 회원 관리</Nav.Item>
                   <Nav.Item eventKey="4-2">결제 내역 관리</Nav.Item>
@@ -153,7 +154,7 @@ function ErpMain() {
                   eventKey="5"
                   title="통계 분석팀(DA)"
                   icon={<Icon as={ImStatsDots} />}
-                  className={empInfo.depId === "DEP003" ? "" : "disabled-menu"}
+                  className={(empInfo.depId === "DEP003" || empInfo.depId === "DEP001") ? "" : "disabled-menu"}
                 >
                   <Nav.Item eventKey="5-1">결제 통계</Nav.Item>
                   <Nav.Item eventKey="5-2">회원 통계</Nav.Item>
@@ -166,7 +167,7 @@ function ErpMain() {
                   eventKey="6"
                   title="고객 지원팀(CS)"
                   icon={<Icon as={MdOutlineEmojiPeople} />}
-                  className={empInfo.depId === "DEP004" ? "" : "disabled-menu"}
+                  className={(empInfo.depId === "DEP004" || empInfo.depId === "DEP001") ? "" : "disabled-menu"}
                 >
                   <Nav.Item eventKey="6-1">회원 목록 조회</Nav.Item>
                   <Nav.Item eventKey="6-2">회원 활동 관리</Nav.Item>
@@ -182,7 +183,7 @@ function ErpMain() {
                   eventKey="7"
                   title="콘텐츠 관리팀(MO)"
                   icon={<Icon as={TbPlayCardStarFilled} />}
-                  className={empInfo.depId === "DEP005" ? "" : "disabled-menu"}
+                  className={(empInfo.depId === "DEP005" || empInfo.depId === "DEP001") ? "" : "disabled-menu"}
                 >
                   <Nav.Item eventKey="7-1">작품 관리</Nav.Item>
                   <Nav.Item eventKey="7-2">커뮤니티 관리</Nav.Item>
@@ -198,7 +199,7 @@ function ErpMain() {
                   eventKey="8"
                   title="시스템 관리팀(SYSO)"
                   icon={<Icon as={FaGear} />}
-                  className={empInfo.depId === "DEP006" ? "" : "disabled-menu"}
+                  className={(empInfo.depId === "DEP006" || empInfo.depId === "DEP001") ? "" : "disabled-menu"}
                 >
                   <Nav.Item eventKey="8-1">권한 관리</Nav.Item>
                   <Nav.Item eventKey="8-2">보안 관리</Nav.Item>
