@@ -40,7 +40,9 @@ import CsDashboard from "./Analyze_TEAM/CsDashboard";
 function ErpMain() {
   const [expanded, setExpanded] = useState(true); // 사이드바 확장 여부
   const [activeKey, setActiveKey] = useState("1"); // 현재 선택된 메뉴의 eventKey를 저장
-  const [viewMode, setViewMode] = useState("home"); // 기본은 홈 화면(Home.jsx)
+  const [viewMode, setViewMode] = useState(() => {
+    return localStorage.getItem("viewMode") || "home";  // 저장된 값이 없으면 "home"
+  });
   const [comNotiId, setComNotiId] = useState(null); // 상세/수정 대상 ID
   const [empInfo, setEmpInfo] = useState(null); // 로그인된 사원 정보 상태(초기값 null)
   const [selectedUserId, setSelectedUserId] = useState(null); // 유저 상세 페이지용
@@ -76,28 +78,31 @@ function ErpMain() {
   // 메뉴 선택 시 호출되는 함수
   const handleNavSelect = (eventKey) => {
     setActiveKey(eventKey);
+    let selected = "home";
 
     switch (eventKey) {
-      case "1": setViewMode("home"); break;
-      case "1-1": setViewMode("list"); break;
-      case "1-2": setViewMode("create"); break;
-      case "2-1": setViewMode("myinfoModify"); break;
-      case "2-2": setViewMode("myinfoChk"); break;
-      case "2-3": setViewMode("notifications"); break;
-      case "3-1": setViewMode("admin-register"); break;
-      case "3-2": setViewMode("admin-info"); break;
-      case "4-1": setViewMode("subscription-manage"); break;
-      case "4-2": setViewMode("purchaseLog"); break;
-      case "5-2": setViewMode("csDashboard"); break;
-      case "6-1": setViewMode("userList"); break;
-      case "6-5": setViewMode("notice"); break;
-      case "6-6": setViewMode("faq"); break;
-      case "7-4": setViewMode("blockEduPost"); break;
-      case "7-5": setViewMode("EMPEduList"); break;
-      case "7-6": setViewMode("ObjectSelectPage"); break;
-      case "7-7": setViewMode("MainModify"); break;
-      default: setViewMode("home"); break;
+    case "1": selected = "home"; break;
+    case "1-1": selected = "list"; break;
+    case "1-2": selected = "create"; break;
+    case "2-1": selected = "myinfoModify"; break;
+    case "2-2": selected = "myinfoChk"; break;
+    case "2-3": selected = "notifications"; break;
+    case "3-1": selected = "admin-register"; break;
+    case "3-2": selected = "admin-info"; break;
+    case "4-1": selected = "subscription-manage"; break;
+    case "4-2": selected = "purchaseLog"; break;
+    case "5-2": selected = "csDashboard"; break;
+    case "6-1": selected = "userList"; break;
+    case "6-5": selected = "notice"; break;
+    case "6-6": selected = "faq"; break;
+    case "7-4": selected = "blockEduPost"; break;
+    case "7-5": selected = "EMPEduList"; break;
+    case "7-6": selected = "ObjectSelectPage"; break;
+    case "7-7": selected = "MainModify"; break;
+    default: selected = "home";
     }
+  setViewMode(selected);
+  localStorage.setItem("viewMode", selected);  // 선택된 화면 상태 저장
   };
 
   return (
@@ -158,7 +163,7 @@ function ErpMain() {
                   className={empInfo.depId === "DEP003" ? "" : "disabled-menu"}
                 >
                   <Nav.Item eventKey="5-1">결제 통계</Nav.Item>
-                  <Nav.Item eventKey="5-2">회원 통계</Nav.Item>
+                  <Nav.Item eventKey="5-2">회원 참여도/학습률 분석</Nav.Item>
                   <Nav.Item eventKey="5-3">콘텐츠 통계</Nav.Item>
                   <Nav.Item eventKey="5-4">보고서 생성</Nav.Item>
                 </Nav.Menu>
