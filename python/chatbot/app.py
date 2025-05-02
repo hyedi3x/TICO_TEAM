@@ -9,8 +9,8 @@ from flask_cors import CORS  # flask cors 라이브러리 추가
 
 # py 파일 호출
 from config import AUDIO_FILES_DIR
-from routes import routes
-from dashboard.routes import dashboard_bp  # dashboard의 blueprint
+from routes import routes  # chatbot 폴더의 하위 routes.py
+from dashboard.routes import dashboard_bp  # dashboard 폴더 하위의 routes.py 
 
 # 파이썬 flask 서버 생성 (flask application name)
 app = Flask(__name__)
@@ -23,7 +23,7 @@ except Exception as e:
     print(f"오디오 폴더 생성 실패: {e}", flush=True)  # flush=True : 출력 결과를 즉시 콘솔(또는 로그)에 강제로 내보내는 옵션
 
 app.register_blueprint(routes)  # 라우터 등록 (Blueprint)
-app.register_blueprint(dashboard_bp)  # dashboard 경로 등록
+app.register_blueprint(dashboard_bp)  # dashboard 라우트 등록
 
 # 음성 파일 제공 
 @app.route("/audio/<nickname>/<filename>")
