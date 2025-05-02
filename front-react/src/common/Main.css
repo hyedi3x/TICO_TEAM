@@ -4,7 +4,7 @@
 .swiper-slide {
   text-align: center;
   font-size: 18px;
-  background: rgb(128, 216, 255);
+  background: none;
   display: flex !important;
   justify-content: center !important; /* 가로 방향 가운데 정렬 */
   align-items: center !important;     /* 세로 방향 가운데 정렬 */
