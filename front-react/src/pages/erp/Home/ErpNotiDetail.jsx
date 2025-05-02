@@ -3,6 +3,10 @@ import './erpNotiDetail.css';
 import axiosInstance from '../../login/social/utils/axiosInstance';
 
 function ErpNotiDetail({ id, onBack, onEdit }) {
+    
+    // 현재 로그인된 사번 가져오기
+    const currentEmpId = localStorage.getItem('user_uuid');
+
     // 공지사항 데이터를 담을 상태 변수
     const [notice, setNotice] = useState(null);
 
@@ -75,7 +79,10 @@ function ErpNotiDetail({ id, onBack, onEdit }) {
             {/* 하단 버튼 영역 */}
             <div className="notice-detail-buttons">
                 <button className="notice-button" onClick={onBack}>목록으로</button>
-                <button className="notice-button" onClick={() => onEdit(id)}>수정</button>
+                {notice.empId === currentEmpId && (
+                    <button className="notice-button" onClick={() => onEdit(id)}>수정</button>
+                )}
+
             </div>
         </div>
     );

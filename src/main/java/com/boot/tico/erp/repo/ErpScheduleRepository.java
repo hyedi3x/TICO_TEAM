@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.boot.tico.erp.dto.ErpScheduleDTO;
 
 /**
- * 🗂️ 일정 관련 DB 접근을 담당하는 Repository
+ * 일정 관련 DB 접근을 담당하는 Repository
  * - JpaRepository 를 상속하여 기본 CRUD 기능 자동 제공
  * - 메서드 이름 기반 쿼리로 커스텀 조회 구현
  */
@@ -22,4 +22,7 @@ public interface ErpScheduleRepository extends JpaRepository<ErpScheduleDTO, Lon
 
     // 특정 시간 이후의 일정 조회
     List<ErpScheduleDTO> findByEmpIdAndErpScheduleStartAfter(String empId, LocalDateTime time);
+    
+    // 내일 만료될 일정
+    List<ErpScheduleDTO> findByErpScheduleEndBetween(LocalDateTime start, LocalDateTime end);
 }

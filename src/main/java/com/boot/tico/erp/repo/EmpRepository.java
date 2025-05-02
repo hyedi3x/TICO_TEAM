@@ -29,5 +29,8 @@ public interface EmpRepository extends JpaRepository<EmpDTO, String> {
     // empId의 max값 조회
     @Query("SELECT MAX(e.empId) FROM EmpDTO e")
     String findMaxEmpId();
+    
+    // 해당 empId가 employees 테이블에 존재하는지 확인하는 메서드
+    boolean existsByEmpId(String empId);
 }
 

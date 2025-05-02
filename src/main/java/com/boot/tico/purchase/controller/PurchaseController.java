@@ -54,7 +54,7 @@ public class PurchaseController {
                                            @RequestBody PaymentVerifyRequest request) {
         try {
             IamportResponse<Payment> iamportResponse = iamportClient.paymentByImpUid(impUid);
-            log.info("✅ 아임포트 결제 응답: 주문번호={}, 금액={}, 상태={}",
+            log.info("아임포트 결제 응답: 주문번호={}, 금액={}, 상태={}",
                     iamportResponse.getResponse().getMerchantUid(),
                     iamportResponse.getResponse().getAmount(),
                     iamportResponse.getResponse().getStatus());
@@ -133,8 +133,8 @@ public class PurchaseController {
     @PostMapping("/refund/{impUid}")
     public ResponseEntity<?> refundPayment(@PathVariable String impUid, @RequestBody RefundRequest request) {
         try {
-            Purchase refunded = service.refundByImpUid(impUid, request.getEmpId());
-            return ResponseEntity.ok(refunded); // 환불된 정보 반환
+            service.refundByImpUid(impUid, request.getEmpId());
+            return ResponseEntity.ok().build();		// 반환은 아무것도 안 주거나 메시지만
         } catch (Exception e) {
             log.error("❌ 환불 처리 실패: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -142,7 +142,7 @@ public class PurchaseController {
         }
     }
     
- // ✅ 영수증 데이터 조회 (마이페이지 모달용)
+ // 영수증 데이터 조회 (마이페이지 모달용)
     @GetMapping("/receipt-data/{userUuid}")
     public ResponseEntity<?> getReceiptData(@PathVariable String userUuid) {
         try {

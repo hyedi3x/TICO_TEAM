@@ -131,34 +131,31 @@ public class PurchaseService {
     public Page<SubscriptionResponseDTO> getSubscriptionPage(String keyword, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
 
-        // 이름 기준으로 유저 리스트 가져오기
-        Page<User> userPage = userRepo.findByNameContainingIgnoreCase(keyword, pageable);
+        // 🔹 purchase 기준으로 active이고, 유저 이름에 keyword가 포함된 것만 조회
+        Page<Purchase> purchasePage = purchaseRepo.findActiveWithUser(keyword, pageable);
 
-        // purchase가 있는 유저만 DTO로 변환(일부 유저는 Purchase가 없어서 Optional.get()에서 NPE 발생)
-        List<SubscriptionResponseDTO> dtoList = userPage.stream()
-            .map(user -> {
-                return purchaseRepo.findById(user.getUser_uuid()).map(p -> {
-                    LocalDate now = LocalDate.now();
-                    long remainingDays = ChronoUnit.DAYS.between(now, p.getEndDate().toLocalDate());
-                    boolean expired = remainingDays <= 0;
-                    return SubscriptionResponseDTO.builder()
-                            .name(user.getName())
-                            .startDate(p.getStartDate().toLocalDate())
-                            .endDate(p.getEndDate().toLocalDate())
-                            .active(p.isActive())
-                            .subscriptionType(p.getSubscriptionType())
-                            .remainingDays(Math.max(remainingDays, 0))
-                            .expired(expired)
-                            .transactionId(p.getTransactionId())
-                            .build();
-                }).orElse(null); // purchase 없는 유저 제외
-            })
-            .filter(dto -> dto != null)
-            .toList();	// Java 16+ 또는 collect(Collectors.toList())
+        // 🔹 DTO 변환
+        List<SubscriptionResponseDTO> dtoList = purchasePage.stream().map(p -> {
+            User user = p.getUser(); // join fetch 덕분에 N+1 문제 없음
+            LocalDate now = LocalDate.now();
+            long remainingDays = ChronoUnit.DAYS.between(now, p.getEndDate().toLocalDate());
 
-        // ⚠️ 전체 userPage.getTotalElements() → 실제 DTO 리스트 크기만큼으로 수정
-        return new PageImpl<>(dtoList, pageable, dtoList.size());
+            return SubscriptionResponseDTO.builder()
+                    .name(user.getName())
+                    .nickname(user.getNickname())
+                    .startDate(p.getStartDate().toLocalDate())
+                    .endDate(p.getEndDate().toLocalDate())
+                    .active(p.isActive())
+                    .subscriptionType(p.getSubscriptionType())
+                    .remainingDays(Math.max(remainingDays, 0))
+                    .expired(remainingDays <= 0)
+                    .transactionId(p.getTransactionId())
+                    .build();
+        }).toList();
+
+        return new PageImpl<>(dtoList, pageable, purchasePage.getTotalElements());
     }
+
 
     // 결제건 환불 처리 (관리자용)
     public Purchase refundByImpUid(String impUid, String empId) throws IamportResponseException, IOException {
