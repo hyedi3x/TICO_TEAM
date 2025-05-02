@@ -587,8 +587,8 @@ useEffect(() => {
       {showScoreModal && (
         <ScoreModal
           score={window.score}
-          onClose={() => {runStopBtnCodeWithReset();navigate('/share')}}
-          onRetry={()=> {setShowScoreModal(false);runStopBtnCodeWithReset();}}
+          onClose={() => {navigate('/share'); runStopBtnCodeWithReset();}}
+          onRetry={()=> {setShowScoreModal(false); runStopBtnCodeWithReset();}}
         />
       )}
     </div>
