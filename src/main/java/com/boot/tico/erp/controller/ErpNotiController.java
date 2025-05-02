@@ -49,8 +49,9 @@ public class ErpNotiController {
             @RequestParam(required = false) String searchType,
             @RequestParam(required = false) String category,
             @RequestParam(required = false) String status,
+            @RequestParam(required = false) String empId,
             Pageable pageable) {
-        return notiService.searchNoticesWithPaging(keyword, searchType, category, status, pageable);
+        return notiService.searchNoticesWithPaging(keyword, searchType, category, status, empId, pageable);
     }
 
     /**
