@@ -38,6 +38,7 @@ import NoticeAdmin from "../notice/NoticeAdmin";
 import axiosInstance from "../login/social/utils/axiosInstance";
 import CsDashboard from "./Analyze_TEAM/CsDashboard";
 import NotificationList from "./MyPage/NotificationList";
+import ProjectReportList from "./CS_TEAM/ProjectReportList";
 
 function ErpMain() {
   const [expanded, setExpanded] = useState(true); // 사이드바 확장 여부
@@ -95,25 +96,26 @@ function ErpMain() {
     let selected = "home";
 
     switch (eventKey) {
-    case "1": selected = "home"; break;
-    case "1-1": selected = "list"; break;
-    case "1-2": selected = "create"; break;
-    case "2-1": selected = "myinfoModify"; break;
-    case "2-2": selected = "myinfoChk"; break;
-    case "2-3": selected = "notifications"; break;
-    case "3-1": selected = "admin-register"; break;
-    case "3-2": selected = "admin-info"; break;
-    case "4-1": selected = "subscription-manage"; break;
-    case "4-2": selected = "purchaseLog"; break;
-    case "5-2": selected = "csDashboard"; break;
-    case "6-1": selected = "userList"; break;
-    case "6-5": selected = "notice"; break;
-    case "6-6": selected = "faq"; break;
-    case "7-4": selected = "blockEduPost"; break;
-    case "7-5": selected = "EMPEduList"; break;
-    case "7-6": selected = "ObjectSelectPage"; break;
-    case "7-7": selected = "MainModify"; break;
-    default: selected = "home";
+      case "1": selected = "home"; break;
+      case "1-1": selected = "list"; break;
+      case "1-2": selected = "create"; break;
+      case "2-1": selected = "myinfoModify"; break;
+      case "2-2": selected = "myinfoChk"; break;
+      case "2-3": selected = "notifications"; break;
+      case "3-1": selected = "admin-register"; break;
+      case "3-2": selected = "admin-info"; break;
+      case "4-1": selected = "subscription-manage"; break;
+      case "4-2": selected = "purchaseLog"; break;
+      case "5-2": selected = "csDashboard"; break;
+      case "6-1": selected = "userList"; break;
+      case "6-3": selected = "projectReportList"; break;
+      case "6-6": selected = "notice"; break;
+      case "6-7": selected = "faq"; break;
+      case "7-4": selected = "blockEduPost"; break;
+      case "7-5": selected = "EMPEduList"; break;
+      case "7-6": selected = "ObjectSelectPage"; break;
+      case "7-7": selected = "MainModify"; break;
+      default: selected = "home";
     }
   setViewMode(selected);
   localStorage.setItem("viewMode", selected);  // 선택된 화면 상태 저장
@@ -189,10 +191,11 @@ function ErpMain() {
                 >
                   <Nav.Item eventKey="6-1">회원 목록 조회</Nav.Item>
                   <Nav.Item eventKey="6-2">회원 활동 관리</Nav.Item>
-                  <Nav.Item eventKey="6-3">결제 관련 문의 관리</Nav.Item>
-                  <Nav.Item eventKey="6-4">환불/취소 문의 관리</Nav.Item>
-                  <Nav.Item eventKey="6-5">공지사항 관리</Nav.Item>
-                  <Nav.Item eventKey="6-6">FAQ 관리</Nav.Item>
+                  <Nav.Item eventKey="6-3">작품 신고 목록</Nav.Item>
+                  <Nav.Item eventKey="6-4">결제 관련 문의 관리</Nav.Item>
+                  <Nav.Item eventKey="6-5">환불/취소 문의 관리</Nav.Item>
+                  <Nav.Item eventKey="6-6">공지사항 관리</Nav.Item>
+                  <Nav.Item eventKey="6-7">FAQ 관리</Nav.Item>
 
                 </Nav.Menu>
 
@@ -300,13 +303,14 @@ function ErpMain() {
                 onBack={() => setViewMode("user-detail")} // 또는 user-detail로 다시
               />
             )}
+            {viewMode === "projectReportList" && <ProjectReportList />} {/* 작품 신고 목록 */}
 
             {viewMode === "admin-register" && <AdminRegister />} {/* 관리자 등록 */}
             {viewMode === "admin-info" && <AdminInfo />} {/* 관리자 정보 조회 */}
             {viewMode === "myinfoChk" && <MyInfoChk />} {/* 관리자 정보 조회 */}
             {viewMode === "myinfoModify" && <MyInfoModify />} {/* 관리자 정보 조회 */}
             {viewMode === "notice" && <NoticeAdmin />} {/* 공지사항 관리 */}
-            {viewMode === "notifications" && <NotificationList/>} {/* 알림 정보 조회 */}
+            {viewMode === "notifications" && <NotificationList/>} {/* 관리자 알림 정보 조회 */}
             {viewMode === "faq" && <FAQPut />} {/* FAQ 관리 */}
             {viewMode === "blockEduPost" && <BlockEduComponentPost />} {/* 블럭 학습 등록 */}
             {viewMode === "EMPEduList" && <EMPEduList />} {/* 블록학습 관리 */}
