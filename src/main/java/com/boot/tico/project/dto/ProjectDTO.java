@@ -68,6 +68,9 @@ public class ProjectDTO {
     
     @Column(name = "iscomment")
     private String isComment;
+    
+    @Transient
+    private String nickName;
 
     @PrePersist
     protected void onCreate() {

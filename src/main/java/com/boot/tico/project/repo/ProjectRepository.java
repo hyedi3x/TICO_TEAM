@@ -46,8 +46,15 @@ public interface ProjectRepository extends JpaRepository<ProjectDTO, Integer>{
      * [5] 공개된 프로젝트 목록 조회
      * - 공개된 프로젝트 목록을 조회 (isPrivate = 'N' AND isDelete = 'N')
      */
-	@Query(value="SELECT * FROM project_tb WHERE isPrivate = 'N' AND isDelete = 'N'", nativeQuery=true)
-	List<ProjectDTO> findByIsPrivate();
+	@Query(value = """
+		    SELECT 
+		        p.project_id, p.title, p.thumbnail_url, 
+		        p.like_count, p.view_count, p.comment_count, u.nickname
+		    FROM project_tb p
+		    LEFT JOIN users u ON p.user_uuid = u.user_uuid
+		    WHERE p.isprivate = 'N' AND p.isdelete = 'N'
+		""", nativeQuery = true)
+		List<Object[]> findByIsPrivate();
 	
 	/**
      * [6] 프로젝트 공유 처리
