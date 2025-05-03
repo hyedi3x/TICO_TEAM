@@ -111,11 +111,7 @@ function Header() {
               {/* 로그인 상태에 따라 로그인/로그아웃 버튼 전환 */}
               {isLoggedIn ? (
                 <>
-                  {user?.provider === 'employee' ? (
-                    <NotificationDropdown 
-                    userUuid={user.user_uuid} 
-                    onAllViewClick={() => navigate("/main?view=notifications")}/>
-                  ) : (
+                   {user?.provider !== 'employee' && (
                     <Dropdown style={{ marginRight: '10px' }}>
                       <Dropdown.Toggle variant="light" style={{ color: 'black' }}>
                         {user?.email || 'My Account'}
@@ -127,6 +123,16 @@ function Header() {
                       </Dropdown.Menu>
                     </Dropdown>
                   )}
+
+                   <NotificationDropdown
+                    userUuid={user?.user_uuid}
+                    userRole={user?.provider} // 'employee' or other
+                    onAllViewClick={() =>
+                      navigate(user?.provider === 'employee'
+                        ? "/erpMain?view=notifications"
+                        : "/MypageMain?tab=notifications")
+                    }
+                  />
                   <Button className='button2' variant="outline-danger" onClick={handleLogout}>
                     로그아웃
                   </Button>
