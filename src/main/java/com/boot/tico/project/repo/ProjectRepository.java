@@ -155,4 +155,9 @@ public interface ProjectRepository extends JpaRepository<ProjectDTO, Integer>{
     nativeQuery = true)
 	List<ProjectDTO> findPopularProjects();
 	
+	// 특정 프로젝트의 작성자 UUID 조회
+	// projectAuthorUuid를 얻기 위해서 project_id 기반으로 해당 프로젝트의 user_uuid를 조회해야함.
+	@Query(value = "SELECT user_uuid FROM project_tb WHERE project_id = :projectId", nativeQuery = true)
+	String findAuthorByProjectId(@Param("projectId") int projectId);
+	
 }
