@@ -20,7 +20,7 @@ function ReportForm() {
     }
 
     try {
-      await axiosInstance.post('/api/project/report', {
+      await axiosInstance.post('/api/report', {
         projectId,
         userUuid,
         reason,
