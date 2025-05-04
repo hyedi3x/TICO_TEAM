@@ -37,11 +37,6 @@ function ObjectSelectPage({ onComplete }) {
   const purchased = location.state?.purchased || false;
   const [isPurchased, setIsPurchased] = useState(false);
 
-  // 구매 완료 여부 확인
-  const location = useLocation();
-  const purchased = location.state?.purchased || false;
-  const [isPurchased, setIsPurchased] = useState(false);
-
   // JWT 토큰에서 사용자 역할 추출 (EMPLOYEE인지 확인)
   const [userRole, setUserRole] = useState(null);  // 사용자 역할 상태
   const [userDepId, setUserDepId] = useState(null);  // 관리자 부서
@@ -343,7 +338,7 @@ function ObjectSelectPage({ onComplete }) {
                     src={
                       newObjectData.previewUrl
                         ? newObjectData.previewUrl
-                        : `https://tico.kro.kr${newObjectData.blocklyObjectFilePath.startsWith('/') ? '' : '/'}${newObjectData.blocklyObjectFilePath}`
+                        : `http://localhost:8081${newObjectData.blocklyObjectFilePath.startsWith('/') ? '' : '/'}${newObjectData.blocklyObjectFilePath}`
                     }
                     alt="오브젝트 미리보기"
                     className="image-preview-box"
@@ -515,7 +510,7 @@ function ObjectSelectPage({ onComplete }) {
                     >
                       <div className="objectSelectPage-image-wrapper" style={{ position: 'relative' }}>
                         <img
-                          src={`https://tico.kro.kr${obj.blocklyObjectFilePath.startsWith('/') ? '' : '/'}${obj.blocklyObjectFilePath}`}
+                          src={`http://localhost:8081${obj.blocklyObjectFilePath.startsWith('/') ? '' : '/'}${obj.blocklyObjectFilePath}`}
                           alt={obj.blocklyObjectName}
                           className="objectSelectPage-image"
                         />
@@ -577,7 +572,7 @@ function ObjectSelectPage({ onComplete }) {
                 {/* 🖼️ 타입이 image인 경우 */}
                 {obj.type === 'image' || obj.blocklyObjectFilePath ? (
                   <img
-                    src={`https://tico.kro.kr${obj.blocklyObjectFilePath.startsWith('/') ? '' : '/'}${obj.blocklyObjectFilePath}`}
+                    src={`http://localhost:8081${obj.blocklyObjectFilePath.startsWith('/') ? '' : '/'}${obj.blocklyObjectFilePath}`}
                     alt={obj.blocklyObjectName}
                     className="objectSelectPage-selected-object-image"
                   />

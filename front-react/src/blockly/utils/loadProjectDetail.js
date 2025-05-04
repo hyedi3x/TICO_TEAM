@@ -39,7 +39,7 @@ export const loadProjectToCanvas = async (
     return new Promise((resolve) => {
       const img = new Image();
       img.crossOrigin = "anonymous";
-      img.src = `https://tico.kro.kr${obj.url}`;
+      img.src = `http://localhost:8081${obj.url}`;
 
       img.onload = () => {
         imgArr.current[obj.objectIndex] = {

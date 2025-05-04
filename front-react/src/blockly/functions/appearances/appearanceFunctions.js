@@ -128,7 +128,7 @@ const changeShape = function(url, index, isClone=false){
       const newImg = new Image();
       
       if (!url.startsWith('http://') && !url.startsWith('https://')) {
-        url = 'https://tico.kro.kr/uploads' + url;
+        url = 'http://localhost:8081/uploads' + url;
       }
       newImg.src = url;
       newImg.onload = () => {
