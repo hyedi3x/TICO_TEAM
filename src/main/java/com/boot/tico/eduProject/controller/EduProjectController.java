@@ -36,8 +36,10 @@ public class EduProjectController {
 	
 	// @PatchMapping은 전체가 아닌 일부를 수정할 때 적절, 삭제도 있지만 간단한 코드라 가독성을 우선시함
 	@PatchMapping("/manageQuiz")
-	public ResponseEntity<String> manageQuiz(@RequestBody Map<String, String> map) {
+	public ResponseEntity<String> manageQuiz(@RequestBody Map<String, Object> map) {
 		logger.info("<<< Controller - manageQuiz() >>>");
-		return new ResponseEntity<>(eduservice.manageQuiz(map), HttpStatus.OK);
+		int quiz_id = Integer.parseInt(String.valueOf(map.get("quiz_id")));
+	    String action = String.valueOf(map.get("action"));
+		return new ResponseEntity<>(eduservice.manageQuiz(quiz_id, action), HttpStatus.OK);
 	}
 }

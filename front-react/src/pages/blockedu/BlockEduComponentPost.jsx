@@ -48,8 +48,8 @@ function BlockEduComponentPost() {
     if (blocklyDiv.current && !workspace) {
       const blocklyDivElement = document.createElement('div');
       blocklyDivElement.id = 'blocklyWorkspace';
-      blocklyDivElement.style.height = '800px';
-      blocklyDivElement.style.width = '800px';
+      blocklyDivElement.style.height = '100%';
+      blocklyDivElement.style.width = '100%';
       blocklyDiv.current.appendChild(blocklyDivElement);
 
       const newWorkspace = Blockly.inject(blocklyDivElement, {
@@ -214,8 +214,8 @@ function BlockEduComponentPost() {
 
   return (
     <div className="e2_blockly-container">
-      
-      <div className="e2_textarea-div">
+      <div className="e2_combine-div">
+        <div className="e2_textarea-div">
         <div className="e2_code-output">
           
           <p>문제 제목</p>
@@ -263,7 +263,7 @@ function BlockEduComponentPost() {
           <div className="e2_blockly-area">
 
             <p>블럭코딩 작업 공간 [ 변수명 영어 ]</p>
-            <div className="e2_block-div" ref={blocklyDiv}></div>
+            <div className="e2_blocklyworkspace" ref={blocklyDiv}></div>
 
             <div className="e2_button-blockly">
               
@@ -277,6 +277,8 @@ function BlockEduComponentPost() {
             </div>
           </div>
         </div>
+      </div>
+      
     </div>
   );
 }

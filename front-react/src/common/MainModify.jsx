@@ -25,7 +25,7 @@ function MainModify() {
 
   // 전체 프로젝트 목록
   useEffect(() => {
-    axiosInstance.get('/api/project/projectList')
+    axiosInstance.get('/api/project/projects')
     .then(response => {
       setAllProjects(response.data);
     })

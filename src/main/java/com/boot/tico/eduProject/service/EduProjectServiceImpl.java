@@ -40,10 +40,8 @@ public class EduProjectServiceImpl {
 	}
 	
 	@Transactional
-	public String manageQuiz(Map<String, String> map) {
-		int quiz_id = Integer.parseInt(map.get("quiz_id"));
-		String action = map.get("action");
-		
+	public String manageQuiz(int quiz_id, String action) {
+		System.out.println("id"+ quiz_id + "action: "+ action);
 		EduProjectDTO dto = repo.findById(quiz_id).orElseThrow(); 
 		// orElseThrow() : Optional에 값이 있으면 그 값을 반환, 없으면 예외를 던짐
 		

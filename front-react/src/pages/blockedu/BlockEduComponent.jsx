@@ -75,8 +75,8 @@ function BlockEduComponent() {
     if (blocklyDiv.current && !workspace) {
       const blocklyDivElement = document.createElement('div');
       blocklyDivElement.id = 'blocklyWorkspace';
-      blocklyDivElement.style.height = '800px';
-      blocklyDivElement.style.width = '1200px';
+      blocklyDivElement.style.height = '100%';
+      blocklyDivElement.style.width = '100%';
       blocklyDiv.current.appendChild(blocklyDivElement);
 
       const newWorkspace = Blockly.inject(blocklyDivElement, {
@@ -187,44 +187,41 @@ function BlockEduComponent() {
 
   return (
     <div className="e_blockly-container">
-      
-      <div className="e_textarea-div">
-        <div className="e_code-output">
-          <button className="imgToggle" onClick={()=>handleToggle()}>🔎정답 보기</button>
-          <img className="e_quiz-img" src={currentImageSrc} alt="퀴즈1" />
-          
-          <p>생성된 코드</p>
-          <textarea value={rawCodeForDisplay()} readOnly/>
-        </div>
-        <div className="e_xml-output">
-        {quizData ? (
-          <p>문제 {quizData.quiz_id}번. {quizData.quiz_title}</p>
-        ) : (
-          <p>퀴즈 정보를 불러오는 중...</p>
-        )}
-        <textarea value={quizDescription} readOnly/>
+      <div className="e_combine-div">
+        <div className="e_textarea-div">
+          <div className="e_code-output">
+            <button className="imgToggle" onClick={()=>handleToggle()}>🔎정답 보기</button>
+            <img className="e_quiz-img" src={currentImageSrc} alt="퀴즈1" />
+            
+            <p>생성된 코드</p>
+            <textarea value={rawCodeForDisplay()} readOnly/>
+          </div>
+          <div className="e_xml-output">
+            {quizData ? (
+              <p className="quiz-title">문제 {quizData.quiz_id}번. {quizData.quiz_title}</p>
+            ) : (
+              <p>퀴즈 정보를 불러오는 중...</p>
+            )}
+            <textarea className="quiz-content" value={quizDescription} readOnly/>
 
-        <p>출력 화면 (실행하기 클릭)</p>
-        <textarea value={textareaContent} readOnly/>
+            <p>출력 화면 (실행하기 클릭)</p>
+            <textarea value={textareaContent} readOnly/>
 
-        </div>
-      </div>
-
-        <div className="e_editor-wrapper">
-          <div className="e_blockly-area">
-
-            <p>블럭코딩 작업 공간</p>
-            <div ref={blocklyDiv}></div>
-
-            <div className="e_button-blockly">
-              <button onClick={()=>navigate("/eduList")}>☰ 목록으로 돌아가기</button>
-              <button onClick={resetTextarea}>🗑️ 출력창 초기화</button>
-              <button onClick={runStartBtnCode}>▶️ 실행하기</button>
-              <button onClick={handleCheckAnswer}>✅ 정답 확인하기</button>
-            </div>s
           </div>
         </div>
-      
+        <div className="e_blockly-area">
+
+          <p>블럭코딩 작업 공간</p>
+          <div className="e_blocklyworkspace" ref={blocklyDiv}></div>
+
+          <div className="e_button-blockly">
+            <button onClick={()=>navigate("/eduList")}>☰ 목록으로 돌아가기</button>
+            <button onClick={resetTextarea}>🗑️ 출력창 초기화</button>
+            <button onClick={runStartBtnCode}>▶️ 실행하기</button>
+            <button onClick={handleCheckAnswer}>✅ 정답 확인하기</button>
+          </div>
+        </div>
+      </div>
       {/* 🎉 모달 */}
       {showModal && (
         <div className="e_modal-overlay" onClick={() => setShowModal(false)}> {/* 모달 외부 클릭 시 닫기 */}
