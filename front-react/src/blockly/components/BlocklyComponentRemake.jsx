@@ -1,27 +1,26 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import * as Blockly from "blockly";
-import * as ko from 'blockly/msg/ko';
 import { javascriptGenerator } from "blockly/javascript";
-import toolboxXML from '../blocks/myBlocks';
-import RegisterBlockGenerator from '../blocks/blockGenerator';
-import defineMyBlocks from '../blocks/myBlockJSON';
-import runGeneratedCode from '../blocks/codeRunner';
-import { generateStart, generateStartKey } from '../blocks/generateAndStoreCode';
-import { drawSpeechBubble } from '../functions/appearances/bubbleUtils';
-import { handleSaveProject } from "../utils/saveProject";
-import { handleLoadClick } from '../utils/loadProjects';
-import { loadProjectToCanvas } from '../utils/loadProjectDetail';
-import ProjectModal from './ProjectModal';
-import { handleDeleteProject } from '../utils/deleteProject';
-import ObjectControlPanel from './ObjectControl';
-import "../components/BlocklyComponent.css";
-import ObjectSelectPage from './ObjectSelectPage';
-import ticoTheme from '../blocks/ticoTheme';
-import { registerWhackableClickListener } from '../games/whackMoleGame';
-import { drawScoreText } from '../functions/cals/calFunctions';
+import * as ko from 'blockly/msg/ko';
+import React, { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Modal } from 'rsuite';
 import axiosInstance from '../../pages/login/social/utils/axiosInstance';
+import RegisterBlockGenerator from '../blocks/blockGenerator';
+import runGeneratedCode from '../blocks/codeRunner';
+import { generateStart, generateStartKey } from '../blocks/generateAndStoreCode';
+import defineMyBlocks from '../blocks/myBlockJSON';
+import toolboxXML from '../blocks/myBlocks';
+import ticoTheme from '../blocks/ticoTheme';
+import "../components/BlocklyComponent.css";
+import { drawSpeechBubble } from '../functions/appearances/bubbleUtils';
+import { drawScoreText } from '../functions/cals/calFunctions';
+import { registerWhackableClickListener } from '../games/whackMoleGame';
+import { handleDeleteProject } from '../utils/deleteProject';
+import { loadProjectToCanvas } from '../utils/loadProjectDetail';
+import { handleSaveProject } from "../utils/saveProject";
+import ObjectControlPanel from './ObjectControl';
+import ObjectSelectPage from './ObjectSelectPage';
+import ProjectModal from './ProjectModal';
 
 Blockly.setLocale(ko);
 
@@ -569,9 +568,21 @@ function RemakeCanvas() {
     blocklyArr.current.forEach((workspace, i) => {
       const blocklyDivElement = document.getElementById(`blockly${workspace.index}`);
       if (blocklyDivElement) {
-        blocklyDivElement.style.display = (workspace.index === selectedImageIndex ? 'block' : 'none');
+        const isVisible =
+          selectedImageIndex === null
+            ? workspace.index === 0
+            : workspace.index === selectedImageIndex;
+            
+        blocklyDivElement.style.display = isVisible ? 'block' : 'none';
       }
     });
+  
+    // 선택된 작업공간 리사이즈 강제 호출
+    if (selectedImageIndex !== null && blocklyArr.current[selectedImageIndex]) {
+      setTimeout(() => {
+        Blockly.svgResize(blocklyArr.current[selectedImageIndex]);
+      }, 0);
+    }
   }, [selectedImageIndex]);
 
   // 렌더링
@@ -608,7 +619,10 @@ function RemakeCanvas() {
                   i={index}
                   onDelete={() => imgDel(index)}
                   isSelected={selectedImageIndex === index}
-                  onClick={() => setSelectedImageIndex(index)}
+                  isExpanded={selectedImageIndex === index} // 요게 핵심!
+                  onClick={() => {
+                    setSelectedImageIndex(prev => (prev === index ? null : index));
+                  }}
                 />
               </div>
             ))}
