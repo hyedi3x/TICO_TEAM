@@ -1,70 +1,145 @@
+/* =========================
+   관리자 메인페이지 전체 스타일
+========================= */
 
-/* 회원 정보 */
-.user-info {
+/* 📅 캘린더 및 일정 등록 영역 */
+.calendar-todo {
   padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
+  background-color: #fff;
+  border-radius: 12px;
+  min-height: 440px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* 📋 일정 리스트 (TodoList) 카드 */
+.todo-list {
+  padding: 20px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  margin-top: 15px;
+}
+
+/* 🔖 회원 정보 카드 영역 */
+.user-info {
+  padding: 24px;
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  text-align: left;
+  gap: 24px;
   margin-bottom: 20px;
-  display: flex; /* Flexbox 레이아웃 사용 */
-  flex-direction: column; /* 세로 방향으로 요소 배치 */
+  justify-content: flex-start;  /* 왼쪽 정렬로 변경 */
 }
 
-/* 프로필 이미지 및 아이콘 컨테이너 */
+/* 반응형: 화면 너비 1400px 이하일 때 회원정보 카드 column 정렬 */
+@media (max-width: 1400px) {
+  .user-info {
+    flex-direction: column;       /* 가로 → 세로 */
+    align-items: center;          /* 가운데 정렬 */
+    text-align: center;           /* 텍스트도 중앙 정렬 */
+  }
+
+  .userInfoText {
+    margin-top: 16px;             /* 프로필과 텍스트 사이 간격 */
+  }
+}
+
+/* 👤 프로필 이미지 영역 */
 .profile-image-container {
-  display: flex; 
-  align-items: center; /* 세로 방향 중앙 정렬 */
-  margin-bottom: 20px; 
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
-/* 프로필 이미지 스타일 */
 .profile-image {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
-  margin-right: 20px; /* 이미지와 아이콘 간 간격 */
+  border: 4px solid #e0e0e0;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-/* 프로필 아이콘 플레이스 홀더 */
 .icon-placeholder {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background-color: #e0e0e0; /* 아이콘 배경색 */
+  background-color: #e0e0e0;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
 }
 
-/* 사용자 정보 텍스트 영역 */
-.userInfoText{
-
+.userInfoText {
+  font-size: 15px;
+  color: #333;
+  line-height: 1.6;
 }
 
-/* 회사 공지, 알림, Todo리스트 */
+/* 📢 회사 공지 & 알림 */
 .company-notices,
-.notifications,
-.todo-list {
+.notifications {
   padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   margin-bottom: 20px;
 }
 
-/* 캘린더 및 할 일 리스트 섹션 */
-.calendar-todo {
-  padding: 20px;
-  background-color: #f9f9f9;
+/* 🗂 탭 스타일 */
+.rs-nav-tabs {
+  background-color: #f5f5f5;
+  padding: 10px;
   border-radius: 8px;
-  margin-bottom: 20px;
+}
+
+.rs-nav-tabs .rs-nav-item {
+  font-weight: 600;
+  color: #333;
 }
 
 .rs-nav-tabs .rs-nav-item.rs-nav-item-active {
   background-color: #4caf50;
-  color: #f9f9f9;
+  color: white;
+  border-radius: 8px;
 }
 
+/* 🎨 일정 내용 textarea */
 .scContent {
   width: 100%;
   border: 1px solid #e5e5ea;
+  font-size: 14px; /* 폰트 크기 줄임 */
+  padding: 8px;     /* 내부 여백 조정 */
+  line-height: 1.4; /* 줄 간격 */
+  resize: vertical; /* 세로만 리사이즈 가능 */
+  border-radius: 7px;
 }
+
+.scContent:focus {
+  outline: none;
+  border-color: #3498ff; /* 포커스 시 테두리 색상 */
+  box-shadow: 0 0 0 2px rgba(52, 152, 255, 0.2);
+}
+
+/* 버튼 통일 스타일 */
+.rs-btn.rs-btn-primary {
+  background-color: #4caf50;
+  border: none;
+  border-radius: 6px;
+}
+
+.rs-btn.rs-btn-primary:hover {
+  background-color: #43a047;
+}
+
+.rs-btn.rs-btn-subtle {
+  border-radius: 6px;
+}
+
