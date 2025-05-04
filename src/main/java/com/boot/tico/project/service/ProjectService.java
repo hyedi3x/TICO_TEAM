@@ -294,18 +294,6 @@ public class ProjectService {
        projectRepository.save(entity);
    }
    
-   /**
-    * [16] 신고내역 저장
-    */
-   @Transactional
-   public void saveProjectReport(ProjectReportDTO dto) {
-	   // 신고내역 ID 수동 생성
-       int newReportId = reportRepository.getLatestReportId() + 1;
-       dto.setReportId(newReportId);
-       reportRepository.save(dto);
-   }
-
-   
    // 메인화면 인기작품 조회
    @Transactional
    public List<ProjectDTO> getPopularProjects() {

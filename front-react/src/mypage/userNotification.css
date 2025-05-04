@@ -1,0 +1,109 @@
+/* user 알림 목록 */
+
+.userNotification-list {
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.userNotification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.userNotification-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.userNotification-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.userNotification-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  border-radius: 8px;
+  border: 1px solid #e6e6e6;
+  margin-bottom: 10px;
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.userNotification-list li:hover {
+  background-color: #f5faff;
+}
+
+.userNotification-list li.unread {
+  background-color: #eaf6ff;
+  font-weight: 600;
+}
+
+.userNotification-list li.read {
+  background-color: #fafafa;
+  font-weight: 400;
+}
+
+.userNotification-noti-content {
+  flex: 1;
+}
+
+.userNotification-noti-content strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 15px;
+  color: #333;
+}
+
+.userNotification-noti-content small {
+  color: #888;
+  font-size: 12px;
+}
+
+.rs-btn-icon {
+  margin-left: 12px;
+}
+
+/* 알림 모달 제목 */
+.userNotification-modal-title {
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+/* 신고 사유 블럭 */
+.userNotification-reason-box {
+  background-color: #f8f9fa;
+  border-left: 4px solid #ff6961;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-bottom: 16px;
+  white-space: pre-wrap;
+}
+
+/* 부가 정보 영역 */
+.userNotification-subinfo {
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: #555;
+}
+
+/* 날짜 표시 */
+.userNotification-createdAt {
+  font-size: 12px;
+  color: #999;
+}
+
