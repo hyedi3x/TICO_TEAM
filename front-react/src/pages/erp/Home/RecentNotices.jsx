@@ -24,7 +24,7 @@ function RecentNotices({ onNoticeClick }) {
 
   // 렌더링 영역
   return (
-    <div className="recent-notice-container">
+    <div className="recent-notice-box">
       <h3>📢 최근 공지사항</h3>
       <ul className="recent-notice-list">
         {notices.map((notice) => (
@@ -33,8 +33,8 @@ function RecentNotices({ onNoticeClick }) {
             onClick={() => onNoticeClick(notice.erpNotiId)}
             className="recent-notice-item"
           >
-            <span className="notice-title">{notice.erpNotiTitle}</span>
-            <span className="notice-date">{formatDate(notice.erpNotiCreatedAt)}</span>
+            <span className="recent-notice-title">{notice.erpNotiTitle}</span>
+            <span className="recent-notice-date">{formatDate(notice.erpNotiCreatedAt)}</span>
           </li>
         ))}
       </ul>

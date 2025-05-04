@@ -304,7 +304,6 @@ function ErpMain() {
               />
             )}
             {viewMode === "projectReportList" && <ProjectReportList />} {/* 작품 신고 목록 */}
-
             {viewMode === "admin-register" && <AdminRegister />} {/* 관리자 등록 */}
             {viewMode === "admin-info" && <AdminInfo />} {/* 관리자 정보 조회 */}
             {viewMode === "myinfoChk" && <MyInfoChk />} {/* 관리자 정보 조회 */}
@@ -316,12 +315,7 @@ function ErpMain() {
             {viewMode === "EMPEduList" && <EMPEduList />} {/* 블록학습 관리 */}
             {viewMode === "ObjectSelectPage" && <ObjectSelectPage />} {/* 오브젝트 관리 */}
             {viewMode === "MainModify" && <MainModify />} {/* 메인화면 */}
-
-            {viewMode === "subscription-manage" && <SubscriptionManager/>} {/* 결제 회원 관리 */}
-            {viewMode === "purchaseLog" && <PurchaseLogPage/>} {/* 결제 내역 로그 관리 */}
-
             {viewMode === "csDashboard" && <CsDashboard/>} {/* 결제 내역 로그 관리 */}
-
             {viewMode === "subscription-manage" && <SubscriptionManager />} {/* 결제 회원 관리 */}
             {viewMode === "purchaseLog" && <PurchaseLogPage />} {/* 결제 내역 로그 관리 */}
           </div>
