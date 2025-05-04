@@ -37,9 +37,6 @@ function MypageMain() {
   const goToPurchase = () => setContent(<PurchasePage goToStatus={goToStatus} />);  // 
   const goToStatus = () => setContent(<SubscriptionState goToPurchase={goToPurchase} />); // 결제 완료시 실행
 
-  const goToPurchase = () => setContent(<PurchasePage goToStatus={goToStatus} />);  // 
-  const goToStatus = () => setContent(<SubscriptionState goToPurchase={goToPurchase} />); // 결제 완료시 실행
-
   const handleNavSelect = (eventKey) => {
     setActiveKey(eventKey);
     switch (eventKey) {

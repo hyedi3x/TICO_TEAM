@@ -37,11 +37,6 @@ function ObjectSelectPage({ onComplete }) {
   const purchased = location.state?.purchased || false;
   const [isPurchased, setIsPurchased] = useState(false);
 
-  // 구매 완료 여부 확인
-  const location = useLocation();
-  const purchased = location.state?.purchased || false;
-  const [isPurchased, setIsPurchased] = useState(false);
-
   // JWT 토큰에서 사용자 역할 추출 (EMPLOYEE인지 확인)
   const [userRole, setUserRole] = useState(null);  // 사용자 역할 상태
   const [userDepId, setUserDepId] = useState(null);  // 관리자 부서
