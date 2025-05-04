@@ -28,7 +28,7 @@ const MainBannerManage = () => {
   const resolveThumbnailUrl = (url) => {
     if (!url) return '';
     if (url.startsWith('http')) return url;
-    return `http://localhost:8081${url}`;
+    return `https://tico.kro.kr${url}`;
   };
 
   // 전체 작품 불러오기
@@ -313,7 +313,7 @@ const MainBannerManage = () => {
           {form.bannerImage && (
             <div className="mb-2 text-center">
               <img
-                src={`http://localhost:8081${form.bannerImage}`}
+                src={`https://tico.kro.kr${form.bannerImage}`}
                 alt="미리보기"
                 style={{ maxWidth: '100%', maxHeight: '150px', objectFit: 'contain' }}
               />

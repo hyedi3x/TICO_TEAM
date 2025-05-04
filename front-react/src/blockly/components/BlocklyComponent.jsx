@@ -77,7 +77,7 @@ function Canvas() {
 
     selectedObjects.forEach((obj, idx) => {
       const img = new Image();
-      img.src = `http://localhost:8081${obj.blocklyObjectFilePath}`;
+      img.src = `https://tico.kro.kr${obj.blocklyObjectFilePath}`;
   
       img.onload = () => {
         if (!canvasRef.current) return;
