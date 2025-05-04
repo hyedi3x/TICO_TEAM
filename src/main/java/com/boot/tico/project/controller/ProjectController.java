@@ -236,19 +236,6 @@ public class ProjectController {
 		service.updateProjectMeta(project);
 	    return ResponseEntity.ok().build();
 	}
-
-	/**
-	 * [14] 신고 접수 내역 추가
-	 */
-	@PostMapping("/report")
-	public ResponseEntity<?> reportProject(@RequestBody ProjectReportDTO reportDto) {
-	    try {
-	        service.saveProjectReport(reportDto);
-	        return ResponseEntity.ok().body("신고가 접수되었습니다.");
-	    } catch (Exception e) {
-	        return ResponseEntity.status(500).body("신고 처리 실패");
-	    }
-	}
 	
 	// 메인화면 전체 작품 가져오기 (닉네임 포함
 	@GetMapping("/projects")
