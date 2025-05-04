@@ -1,20 +1,17 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
 import * as Blockly from "blockly"; // npm install Blockly 
-import * as ko from 'blockly/msg/ko';  // 한글 번역 모듈
 import { javascriptGenerator } from "blockly/javascript"; // JavaScript 코드 생성기 가져오기
-import toolboxXML from '../blocks/myBlocks';
+import * as ko from 'blockly/msg/ko'; // 한글 번역 모듈
+import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import RegisterBlockGenerator from '../blocks/blockGenerator';
-import defineMyBlocks from '../blocks/myBlockJSON';
 import runGeneratedCode from '../blocks/codeRunner';
 import { generateStart, generateStartKey } from '../blocks/generateAndStoreCode';
-import { drawSpeechBubble } from '../functions/appearances/bubbleUtils';
-import { loadProjectToCanvas } from '../utils/loadProjectDetail';
+import defineMyBlocks from '../blocks/myBlockJSON';
 import "../components/BlocklyComponent.css";
-import ticoTheme from '../blocks/ticoTheme';
-import { registerWhackableClickListener } from '../games/whackMoleGame';
+import { drawSpeechBubble } from '../functions/appearances/bubbleUtils';
 import { drawScoreText } from '../functions/cals/calFunctions';
-import axiosInstance from '../../pages/login/social/utils/axiosInstance';
+import { registerWhackableClickListener } from '../games/whackMoleGame';
+import { loadProjectToCanvas } from '../utils/loadProjectDetail';
 import ScoreModal from './ScoreModal';
 ;Blockly.setLocale(ko); // Blockly 언어를 한국어로 설정
 
@@ -520,16 +517,6 @@ useEffect(() => {
     return () => canvas.removeEventListener("click", handleCanvasClick);
   }, []);
 
-  // 내부 useEffect
-  useEffect(() => {
-    const cleanup = registerWhackableClickListener({
-      imgArr,
-      canvasRef,
-      callImgArr,
-    });
-    return () => cleanup();
-  }, []);
-  
   // 내부 useEffect
   useEffect(() => {
     const cleanup = registerWhackableClickListener({

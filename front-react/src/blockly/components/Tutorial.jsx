@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Button, Alert, ProgressBar } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useState } from 'react';
+import { Alert, Button, Card, Col, Container, Row } from 'react-bootstrap';
 import './Tutorial.css';
 
 const steps = [

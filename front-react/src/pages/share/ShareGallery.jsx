@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import axiosInstance from '../login/social/utils/axiosInstance';
+import { Button, Card, Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import axiosInstance from '../login/social/utils/axiosInstance';
 import './ShareGallery.css';
 import ShareModal from './ShareModal';
 
