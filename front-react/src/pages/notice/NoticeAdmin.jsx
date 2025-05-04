@@ -22,7 +22,7 @@ function NoticeAdmin() {
       });
   }, []);
 
-  // 👉 삭제/삭제취소/영구삭제 핸들러
+  // 삭제/삭제취소/영구삭제 핸들러
   const handleDelete = (noticeId) => {
     axiosInstance.put(`/api/noticeDelete/${noticeId}`)
     .then(() => {

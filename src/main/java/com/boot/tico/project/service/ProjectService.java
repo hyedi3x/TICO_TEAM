@@ -2,6 +2,7 @@ package com.boot.tico.project.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -294,6 +295,40 @@ public class ProjectService {
        projectRepository.save(entity);
    }
    
+   // 프로젝트와 닉네임 가져오기, 닉네임 때문에 수동매핑해야함
+   @Transactional
+   public List<ProjectDTO> getProjects() {
+       List<Object[]> rows = projectRepository.findByIsDeleteAndNickname();
+       List<ProjectDTO> projects = new ArrayList<>();
+
+       for (Object[] row : rows) {
+           ProjectDTO dto = new ProjectDTO();
+
+           dto.setProjectId((Integer) row[0]);                         // project_id
+           dto.setUserUuid((String) row[1]);                           // user_uuid
+           dto.setTitle((String) row[2]);                              // title
+           dto.setCategory((String) row[3]);                           // category
+           dto.setTags((String) row[4]);                               // tags
+           dto.setThumbnailUrl((String) row[5]);                       // thumbnail_url
+           dto.setIsPrivate((String) row[6]);                          // isprivate
+           dto.setIntroduction((String) row[7]);                       // introduction
+           dto.setGuide((String) row[8]);                              // guide
+           dto.setNotes((String) row[9]);                              // notes
+           dto.setIsAgree((String) row[10]);                           // isagree
+           dto.setIsDelete((String) row[11]);                          // isdelete
+           dto.setCommentCount((Integer) row[12]);                     // comment_count
+           dto.setViewCount((Integer) row[13]);                        // view_count
+           dto.setLikeCount((Integer) row[14]);                        // like_count
+           dto.setBookmarkCount((Integer) row[15]);                    // bookmark_count
+           dto.setNumber((Integer) row[18]);                           // number
+           dto.setIsComment((String) row[19]);                         // iscomment
+           dto.setNickname((String) row[20]);                          // nickname
+           projects.add(dto);
+       }
+       return projects;
+   }
+
+
    // 메인화면 인기작품 조회
    @Transactional
    public List<ProjectDTO> getPopularProjects() {

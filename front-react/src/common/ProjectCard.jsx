@@ -73,7 +73,7 @@ const ProjectCard = ({ project, onClick, extraButtons=false, editable=false, isP
         </div>
         {/* 작성자 */}
         <div style={{ color: '#999', fontSize: 12, marginBottom: 1 }}>
-          {project.nickName || '닉네임으로 수정예정'}
+          {project.nickname || '익명'}
         </div>
       </div>
       {/* 하단 통계 */}

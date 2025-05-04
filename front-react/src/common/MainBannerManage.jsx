@@ -33,7 +33,7 @@ const MainBannerManage = () => {
 
   // 전체 작품 불러오기
   useEffect(() => {
-    axiosInstance.get('/api/project/projectList')
+    axiosInstance.get('/api/project/projects')
     .then(response => {
       setAllProjects(response.data);
     })
