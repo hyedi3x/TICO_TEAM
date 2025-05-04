@@ -123,7 +123,7 @@ function ShareDetail() {
     }
 
     navigate(`/report/${project.projectId}`);
-  };
+  }
 
   const handleTogglePrivate = () => {
     const nextState = project.isPrivate === 'Y' ? 'N' : 'Y';
@@ -194,7 +194,9 @@ function ShareDetail() {
                       </Dropdown.Menu>
                     ) : (
                       <Dropdown.Menu>
-                        <Dropdown.Item onClick={handleReport}>신고하기</Dropdown.Item>
+                        <Dropdown.Item onClick={handleReport}>
+                          신고하기
+                        </Dropdown.Item>
                       </Dropdown.Menu>
                   )}
                   </Dropdown>

@@ -124,9 +124,12 @@ const flipObject = function(direction, index, isClone=false){
 const changeShape = function(url, index, isClone=false){
     if (!window.running || window.isPaused) return;
     const targetArr = isClone ? window.cloneArr : imgArr.current;
-  
     if (targetArr[index]) {
       const newImg = new Image();
+      
+      if (!url.startsWith('http://') && !url.startsWith('https://')) {
+        url = 'http://localhost:8081/uploads' + url;
+      }
       newImg.src = url;
       newImg.onload = () => {
         targetArr[index].img = newImg;
@@ -145,7 +148,7 @@ const setAsBackground = function(index, isClone = false) {
 
   item.x = 0;
   item.y = 0;
-  item.width = 500;  // canvas 크기와 동일
+  item.width = 800;  // canvas 크기와 동일
   item.height = 500;
   item.isBackground = true;
 

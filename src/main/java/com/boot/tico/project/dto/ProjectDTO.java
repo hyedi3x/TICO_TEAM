@@ -68,7 +68,10 @@ public class ProjectDTO {
     
     @Column(name = "iscomment")
     private String isComment;
-
+    
+    @Transient
+	private String nickname;
+    
     @PrePersist
     protected void onCreate() {
         Timestamp now = new Timestamp(System.currentTimeMillis());

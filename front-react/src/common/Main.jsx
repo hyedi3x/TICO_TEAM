@@ -15,16 +15,11 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 
-// Bootstrap
-import { Card, Col, Row, Button } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
-
 // 챗 컴포넌트
 import WepChat from "../pages/wep_chat/WepChat";
 import ChatbotWindow from "../pages/chatbot/ChatbotWindow";
 import ErpLogo from "../pages/erp/ErpLogo";
 import ProjectCard from "./ProjectCard";
-import axios from "axios";
 import axiosInstance from "../pages/login/social/utils/axiosInstance";
 
 function Main() {
@@ -34,6 +29,7 @@ function Main() {
   const [banners, setBanners] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false); // ⭐ 로딩 상태 추가
   const navigate = useNavigate();
+  const [isChatVisible, setIsChatVisible] = useState(false); // 웹챗 표시 여부
   
   // 로그인 유저 정보 추출
   useEffect(() => {
@@ -55,13 +51,14 @@ function Main() {
         const [projectsRes, picksRes, popRes, bannerRes] = await Promise.all([ 
           // Promise.all로 모든 요청 기다림, 요청결과를 배열로 담고 모든 요청을 기다린다.
           // 배열 구조분해 할당을 사용해 순서대로 요청 결과가 담긴다.
-          axiosInstance.get('/api/project/projectList'),
+          axiosInstance.get('/api/project/projects'),
           axiosInstance.get('/api/project/staffPick'),
           axiosInstance.get('/api/project/popularProjects'),
           axiosInstance.get('/api/banner/list')
         ]);
         // 모든 프로젝트
         const allProjects = projectsRes.data;
+        console.log('모든 프로젝트:', allProjects);
         // 스선
         const staffPicks = picksRes.data.map(pick => {
           const matched = allProjects.find(p => Number(p.projectId) === Number(pick.projectId));
@@ -70,12 +67,24 @@ function Main() {
             thumbnailUrl: matched.thumbnailUrl,
             title: matched.title,
             introduction: matched.introduction,
-            slotIndex: pick.slotIndex
+            slotIndex: pick.slotIndex,
+            likeCount : matched.likeCount,           
+            bookmarkCount : matched.bookmarkCount,   
+            viewCount : matched.viewCount,
+            nickname : matched.nickname,          
+
           } : null;
         }).filter(Boolean); //filter(Boolean)은 true가 되는 값만 남긴다 (null, undefinded도 걸러줌)
         setStaffPickProjects(staffPicks);
         // 인작
-        setPopularProjects(popRes.data.slice(0, 10));
+        const popularWithNicknames = popRes.data.map(pop => {
+          const matched = allProjects.find(p => Number(p.projectId) === Number(pop.projectId));
+          return matched ? {
+            ...pop,
+            nickname: matched.nickname
+          } : pop; // fallback: nickname 없으면 원본 그대로
+        });
+        setPopularProjects(popularWithNicknames.slice(0, 10));
         // banner
         setBanners(bannerRes.data.sort((a, b) => a.displayOrder - b.displayOrder));
         // 로딩 완료
@@ -87,10 +96,21 @@ function Main() {
     fetchAll();
   }, []);
 
+  // 웹챗 반응형처리
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1800);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 1800);
+    // 브라우저 창의 크기가 변경될 때 발생하는 이벤트
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+
   // 이미지 경로 처리
   const resolveThumbnailUrl = (url) => {
     if (url && !url.startsWith('http')) {
-      return `https://tico.kro.kr${url}`;
+      return `http://localhost:8081${url}`;
     }
     return url;
   };
@@ -99,6 +119,12 @@ function Main() {
   const staffPickIds = staffPickProjects.map(p => Number(p.projectId));
   const popularIds = popularProjects.map(p => Number(p.projectId));
 
+  // 아이콘 클릭 시 웹챗 토글
+  const toggleChat = () => {
+    setIsChatVisible(prev => !prev);
+  };
+
+
   // ⭐ 로딩중 처리
   if (!isLoaded) {
     return <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>로딩중...</div>;
@@ -106,10 +132,24 @@ function Main() {
   return (
     <div className='main-wrapper'>
       {/* ── 유저간 채팅 ── */}
-      {userRole !== "EMPLOYEE" && (
-        <div className="chat-side-panel">
+      
+      {userRole !== "EMPLOYEE" && !isMobile && (
+        <div className="chat-side-panel visible">
           <WepChat />
         </div>
+      )}
+
+      {userRole !== "EMPLOYEE" && isMobile && (
+        <>
+          {isChatVisible && (
+            <div className="chat-side-panel visible">
+              <WepChat />
+            </div>
+          )}
+          <div className="chat-icon" onClick={toggleChat}>
+            <span>💬</span>
+          </div>
+        </>
       )}
 
       <div className='main-container' style={{ minWidth: '1060px' }}>
@@ -185,13 +225,14 @@ function Main() {
             ) : (
               staffPickProjects.map((project, index) => (
                 <SwiperSlide key={index} style={{ display: 'flex', justifyContent: 'center' }}>
-                  <ProjectCard
-                    project={project}
-                    onClick={() => navigate(`/share/detail/${project.projectId}`)}
-                    showStats={false}
-                    isStaff={staffPickIds.includes(Number(project.projectId))}
-                    isPopular={popularIds.includes(Number(project.projectId))}
-                  />
+                  <div className="project-card">
+                    <ProjectCard
+                      project={project}
+                      onClick={() => navigate(`/share/detail/${project.projectId}`)}
+                      isStaff={staffPickIds.includes(Number(project.projectId))}
+                      isPopular={popularIds.includes(Number(project.projectId))}
+                    />
+                  </div>  
                 </SwiperSlide>
               ))
             )}
@@ -219,12 +260,14 @@ function Main() {
             ) : (
               popularProjects.map((project, index) => (
                 <SwiperSlide key={index} style={{ display: 'flex', justifyContent: 'center' }}>
-                  <ProjectCard
-                    project={project}
-                    onClick={() => navigate(`/share/detail/${project.projectId}`)}
-                    isStaff={staffPickIds.includes(Number(project.projectId))}
-                    isPopular={popularIds.includes(Number(project.projectId))}
-                  />
+                  <div className="project-card">
+                    <ProjectCard
+                      project={project}
+                      onClick={() => navigate(`/share/detail/${project.projectId}`)}
+                      isStaff={staffPickIds.includes(Number(project.projectId))}
+                      isPopular={popularIds.includes(Number(project.projectId))}
+                    />
+                  </div>
                 </SwiperSlide>
               ))
             )}

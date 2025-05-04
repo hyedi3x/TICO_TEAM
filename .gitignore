@@ -65,6 +65,5 @@ build/
 # __pycache__ : 파이썬 인터프리터가 자동으로 생성, .py 파일을 바이트 코드(.pyc) 형식으로 저장한 캐시 파일 (컴파일 내용)
 *.pyc
 __pycache__/  
-requirements.txt
 # key
 *.pem

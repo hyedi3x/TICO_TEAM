@@ -3,7 +3,7 @@ import { Button, Card, Tag } from 'rsuite';
 
 const resolveThumbnailUrl = (url) => {
   if (url && !url.startsWith('http')) {
-    return `https://tico.kro.kr${url}`;
+    return `http://localhost:8081${url}`;
   }
   return url || '';
 };
@@ -73,7 +73,7 @@ const ProjectCard = ({ project, onClick, extraButtons=false, editable=false, isP
         </div>
         {/* 작성자 */}
         <div style={{ color: '#999', fontSize: 12, marginBottom: 1 }}>
-          {project.nickName || '닉네임으로 수정예정'}
+          {project.nickname || '익명'}
         </div>
       </div>
       {/* 하단 통계 */}
@@ -82,7 +82,7 @@ const ProjectCard = ({ project, onClick, extraButtons=false, editable=false, isP
         {editable}
       </div>
       {project &&  
-        (project.likeCount != null || project.bookMarkCount != null || project.viewCount != null) && (
+        (project.likeCount != null || project.bookmarkCount != null || project.viewCount != null) && (
           <div style={{
             borderTop: '1px solid #f1f1f1',
             background: '#fff',
@@ -100,7 +100,7 @@ const ProjectCard = ({ project, onClick, extraButtons=false, editable=false, isP
             </span>
             <span style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
               <span style={{ fontSize: 14 }}>🔖</span>
-              {project.bookMarkCount || 0}
+              {project.bookmarkCount || 0}
             </span>
             <span style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
               <span style={{ fontSize: 14 }}>👁</span>

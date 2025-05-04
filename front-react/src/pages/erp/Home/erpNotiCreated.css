@@ -1,52 +1,93 @@
-/* 기업 공지사항 추가 css(ErpNotiCreated.jsx) */
-
-/* 기업 공지사항 추가 폼 전체 영역 */
+/* 전체 컨테이너 (카드 레이아웃) */
 .notice-create-container {
-  width: 650px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  max-width: 700px;
+  min-width: 500px;
   margin: 0 auto;
-  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
 }
 
-/* 입력 필드 (input, textarea, select) 공통 스타일 */
-.notice-create-container input,
-.notice-create-container textarea,
-.notice-create-container select {
-  width: 100%;
-  margin-bottom: 10px;
-  padding: 8px;
-  box-sizing: border-box;   /* padding 포함한 전체 너비 계산 */
-}
-
-/* 등록 버튼 스타일 */
-.notice-create-container button {
-  padding: 10px 15px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-.notice-create-container button:hover {
-  background-color: #45a049;
-}
-
-/* 각 입력 필드 그룹(라벨 + 입력) */
-.form-group {
-  margin-bottom: 15px;
-}
-
-/* 입력 라벨 스타일 */
-.form-group label {
-  display: block;
+/* 제목 */
+.notice-create-container h3 {
+  font-size: 22px;
   font-weight: bold;
+  margin-bottom: 24px;
+  color: #1f2937;
 }
 
-/* 라벨 아래에 오는 input, textarea, select 스타일 */
+/* 입력 폼 전체 스타일 */
+.notice-create-container form {
+  width: 100%;
+}
+
+/* 입력 그룹 (라벨 + 필드 묶음) */
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* 공통 입력 스타일 */
 .form-group input,
 .form-group select,
 .form-group textarea {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
   width: 100%;
-  padding: 8px;
-  margin-top: 5px;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #3b82f6;
+  outline: none;
+}
+
+/* 텍스트에어리어 크기 */
+.form-group textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* 등록 버튼 */
+.notice-create-container button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background-color: #2563eb; /* blue-600 */
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.notice-create-container button[type="submit"]:hover {
+  background-color: #1d4ed8;
+}
+
+/* 라벨 */
+.form-group label {
+  font-weight: 600;
+  color: #374151;
+}
+
+/* 파일 입력 강조 */
+input[type="file"] {
+  padding: 6px;
+  border: 1px dashed #ccc;
+  border-radius: 6px;
+  background-color: #f9fafb;
+  cursor: pointer;
 }

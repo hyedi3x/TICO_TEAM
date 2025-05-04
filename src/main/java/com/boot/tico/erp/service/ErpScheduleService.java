@@ -1,11 +1,18 @@
 package com.boot.tico.erp.service;
 
 import com.boot.tico.erp.dto.ErpScheduleDTO;
+import com.boot.tico.erp.dto.Notification;
+import com.boot.tico.erp.repo.EmpRepository;
 import com.boot.tico.erp.repo.ErpScheduleRepository;
+import com.boot.tico.erp.repo.NotificationRepo;
+
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,6 +21,8 @@ import java.util.List;
 public class ErpScheduleService {
 
     private final ErpScheduleRepository repo;
+    private final NotificationRepo notificationRepo;
+    private final EmpRepository empRepo;
 
     /**
      * 사원별 전체 일정 조회
@@ -36,6 +45,43 @@ public class ErpScheduleService {
         schedule.setErpScheduleCreateAt(now);       // 생성일 자동 세팅
         schedule.setErpScheduleUpdatedAt(now);      // 수정일도 초기값 세팅
         return repo.save(schedule);
+    }
+    
+    /**
+     * 매일 자정, 내일 마감 일정 관리자에게 알림 전송
+     */
+    @Scheduled(cron = "0 0 0 * * *") // 매일 00:00 실행 "0 0 0 * * *"
+    public void notifyTomorrowDeadlines() {
+        LocalDate tomorrow = LocalDate.now().plusDays(1);
+        LocalDateTime start = tomorrow.atStartOfDay();
+        LocalDateTime end = tomorrow.plusDays(1).atStartOfDay();
+
+        List<ErpScheduleDTO> expiringSchedules = repo.findByErpScheduleEndBetween(start, end);
+
+        for (ErpScheduleDTO schedule : expiringSchedules) {
+            String empId = schedule.getEmpId();
+            
+            // 실수 방지 코드
+            if (!"ALL".equals(empId) && !empRepo.existsByEmpId(empId)) {
+                System.out.println("❌ 알림 대상자가 존재하지 않습니다: " + empId);
+                continue;
+            }
+
+            boolean exists = notificationRepo.existsByRelatedTypeAndRelatedIdAndEmpId("schedule", schedule.getErpScheduleId(), empId);
+            if (!exists) {
+                Notification noti = new Notification();
+                noti.setEmpId(empId);  // 관리자 개인 알림
+                noti.setNotificationTitle("[일정] 마감 예정: " + schedule.getErpScheduleTitle());
+                noti.setNotificationMessage("등록한 일정이 내일 종료됩니다.");
+                noti.setRelatedType("schedule");
+                noti.setRelatedId(schedule.getErpScheduleId());
+                noti.setLinkUrl("/scheduleDetail/" + schedule.getErpScheduleId());
+
+                notificationRepo.save(noti);
+            }
+        }
+
+        System.out.println("일정 마감 알림 생성 완료 (" + expiringSchedules.size() + "건)");
     }
 
     /**

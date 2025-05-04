@@ -250,6 +250,14 @@ public class ProjectController {
 	    }
 	}
 	
+	// 메인화면 전체 작품 가져오기 (닉네임 포함
+	@GetMapping("/projects")
+	public ResponseEntity<List<ProjectDTO>> projects(){
+		logger.info("<<< url => projects() >>>");
+		
+		List<ProjectDTO> projects = service.getProjects();
+		return ResponseEntity.ok(projects);
+	}
 	// 메인화면 인기 작품 조회
 	// ProjectController.java
 	@GetMapping("/popularProjects")

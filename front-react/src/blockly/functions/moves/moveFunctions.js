@@ -3,7 +3,7 @@ import { imgArr, callImgArr, coordinates } from '../../blocks/blockGenerator'; /
 // 벽제한 두기
 // x값이 0보다 작으면 0을 반환, 500-width(벽에 붙은 상태) 보다 크다면 해당 값을 반환
 function clampToCanvas(x, y, width = 0, height = 0) {
-  const clampedX = Math.min(Math.max(x, 0), 500 - width);
+  const clampedX = Math.min(Math.max(x, 0), 800 - width);
   const clampedY = Math.min(Math.max(y, 0), 500 - height);
   return { x: clampedX, y: clampedY };
 }

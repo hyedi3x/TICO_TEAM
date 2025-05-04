@@ -5,21 +5,30 @@
   padding: 40px;
   background: #282c34; /* 어두운 배경색 적용 */
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
 }
 
 .e_textarea-div {
   display: flex;
   flex-direction: row;
+  margin-bottom: 10px;
 }
 
 textarea {
   font-size: 20px;
 }
+.e_combine-div{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 0px 20px;
+  border-radius: 30px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2); /* 그림자 약간 변경 */
+  background-color: #3e4451; /* 텍스트 영역 배경색 */
+}
 
 .e_textarea-div div {
-  margin: 0 30px;
-  background-color: #3e4451; /* 텍스트 영역 배경색 */
+  margin-right: 30px;
   border-radius: 8px;
   padding: 15px;
   display: flex; /* 내부 요소 중앙 정렬을 위한 flex 컨테이너 설정 */
@@ -30,14 +39,18 @@ textarea {
 .e_textarea-div div p {
   margin-top: 30px; /* 이미지와의 간격 설정 */
   margin-bottom: 10px;
-  color: #abb2bf; /* 텍스트 색상 */
+  color: #88c0d0;               /* 밝은 청록색 - 포인트 컬러 */
+  font-size: 22px;
+  font-weight: bold;
   text-align: center; /* 텍스트 중앙 정렬 */
 }
 
 .e_blockly-area p {
   margin-top: 30px; /* 이미지와의 간격 설정 */
   margin-bottom: 10px;
-  color: #abb2bf; /* 텍스트 색상 */
+  color: #88c0d0;               /* 밝은 청록색 - 포인트 컬러 */
+  font-size: 22px;
+  font-weight: bold;
   text-align: center; /* 텍스트 중앙 정렬 */
 }
 
@@ -45,23 +58,29 @@ textarea {
   background-color: #282c34; /* 텍스트 에어리어 내부 배경색 */
   color: #abb2bf; /* 텍스트 에어리어 내부 텍스트 색상 */
   border: 1px solid #5c6370; /* 테두리 색상 */
-  border-radius: 4px;
+  border-radius: 10px;
   padding: 10px;
   font-family: monospace; /* 코드 느낌을 위해 */
   font-size: 20px;
   height: 300px; /* 텍스트 에어리어 높이 */
-  width: 400px; /* 텍스트 에어리어 너비 */
+  width: 500px; /* 텍스트 에어리어 너비 */
 }
 
-/* 캔버스와 블록 영역을 나란히 배치하는 영역 */
-.e_editor-wrapper {
-  display: flex;
-  width: auto;
-  height: auto;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 40px;
-  flex-wrap: wrap;
+.quiz-content {
+  background-color: #45597a !important; 
+  color: #eceff4 !important;              /* 밝은 텍스트 */
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  border: 2px solid #88c0d0 !important;   /* 고급스러운 푸른 계열 테두리 */
+  border-radius: 12px !important;
+  box-shadow: 0 0 12px rgba(136, 192, 208, 0.4) !important;
+  padding: 18px !important;
+  line-height: 1.6;
+}
+.quiz-content:focus {
+  outline: none !important;
+  border-color: #a3d4f7 !important;             /* 밝은 포커스 테두리 */
+  box-shadow: 0 0 18px rgba(163, 212, 247, 0.7) !important;
 }
 
 /* 캔버스와 마우스좌표 정보를 감싸는 영역 */
@@ -69,16 +88,17 @@ textarea {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 /* blockly 작업 공간 스타일 */
 .e_blockly-area {
   width: 100%; /* 기존 width 유지 */
   height: 100%; /* 기존 height 유지 */
-  background: #3e4451; /* 블록 영역 배경색 */
-  border-radius: 8px;
   padding: 15px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2); /* 그림자 약간 변경 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* 버튼들을 감싸는 버튼 그룹 */
@@ -92,7 +112,7 @@ textarea {
 
 /* 버튼 스타일 (기존 스타일 유지) */
 .e_button-blockly > button,
-.e_code-output > button {
+.imgToggle {
   background-color: #61afef; /* 주요 강조색 적용 */
   color: white;
   border: none;
@@ -116,7 +136,7 @@ textarea {
 
 /* 각 버튼 hover 시 배경 색 변경 (기존 스타일 유지) */
 .e_button-blockly button:hover,
-.e_code-output > button:hover {
+.imgToggle:hover {
   background: #508cd5; /* 호버 시 약간 어둡게 */
 }
 
@@ -125,7 +145,6 @@ textarea {
 }
 
 .e_button-blockly button:first-child {
-  margin-right: 100px;
   background-color: #c678dd; /* 목록으로 돌아가기 버튼 색상 변경 */
 }
 
@@ -134,15 +153,16 @@ textarea {
 }
 
 .e_quiz-img {
-  width: 368px;
-  height: 301px;
+  width: 500px;
+  height: 300px;
   border-radius: 8px; /* 이미지에도 약간의 둥근 테두리 적용 */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 이미지에도 약간의 그림자 */
   margin-bottom: 0; /* 이미지 자체의 아래 마진 제거 */
 }
 .imgToggle{
-  margin-top: 5px;
-  margin-bottom: 15px;
+  margin: 30px 0 0 330px !important;
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
 }
 .e_capture-div{
   margin: 0px !important;
@@ -152,4 +172,47 @@ textarea {
   width: 400px;
   height: 400px;
   object-fit: contain;
+}
+.e_blocklyworkspace{
+  width: 1200px;
+  height: 600px;
+}
+/* 1단계: 작업공간 아래로 */
+
+@media (max-width: 2300px) {
+  .e_combine-div {
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  .e_blocklyworkspace{
+    width: 1050px;
+  }
+  .e_xml-output {
+    margin-right: 0px !important;
+  }
+}
+
+
+/* 2단계: 문제/정답/출력 1줄 세로 쌓기 */
+@media (max-width: 1300px) {
+  .e_combine-div {
+    padding : 0px;
+  }
+  .e_textarea-div {
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  .e_textarea-div div {
+    margin: 0px;
+    width: 100%;
+    max-width: 450px;
+  }
+  .e_blockly-area{
+    margin-bottom: 10px;
+  }
+  .e_blocklyworkspace{
+    width: 500px  !important;
+    height: 300px !important;
+  }
+
 }

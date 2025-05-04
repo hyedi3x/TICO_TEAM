@@ -28,12 +28,12 @@ const MainBannerManage = () => {
   const resolveThumbnailUrl = (url) => {
     if (!url) return '';
     if (url.startsWith('http')) return url;
-    return `https://tico.kro.kr${url}`;
+    return `http://localhost:8081${url}`;
   };
 
   // 전체 작품 불러오기
   useEffect(() => {
-    axiosInstance.get('/api/project/projectList')
+    axiosInstance.get('/api/project/projects')
     .then(response => {
       setAllProjects(response.data);
     })
@@ -194,9 +194,9 @@ const MainBannerManage = () => {
 
   return (
     <> {/*MainModify의 자식요소로 들어가게 된다*/}
-      <h1 className="text-center fw-bold mb-4">메인 배너 관리</h1>
-      <div className="d-flex justify-content-end gap-2 mb-3">
-        <Button appearance="primary" onClick={() => openModal(null)}>+ 배너 추가</Button>
+      <h1 className="text-center fw-bold mb-2">메인 배너 관리</h1>
+      <div className="d-flex justify-content-end gap-2 mb-2">
+        <Button appearance="ghost" onClick={() => openModal(null)}>+ 배너 추가</Button>
       </div>
 
       <Swiper
@@ -229,7 +229,7 @@ const MainBannerManage = () => {
                 extraButtons={
                   banner.isDelete === 'N' ? (
                     <>
-                      <Button appearance="primary" size="sm" style={{ borderRadius: 20, padding: '0.4rem 1rem', marginRight: 8 }}
+                      <Button appearance="ghost" size="sm" style={{ borderRadius: 20, padding: '0.4rem 1rem', marginRight: 8 }}
                         onClick={() => openModal(index)}
                       >
                         수정
@@ -313,7 +313,7 @@ const MainBannerManage = () => {
           {form.bannerImage && (
             <div className="mb-2 text-center">
               <img
-                src={`https://tico.kro.kr${form.bannerImage}`}
+                src={`http://localhost:8081${form.bannerImage}`}
                 alt="미리보기"
                 style={{ maxWidth: '100%', maxHeight: '150px', objectFit: 'contain' }}
               />

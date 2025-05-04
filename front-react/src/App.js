@@ -26,6 +26,7 @@ import BlockEduComponentPut from './pages/blockedu/BlockEduComponentPut';
 import ShareGallery from './pages/share/ShareGallery';
 import ShareDetail from './pages/share/ShareDetail';
 import ShareCanvas from './blockly/components/BlocklyComponentRun';
+import PurchasePage from './mypage/PurchasePage';
 import Tutorial from './blockly/components/Tutorial';
 import ProjectEditMeta from './pages/share/ProjectEditMeta';
 import Remake from './blockly/components/BlocklyComponentRemake';
@@ -33,8 +34,10 @@ import MainModify from './common/MainModify';
 import MainBannerManage from './common/MainBannerManage';
 import ReportForm from './pages/share/ReportForm';
 import SearchResult from './pages/search/SearchResult';
-import PurchasePage from './mypage/PurchasePage';
-
+import Notice from './pages/notice/Notice';
+import NoticeDetail from './pages/notice/NoticeDetail';
+import NoticePost from './pages/notice/NoticePost';
+import NoticeAdmin from './pages/notice/NoticeAdmin';
 
 function App() {
   return (
@@ -73,6 +76,11 @@ function App() {
           <Route path='/remake' element={<Remake />}/>
           <Route path="/mainBannerManage" element={<MainBannerManage />} />
           <Route path="/mainModify" element={<MainModify/>}/>
+          <Route path="/noticeList" element={<Notice/>}/>
+          <Route path="/noticeAdmin" element={<NoticeAdmin/>}/>
+          <Route path="/noticeDetail/:noticeId" element={<NoticeDetail/>}/>
+          <Route path="/noticePost/" element={<NoticePost/>}/>
+          <Route path="/noticePut/:noticeId" element={<NoticePost/>}/>
         </Routes>
         <Footer />
       </BrowserRouter>

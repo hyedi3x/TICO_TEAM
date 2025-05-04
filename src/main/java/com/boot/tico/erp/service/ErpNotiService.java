@@ -20,14 +20,19 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.boot.tico.erp.dto.EmpDTO;
 import com.boot.tico.erp.dto.ErpNotiDTO;
+import com.boot.tico.erp.dto.Notification;
 import com.boot.tico.erp.repo.EmpRepository;
 import com.boot.tico.erp.repo.ErpNotiRepository;
+import com.boot.tico.erp.repo.NotificationRepo;
 
 @Service
 public class ErpNotiService {
 
     @Autowired
     private ErpNotiRepository notiRepo;
+    
+    @Autowired
+    private NotificationRepo notificationRepo;
     
     @Autowired 
     private EmpRepository empRepo;
@@ -42,16 +47,14 @@ public class ErpNotiService {
     
     // 공지사항 목록 검색 + 필터링 + 페이징 처리
     // Page<T> 타입으로 리턴. 페이지 처리된 결과를 포함한 객체. (현재 페이지 데이터 목록 getContent(), 전체 페이지 수 getTotalPages(), 전체 데이터 개수 getTotalElements(), 현재 페이지 번호 getNumber()) 
-    public Page<ErpNotiDTO> searchNoticesWithPaging(String keyword, String searchType, String category, String status, Pageable pageable) {
-        return notiRepo.findByKeywordPaging(keyword, searchType, category, status, pageable);
+    public Page<ErpNotiDTO> searchNoticesWithPaging(String keyword, String searchType, String category, String status, String empId, Pageable pageable) {
+        return notiRepo.findByKeywordPaging(keyword, searchType, category, status, empId, pageable);
     }
 
     // 단건 조회
     public ErpNotiDTO getComNotiById(Long id) {
         return notiRepo.findById(id).orElse(null);
     }
-    
-    
 
     // 공지 등록(파일 포함)
     public ResponseEntity<?> createNotice(ErpNotiDTO notice, MultipartFile file) {
@@ -70,7 +73,37 @@ public class ErpNotiService {
             notice.setErpNotiCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
             updateNoticeStatus(notice);
 
+            // 공지사항 저장
             notiRepo.save(notice);
+            
+            // 내일 날짜 계산. 알림 자동 생성 로직 추가 (내일 마감 공지. 모든 직원이 조회할 수 있게)
+            LocalDate tomorrow = LocalDate.now().plusDays(1);
+            
+        	// 내일 마감인 공지일 때만 알림 생성
+            if (notice.getErpNotiExpiredAt() != null &&
+                notice.getErpNotiExpiredAt().toLocalDate().isEqual(tomorrow)) {
+            	
+            	// 실수 방지 코드
+                String empId = "ALL";
+                if (!"ALL".equals(empId) && !empRepo.existsByEmpId(empId)) {
+                    throw new IllegalArgumentException("알림 대상자가 존재하지 않습니다: " + empId);
+                }
+                
+            	// 중복 알림 방지: 이미 생성된 알림이 있는지 확인
+                boolean exists = notificationRepo.existsByRelatedTypeAndRelatedIdAndEmpId("notice", notice.getErpNotiId(), "ALL");
+                
+                if (!exists) {
+                Notification notification = new Notification();
+                notification.setEmpId("ALL");  // 관리자 전체에게 보이는 알림
+                notification.setNotificationTitle("[공지] 만료 예정: " + notice.getErpNotiTitle());
+                notification.setNotificationMessage("등록된 공지사항이 내일 만료됩니다.");
+                notification.setRelatedType("notice");
+                notification.setRelatedId(notice.getErpNotiId());
+                notification.setLinkUrl("/noticeDetail/" + notice.getErpNotiId());
+
+                notificationRepo.save(notification);
+            }
+           }
             return ResponseEntity.ok("공지사항 등록 성공");
         } catch (Exception e) {
             e.printStackTrace();

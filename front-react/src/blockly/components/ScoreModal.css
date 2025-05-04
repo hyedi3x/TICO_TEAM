@@ -1,0 +1,112 @@
+.score-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 16, 43, 0.78);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.25s;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  .score-modal-box {
+    background: #fffdfa;
+    border-radius: 32px;
+    padding: 72px 64px 56px 64px;
+    box-shadow: 0 12px 38px #331c0038;
+    min-width: 440px;
+    min-height: 380px;
+    max-width: 96vw;
+    max-height: 90vh;
+    text-align: center;
+    animation: modalPop 0.32s cubic-bezier(.47,1.64,.41,.84);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  @media (max-width: 650px) {
+    .score-modal-box {
+      min-width: 90vw;
+      min-height: 300px;
+      padding: 32px 5vw 32px 5vw;
+    }
+  }
+  
+  @keyframes modalPop {
+    from { transform: scale(0.84) translateY(40px); opacity: 0.3;}
+    to { transform: scale(1) translateY(0); opacity: 1;}
+  }
+  
+  .score-modal-title {
+    font-size: 2.7rem;
+    font-weight: 900;
+    color: #603b13;
+    margin-bottom: 22px;
+    letter-spacing: 0.08em;
+    text-shadow: 0 2px 12px #d1ad5c23;
+  }
+  
+  .score-modal-label {
+    font-size: 1.22rem;
+    color: #b9a575;
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+  
+  .score-modal-score {
+    font-size: 5.2rem;
+    font-weight: 900;
+    margin: 34px 0 28px 0;
+    color: #ffcb3c;
+    background: linear-gradient(90deg,#fff4ce 50%,  /* 연한 노랑 */#fff2b3 80%,  /* 진한 노랑 */#fffbe7 100% );
+    border-radius: 40px;
+    padding: 24px 0;
+    letter-spacing: 0.09em;
+    box-shadow: 0 3px 18px #ffe88a19, 0 1px 0 #f5e7b4;
+  }
+  
+  .score-modal-buttons {
+    display: flex;
+    gap: 32px;
+    margin-top: 44px;
+    justify-content: center;
+  }
+  
+  .score-modal-btn {
+    min-width: 140px;
+    padding: 17px 42px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    border-radius: 16px;
+    border: none;
+    cursor: pointer;
+    background: #f4e7c7;
+    color: #54360f;
+    transition: background 0.15s, color 0.15s, transform 0.15s;
+    /* box-shadow 제거 */
+    box-shadow: none;
+  }
+  
+  .score-modal-btn.exit {
+    background: linear-gradient(90deg, #ffe3e0 70%, #fff4ea 100%);
+    color: #ad5252;
+  }
+  .score-modal-btn.exit:hover {
+    background: #ffd0d0;
+    color: #7c2727;
+  }
+  
+  .score-modal-btn.retry {
+    background: linear-gradient(90deg, #ffe87c 70%, #fff5c7 100%);
+    color: #7d6709;
+  }
+  .score-modal-btn.retry:hover {
+    background: #ffe566;
+    color: #6e5a04;
+  }
+  

@@ -148,11 +148,20 @@ public interface ProjectRepository extends JpaRepository<ProjectDTO, Integer>{
 	""", nativeQuery = true)
 	void updateBookmarkCount(@Param("projectId") int projectId);
 	
+	// 메인 화면 가져오기 작품 모두 & 닉네임 가져오기
+	@Query(value = "SELECT p.*, u.nickname FROM project_tb p JOIN users u ON p.user_uuid = u.user_uuid WHERE p.isdelete = 'N'", nativeQuery = true)
+	List<Object[]> findByIsDeleteAndNickname();
+
 	// 메인화면 인기 작품 조회, 좋아요, 북마크, 조회수 많은 순서로 정렬
 	@Query(value = "SELECT * FROM project_tb " +
             "WHERE isprivate = 'N' AND isdelete = 'N' " +
             "ORDER BY like_count DESC, bookmark_count DESC, view_count DESC",
     nativeQuery = true)
 	List<ProjectDTO> findPopularProjects();
+	
+	// 특정 프로젝트의 작성자 UUID 조회
+	// projectAuthorUuid를 얻기 위해서 project_id 기반으로 해당 프로젝트의 user_uuid를 조회해야함.
+	@Query(value = "SELECT user_uuid FROM project_tb WHERE project_id = :projectId", nativeQuery = true)
+	String findAuthorByProjectId(@Param("projectId") int projectId);
 	
 }

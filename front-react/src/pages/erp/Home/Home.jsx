@@ -202,7 +202,7 @@ const Home = ({ onNoticeClick }) => {
             <MyCalendar onDateSelect={handleDateSelect} schedules={calendarSchedules} />
             {selectedDate && (
               <>
-                <p style={{ marginTop: '10px', fontWeight: 'bold' }}>
+                <p style={{ marginTop: '30px', fontWeight: 'bold' }}>
                   📅 {selectedDate.toLocaleDateString('ko-KR')}의 일정입니다.
                 </p>
                 <TodoList list={todoList} onItemClick={openModal} />  {/* 클릭하면 상세보기 및 수정 모달 */}

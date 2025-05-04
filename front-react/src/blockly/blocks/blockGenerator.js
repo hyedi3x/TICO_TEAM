@@ -72,30 +72,34 @@ const RegisterBlockGenerator = (props) => {
   };
 
   // 몇 초 동안 기다리기, 정지는 바로 클리어, 일시정지는 기다림
+  // let interval로 간섭, 중첩 없앰
   javascriptGenerator.forBlock['wait_seconds'] = function(block) {
     const seconds = block.getFieldValue('seconds');
     return `await new Promise(resolve => {
-        let waited = 0;
-        const interval = setInterval(() => {
-          if (!window.running) {
+      let waited = 0;
+      let interval = setInterval(() => {
+        if (!window.running) {
+          clearInterval(interval);
+          resolve();
+          return;
+        }
+        if (!window.isPaused) {
+          waited += 50;
+          if (waited >= ${seconds} * 1000) {
             clearInterval(interval);
             resolve();
-            return;
           }
-          if (!window.isPaused) {
-            waited += 50;
-            if (waited >= ${seconds} * 1000) {
-              clearInterval(interval);
-              resolve();
-            }
-          }
-        }, 50);
-      });\n`;
+        }
+      }, 50);
+    });\n`;
   };
 
   // 모든 코드 멈추기
   javascriptGenerator.forBlock['stop_all_code'] = function (block) {
-    return ` window.running = false;\n`;
+    return `
+      window.running = false;
+      if (window.score) window.openScoreModal();
+    \n`;
   };
 
   // 이동방향과 일치하는 각도로 입력값만큼 거리 이동
@@ -251,7 +255,7 @@ const RegisterBlockGenerator = (props) => {
     return `
       const canvas = document.querySelector("canvas");
       if (canvas) {
-        canvas.style.cursor = 'url("https://tico.kro.kr/uploads/${encoded}") 24 24, auto';
+        canvas.style.cursor = 'url("http://localhost:8081/uploads/${encoded}") 24 24, auto';
       } else {
         console.warn("❌ 캔버스 요소를 찾을 수 없습니다.");
       }

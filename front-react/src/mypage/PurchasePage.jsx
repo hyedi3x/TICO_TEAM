@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import './purchasePage.css';
-import { Button, Panel, Message } from 'rsuite';
+import { Button, Panel, Message, Modal } from 'rsuite';
 import axiosInstance from '../pages/login/social/utils/axiosInstance';
-import { useNavigate } from 'react-router-dom';
 
 function PurchasePage({ goToStatus }) {
   const userUuid = localStorage.getItem('user_uuid');
-  const navigate = useNavigate(); 
 
   const [isPaying, setIsPaying] = useState(false);
   const [status, setStatus] = useState('IDLE');   // PAID / FAILED / IDLE
   const [alreadySubscribed, setAlreadySubscribed] = useState(false);
   const [loadingSubscription, setLoadingSubscription] = useState(true);
+  const [showAgeModal, setShowAgeModal] = useState(false);
 
-  // 아임포트 초기화는 최초 렌더링 시 한 번만(v1방식)
+  // 아임포트 초기화는 최초 렌더링 시 한 번만(v1 방식)
   useEffect(() => {
     if (window.IMP) {
       window.IMP.init(process.env.REACT_APP_IMP_CODE);
@@ -39,7 +38,10 @@ function PurchasePage({ goToStatus }) {
     checkSubscription();
   }, [userUuid]);
 
-  const handlePayment = () => {
+  // 모달에서 '확인'을 누른 후 실제 결제 진행
+  const confirmPayment = () => {
+    setShowAgeModal(false); // 모달 닫기
+
     const IMP = window.IMP;
     if (!IMP) {
       alert('❌ 결제 모듈 로딩 실패. 새로고침 후 다시 시도해주세요.');
@@ -65,12 +67,9 @@ function PurchasePage({ goToStatus }) {
           console.log("✅ 결제 완료:", response.data);
           alert("✅ 결제 및 이용권 등록 성공!");
           setStatus("PAID");
-          setAlreadySubscribed(true); // UI 업데이트
-          if (goToStatus) {
-            navigate('/object-select', { state: { purchased: true } });  
-          }
+          setAlreadySubscribed(true);
+          if (goToStatus) goToStatus();
         } catch (error) {
-          console.error("❌ 서버 검증 실패:", error);
           const message = error.response?.data || "결제 후 검증 중 오류가 발생했습니다.";
           alert(`❌ ${message}`);
           setStatus("FAILED");
@@ -82,6 +81,11 @@ function PurchasePage({ goToStatus }) {
 
       setIsPaying(false);
     });
+  };
+
+  // 결제 버튼 클릭 시 모달부터 열기
+  const handlePayment = () => {
+    setShowAgeModal(true);
   };
 
   if (loadingSubscription) {
@@ -132,6 +136,22 @@ function PurchasePage({ goToStatus }) {
           </Message>
         )}
       </Panel>
+
+      {/* 보호자 인증 안내 모달 */}
+      <Modal open={showAgeModal} onClose={() => setShowAgeModal(false)} size="xs">
+        <Modal.Header>
+          <Modal.Title>보호자 동의 필요</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          14세 미만 사용자는 부모님의 동의가 필요합니다. <br />
+          부모님 휴대폰으로 인증 알람이 갑니다. <br /><br />
+          계속 결제를 진행하시겠습니까?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={confirmPayment} appearance="primary">확인하고 결제하기</Button>
+          <Button onClick={() => setShowAgeModal(false)} appearance="subtle">취소</Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

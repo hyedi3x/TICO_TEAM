@@ -71,7 +71,7 @@ public class PurchaseLogService {
     
     // 검색 + 페이징 결합해서 반환
     public Page<PurchaseLogDTO> getLogsWithPaging(String keyword, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));	// 최신순 정렬
+    	Pageable pageable = PageRequest.of(page, size); 	// 최신순 정렬
         
         // 모든 로그 조회 (여기서는 키워드를 post-filtering)
         List<PurchaseLog> allLogs = purchaseLogRepo.findAll();
@@ -113,6 +113,12 @@ public class PurchaseLogService {
                 dto.getUserName().toLowerCase().contains(keyword.toLowerCase()) ||
                 (dto.getEmpName() != null && dto.getEmpName().toLowerCase().contains(keyword.toLowerCase()))
             )
+            .sorted((a, b) -> {
+                // 최신순 정렬: 결제일이 있으면 결제일 기준, 없으면 createdAt 기준
+                var dateA = a.getPaymentCompletedAt() != null ? a.getPaymentCompletedAt() : a.getCreatedAt();
+                var dateB = b.getPaymentCompletedAt() != null ? b.getPaymentCompletedAt() : b.getCreatedAt();
+                return dateB.compareTo(dateA); // 최신순
+            })
             .collect(Collectors.toList());
 
         // 페이징 처리

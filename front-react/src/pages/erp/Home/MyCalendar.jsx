@@ -1,5 +1,6 @@
 import React from 'react';
 import { Calendar } from 'rsuite';
+import './myCalendar.css';
 
 const MyCalendar = ({ onDateSelect, schedules }) => {
   // 날짜를 년월일 단위로만 비교하기 위해 시간 제거
@@ -34,39 +35,35 @@ const MyCalendar = ({ onDateSelect, schedules }) => {
 
     // 일정이 있다면 점으로 표시
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', marginTop: 2 }}>
-        {matchingSchedules.slice(0, 3).map((item, index) => (
+      <div className="calendar-cell-schedules">
+        {matchingSchedules.slice(0, 2).map((item, index) => (
           <div
             key={index}
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: '50%',
-              backgroundColor: item.erpScheduleColor || '#3498db',  // 일정마다 선택된 색상 값
-              margin: '0 1px'
-            }}
-          />
+            className="calendar-schedule-box"
+            style={{ backgroundColor: item.erpScheduleColor || '#3498db' }}
+            title={item.erpScheduleTitle}
+          >
+            {item.erpScheduleTitle.length > 10
+              ? item.erpScheduleTitle.slice(0, 10) + '...'
+              : item.erpScheduleTitle}
+          </div>
         ))}
-        {matchingSchedules.length > 3 && (
-          <div
-            style={{
-              fontSize: 10,
-              marginLeft: 2,
-              color: '#999'
-            }}
-          >+{matchingSchedules.length - 3}</div>  // 일정이 4개 이상이면 +N으로 표시
+        {matchingSchedules.length > 2 && (
+          <div className="calendar-more-schedules">+{matchingSchedules.length - 2}개 더보기</div>
         )}
       </div>
     );
   };
 
   return (
+    <div className="my-calendar-wrapper">
     <Calendar
-      compact
+      compact={false}  // ❗ false로 설정
       renderCell={renderCell}
       onSelect={handleSelect} // 날짜 클릭
-      style={{ width: 320 }}
+      style={{ width: '100%', height: '100%' }}
     />
+    </div>
   );
 };
 

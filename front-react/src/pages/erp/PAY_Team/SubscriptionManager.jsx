@@ -42,7 +42,7 @@ function SubscriptionManager() {
   const handleRefund = async (impUid) => {
     try {
       const empId = localStorage.getItem('user_uuid');
-      await axiosInstance.post(`/api/purchase/refund/${impUid}`,{
+      await axiosInstance.post(`/api/purchase/refund/${impUid}`, {
         empId
       });
       toaster.push(<Message showIcon type="success">환불 완료</Message>);
@@ -99,6 +99,11 @@ function SubscriptionManager() {
               <Column flexGrow={1} align="center">
                 <HeaderCell>회원 이름</HeaderCell>
                 <Cell dataKey="name" />
+              </Column>
+
+              <Column flexGrow={1} align="center">
+                <HeaderCell>닉네임</HeaderCell>
+                <Cell dataKey="nickname" />
               </Column>
 
               <Column flexGrow={1} align="center">

@@ -1,167 +1,190 @@
-/* =======================
-   공지사항 목록 전체 레이아웃
-   ======================= */
-   .notice-list-container {
-    padding: 20px;
-    max-width: 1000px;
-    margin: 0 auto;
-    overflow-x: auto; /* 화면이 작을 때 가로 스크롤 허용 */
-  }
-  
-  /* =======================
-     검색 바 스타일
-     ======================= */
-  .search-bar {
-    margin: 30px 0 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  
-  .search-bar select,
-  .search-bar input,
-  .search-bar button {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
+/* 전체 컨테이너 */
+.notice-list-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  max-width: 1100px;
+  min-width: 600px;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
 
-  .noti-select {
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 3px;
-  }
-  
-  /* =======================
-     테이블 스타일
-     ======================= */
-  table {
-    width: 100%;
-    min-width: 800px; /* ✅ 표 자체 최소 너비 */
-    table-layout: fixed;
-    border-collapse: collapse;
-  }
-  
-  th, td {
-    border: 1px solid #ddd;
-    padding: 10px;
-  }
-  
-  /* 테이블 헤더 가운데 정렬 */
-  thead th {
-    background-color: #f2f2f2;
-    text-align: center;
-  }
-  
-  /* 테이블 셀 가운데 정렬 (수정/삭제 버튼용) */
-  .button-cell {
-    text-align: center;
-    vertical-align: middle;
-  }
-  
-  /* 테이블 내용 말줄임 처리 */
-  .ellipsis-cell {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 250px;
-  }
-  
-  /* 테이블 줄무늬 효과 */
-  tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  
-  tr:hover {
-    background-color: #f0f0f0;
-  }
-  
-  /* =======================
-     링크 스타일
-     ======================= */
-  .notice-link {
-    color: #007bff;
-    text-decoration: underline;
-    cursor: pointer;
-  }
-  
-  .notice-link:hover {
-    color: #0056b3;
-  }
-  
-  /* =======================
-     버튼 스타일 (검색, 수정, 삭제 등)
-     ======================= */
-  
-  /* 검색창 초기화 버튼 */
-  .reset-button {
-    background-color: #f0ad4e;
-    color: white;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .reset-button:hover {
-    background-color: #ec971f;
-  }
-  
-  /* 수정 버튼 */
-  .noti-edit-button {
-    background-color: #0275d8;
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .noti-edit-button:hover {
-    background-color: #025aa5;
-  }
-  
-  /* 삭제 버튼 */
-  .noti-delete-button {
-    background-color: #d9534f;
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .noti-delete-button:hover {
-    background-color: #c9302c;
-  }
-  
-  /* =======================
-     페이징 버튼 영역
-     ======================= */
-  .pagination {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  
-  .pagination button {
-    padding: 5px 10px;
-    border: 1px solid #ccc;
-    background-color: white;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .pagination button.active {
-    font-weight: bold;
-    background-color: #007bff;
-    color: white;
-  }
-  
-  .pagination button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-  
+/* 제목 */
+.notice-list-container h3 {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 24px;
+  color: #1f2937;
+}
+
+/* 검색바 */
+.search-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 24px;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.search-bar select,
+.search-bar input {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.search-bar button {
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+}
+
+/* 검색, 초기화, 토글 버튼 공통 */
+.search-bar .reset-button {
+  background-color: #f59e0b; /* amber-500 */
+  color: white;
+}
+
+.search-bar .reset-button:hover {
+  background-color: #d97706;
+}
+
+.search-bar .toggle-button {
+  background-color: #0ea5e9; /* sky-500 */
+  color: white;
+}
+
+.search-bar .toggle-button:hover {
+  background-color: #0284c7;
+}
+
+.search-bar button:nth-child(3) {
+  background-color: #2563eb; /* blue-600 */
+  color: white;
+}
+
+.search-bar button:nth-child(3):hover {
+  background-color: #1d4ed8;
+}
+
+/* 테이블 */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+thead th {
+  background-color: #f1f5f9;
+  color: #374151;
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  text-align: center;
+  cursor: pointer;
+}
+
+tbody td {
+  padding: 10px;
+  border: 1px solid #e5e7eb;
+  text-align: center;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+tbody tr:hover {
+  background-color: #f3f4f6;
+}
+
+/* 말줄임 처리 */
+.ellipsis-cell {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 240px;
+  text-align: left;
+}
+
+/* 링크 */
+.notice-link {
+  color: #1f2937;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.notice-link:hover {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+/* ✅ 버튼 */
+.noti-edit-button {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.noti-edit-button:hover {
+  background-color: #2563eb;
+}
+
+.noti-delete-button {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.noti-delete-button:hover {
+  background-color: #dc2626;
+}
+
+/* 드롭다운 필터 */
+.noti-select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* 페이징 */
+.pagination {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.pagination button {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pagination button.active {
+  background-color: #2563eb;
+  color: white;
+  font-weight: bold;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

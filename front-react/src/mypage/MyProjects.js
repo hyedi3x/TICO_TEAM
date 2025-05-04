@@ -25,13 +25,13 @@ function MyProjects() {
 
   const resolveThumbnailUrl = (url) => {
     if (url.startsWith('http')) return url; // 이미 전체 URL이면 그대로
-    return `https://tico.kro.kr${url}`;    // 상대경로면 도메인 붙여줌
+    return `http://localhost:8081${url}`;    // 상대경로면 도메인 붙여줌
   };
 
   return (
     <Container className="my-works py-5">
       <h2 className="mb-4 text-center">내 작품</h2>
-      <Row className='project-grid'>
+      <Row className='project-grid justify-content-center'>
         {works.length === 0 ? (
           <p className="text-center">만든 작품이 없습니다.</p>
         ) : (

@@ -3,7 +3,7 @@ import { Container, Sidebar, Sidenav, Nav, Content, Header, ButtonGroup, Button,
 import 'rsuite/dist/rsuite.min.css';
 import './objectSelectPage.css';
 import axiosInstance from '../../pages/login/social/utils/axiosInstance';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 
 // 아이콘
@@ -17,6 +17,7 @@ import { SiLinuxcontainers } from "react-icons/si";
 import ObjectUploader from './ObjectUploader';
 import ObjectDraw from './ObjectDraw';
 import ObjectTextbox from './ObjectTextbox';
+import PurchasePage from '../../mypage/PurchasePage';
 
 // ObjectSelectPage.jsx
 // 블록 오브젝트 선택 및 관리(등록, 수정, 삭제, 업로드 등)를 담당하는 메인 컴포넌트
@@ -29,9 +30,12 @@ function ObjectSelectPage({ onComplete }) {
   const [selectedObjects, setSelectedObjects] = useState([]);         // 선택된 오브젝트
   const [activeMode, setActiveMode] = useState('object');             // 모드 상태(object, upload, draw, textbox)
   const userUuid = localStorage.getItem("user_uuid");                 // 현재 로그인된 사용자 UUID
-  const [showPurchaseModal, setShowPurchaseModal] = useState(false);  // 결제 모달 상태 정의
+  const [showPurchasePageModal, setShowPurchasePageModal] = useState(false);  // 결제 페이지 모달로 띄우기
 
-  const navigate = useNavigate();
+  // 구매 완료 여부 확인
+  const location = useLocation();
+  const purchased = location.state?.purchased || false;
+  const [isPurchased, setIsPurchased] = useState(false);
 
   // 구매 완료 여부 확인
   const location = useLocation();
@@ -49,7 +53,7 @@ function ObjectSelectPage({ onComplete }) {
       try {
         const decoded = jwtDecode(token);
         setUserRole(decoded.userType);  // 예: EMPLOYEE, CUSTOMER
-        setUserDepId(decoded.dep_Id);   // 예: DEP006
+        setUserDepId(decoded.dep_Id);   // 예: DEP005(콘텐츠 담당자)
       } catch (error) {
         console.error("토큰 디코딩 실패:", error);
       }
@@ -291,28 +295,32 @@ function ObjectSelectPage({ onComplete }) {
     onComplete(selectedObjects); // 👈 모달 부모로 선택 결과 전달
   };
 
-
   //--------------------------------[ 랜더링 ]----------------------------
   return (
 
     <Container className="objectSelectPage-container">
 
-      {/* 결제 모달창 */}
-      <Modal open={showPurchaseModal} onClose={() => setShowPurchaseModal(false)}>
-        <Modal.Header>
-          <Modal.Title>이용권이 필요합니다</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          이 오브젝트는 유료입니다. 이용권을 구매하시겠습니까?
-        </Modal.Body>
-        <Modal.Footer>
-          <Button appearance="primary" onClick={() => {
-            setShowPurchaseModal(false);
-            navigate('/purchase'); // 👉 원하는 결제 페이지 URL
-          }}>예</Button>
-          <Button appearance="subtle" onClick={() => setShowPurchaseModal(false)}>아니오</Button>
-        </Modal.Footer>
-      </Modal>
+<Modal
+  open={showPurchasePageModal}
+  onClose={() => setShowPurchasePageModal(false)}
+  size="sm"
+  backdrop="static"
+  keyboard={false}
+>
+  <Modal.Header>
+    <Modal.Title>프리미엄 이용권 구매</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    <PurchasePage
+      goToStatus={() => {
+        setShowPurchasePageModal(false);
+        setIsPurchased(true);      // ✅ 결제 완료 후 락 해제
+        fetchObjectList();         // ✅ 최신 오브젝트 목록 재로드
+      }}
+    />
+  </Modal.Body>
+</Modal>
+
 
       {/* 오브젝트 등록, 수정 모달창 */}
       <Modal open={showModal} onClose={() => {
@@ -335,7 +343,7 @@ function ObjectSelectPage({ onComplete }) {
                     src={
                       newObjectData.previewUrl
                         ? newObjectData.previewUrl
-                        : `https://tico.kro.kr${newObjectData.blocklyObjectFilePath.startsWith('/') ? '' : '/'}${newObjectData.blocklyObjectFilePath}`
+                        : `http://localhost:8081${newObjectData.blocklyObjectFilePath.startsWith('/') ? '' : '/'}${newObjectData.blocklyObjectFilePath}`
                     }
                     alt="오브젝트 미리보기"
                     className="image-preview-box"
@@ -441,7 +449,7 @@ function ObjectSelectPage({ onComplete }) {
             </Button>
 
             {/* 관리자(EMPLOYEE) + 콘텐츠팀(MO)이 아니면 파일올리기/그리기/글상자 보여주기 */}
-            {!(userRole === 'EMPLOYEE' && userDepId === 'DEP006') && (
+            {!(userRole === 'EMPLOYEE' && userDepId === 'DEP005') && (
               <>
                 <Button
                   appearance="default"
@@ -472,7 +480,7 @@ function ObjectSelectPage({ onComplete }) {
           </ButtonGroup>
 
           {/* 관리자 전용 등록/수정/삭제 버튼 */}
-          {userRole === 'EMPLOYEE' && userDepId === 'DEP006' && (
+          {userRole === 'EMPLOYEE' && userDepId === 'DEP005' && (
             <div className="objectSelectPage-admin-controls">
               <Button appearance="primary" size="sm" color="green" onClick={() => { setMode("create"); setNewObjectData(initObj); setShowModal(true); }}>➕ 등록</Button>
               <Button appearance="ghost" size="sm" color="blue" onClick={() => selectedObjects.length === 1 ? handleEditClick(selectedObjects[0]) : alert("하나의 오브젝트를 선택해주세요!")}>✏️ 수정</Button>
@@ -490,7 +498,7 @@ function ObjectSelectPage({ onComplete }) {
                 .filter(obj => obj.blocklyObjectCategory === selectedCategory)
                 .map(obj => {
                   const isPaid = obj.blocklyObjectPoint === true;
-                  const isAdmin = userRole === 'EMPLOYEE' && userDepId === 'DEP006';
+                  const isAdmin = userRole === 'EMPLOYEE' && userDepId === 'DEP005';
 
                   return (
                     <div
@@ -498,7 +506,7 @@ function ObjectSelectPage({ onComplete }) {
                       className={`objectSelectPage-item ${(isPaid && !isPurchased && !isAdmin) ? 'locked' : ''}`}
                       onClick={() => {
                         if (isPaid && !isPurchased && !isAdmin) {
-                          setShowPurchaseModal(true);   // 유료 + 미결제인 경우만 모달
+                          setShowPurchasePageModal(true); // ✅ 결제 페이지 모달 띄움
                           return;
                         }
                         handleSelectObject(obj);         // 무료거나 결제했으면 바로 선택
@@ -507,7 +515,7 @@ function ObjectSelectPage({ onComplete }) {
                     >
                       <div className="objectSelectPage-image-wrapper" style={{ position: 'relative' }}>
                         <img
-                          src={`https://tico.kro.kr${obj.blocklyObjectFilePath.startsWith('/') ? '' : '/'}${obj.blocklyObjectFilePath}`}
+                          src={`http://localhost:8081${obj.blocklyObjectFilePath.startsWith('/') ? '' : '/'}${obj.blocklyObjectFilePath}`}
                           alt={obj.blocklyObjectName}
                           className="objectSelectPage-image"
                         />
@@ -549,7 +557,7 @@ function ObjectSelectPage({ onComplete }) {
       {/* 우측 선택된 오브젝트 목록 */}
       <div className="objectSelectPage-right-selected">
         {/* 관리자일 때 추가하기 버튼 숨기기 */}
-        {!(userRole === 'EMPLOYEE' && userDepId === 'DEP006') && (
+        {!(userRole === 'EMPLOYEE' && userDepId === 'DEP005') && (
           <div className="objectSelectPage-add-button-container">
             <Button appearance="primary" size="sm" onClick={handleAddToCanvas}>➕ 추가하기</Button>
           </div>
@@ -569,7 +577,7 @@ function ObjectSelectPage({ onComplete }) {
                 {/* 🖼️ 타입이 image인 경우 */}
                 {obj.type === 'image' || obj.blocklyObjectFilePath ? (
                   <img
-                    src={`https://tico.kro.kr${obj.blocklyObjectFilePath.startsWith('/') ? '' : '/'}${obj.blocklyObjectFilePath}`}
+                    src={`http://localhost:8081${obj.blocklyObjectFilePath.startsWith('/') ? '' : '/'}${obj.blocklyObjectFilePath}`}
                     alt={obj.blocklyObjectName}
                     className="objectSelectPage-selected-object-image"
                   />

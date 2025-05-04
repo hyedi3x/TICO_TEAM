@@ -51,7 +51,7 @@
   font-size: 14px;
 }
 .btn-col :first-child {
-  margin-right: 30px;
+  margin-right: 5px;
 }
 .btn-col{
   max-width : 120px; /* 최대 너비 설정 */

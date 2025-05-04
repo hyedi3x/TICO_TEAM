@@ -1,0 +1,74 @@
+.notice-post-wrapper {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    font-family: 'Noto Sans KR', sans-serif;
+    background: #fff;
+  }
+  
+  .notice-post-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #2d2d2d;
+  }
+  
+  .notice-post-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .notice-form-group label{
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .empId-div {
+    font-size: 14px;
+    color: #888;
+    text-align: right;
+    margin-bottom: 10px;
+  }
+  .notice-form-group input,
+  .notice-form-group select,
+  .notice-form-group textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box;
+    transition: border 0.2s;
+  }
+  
+  .notice-form-group input:focus,
+  .notice-form-group select:focus,
+  .notice-form-group textarea:focus {
+    border-color: #00b894;
+    outline: none;
+  }
+  
+  .notice-form-actions {
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  .notice-form-actions button {
+    background-color: #00b894;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .notice-form-actions button:hover {
+    background-color: #019875;
+  }
+  

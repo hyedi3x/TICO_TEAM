@@ -88,8 +88,8 @@ function BlockEduComponentPut() {
     if (blocklyDiv.current && !workspace) {
       const blocklyDivElement = document.createElement('div');
       blocklyDivElement.id = 'blocklyWorkspace';
-      blocklyDivElement.style.height = '650px';
-      blocklyDivElement.style.width = '700px';
+      blocklyDivElement.style.height = '100%';
+      blocklyDivElement.style.width = '100%';
       blocklyDiv.current.appendChild(blocklyDivElement);
 
       const newWorkspace = Blockly.inject(blocklyDivElement, {
@@ -208,62 +208,65 @@ function BlockEduComponentPut() {
 
   return (
     <div className="e2_blockly-container">
-      <div className="e2_textarea-div">
-        <div className="e2_code-output">
-          <p>{quiz_id}번 문제 제목</p>
-          <input type="text" value={quiz_title} onChange={e => handleInputChange(e, 'quiz_title')} />
-
-          <p>문제 설명</p>
-          <textarea value={quiz_description} onChange={e => handleInputChange(e, 'quiz_description')} />
-
-          <p>문제 난이도</p>
-          <div className="radio-group">
-            {['쉬움', '보통', '어려움', '매우 어려움'].map(level => (
-              <label key={level}>
-                <input type="radio" name="quiz_level" value={level} checked={quiz_level === level} onChange={e => handleInputChange(e, 'quiz_level')} /> {level}
-              </label>
-            ))}
+      <div className="e2_combine-div">
+        <div className="e2_textarea-div">
+          <div className="e2_code-output">
+            <p>{quiz_id}번 문제 제목</p>
+            <input type="text" value={quiz_title} onChange={e => handleInputChange(e, 'quiz_title')} />
+  
+            <p>문제 설명</p>
+            <textarea value={quiz_description} onChange={e => handleInputChange(e, 'quiz_description')} />
+  
+            <p>문제 난이도</p>
+            <div className="radio-group">
+              {['쉬움', '보통', '어려움', '매우 어려움'].map(level => (
+                <label key={level}>
+                  <input type="radio" name="quiz_level" value={level} checked={quiz_level === level} onChange={e => handleInputChange(e, 'quiz_level')} /> {level}
+                </label>
+              ))}
+            </div>
+  
+            <p>문제 이미지 [ 변경 없을 시 원본 유지 ]</p>
+            <div className="e2_quizimg-div">{quiz_img && <img className="e2_quiz-img" src={quiz_img} alt="퀴즈 이미지" />}</div>
+            <input type="file" accept="image/*" onChange={handleFileChange} />
+  
+            <p>캡처 이미지</p>
+            <div className="e2_capture-div">{answer_img && <img src={answer_img} alt="정답 이미지" />}</div>
           </div>
-
-          <p>문제 이미지 [ 변경 없을 시 원본 유지 ]</p>
-          <div className="e2_quizimg-div">{quiz_img && <img src={quiz_img} alt="퀴즈 이미지" />}</div>
-          <input type="file" accept="image/*" onChange={handleFileChange} />
-
-          <p>캡처 이미지</p>
-          <div className="e2_capture-div">{answer_img && <img src={answer_img} alt="정답 이미지" />}</div>
-        </div>
-
-        <div className="e2_xml-output">
-          <p>xml 코드</p>
-          <textarea value={answer_xml} readOnly />
-
-          <p>생성된 코드</p>
-          <textarea value={rawCodeForDisplay()} readOnly />
-
-          <p>출력 화면 (실행하기 클릭)</p>
-          <textarea value={textareaContent} readOnly />
-        </div>
-      </div>
-
-      <div className="e2_editor-wrapper">
-        <div className="e2_blockly-area">
-          <p>블럭코딩 작업 공간 [ 변수명 영어 ]</p>
-          <div className="e2_block-div" ref={blocklyDiv}></div>
-
-          <div className="e2_button-blockly">
-            <button onClick={resetTextarea}>🗑️ 출력창 초기화</button>
-            <button onClick={runStartBtnCode}>▶️ 실행하기</button>
-            <button onClick={captureBlocklyToImage}>📸 캡처하기</button>
+  
+          <div className="e2_xml-output">
+            <p>xml 코드</p>
+            <textarea value={answer_xml} readOnly />
+  
+            <p>생성된 코드</p>
+            <textarea value={rawCodeForDisplay()} readOnly />
+  
+            <p>출력 화면 (실행하기 클릭)</p>
+            <textarea value={textareaContent} readOnly />
           </div>
-
-          <div className="e2_button-blockly">
-            <button onClick={() => navigate("/EMPEduList")}>☰ 목록으로 돌아가기</button>
-            <button onClick={saveQuiz}>💾 수정하기</button>
+        </div>
+  
+        <div className="e2_editor-wrapper">
+          <div className="e2_blockly-area">
+            <p>블럭코딩 작업 공간 [ 변수명 영어 ]</p>
+            <div className="e2_block-div" ref={blocklyDiv}></div>
+  
+            <div className="e2_button-blockly">
+              <button onClick={resetTextarea}>🗑️ 출력창 초기화</button>
+              <button onClick={runStartBtnCode}>▶️ 실행하기</button>
+              <button onClick={captureBlocklyToImage}>📸 캡처하기</button>
+            </div>
+  
+            <div className="e2_button-blockly">
+              <button onClick={() => navigate("/EMPEduList")}>☰ 목록으로 돌아가기</button>
+              <button onClick={saveQuiz}>💾 수정하기</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
+  
 }
 
 export default BlockEduComponentPut;

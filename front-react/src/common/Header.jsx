@@ -8,7 +8,7 @@ import logo from '../imgs/TICO_logo_icon.png';
 import logo1 from '../imgs/TICO_logo.png';
 import './Header.css';
 import axiosInstance from '../pages/login/social/utils/axiosInstance';
-
+import NotificationDropdown from './NotificationDropdown';
 
 function Header() {
   const token = localStorage.getItem('accessToken');
@@ -70,7 +70,7 @@ function Header() {
 
   return (
     <div className='header'>
-      <Navbar expand="lg" className="bg-white mb-3 border-bottom" style={{ height: '90px', padding: '20px' }}>
+      <Navbar expand="lg" className="bg-white border-bottom" style={{ height: '90px', padding: '20px' }}>
         <Container fluid className='main-container'>
           <Link to="/">
             <Navbar.Brand>
@@ -96,10 +96,9 @@ function Header() {
                 </NavDropdown>
                 <NavDropdown title="공유하기" id="offcanvasNavbarDropdown">
                   <NavDropdown.Item href="/share">작품 공유하기</NavDropdown.Item>
-                  <NavDropdown.Item href="/#action4">스터디 공유하기</NavDropdown.Item>
                 </NavDropdown>
                 <NavDropdown title="커뮤니티" id="offcanvasNavbarDropdown">
-                  <NavDropdown.Item href="/#action4">공지사항</NavDropdown.Item>
+                  <NavDropdown.Item href="/noticeList">공지사항</NavDropdown.Item>
                   <NavDropdown.Item href="/faqlist">FAQ</NavDropdown.Item>
                 </NavDropdown>
               </Nav>
@@ -112,31 +111,31 @@ function Header() {
               {/* 로그인 상태에 따라 로그인/로그아웃 버튼 전환 */}
               {isLoggedIn ? (
                 <>
-                  {/* 드롭다운을 사용하여 클릭 시 Mypage가 보이도록 구성 */}
-                  <Dropdown style={{ marginRight: '10px' }}>
-                    <Dropdown.Toggle
-                      variant="light"
-                      id="dropdown-basic"
-                      style={{ color: 'black' }}
-                    >
-                      { 
-                        user 
-                          ? (user.provider === 'employee' ? user.user_uuid : user.email) 
-                          : "My Account"
-                      }
-                    </Dropdown.Toggle>
+                   {user?.provider !== 'employee' && (
+                    <Dropdown style={{ marginRight: '10px' }}>
+                      <Dropdown.Toggle variant="light" style={{ color: 'black' }}>
+                        {user?.email || 'My Account'}
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu>
+                        <Dropdown.Item onClick={() => navigate('/MypageMain')}>
+                          Mypage
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  )}
 
-                    <Dropdown.Menu>
-                      <Dropdown.Item onClick={() => navigate('/MypageMain')}>
-                        Mypage
-                      </Dropdown.Item>
-                      {/* 필요시 추가 메뉴 아이템 */}
-                    </Dropdown.Menu>
-                  </Dropdown>
-                  
-                <Button className='button2' variant="outline-danger" onClick={handleLogout}>
-                  로그아웃
-                </Button>
+                   <NotificationDropdown
+                    userUuid={user?.user_uuid}
+                    userRole={user?.provider} // 'employee' or other
+                    onAllViewClick={() =>
+                      navigate(user?.provider === 'employee'
+                        ? "/erpMain?view=notifications"
+                        : "/MypageMain?tab=notifications")
+                    }
+                  />
+                  <Button className='button2' variant="outline-danger" onClick={handleLogout}>
+                    로그아웃
+                  </Button>
                 </>
               ) : (
                 <Button className='button1' variant="outline-success" onClick={handleLogin}>

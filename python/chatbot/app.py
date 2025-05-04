@@ -1,12 +1,16 @@
 # ----------------------------[Flask 앱 초기화 및 Blueprint 등록]----------------------------
+import os  # 운영체제
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 # flask : 웹 애플리케이션 프레임 워크, send_from_directory : 음성 파일을 제공
 from flask import Flask, send_from_directory
 from flask_cors import CORS  # flask cors 라이브러리 추가
-import os  # 운영체제
 
 # py 파일 호출
 from config import AUDIO_FILES_DIR
-from routes import routes
+from routes import routes  # chatbot 폴더의 하위 routes.py
+from dashboard.routes import dashboard_bp  # dashboard 폴더 하위의 routes.py 
 
 # 파이썬 flask 서버 생성 (flask application name)
 app = Flask(__name__)
@@ -19,6 +23,7 @@ except Exception as e:
     print(f"오디오 폴더 생성 실패: {e}", flush=True)  # flush=True : 출력 결과를 즉시 콘솔(또는 로그)에 강제로 내보내는 옵션
 
 app.register_blueprint(routes)  # 라우터 등록 (Blueprint)
+app.register_blueprint(dashboard_bp)  # dashboard 라우트 등록
 
 # 음성 파일 제공 
 @app.route("/audio/<nickname>/<filename>")

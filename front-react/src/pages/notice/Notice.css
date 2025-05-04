@@ -1,0 +1,227 @@
+.notice-container {
+  max-width: 1000px;
+  margin: 20px auto;
+  font-family: 'NanumGothic', sans-serif;
+  background: #fff;
+  padding: 30px 20px;
+  border-radius: 20px;
+}
+
+.notice-header-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.7rem;
+}
+
+.notice-title {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.notice-search {
+  position: relative;
+  width: 220px;
+}
+
+.notice-search input {
+  width: 100%;
+  padding: 8px 32px 8px 12px;
+  border: 1px solid #e2e2e2;
+  border-radius: 22px;
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.notice-search input:focus {
+  border: 1.5px solid #0095e9;
+}
+
+.notice-search-icon {
+  position: absolute;
+  right: 12px;
+  top: 8px;
+  color: #bdbdbd;
+  pointer-events: none;
+  font-size: 1.1em;
+}
+
+.notice-divider {
+  border: none;
+  border-bottom: 2px solid #222;
+}
+
+.notice-sort span {
+  cursor: pointer;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.96rem;
+  color: #333;
+  background: #f7f7f7;
+  margin-right: 0.4rem;
+  position: relative;
+}
+
+.notice-sort span.active {
+  font-weight: bold;
+  background: #eee;
+  color: #222;
+}
+
+.notice-sort .notice-arrow {
+  font-size: 0.7em;
+  margin-left: 2px;
+  vertical-align: middle;
+}
+
+.notice-row {
+  display: flex;
+  align-items: center;
+  font-size: 1.06rem;
+  transition: background 0.18s;
+  padding-top: 0.85rem;
+}
+.notice-row2{
+  padding: 0.2rem 0 0.85rem 0;
+  font-size: 1.06rem;
+  border-bottom: 1px solid #eee;
+}
+.notice-wrapper:hover {
+  background: #fafbfc;
+}
+
+.notice-type {
+  margin-right: 10px;
+  font-weight: bold;
+  font-size: 1em;
+}
+
+.notice-type-new { color: #10c469; }
+.notice-type-important { color: #30a0e0; }
+.notice-type-event { color: #ffab00; }
+
+.notice-title-text {
+  font-weight: bold;
+  margin-right: auto;
+  margin-left: 4px;
+}
+.notice-info {
+  color: #8e8e8e;
+  font-size: 0.8em;
+  display: flex;
+  gap: 13px;
+}
+
+.notice-empty {
+  padding: 32px 0;
+  text-align: center;
+  color: #aaa;
+  font-size: 1.05em;
+}
+
+.notice-sort-row {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* 드롭다운(select) */
+.notice-select {
+  padding: 6px 36px 6px 12px;
+  font-size: 0.95rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 18px;
+  background: #f7f7f7 url("data:image/svg+xml,%3Csvg fill='%23888888' height='18' viewBox='0 0 24 24' width='18' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E") no-repeat right 10px center;
+  appearance: none;                   /* 기본 화살표 제거 */
+  cursor: pointer;
+}
+
+.notice-select:focus {
+  outline: none;
+  border-color: #0095e9;
+  background-color: #fff;
+}
+
+.notice-title-text:hover {
+  cursor: pointer;          /* 🔄 마우스를 올리면 손가락 모양으로 */
+}
+/* 페이지네이션 ---------------------------------------------------- */
+
+.notice-pagination{
+  display:flex;
+  justify-content:center;
+  gap:6px;
+  margin-top :20px;
+}
+
+.notice-pagination button{
+  background:#fff;
+  border:1px solid #ccc;
+  padding:4px 9px;
+  cursor:pointer;
+  border-radius:30px;
+}
+
+.notice-pagination button.active{
+  background:#00c99c;
+  color:#fff;
+  font-weight:bold;
+}
+
+.notice-pagination button:disabled{
+  opacity:.4;
+  cursor: auto ;
+}
+
+.notice-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.notice-register-btn {
+  background-color: #00b894;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-left: 12px; /* 검색창 옆 배치 시 */
+}
+
+.notice-register-btn:hover {
+  background-color: #00a383;
+}
+
+.notice-header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/*관리자용 버튼 */
+.notice-btn {
+  padding: 4px 10px;
+  border: 1px solid #ccc;
+  background: #f5f5f5;
+  font-size: 0.85rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.notice-btn:hover {
+  background: #e0e0e0;
+}
+
+.notice-btn.delete {
+  background: #ffebeb;
+  border-color: #ff7f7f;
+}
+
+.notice-btn.delete:hover {
+  background: #ffc1c1;
+}
+

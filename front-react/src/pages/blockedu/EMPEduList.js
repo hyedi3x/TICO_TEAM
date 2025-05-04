@@ -88,7 +88,7 @@ const EMPEduList = () => {
 
   return (
     <div className="quiz-wrapper">
-      <h5 className="quiz-count">총 {quizzes.length}문제</h5>
+      <h2 className="quiz-count">총 {quizzes.length}문제</h2>
 
       {/* 드롭다운 2개: 삭제 여부 / 정렬 기준 */}
       <div className="quiz-sort-container">

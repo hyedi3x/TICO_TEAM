@@ -1,69 +1,140 @@
-/* FAQ 전체 컨테이너 */
-.f_container {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  /* 제목 스타일 */
-  .f_title {
-    text-align: center;
-    margin-bottom: 10px;
-    font-weight: bold;
-  }
-  
-  /* 서브타이틀 */
-  .f_subtitle {
-    color: #6c757d;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  /* 스크롤 영역 */
-  .f_scroll-box {
-    max-height: 610px;
-    overflow-y: auto;
-    padding-right: 8px;
-  }
-  
-  /* 카드 스타일 */
-  .f_card {
-    margin-bottom: 16px;
-    width: 1000px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-  
-  /* 입력 영역 */
-  .f_input {
-    font-weight: bold;
-  }
-  
-  /* 질문-버튼 행 */
-  .f_row {
-    align-items: center;
-    margin-bottom: 12px;
-  }
-  
-  /* 답변 textarea */
-  .f_textarea {
-    background-color: #f9f9f9;
-  }
-  
-  /* 등록 버튼 감싸는 div */
-  .f_button-wrapper {
-    display: flex;
-    justify-content: center;
-    margin-top: 32px;
-  }
-  
-  /* 등록 버튼 스타일 */
-  .f_register-btn {
-    padding: 12px 30px;
-    font-size: 18px;
-    font-weight: bold;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
-  }
-  
+/* 전체 컨테이너 스타일 */
+.container {
+  padding: 0 20px;
+  margin: 0 auto;
+  max-width: 1000px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+}
+
+/* 제목 스타일 */
+.title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* 서브타이틀 */
+.subtitle {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #6c757d;
+  margin-bottom: 20px;
+}
+
+/* FAQ 항목 리스트 */
+.faqList {
+  max-height: 670px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.faqIndex{
+  font-size: 16px;
+  font-weight: bold;
+}
+/* 각 FAQ 항목 */
+.faqItem {
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* FAQ 제목과 작성자/수정자 */
+.faqHeader {
+  display: flex;
+  justify-content: space-between; /* 좌측은 번호, 우측은 수정자와 버튼 */
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* 버튼들이 같은 행에 나란히 정렬되도록 */
+.faqButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px; /* 버튼 사이의 간격 */
+}
+
+/* 답변 입력창 */
+.faqTextarea {
+  background-color: #f9f9f9;
+  font-size: 1rem;
+}
+
+/* 수정 버튼 스타일 */
+/* 수정 버튼 스타일 */
+.editButton {
+  border: 1px solid #ccc;
+  background: #f5f5f5;
+  color: #000; /* 텍스트 색을 기본 검정색으로 변경 */
+  padding: 4px 10px;
+  font-size: 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.editButton:hover {
+  background: #e0e0e0;
+  border: 1px solid #ccc !important
+}
+
+
+/* 삭제 버튼 스타일 */
+.deleteButton {
+  background: #ffebeb;
+  border-color: #ff7f7f;
+  color: #000; /* 텍스트 색을 기본 검정색으로 변경 */
+  padding: 4px 10px;
+  font-size: 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.deleteButton:hover {
+  background: #ffc1c1;
+  border: 1px solid #ff7f7f !important;
+}
+
+/* FAQ 새로 등록하기 버튼 */
+.addButton {
+  background-color: #00b894;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 30px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.addButton:hover {
+  background-color: #00a383;
+  border: none !important;
+}
+
+.addButton:focus {
+  background-color: #00b894 !important;
+  border: none !important;
+}
+.deleteButton:focus{
+  background-color: #ffc1c1 !important; 
+  border: 1px solid #ffc1c1 !important
+}
+.editButton:focus 
+ {
+  background-color: #e0e0e0 !important; 
+  border: 1px solid #e0e0e0 !important
+}
+
+/* FAQ 새로 등록하기 버튼 감싸는 div */
+.addButtonWrapper {
+  text-align: center;
+  margin-top: 10px;
+}
