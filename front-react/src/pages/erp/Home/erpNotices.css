@@ -1,177 +1,187 @@
-/* =========================
-   공지사항 레이아웃
-========================= */
+/* 전체 컨테이너 */
 .notice-list-container {
-  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  max-width: 1100px;
+  min-width: 600px;
   margin: 0 auto;
-  padding: 24px;
-  overflow-x: auto;
+  background-color: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
 }
 
-/* =========================
-   검색 영역
-========================= */
+/* 제목 */
+.notice-list-container h3 {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 24px;
+  color: #1f2937;
+}
+
+/* 검색바 */
 .search-bar {
-  margin: 24px 0 16px;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  margin-bottom: 24px;
+  width: 100%;
+  justify-content: flex-start;
 }
 
 .search-bar select,
-.search-bar input,
-.search-bar button {
+.search-bar input {
   padding: 8px 12px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 6px;
+  font-size: 14px;
 }
 
-.noti-select {
-  padding: 6px 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.search-bar button {
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
 }
 
-/* =========================
-   테이블
-========================= */
+/* 검색, 초기화, 토글 버튼 공통 */
+.search-bar .reset-button {
+  background-color: #f59e0b; /* amber-500 */
+  color: white;
+}
+
+.search-bar .reset-button:hover {
+  background-color: #d97706;
+}
+
+.search-bar .toggle-button {
+  background-color: #0ea5e9; /* sky-500 */
+  color: white;
+}
+
+.search-bar .toggle-button:hover {
+  background-color: #0284c7;
+}
+
+.search-bar button:nth-child(3) {
+  background-color: #2563eb; /* blue-600 */
+  color: white;
+}
+
+.search-bar button:nth-child(3):hover {
+  background-color: #1d4ed8;
+}
+
+/* 테이블 */
 table {
   width: 100%;
-  min-width: 800px;
   border-collapse: collapse;
   table-layout: fixed;
+  font-size: 14px;
+  margin-bottom: 24px;
 }
 
 thead th {
-  background-color: #f8f8f8;
-  text-align: center;
+  background-color: #f1f5f9;
+  color: #374151;
   padding: 12px;
-  font-weight: 600;
-  border: 1px solid #ddd;
+  border: 1px solid #e5e7eb;
+  text-align: center;
   cursor: pointer;
 }
 
 tbody td {
-  border: 1px solid #eee;
   padding: 10px;
-  vertical-align: middle;
+  border: 1px solid #e5e7eb;
   text-align: center;
 }
 
-/* 줄무늬 효과 */
 tbody tr:nth-child(even) {
-  background-color: #fafafa;
+  background-color: #f9fafb;
 }
 
 tbody tr:hover {
-  background-color: #f0f0f0;
+  background-color: #f3f4f6;
 }
 
-/* 내용 셀 말줄임 */
+/* 말줄임 처리 */
 .ellipsis-cell {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 250px;
+  max-width: 240px;
   text-align: left;
 }
 
-/* 링크 스타일 */
+/* 링크 */
 .notice-link {
-  color: #212529;
+  color: #1f2937;
   text-decoration: none;
   cursor: pointer;
 }
 
 .notice-link:hover {
-  color: #2c6fdb;
+  color: #2563eb;
   text-decoration: underline;
 }
 
-/* =========================
-   버튼 스타일
-========================= */
-button {
-  font-size: 14px;
-}
-
-/* 검색 초기화 */
-.reset-button {
-  background-color: #f0ad4e;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.reset-button:hover {
-  background-color: #ec971f;
-}
-
-/* 내 게시물/전체 보기 토글 버튼 */
-.toggle-button {
-  background-color: #5bc0de;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.toggle-button:hover {
-  background-color: #31b0d5;
-}
-
-/* 수정 버튼 */
+/* ✅ 버튼 */
 .noti-edit-button {
-  background-color: #0275d8;
+  background-color: #3b82f6;
   color: white;
   border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
+  padding: 6px 12px;
+  border-radius: 6px;
   cursor: pointer;
 }
 
 .noti-edit-button:hover {
-  background-color: #025aa5;
+  background-color: #2563eb;
 }
 
-/* 삭제 버튼 */
 .noti-delete-button {
-  background-color: #d9534f;
+  background-color: #ef4444;
   color: white;
   border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
+  padding: 6px 12px;
+  border-radius: 6px;
   cursor: pointer;
 }
 
 .noti-delete-button:hover {
-  background-color: #c9302c;
+  background-color: #dc2626;
 }
 
-/* =========================
-   페이징
-========================= */
+/* 드롭다운 필터 */
+.noti-select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* 페이징 */
 .pagination {
-  margin-top: 20px;
   display: flex;
   justify-content: center;
-  gap: 8px;
   flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
 }
 
 .pagination button {
   padding: 6px 12px;
-  border: 1px solid #ddd;
+  border: 1px solid #ccc;
   background-color: #fff;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
 }
 
 .pagination button.active {
-  font-weight: bold;
-  background-color: #007bff;
+  background-color: #2563eb;
   color: white;
+  font-weight: bold;
 }
 
 .pagination button:disabled {
