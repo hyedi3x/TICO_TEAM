@@ -47,9 +47,6 @@ public class ProjectCommentDTO {
 	@Transient
 	private String title;
 	
-	@Transient
-	private String title;
-	
 	@PrePersist
 	protected void onCreate() {
 		Timestamp now = new Timestamp(System.currentTimeMillis());

@@ -70,7 +70,7 @@ public class ProjectDTO {
     private String isComment;
     
     @Transient
-    private String nickName;
+    private String nickname;
 
     @PrePersist
     protected void onCreate() {
