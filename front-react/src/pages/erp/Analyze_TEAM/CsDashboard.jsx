@@ -17,7 +17,7 @@ const CsDashboard = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/flask/dashboard-summary")
+    axios.get("/flask/dashboard-summary")
       .then(res => setData(res.data))
       .catch(err => console.error("Axios 에러:", err));
   }, []);
