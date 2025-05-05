@@ -1,26 +1,34 @@
 .share-gallery {
-    padding: 40px 10px;
-    max-width: 1000px;
-    margin: 0 auto;
-  }
-  
-  .gallery-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-  }
-  
-  .empty-state {
-    text-align: center;
-    margin-top: 80px;
-    color: #666;
-  }
-  
-  .empty-state img {
-    width: 200px;
-    opacity: 0.6;
-  }
+  padding: 40px 10px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.gallery-info-box {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #e2e2e2;
+}
+
+.gallery-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.empty-state {
+  text-align: center;
+  margin-top: 80px;
+  color: #666;
+}
+
+.empty-state img {
+  width: 200px;
+  opacity: 0.6;
+}
   
 .header-grid {
   display: flex;
@@ -33,51 +41,135 @@
   padding: 0 10px;
 }
 
+.header-grid h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+.text-muted {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #666;
+}
+
+.text-muted strong {
+  color: #333;
+  font-weight: 600;
+}
+
 .gallery-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 정확히 3열 */
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
-  max-width: 1080px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 10px;
 }
 
 .project-card {
-  width: 100%;               /* 그리드 셀 너비에 꽉 차게 */
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border: none;
-  border-radius: 8px;
+  background-color: #fff;
+  border: 1px solid #e6e6e6;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
   overflow: hidden;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
   
 .project-card:hover {
   transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
 }
 
 .project-card .thumbnail {
   height: 220px;
   object-fit: cover;
   width: 100%;
+  border-bottom: 1px solid #eee;
+  border-radius: 12px 12px 0 0;
 }
   
-  .project-stats {
-    font-size: 14px;
-    color: #444;
-    margin-top: 8px;
+.project-stats {
+  display: flex;
+  justify-content: center;
+  font-size: 16px;
+  color: #444;
+  margin-top: 10px;
+}
+
+/* ============================
+   📱 반응형 미디어쿼리 설정
+=============================== */
+
+/* 💻 데스크탑 (1200px 이상) */
+@media (min-width: 1200px) {
+  .gallery-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* 🧾 일반 태블릿 (992px ~ 1199px) */
+@media (max-width: 1199px) {
+  .header-grid {
+    gap: 20px;
   }
 
-  @media (max-width: 992px) {
-    .gallery-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
+  .gallery-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
-  
-  @media (max-width: 576px) {
-    .gallery-grid {
-      grid-template-columns: 1fr;
-    }
+
+  .header-grid h2 {
+    font-size: 28px;
   }
-  
+
+  .project-card .thumbnail {
+    height: 200px;
+  }
+}
+
+/* 📱 작은 태블릿~모바일 (768px ~ 991px) */
+@media (max-width: 991px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .header-grid {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .header-grid h2 {
+    font-size: 24px;
+  }
+
+  .text-muted {
+    font-size: 14px;
+  }
+
+  .share-gallery {
+    padding: 30px 16px;
+  }
+}
+
+/* 📲 모바일 (≤ 767px) */
+@media (max-width: 767px) {
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .project-card .thumbnail {
+    height: 180px;
+  }
+
+  .text-muted {
+    font-size: 13px;
+  }
+}
