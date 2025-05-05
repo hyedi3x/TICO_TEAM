@@ -55,7 +55,14 @@ function MyProjects() {
                     💬 {work.commentCount}
                   </Card.Text>
                   <div className="mt-2">
-                    <Badge bg={work.isPrivate === 'Y' ? 'danger' : 'success'}>
+                    <Badge 
+                      bg={work.isPrivate === 'Y' ? 'danger' : 'success'}
+                      style={{
+                        fontSize: '15px',
+                        fontWeight: 500,
+                        padding: '6px 10px',
+                      }}
+                    >
                       {work.isPrivate === 'Y' ? '비공개' : '공개'}
                     </Badge>
                   </div>

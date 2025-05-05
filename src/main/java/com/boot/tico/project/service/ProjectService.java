@@ -207,8 +207,23 @@ public class ProjectService {
     */
    @Transactional
    public List<ProjectDTO> getPublicProjects() {
-	    return projectRepository.findByIsPrivate();
-	}
+       List<Object[]> rows = projectRepository.findByIsPrivate();
+       List<ProjectDTO> list = new java.util.ArrayList<>();
+
+       for (Object[] row : rows) {
+           ProjectDTO dto = new ProjectDTO();
+           dto.setProjectId((Integer) row[0]);
+           dto.setTitle((String) row[1]);
+           dto.setThumbnailUrl((String) row[2]);
+           dto.setLikeCount((Integer) row[3]);
+           dto.setViewCount((Integer) row[4]);
+           dto.setCommentCount((Integer) row[5]);
+           dto.setNickName((String) row[6]);
+           list.add(dto);
+       }
+
+       return list;
+   }
    
    /**
     * [10] 프로젝트 공유 처리

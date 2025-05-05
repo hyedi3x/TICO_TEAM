@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Button, Card, Grid, Row, Col } from 'rsuite';
+import { Button, Card, Col, Grid, Modal, Row } from 'rsuite';
 
 function ProjectModal({ show, onClose, projectList, onSelect }) {
   const resolveThumbnailUrl = (url) => {

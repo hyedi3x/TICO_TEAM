@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import axiosInstance from '../login/social/utils/axiosInstance';
+import { Button, Card, Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import axiosInstance from '../login/social/utils/axiosInstance';
 import './ShareGallery.css';
 import ShareModal from './ShareModal';
 
@@ -17,7 +17,7 @@ function ShareGallery() {
 
   const fetchProjects = () => {
     axiosInstance.get("/api/project/public")
-      .then((res) => setProjects(res.data))
+      .then((res) => {setProjects(res.data);})
       .catch(() => alert("작품 목록 조회 실패"));
   };
 
@@ -42,6 +42,12 @@ function ShareGallery() {
           + 작품 공유하기
         </Button>
       </div>
+      <div className="gallery-info-box text-center mb-4">
+        <h5 className="fw-bold mb-2">💡 이곳은 작품을 감상하고 소통하는 공간이에요!</h5>
+        <p className="text-muted" style={{ fontSize: "15px" }}>
+          다른 사람들이 만든 <strong>블록코딩 작품</strong>을 감상하고 <strong>좋아요</strong>와 <strong>댓글</strong>로 소통해보세요.
+        </p>
+      </div>
 
       {projects.length === 0 ? (
         <div className="empty-state">...</div>
@@ -55,7 +61,10 @@ function ShareGallery() {
                 className="thumbnail"
               />
               <Card.Body>
-                <Card.Title>{project.title}</Card.Title>
+                <Card.Title>
+                  <div className="fw-bold text-dark">{project.title}</div>
+                  <div className="text-muted small mt-1">{project.nickName}</div>
+                </Card.Title>
                 <Card.Text className="project-stats">
                   👍 {project.likeCount} &nbsp;&nbsp;
                   👁️ {project.viewCount} &nbsp;&nbsp;

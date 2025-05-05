@@ -1,9 +1,8 @@
 import * as Blockly from "blockly";
 import { javascriptGenerator } from "blockly/javascript";
-import toolboxXML from "../blocks/myBlocks";
-import axios from "axios";
-import ticoTheme from "../blocks/ticoTheme";
 import axiosInstance from "../../pages/login/social/utils/axiosInstance";
+import toolboxXML from "../blocks/myBlocks";
+import ticoTheme from "../blocks/ticoTheme";
 
 // 상세 조회
 export const fetchProjectDetail = async (project_id) => {

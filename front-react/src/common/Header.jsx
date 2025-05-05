@@ -118,7 +118,7 @@ function Header() {
                       </Dropdown.Toggle>
                       <Dropdown.Menu>
                         <Dropdown.Item onClick={() => navigate('/MypageMain')}>
-                          Mypage
+                          {user?.nickname}님의 페이지
                         </Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>
