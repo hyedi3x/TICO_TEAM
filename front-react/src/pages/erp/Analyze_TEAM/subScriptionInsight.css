@@ -1,0 +1,32 @@
+/* 전체 구독 인사이트 컨테이너 (여러 개 차트를 감싸는 틀) */
+.subscription-insight-container {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;   /* 차트 간 간격 조정*/
+  justify-content: center;  /* 중앙 정렬 */
+  align-items: center;      /* 수직 중앙 정렬 */
+  flex-wrap: wrap;          /* 화면이 좁아지면 자동 줄바꿈 */
+  width: 100%;
+  box-sizing: border-box;
+  flex: 1;
+}
+
+/* 개별 차트 박스 (한 개의 차트+라벨 묶음) */
+.subscription-chart-box {
+  width: 100%;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* Chart.js 차트(canvas)에 적용되는 스타일 */
+.subscription-chart-box canvas {
+  width: 100% !important;
+  height: auto !important;
+  max-width: 250px;
+  max-height: 250px;
+  background: transparent !important; /* 차트 배경 투명하게 */
+}
