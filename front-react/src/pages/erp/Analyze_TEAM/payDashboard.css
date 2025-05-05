@@ -1,0 +1,61 @@
+/* 전체 대시보드 레이아웃 컨테이너 */
+.dashboard-container {
+  max-width: 1600px;  /* 최대 폭 제한 (화면이 너무 넓어지지 않도록) */
+  margin: 0 auto;
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  box-sizing: border-box;
+  align-items: flex-start;   /* 아이템들을 위쪽(시작점)으로 정렬 */
+}
+
+/* dashboard의 왼쪽 차트 비율 설정 */
+.dashboard-left {
+  flex: 0 0 55%;    /* 55%로 고정 */
+  min-width: 500px; /* 최소 너비 조정 */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-sizing: border-box;
+}
+
+/* dashboard의 오른쪽 차트 비율 설정 */
+.dashboard-right {
+  flex: 0 0 35%;    /* 35%로 고정 */
+  min-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-sizing: border-box;
+}
+
+/* 공통 카드 스타일 (좌/우 공통 사용) */
+.dashboard-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  flex: 1;   /* 부모 높이에 맞춤 (가변적 높이) */
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* 카드 내부 제목 스타일 */
+.dashboard-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* 반응형 */
+@media (max-width: 1200px) {
+  .dashboard-container {
+    flex-direction: column;
+  }
+
+  .dashboard-left, .dashboard-right {
+    flex: 1 1 100%;     /* 두 영역 모두 폭 100%로 전환 */
+    min-width: unset;   /* 최소 너비 해제 (더 유연하게 반응형) */
+  }
+}
