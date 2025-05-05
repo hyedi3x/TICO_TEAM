@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify
-from dashboard.db import user_dashboard_summary
+from dashboard.db import user_dashboard_summary, payment_refund_insight
 
 dashboard_bp = Blueprint('dashboard', __name__) # Blueprint 객체 생성
 
@@ -12,3 +12,11 @@ def dashboard_summary():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500  # HTTP 500 Internal Server Error
+
+@dashboard_bp.route('/flask/payment-refund-insight')
+def payment_refund_insight_route():
+    try:
+        result = payment_refund_insight()
+        return jsonify(result), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500

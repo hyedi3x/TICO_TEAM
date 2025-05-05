@@ -42,3 +42,37 @@ def user_dashboard_summary():
     return summary_df[['nickname', 'project_count', 'total_solved']] \
                     .fillna('Unknown') \
                     .to_dict(orient='records')  # orient : pandas DataFrame을 리스트[딕셔너리] 형태로 변환
+
+# ----------------------------[회원 결제 환불 현황]----------------------------
+def payment_refund_insight():
+    db_url = f"mysql+pymysql://{config.MARIA_USER}:{config.MARIA_PASSWORD}@{config.MARIA_HOST}:{config.MARIA_PORT}/{config.MARIA_DB}"
+    engine = create_engine(db_url)
+
+    # 결제 수 집계 (payment_completed_at이 NULL이 아닌 경우)
+    payment_df = pd.read_sql("""
+        SELECT HOUR(payment_completed_at) AS hour, COUNT(*) AS payment_count
+        FROM purchase_log
+        WHERE payment_completed_at IS NOT NULL
+        GROUP BY hour
+    """, engine)
+
+    # 환불 수 집계 (refunded_at이 NULL이 아닌 경우)
+    refund_df = pd.read_sql("""
+        SELECT HOUR(refunded_at) AS hour, COUNT(*) AS refund_count
+        FROM purchase_log
+        WHERE refunded_at IS NOT NULL
+        GROUP BY hour
+    """, engine)
+
+    # 시간대별 결제/환불 집계 데이터 합치기 (0~23시로 모두 보이게)
+    all_hours = pd.DataFrame({'hour': range(0, 24)})
+    insight_df = all_hours \
+        .merge(payment_df, on='hour', how='left') \
+        .merge(refund_df, on='hour', how='left') \
+        .fillna(0)
+
+    # 타입 정리
+    insight_df['payment_count'] = insight_df['payment_count'].astype(int)
+    insight_df['refund_count'] = insight_df['refund_count'].astype(int)
+
+    return insight_df.to_dict(orient='records')

@@ -37,6 +37,7 @@ import EMPEduList from "../blockedu/EMPEduList";
 import NoticeAdmin from "../notice/NoticeAdmin";
 import axiosInstance from "../login/social/utils/axiosInstance";
 import CsDashboard from "./Analyze_TEAM/CsDashboard";
+import PayRefundInsight from "./Analyze_TEAM/PayRefundInsight";
 import NotificationList from "./MyPage/NotificationList";
 import ProjectReportList from "./CS_TEAM/ProjectReportList";
 
@@ -106,6 +107,7 @@ function ErpMain() {
       case "3-2": selected = "admin-info"; break;
       case "4-1": selected = "subscription-manage"; break;
       case "4-2": selected = "purchaseLog"; break;
+      case "5-1": selected = "payRefundInsights"; break;
       case "5-2": selected = "csDashboard"; break;
       case "6-1": selected = "userList"; break;
       case "6-3": selected = "projectReportList"; break;
@@ -176,7 +178,7 @@ function ErpMain() {
                   icon={<Icon as={ImStatsDots} />}
                   className={(empInfo.depId === "DEP003" || empInfo.depId === "DEP001") ? "" : "disabled-menu"}
                 >
-                  <Nav.Item eventKey="5-1">결제 통계</Nav.Item>
+                  <Nav.Item eventKey="5-1">회원 결제·환불 현황</Nav.Item>
                   <Nav.Item eventKey="5-2">회원 참여도/학습률 분석</Nav.Item>
                   <Nav.Item eventKey="5-3">콘텐츠 통계</Nav.Item>
                   <Nav.Item eventKey="5-4">보고서 생성</Nav.Item>
@@ -316,6 +318,8 @@ function ErpMain() {
             {viewMode === "ObjectSelectPage" && <ObjectSelectPage />} {/* 오브젝트 관리 */}
             {viewMode === "MainModify" && <MainModify />} {/* 메인화면 */}
             {viewMode === "csDashboard" && <CsDashboard/>} {/* 결제 내역 로그 관리 */}
+            {viewMode === "payRefundInsights" && <PayRefundInsight/>} {/* 결제 내역 로그 관리 */}
+
             {viewMode === "subscription-manage" && <SubscriptionManager />} {/* 결제 회원 관리 */}
             {viewMode === "purchaseLog" && <PurchaseLogPage />} {/* 결제 내역 로그 관리 */}
           </div>
