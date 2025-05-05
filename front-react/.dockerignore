@@ -1,6 +1,5 @@
 node_modules
 .git
-build
 npm-debug.log
 Dockerfile
 Dockerfile.*

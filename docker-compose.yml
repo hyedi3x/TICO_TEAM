@@ -18,7 +18,8 @@ services:
       # 빌드된 정적 파일
       # ./front-react/build:/usr/share/nginx/html:ro
 
-      - ./front-react/.env:/app/.env  
+      # 도커에서 빌드시 필요한 env -> 로컬에서 빌드시 해당 코드 필요없음
+      # - ./front-react/.env:/app/.env  
 
   # ------------------------
   # 3) Flask
