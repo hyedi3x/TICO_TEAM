@@ -1,5 +1,7 @@
 package com.boot.tico.project.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.boot.tico.project.dto.ProjectDTO;
 import com.boot.tico.project.dto.ProjectReportDTO;
 import com.boot.tico.project.service.ProjectReportService;
 
@@ -48,5 +51,11 @@ public class ProjectReportController {
 	        : service.searchByNameOrNickname(keyword, pageable);
 
 	    return ResponseEntity.ok(result);
+	}
+	
+	 // 실제로 신고가 접수된 작품 리스트 (콘텐츠 관리팀 - 작품 관리)
+	@GetMapping("/reported-projects")
+	public ResponseEntity<?> getReportedProjects() {
+	    return ResponseEntity.ok(service.getReportedProjectList());
 	}
 }
