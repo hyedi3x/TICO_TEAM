@@ -22,6 +22,7 @@ import { handleSaveProject } from "../utils/saveProject";
 import ObjectControlPanel from './ObjectControl';
 import ObjectSelectPage from './ObjectSelectPage';
 import ProjectModal from './ProjectModal';
+import ChatbotWindow from "../../pages/chatbot/ChatbotWindow";
 
 Blockly.setLocale(ko); // Blockly 언어를 한국어로 설정
 
@@ -948,7 +949,9 @@ function Canvas() {
           />
         </Modal.Body>
       </Modal>
-
+      <div>
+        <ChatbotWindow />
+      </div>
     </div>
   );
 }
