@@ -14,7 +14,15 @@ from dashboard.routes import dashboard_bp  # dashboard 폴더 하위의 routes.p
 
 # 파이썬 flask 서버 생성 (flask application name)
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}}) # CORS 설정을 통해 모든 도메인에서 오는 요청 허용(*).
+CORS(app, resources={
+    r"/flask/*": {
+        "origins": "*",
+        "methods": ["GET", "POST", "OPTIONS"],    # Get, Post, Options 메서드 허용
+        "allow_headers": ["Content-Type", "Authorization", "Accept"], # 허용된 헤더 목록
+        "expose_headers": ["Content-Type"], # 노출된 헤더 목록
+        "max_age": 3600 # 캐시 최대 나이
+    }
+})
 
 # AUDIO_FILES_DIR 경로에 해당하는 폴더가 없으면 생성.
 try:
@@ -22,11 +30,11 @@ try:
 except Exception as e:
     print(f"오디오 폴더 생성 실패: {e}", flush=True)  # flush=True : 출력 결과를 즉시 콘솔(또는 로그)에 강제로 내보내는 옵션
 
-app.register_blueprint(routes)  # 라우터 등록 (Blueprint)
-app.register_blueprint(dashboard_bp)  # dashboard 라우트 등록
+app.register_blueprint(routes, url_prefix='/flask')  # 라우트 등록, url_prefix : 라우트 접두사(공통 경로)
+app.register_blueprint(dashboard_bp, url_prefix='/flask')  # dashboard 라우트 등록
 
 # 음성 파일 제공 
-@app.route("/audio/<nickname>/<filename>")
+@app.route("/flask/audio/<nickname>/<filename>")
 def get_audio_file(nickname, filename):
     try:
         user_dir = os.path.join(AUDIO_FILES_DIR, nickname)  # static/audio_files/닉네임/
@@ -36,4 +44,5 @@ def get_audio_file(nickname, filename):
 
 # 앱 실행 
 if __name__ == '__main__':
+    print(app.url_map)      # 등록된 라우트 확인
     app.run(host="0.0.0.0", debug=True, port=5000) # 5000번 포트로 실행
