@@ -1,30 +1,30 @@
+/* === 전체 감싸는 래퍼 === */
 .quiz-wrapper {
-    padding: 30px;
-  }
-  
-  .quiz-count {
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
-  
-  .quiz-title {
-    font-weight: 600;
-  }
-  
-  .quiz-category {
-    font-size: 15px; 
-    color: gray;
-  }
-  
-  .quiz-table {
-    width: 1000px;
-    margin: 0 auto;
-    table-layout: auto;
-  }
+  padding: 30px;
+  max-width: 100%;
+  overflow-x: auto;
+}
 
-/* 드롭다운 정렬 셀렉트 스타일 (밝은 톤 + 간결한 디자인) */
+/* === 상단 문구 === */
+.quiz-count {
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 24px;
+}
+
+/* === 정렬 셀렉트박스 컨테이너 === */
+.quiz-sort-container {
+  max-width: 1000px;
+  margin: 0 auto 10px auto;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* === 드롭다운 스타일 === */
 .quiz-sort-select {
-  border: 1px solid #ccc;  /* 연한 회색 테두리 */
+  border: 1px solid #ccc;
   border-radius: 4px;
   padding: 6px 12px;
   font-size: 15px;
@@ -32,27 +32,132 @@
   cursor: pointer;
 }
 
-/* 포커스 시 파란색 테두리 강조 */
 .quiz-sort-select:focus {
   border-color: #4a90e2;
 }
 
-.quiz-sort-container {
-  width: 1000px;            /* 테이블 너비와 동일하게 */
-  margin: 0 auto;           /* 중앙 정렬 */
-  display: flex;
-  justify-content: flex-end;  /* 우측 정렬 */
-  margin-bottom: 10px;
+/* === 테이블 공통 스타일 === */
+.quiz-table {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  border-collapse: collapse;
+  font-size: 15px;
+  background-color: #fff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
 }
 
-/* 관리자 페이지 버튼 */
-.btn-xs {
-  padding: 4px 8px;
+.quiz-table th,
+.quiz-table td {
+  padding: 12px 16px;
+  text-align: center;
+  vertical-align: middle;
+  border-bottom: 1px solid #e5e7eb;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: keep-all;
+  box-sizing: border-box;
+}
+
+/* 헤더 스타일 */
+.quiz-table th {
+  background-color: #f1f5f9;
+  font-weight: 600;
+  color: #374151;
+}
+
+/* 공통 버튼 스타일 */
+.quiz-table .btn-col {
+  display: flex;
+  justify-content: center;
+  gap: 6px;         /* 버튼 간격 */
+  flex-wrap: wrap;  /* 줄 넘침 시 자동 줄바꿈 */
+  min-width: 130px; /* 버튼 2개 들어갈 최소 너비 확보 */
+}
+.quiz-table .btn {
   font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  color: white;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  margin: 2px;
+  font-weight: bold;
 }
-.btn-col :first-child {
-  margin-right: 5px;
+
+/* 수정 버튼 */
+.quiz-table .btn-edit {
+  background-color: #3498db;
 }
-.btn-col{
-  max-width : 120px; /* 최대 너비 설정 */
+.quiz-table .btn-edit:hover {
+  background-color: #2980b9;
+}
+
+/* 삭제 (숨기기 포함) */
+.quiz-table .btn-delete {
+  background-color: #e74c3c;
+}
+.quiz-table .btn-delete:hover {
+  background-color: #c0392b;
+}
+
+/* 삭제 취소 (보이기) */
+.quiz-table .btn-restore {
+  background-color: #00b894;
+}
+.quiz-table .btn-restore:hover {
+  background-color: #009f7a;
+}
+
+/* 숨기기 */
+.quiz-table .btn-hide {
+  background-color: #f39c12;
+}
+.quiz-table .btn-hide:hover {
+  background-color: #e67e22;
+}
+
+
+/* === 반응형 대응 (모바일 최적화) === */
+@media (max-width: 768px) {
+  .quiz-wrapper {
+    padding: 16px;
+  }
+
+  .quiz-count {
+    font-size: 16px;
+  }
+
+  .quiz-sort-select {
+    font-size: 12px;
+    padding: 5px 8px;
+  }
+
+  .quiz-table {
+    font-size: 11px;
+  }
+
+  .quiz-table th,
+  .quiz-table td {
+    padding: 6px 4px;
+    max-width: 90px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .quiz-table td:last-child {
+    max-width: 120px;
+  }
+
+  .quiz-table .btn {
+    font-size: 11px;
+    padding: 3px 6px;
+    min-width: 40px;
+    max-width: 100px;
+  }
 }

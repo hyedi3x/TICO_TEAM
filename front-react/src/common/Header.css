@@ -74,6 +74,7 @@
   padding: 10px 14px;
   font-size: 16px;
   font-weight: 500;
+  font-family: sans-serif;
   color: #222 !important;
   transition: all 0.3s ease;
   position: relative;
@@ -125,6 +126,7 @@
   padding: 10px 14px;
   font-size: 16px;
   font-weight: 500;
+  font-family: sans-serif;
   color: #222 !important;
   transition: all 0.3s ease;
   text-align: center;

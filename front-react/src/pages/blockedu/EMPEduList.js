@@ -112,7 +112,7 @@ const EMPEduList = () => {
         </select>
       </div>
 
-      <Table striped bordered hover className="quiz-table"> {/* 줄무늬, hober시 색변경 */}
+      <Table striped bordered hover className="quiz-table">
         <thead>
           <tr>
             <th className="status-col">no.</th>
@@ -125,41 +125,51 @@ const EMPEduList = () => {
           </tr>
         </thead>
         <tbody>
-          {getSortedQuizzes().map((dto, index) => ( // 삭제 여부 판단하여 필터링 => sort로 정렬
+          {getSortedQuizzes().map((dto, index) => (
             <tr key={index}>
               <td className="num-col">{dto.quiz_id}</td>
               <td className="title-col">{dto.quiz_title}</td>
               <td>{dto.quiz_level}</td>
               <td>
-                <button onClick={() => navigate(`/quizput/${dto.quiz_id}`)}
-                  className="btn btn-sm btn-outline-primary"
-                > {dto.quiz_id}번 수정하기 </button>
+                <button
+                  onClick={() => navigate(`/quizput/${dto.quiz_id}`)}
+                  className="btn btn-edit"
+                >
+                  {dto.quiz_id}번 수정
+                </button>
               </td>
               <td>{dto.isdelete === "Y" ? "Y" : "N"}</td>
               <td className="btn-col">
                 {dto.isdelete === "Y" ? (
-                  <> {/* 불필요한 DOM 태그 없이 하나로 묶기 */}
+                  <>
                     <button
-                      className="btn btn-outline-danger btn-xs"
+                      className="btn btn-delete"
                       onClick={() => manageQuiz(dto.quiz_id, 'hardDelete')}
-                    > 영구 삭제 </button>
+                    >
+                      삭제
+                    </button>
                     <button
-                      className="btn btn-outline-success btn-xs"
+                      className="btn btn-restore"
                       onClick={() => manageQuiz(dto.quiz_id, 'restore')}
-                    > 삭제 취소 </button>
+                    >
+                      보이기
+                    </button>
                   </>
                 ) : (
                   <button
-                    className="btn btn-outline-warning btn-xs"
+                    className="btn btn-hide"
                     onClick={() => manageQuiz(dto.quiz_id, 'delete')}
-                  > 삭제하기 </button>
+                  >
+                    숨기기
+                  </button>
                 )}
               </td>
-              <td>{dto.created_at?.slice(0, 10)}</td> {/* 등록일: yyyy-mm-dd 형식 */}
+              <td>{dto.created_at?.slice(0, 10)}</td>
             </tr>
           ))}
         </tbody>
       </Table>
+
     </div>
   );
 };
