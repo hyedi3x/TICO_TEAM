@@ -93,9 +93,11 @@ function Header() {
                 </NavDropdown>
                 <NavDropdown title="만들기" id="offcanvasNavbarDropdown">
                   <NavDropdown.Item href="/createBlock">작품 만들기</NavDropdown.Item>
+                  <NavDropdown.Item href="/study">스터디 만들기</NavDropdown.Item>
                 </NavDropdown>
                 <NavDropdown title="공유하기" id="offcanvasNavbarDropdown">
                   <NavDropdown.Item href="/share">작품 공유하기</NavDropdown.Item>
+                  <NavDropdown.Item href="/shareStudy">스터디 공유하기</NavDropdown.Item>
                 </NavDropdown>
                 <NavDropdown title="커뮤니티" id="offcanvasNavbarDropdown">
                   <NavDropdown.Item href="/noticeList">공지사항</NavDropdown.Item>
