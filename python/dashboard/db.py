@@ -199,3 +199,94 @@ def subscription_age_bubble():
             .to_dict(orient='records')
 
     return result
+
+# ----------------------------[인기 작품 분석: 상위 10개 단순 합계 기준]----------------------------
+def popular_projects_summary():
+    query = """
+        SELECT 
+            project_id,
+            title,
+            view_count,
+            like_count,
+            bookmark_count,
+            comment_count
+        FROM project_tb
+        ORDER BY (view_count + like_count + bookmark_count + comment_count) DESC
+        LIMIT 10;
+    """
+    with engine.connect() as conn:
+        df = pd.read_sql(query, conn)
+
+    # 데이터프레임을 리스트[dict]로 변환
+    result = df.to_dict(orient='records')
+    return result
+
+# ----------------------------[인기 작품 분석: 가중치 적용 종합 점수 기준]----------------------------
+def popular_project_score_summary():
+    # 프로젝트 + 유저 닉네임 LEFT JOIN으로 불러오기
+    df = pd.read_sql("""
+        SELECT 
+            p.project_id,
+            p.title,
+            p.view_count,
+            p.like_count,
+            p.bookmark_count,
+            p.comment_count,
+            u.nickname
+        FROM project_tb p
+        LEFT JOIN users u ON p.user_uuid = u.user_uuid
+    """, engine)
+
+    # 종합 점수 계산 (가중치: 조회수 40%, 좋아요 30%, 북마크 20%, 댓글 10%)
+    df['popularity_score'] = (
+        df['view_count'] * 0.4 +
+        df['like_count'] * 0.3 +
+        df['bookmark_count'] * 0.2 +
+        df['comment_count'] * 0.1
+    )
+
+    # 종합 점수 기준으로 내림차순 정렬 (가장 인기 높은 순서)
+    df = df.sort_values(by='popularity_score', ascending=False)
+
+    # 리스트[딕셔너리]로 변환해 반환
+    return df.to_dict(orient='records')
+
+# ----------------------------[인기 작품 분석: 전체 작품 + 가중치 + 닉네임 포함]----------------------------
+def popular_projects_full_summary():
+    df = pd.read_sql("""
+        SELECT 
+            p.project_id,
+            p.title,
+            u.nickname,
+            p.view_count,
+            p.like_count,
+            p.bookmark_count,
+            p.comment_count
+        FROM project_tb p
+        LEFT JOIN users u ON p.user_uuid = u.user_uuid
+    """, engine)
+
+    # 점수 계산 (가중치 적용)
+    df['popularity_score'] = (
+        df['view_count'] * 0.4 +
+        df['like_count'] * 0.3 +
+        df['bookmark_count'] * 0.2 +
+        df['comment_count'] * 0.1
+    )
+
+    # 통계가 전혀 없는 작품은 제외 (조회수/좋아요/북마크/댓글 모두 0인 경우)
+    df = df[
+        (df['view_count'] > 0) |
+        (df['like_count'] > 0) |
+        (df['bookmark_count'] > 0) |
+        (df['comment_count'] > 0)
+    ]
+
+    # 종합 점수 기준으로 내림차순 정렬 (가장 인기 있는 작품이 맨 위)
+    df = df.sort_values(by='popularity_score', ascending=False)
+
+    # 작성자 닉네임이 없으면 '알 수 없음'으로 채워서 처리
+    df['nickname'] = df['nickname'].fillna('알 수 없음')
+
+    # 리스트[딕셔너리] 형식으로 변환 후 반환
+    return df.to_dict(orient='records')
