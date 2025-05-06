@@ -1,0 +1,58 @@
+.study-detail-page {
+    padding: 20px;
+  }
+  
+  .study-meta {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+    font-size: 16px;
+  }
+  
+  .nickname {
+    font-weight: bold;
+  }
+  
+  .category {
+    background-color: #f0f0f0;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  
+  .difficulty {
+    background-color: #d1ecf1;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  
+  .duration {
+    background-color: #e2e3e5;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  
+  .comments-section {
+    margin-top: 30px;
+  }
+  
+  .card-body {
+    padding: 20px;
+  }
+
+  .study-badge {
+    padding: 5px 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 20px;
+    color: #fff;
+    text-align: center;
+  }
+  
+  .study-badge-private {
+    background-color: #FF4C4C;  /* 빨간색 계열 (비공개) */
+  }
+  
+  .study-badge-public {
+    background-color: #4CAF50;  /* 초록색 계열 (공개) */
+  }
+  

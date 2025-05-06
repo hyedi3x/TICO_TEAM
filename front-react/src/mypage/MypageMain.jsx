@@ -15,6 +15,7 @@ import PurchasePage from "./PurchasePage";
 import SubscriptionState from "./SubscriptionState";
 import MyProjects from "./MyProjects";
 import UserNotification from "./UserNotification";
+import MyStudies from "./MyStudies";
 
 // Home 컴포넌트는 간단한 예시로 인라인 작성 (원하는 경우 별도 파일로 분리 가능)
 function MyPageHome() {
@@ -47,7 +48,8 @@ function MypageMain() {
       case "3-1": setContent(<EditProfile />); break;
       case "4-1": setContent(<DeleteAccount />); break;
       case "5-1": setContent(<MyProjects />); break;
-      case "6": setContent(<UserNotification />); break;
+      case "6-1": setContent(<MyStudies />); break;
+      case "7": setContent(<UserNotification />); break;
       default: setContent(<MyPageHome />); break;
     }
   };
@@ -55,7 +57,7 @@ function MypageMain() {
   // URL 쿼리로 알림 탭 자동 활성화
   useEffect(() => {
     if (tabParam === "notifications") {
-      setActiveKey("6");
+      setActiveKey("7");
       setContent(<UserNotification />);
     }
   }, [tabParam]);
@@ -106,7 +108,16 @@ function MypageMain() {
                   <Nav.Item eventKey="5-1">내 작품</Nav.Item>
                 </Nav.Menu>
 
-                <Nav.Item eventKey="6" icon={<Icon as={FaBell} />}>
+                <Nav.Menu
+                  placement="rightStart"
+                  eventKey="6"
+                  title="내 스터디"
+                  icon={<Icon as={FaEdit} />}
+                >
+                  <Nav.Item eventKey="6-1">스터디</Nav.Item>
+                </Nav.Menu>
+
+                <Nav.Item eventKey="7" icon={<Icon as={FaBell} />}>
                   알림 목록
                 </Nav.Item>
               </Nav>
