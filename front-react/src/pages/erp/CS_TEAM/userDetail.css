@@ -18,6 +18,8 @@
   padding: 12px 15px;
   border: 1px solid #ddd;
   text-align: left;
+  word-break: break-all; /* 긴 단어도 강제로 줄바꿈 */
+  white-space: normal;   /* 기본 상태로 줄바꿈 허용 */
 }
 
 .user-info-table th {
@@ -43,8 +45,8 @@
 
 .stat-box span {
   margin-top: 5px;
-  font-size: 22px;
-  color: #2c3e50;
+  font-size: 14px;
+  color: #3498db;
 }
 
 /* 돌아가기 버튼 */

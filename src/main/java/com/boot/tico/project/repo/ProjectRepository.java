@@ -171,4 +171,15 @@ public interface ProjectRepository extends JpaRepository<ProjectDTO, Integer>{
 	@Query(value = "SELECT user_uuid FROM project_tb WHERE project_id = :projectId", nativeQuery = true)
 	String findAuthorByProjectId(@Param("projectId") int projectId);
 	
+	/**
+	 * [10] 특정 사용자의 공개된(공개+삭제 안된) 작품 수 가져오기
+	 */
+	@Query(value = "SELECT COUNT(*) FROM project_tb WHERE user_uuid = :userUuid AND isprivate = 'N' AND isdelete = 'N'", nativeQuery = true)
+	int countPublicProjectsByUserUuid(@Param("userUuid") String userUuid);
+
+	/**
+	 * [11] 특정 사용자의 커뮤니티 활동 수 (댓글+좋아요+북마크 합계)
+	 */
+	@Query(value = "SELECT COALESCE(SUM(comment_count + like_count + bookmark_count), 0) FROM project_tb WHERE user_uuid = :userUuid AND isdelete = 'N'", nativeQuery = true)
+	int sumCommunityActivity(@Param("userUuid") String userUuid);
 }
