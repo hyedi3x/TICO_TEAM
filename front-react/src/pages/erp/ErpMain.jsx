@@ -23,6 +23,7 @@ import ErpNotiCreated from "./Home/ErpNotiCreated";
 import ErpNotiDetail from "./Home/ErpNotiDetail";
 import ErpNotiUpdate from "./Home/ErpNotiUpdate";
 import FAQPut from "../faq/FAQPut";
+import FAQPost from "../faq/FAQPost";
 import BlockEduComponentPost from "../blockedu/BlockEduComponentPost";
 import MyInfoChk from "./MyPage/MyInfoChk";
 import MyInfoModify from "./MyPage/MyInfoModify";
@@ -194,8 +195,8 @@ function ErpMain() {
                   <Nav.Item eventKey="6-3">작품 신고 목록</Nav.Item>
                   <Nav.Item eventKey="6-4">결제 관련 문의 관리</Nav.Item>
                   <Nav.Item eventKey="6-5">환불/취소 문의 관리</Nav.Item>
-                  <Nav.Item eventKey="6-6">공지사항 관리</Nav.Item>
-                  <Nav.Item eventKey="6-7">FAQ 관리</Nav.Item>
+                  <Nav.Item eventKey="6-6">공지사항 등록/관리</Nav.Item>
+                  <Nav.Item eventKey="6-7">FAQ 등록/관리</Nav.Item>
 
                 </Nav.Menu>
 

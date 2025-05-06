@@ -25,8 +25,8 @@ public class FAQDTO {
 	
 	@Id
     private int qa_id;
-	private String emp_id;
+	private String emp_email;
     private String question;
 	private String answer;
-	private String modify_id;
+	private String modify_email;
 }

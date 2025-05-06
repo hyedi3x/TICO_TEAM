@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
+import './MainBannerManage.css';
 import { Navigation } from 'swiper/modules';
 // ✨ 아래 4개만 rsuite로
 import { Modal, Button, Form, Input, InputNumber } from 'rsuite';
 import ProjectCard from './ProjectCard';
 import ProjectSelectModal from './ProjectSelectModal';
-import axios from 'axios';
 import axiosInstance from '../pages/login/social/utils/axiosInstance';
 
 const MainBannerManage = () => {
@@ -40,7 +40,7 @@ const MainBannerManage = () => {
     .catch(err => console.error("전체 작품 목록 불러오기 실패", err));
   }, []);
 
-  // 베너 목록 가져오기
+  // 배너 목록 가져오기
   useEffect(() => {
     axiosInstance.get('/api/banner/list')
     .then(response => {
@@ -50,7 +50,7 @@ const MainBannerManage = () => {
     .catch(err => console.error('배너 불러오기 실패:', err));
   }, []);
 
-  // 베너 추가, 수정 열기
+  // 배너 추가, 수정 열기
   const openModal = (index = null) => {
     setSelectedIndex(index);
     if (index !== null) {
@@ -105,7 +105,7 @@ const MainBannerManage = () => {
   };
 
   // 등록 또는 수정
-  const handleSave = () => { // 저장할 때 등록자와 베너 아이디 추가
+  const handleSave = () => { // 저장할 때 등록자와 배너 아이디 추가
     if (!form.bannerTitle || !form.bannerLink || !form.displayOrder || !form.bannerImage) {
       alert('모든 필드를 채워주세요.');
       return; // 빈 필드가 있으면 저장하지 않음
@@ -194,9 +194,9 @@ const MainBannerManage = () => {
 
   return (
     <> {/*MainModify의 자식요소로 들어가게 된다*/}
-      <h1 className="text-center fw-bold mb-2">메인 배너 관리</h1>
+      <div className="notice-title mt-3">🎞️ 메인 배너 관리</div>
       <div className="d-flex justify-content-end gap-2 mb-2">
-        <Button appearance="ghost" onClick={() => openModal(null)}>+ 배너 추가</Button>
+      <button className="faq-btn add-button" onClick={() => openModal(null)}>+ 배너 추가</button>
       </div>
 
       <Swiper
@@ -229,29 +229,13 @@ const MainBannerManage = () => {
                 extraButtons={
                   banner.isDelete === 'N' ? (
                     <>
-                      <Button appearance="ghost" size="sm" style={{ borderRadius: 20, padding: '0.4rem 1rem', marginRight: 8 }}
-                        onClick={() => openModal(index)}
-                      >
-                        수정
-                      </Button>
-                      <Button appearance="ghost" color="orange"size="sm" style={{ borderRadius: 20, padding: '0.4rem 1rem', marginRight: 8 }}
-                        onClick={() => handleDelete(banner.bannerId, 'soft')}
-                      >
-                        삭제
-                      </Button>
+                      <button className="faq-btn btn-edit" onClick={() => openModal(index)}>수정</button>
+                      <button className=" faq-btn btn-delete" onClick={() => handleDelete(banner.bannerId, 'soft')}>삭제</button>
                     </>
                   ) : (
                     <>
-                      <Button appearance="ghost" color="green" size="sm" style={{ borderRadius: 20, padding: '0.4rem 1rem', marginRight: 8 }}
-                        onClick={() => handleCancelDelete(banner.bannerId)}
-                      >
-                        삭제취소
-                      </Button>
-                      <Button appearance="ghost" color="red" size="sm" style={{ borderRadius: 20, padding: '0.4rem 1rem' }}
-                        onClick={() => handleDelete(banner.bannerId, 'hard')}
-                      >
-                        영구삭제
-                      </Button>
+                      <button className="faq-btn add-button" onClick={() => handleCancelDelete(banner.bannerId)}>삭제취소</button>
+                      <button className="faq-btn btn-delete" onClick={() => handleDelete(banner.bannerId, 'hard')}>영구삭제</button>
                     </>
                   )
                 }

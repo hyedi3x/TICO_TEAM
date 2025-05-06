@@ -127,16 +127,20 @@ function Header() {
               {/* 로그인 / 로그아웃 */}
               {isLoggedIn ? (
                 <div className="header-logged-in">
-                  {user?.provider !== 'employee' && (
-                    <Dropdown style={{ marginRight: '10px' }}>
-                      <Dropdown.Toggle variant="light" style={{ color: 'black' }}>
-                        {user?.email || 'My Account'}
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu>
-                        <Dropdown.Item onClick={() => navigate('/MypageMain')}>Mypage</Dropdown.Item>
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  )}
+                  {user?.provider === 'employee' ? (
+                <div style={{ marginRight: '10px', padding: '6px 12px', borderRadius: '6px', backgroundColor: '#f8f9fa', color: 'black', fontWeight: 'bold' }}>
+                  {'Employee Account'}
+                </div>
+              ) : (
+                <Dropdown style={{ marginRight: '10px' }}>
+                  <Dropdown.Toggle variant="light" style={{ color: 'black' }}>
+                    {user?.email || 'My Account'}
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    <Dropdown.Item onClick={() => navigate('/MypageMain')}>Mypage</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              )}
 
                   <NotificationDropdown
                     userUuid={user?.user_uuid}

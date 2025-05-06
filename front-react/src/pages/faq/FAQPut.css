@@ -1,0 +1,138 @@
+.faq-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.faq-container {
+  width: 100%;
+  max-width: 1100px;
+  background-color: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  padding: 30px;
+  text-align: center;
+}
+
+/* 제목 */
+.faq-header-box {
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.faq-title {
+  font-size: 16px;
+  display: flex;
+  justify-content: left;
+  color: inherit;
+  font-family: inherit;
+  font-weight: bolder;
+}
+
+.faq-subtitle {
+  font-size: 14px;
+  color: #6c757d;
+}
+
+/* 리스트 */
+.faq-list {
+  max-height: 670px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.faq-item {
+  padding: 15px;
+  background-color: #f1f5f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+}
+
+.faq-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.faq-index {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.faq-writer {
+  font-size: 13px;
+  color: #666;
+  margin-right: 10px;
+}
+
+.faq-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.faq-btn {
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+/* 버튼 색상 */
+.btn-edit {
+  background-color: #3498db;
+}
+
+.btn-edit:hover {
+  background-color: #2980b9 !important;
+}
+
+.btn-delete {
+  background-color: #e74c3c;
+}
+
+.btn-delete:hover {
+  background-color: #c0392b !important;
+}
+
+/* 입력창 */
+.faq-input {
+  margin-bottom: 10px;
+}
+
+.faq-textarea {
+  background-color: #fdfdfd;
+  font-size: 1rem;
+}
+
+.add-button {
+  background-color: #4caf50;
+  padding: 6px 12px;
+}
+
+.add-button:hover {
+  background-color: #45a049 !important;
+}
+
+/* 모달 */
+.no-padding-modal {
+  max-width: 700px !important;
+  max-height: 465px !important;
+}
+.no-padding-body {
+  max-width: 700px !important;
+  max-height: 465px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
