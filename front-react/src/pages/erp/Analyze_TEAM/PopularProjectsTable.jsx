@@ -7,7 +7,7 @@ const PopularProjectsTable = () => {
 
   useEffect(() => {
     // 인기 작품 점수 데이터 가져오기
-    axios.get('http://localhost:5000/flask/popular-project-score-summary')
+    axios.get('/flask/popular-project-score-summary')
       .then((res) => {
         const data = res.data;
 

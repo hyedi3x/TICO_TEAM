@@ -20,8 +20,8 @@ const PopularProjectsChart = () => {
   useEffect(() => {
     // 두 API 호출 (절대 수치 + 종합 점수)
     Promise.all([
-      axios.get("http://localhost:5000/flask/popular-projects"),              // 조회수/좋아요/북마크/댓글 등 절대 수치 가져오기
-      axios.get("http://localhost:5000/flask/popular-project-score-summary"), // 종합 점수 가져오기 (순서용)
+      axios.get("/flask/popular-projects"),              // 조회수/좋아요/북마크/댓글 등 절대 수치 가져오기
+      axios.get("/flask/popular-project-score-summary"), // 종합 점수 가져오기 (순서용)
     ]).then(([projectsRes, scoreRes]) => {
       const rawData = projectsRes.data;      // 절대 수치 데이터
       const scoreData = scoreRes.data;       // 종합 점수 데이터

@@ -33,7 +33,7 @@ services:
       - DB_PORT=3306
     volumes:
       - ./python/chatbot/.env:/app/.env  
-      - ./python/chatbot/my-project-tico-d3f43b48a318.json:/app/my-project-tico-d3f43b48a318.json
+      - /home/ec2-user/TICO_TEAM/python/chatbot/my-project-tico-d3f43b48a318.json:/app/my-project-tico-d3f43b48a318.json
       - ./python/chatbot/static/audio_files:/app/chatbot/static/audio_files
 
   # ------------------------

@@ -10,7 +10,7 @@ const AgeBarChart = () => {
 
   // 컴포넌트가 처음 마운트될 때 실행되는 useEffect 훅
   useEffect(() => {
-    axios.get('http://localhost:5000/flask/subscription-age-summary')
+    axios.get('/flask/subscription-age-summary')
       .then(res => setAgeData(res.data))             // 응답 데이터를 state에 저장
       .catch(err => console.error('에러:', err));    // 에러 발생 시 콘솔에 출력
   }, []);  // 빈 배열 → 컴포넌트 마운트 시 한 번만 실행됨

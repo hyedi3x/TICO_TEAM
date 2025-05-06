@@ -37,7 +37,7 @@ const PayRefundInsight = () => {
   // 컴포넌트 마운트 시 데이터 가져오기 (결제/환불 인사이트)
   useEffect(() => {
     axios
-      .get("http://localhost:5000/flask/payment-refund-insight")
+      .get("/flask/payment-refund-insight")
       .then((res) => setData(res.data))  // 응답 데이터 state에 저장
       .catch((err) => console.error("Axios 에러:", err)); 
   }, []);

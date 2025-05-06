@@ -19,7 +19,7 @@ const PopularProjectScore = () => {
   useEffect(() => {
     // 데이터 가져오기
     axios
-      .get("http://localhost:5000/flask/popular-project-score-summary")
+      .get("/flask/popular-project-score-summary")
       .then((res) => {
         const data = res.data;
 

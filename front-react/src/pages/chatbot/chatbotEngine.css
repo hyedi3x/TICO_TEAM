@@ -114,24 +114,142 @@
   color: #d32f2f !important;
 }
 
-/* 블러 오버레이 - 밝은 회색 + 블러 */
+/* 채팅 영역 래퍼 (MicRecord 최상위) */
+.chat-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 500px; /* 팝업 높이 제한 (원하는 값으로 조정 가능) */
+}
+
+/* 채팅 메시지 영역 */
+.messages {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* 스크롤 정상작동 필수 */
+}
+
+/* 사용자 메시지 스타일 */
+.message.user {
+  background-color: #e0f7fa;
+  color: #333; 
+  padding: 8px 12px;
+  border-radius: 15px;
+  margin-bottom: 5px;
+  align-self: flex-end;
+  text-align: left;
+}
+
+/* 챗봇 메시지 스타일 */
+.message.bot {
+  background-color: #f0f0f0;
+  color: #333; 
+  padding: 8px 12px;
+  border-radius: 15px;
+  margin-bottom: 5px;
+  align-self: flex-start;
+  text-align: left;
+}
+
+/* 채팅 입력 영역 (입력창 고정 위해 flex-shrink: 0 추가) */
+.input-wrap {
+  flex-shrink: 0; /* 아래로 밀리지 않도록 고정 */
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.08);
+  border-top: none;
+  padding: 14px 10px 20px 10px;
+}
+
+/* 로딩/오류 메시지 */
+.loading,
+.error {
+  padding: 10px;
+  text-align: center;
+}
+
+.loading {
+  color: #a2d2ff;
+}
+
+.error {
+  color: #d32f2f;
+}
+
+/* 입력 + 버튼(마이크 or 전송) 영역 */
+.input-row {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: #f8f8f8;
+  border-radius: 25px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 텍스트 입력창 스타일 */
+.input-row input {
+  flex-grow: 1;
+  border: none;
+  background: transparent; /* 내부 배경 투명 */
+  outline: none;
+  font-size: 14px;
+  padding: 6px 10px;
+}
+
+/* 마이크 버튼과 전송 버튼를 동일하게 정렬/크기 지정 */
+.mic-btn,
+.send-btn {
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  cursor: pointer;
+  color: #a2d2ff; /* 기본 아이콘 색상 */
+}
+
+.mic-btn {
+  padding: 8px;
+}
+
+.send-btn {
+  font-size: 18px;
+  padding: 8px 8px 8px 5px;
+}
+
+/* 아이콘 크기 통일 (두 아이콘 모두 "mic-icon" 클래스로 제어) */
+.mic-icon {
+  font-size: 20px;
+  color: inherit; /* 부모의 color (#a2d2ff)를 상속 */
+}
+
+/* 마이크 녹음 중일 때 (#d32f2f로 변경) */
+.mic-rec .mic-icon {
+  color: #d32f2f !important;
+}
+
+/* 블러 오버레이: 채팅 전체 덮기 */
 .listening-overlay {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  backdrop-filter: blur(10px);         /* 배경 콘텐츠에 블러 효과 적용 */ 
-  -webkit-backdrop-filter: blur(10px); /* 배경 콘텐츠에 블러 효과 적용 (사파리)*/ 
-  background-color: rgba(240, 240, 240, 0.3); /* 밝은 회색 + 투명도 */
-  z-index: 100;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 10;
 }
 
-/* 파형 캔버스 - 중앙 정렬 + 배경 없음 */
+/* 파형 위치: 채팅창 하단에서 위로 140px 고정 */
 .waveform-canvas {
   position: absolute;
-  top: 50%;
+  bottom: 190px;
   left: 50%;
-  transform: translate(-50%, -50%);  /* 가운데 정렬*/
-  width: 80%;
+  transform: translateX(-50%);
+  width: 90%;
   height: 100px;
-  z-index: 101;
   background: transparent;
+  z-index: 11;
 }

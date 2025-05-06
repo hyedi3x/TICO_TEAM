@@ -21,7 +21,7 @@ const SubScriptionInsight = () => {
 
   // 컴포넌트 마운트 시 구독 요약 데이터 가져오기
   useEffect(() => {
-    axios.get("http://localhost:5000/flask/subscription-summary")
+    axios.get("/flask/subscription-summary")
       .then(res => {
         console.log("✅ 구독 요약 데이터:", res.data);
         setSummary(res.data);  // state에 데이터 저장

@@ -44,7 +44,7 @@ function Signup() {
     if (type === 'id') {
       setShowAgeModal(true);
     } else {
-      window.location.href = `http://localhost:8081/oauth2/authorization/${type}?flow=signup`;
+      window.location.href = `/oauth2/authorization/${type}?flow=signup`;
     }
   };
 

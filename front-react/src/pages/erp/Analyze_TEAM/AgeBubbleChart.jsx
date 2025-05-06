@@ -10,7 +10,7 @@ const AgeBubbleChart = () => {
 
   // 컴포넌트가 마운트되면 데이터 요청
   useEffect(() => {
-    axios.get('http://localhost:5000/flask/subscription-age-bubble')
+    axios.get('/flask/subscription-age-bubble')
       .then(res => {
         console.log('[AgeBubbleChart] 응답 데이터:', res.data);
         setBubbleData(res.data); // 데이터 state에 저장

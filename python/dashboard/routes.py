@@ -8,7 +8,7 @@ dashboard_bp = Blueprint('dashboard', __name__)  # 'dashboard'라는 이름의 �
 
 # -----------------[라우트 등록: /flask/ 경로의 GET 요청 처리]-----------------
 # 사용자 대시보드 API
-@dashboard_bp.route('/flask/dashboard-summary')
+@dashboard_bp.route('/dashboard-summary')
 def dashboard_summary():
     try:
         result = user_dashboard_summary()  # 사용자별 참여도/학습량 데이터 시각화 불러오기 (dashboard/db.py)
@@ -17,7 +17,7 @@ def dashboard_summary():
         return jsonify({'error': str(e)}), 500  # HTTP 500 Internal Server Error
 
 # 결제/환불 인사이트 API
-@dashboard_bp.route('/flask/payment-refund-insight')
+@dashboard_bp.route('/payment-refund-insight')
 def payment_refund_insight_route():
     try:
         result = payment_refund_insight() # 결제/환불 요약 데이터 가져오기
@@ -29,7 +29,7 @@ def payment_refund_insight_route():
 import traceback
 
 # 구독 요약 API
-@dashboard_bp.route('/flask/subscription-summary')
+@dashboard_bp.route('/subscription-summary')
 def subscription_summary_route():
     try:
         result = subscription_summary() # 구독 요약 데이터 가져오기
@@ -40,7 +40,7 @@ def subscription_summary_route():
         return jsonify({'error': str(e)}), 500
 
 # 연령대별 구독 현황 API
-@dashboard_bp.route('/flask/subscription-age-summary')
+@dashboard_bp.route('/subscription-age-summary')
 def subscription_age_summary_route():
     try:
         result = subscription_age_summary() # 연령대별 구독 데이터 가져오기
@@ -49,7 +49,7 @@ def subscription_age_summary_route():
         return jsonify({'error': str(e)}), 500
 
 # 연령대 버블차트용 데이터 API
-@dashboard_bp.route('/flask/subscription-age-bubble')
+@dashboard_bp.route('/subscription-age-bubble')
 def subscription_age_bubble_route():
     try:
         result = subscription_age_bubble() # 연령대별 산점도(버블차트) 데이터 가져오기
@@ -61,7 +61,7 @@ def subscription_age_bubble_route():
         return jsonify({'error': str(e)}), 500
 
 # 인기 작품 분석: 단순 조회/좋아요 등 합계 기준
-@dashboard_bp.route('/flask/popular-projects')
+@dashboard_bp.route('/popular-projects')
 def popular_projects_summary_route():
     try:
         result = popular_projects_summary()  # 인기 작품 상위 10개 데이터 조회 (단순 합산 기준)
@@ -73,7 +73,7 @@ def popular_projects_summary_route():
         return jsonify({'error': str(e)}), 500
     
 # 인기 작품 분석: 가중치 적용 종합 점수 기준
-@dashboard_bp.route('/flask/popular-project-score-summary')
+@dashboard_bp.route('/popular-project-score-summary')
 def popular_project_score_summary_route():
     try:
         result = popular_project_score_summary()  # 가중치(조회수40%+좋아요30%+북마크20%+댓글10%) 종합 점수 기준 데이터 조회
@@ -85,7 +85,7 @@ def popular_project_score_summary_route():
         return jsonify({'error': str(e)}), 500
 
 # 인기 작품 분석: 전체 데이터 + 가중치 + 닉네임 포함
-@dashboard_bp.route('/flask/popular-projects-full')
+@dashboard_bp.route('/popular-projects-full')
 def popular_projects_full_summary_route():
     try:
         result = popular_projects_full_summary()  # 전체 작품 데이터 조회 + 가중치 점수 + 작성자 닉네임 포함
