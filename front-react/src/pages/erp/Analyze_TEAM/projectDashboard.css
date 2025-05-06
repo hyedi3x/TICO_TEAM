@@ -1,5 +1,5 @@
 /* 대시보드 전체 컨테이너: 세로 방향으로 차트 카드들을 정렬 */
-.dashboard-container {
+.project-dashboard-container {
   display: flex; 
   flex-direction: column;
   gap: 20px; 
@@ -19,11 +19,11 @@
 }
 
 /* 개별 차트 카드: 고정 높이, 둥근 모서리, 그림자 처리 */
-.dashboard-card {
+.project-dashboard-card {
   flex: 1 1 500px;    /* 기본 너비 500px, 필요 시 늘어남 */
-  max-width: 700px;   /* 최대 너비 제한 */
+  max-width: 600px;   /* 최대 너비 제한 */
   min-width: 300px;   /* 최소 너비 제한 */
-  height: 500px;      /* 고정 높이 (차트 크기) */
+  height: 400px;      /* 고정 높이 (차트 크기) */
   background: #fff; 
   border-radius: 12px;
   padding: 20px; 
@@ -32,7 +32,7 @@
 }
 
 /* 카드 내부 타이틀: 중앙 정렬 + 여백 */
-.dashboard-title {
+.project-dashboard-title {
   text-align: center; 
   font-size: 20px; 
   margin-bottom: 15px;
@@ -44,7 +44,7 @@
   font-size: 16px; 
   color: #444; 
   border: 1px solid #ddd;
-  padding: 15px 20px; 
+  padding: 10px 20px; 
   border-radius: 8px; 
   max-width: 800px; 
   background: #f9f9f9;  

@@ -11,16 +11,16 @@ import PopularProjectsTable from './PopularProjectsTable';
  */
 const ProjectDashboard = () => {
   return (
-    <div className="dashboard-container">
+    <div className="project-dashboard-container">
       {/* 차트 카드들을 가로로 배치하는 래퍼 */}
       <div className="chart-wrapper">
-        <div className="dashboard-card">
-          <h2 className="dashboard-title">인기 작품 통계 분석(10개)</h2>
+        <div className="project-dashboard-card">
+          <h2 className="project-dashboard-title">인기 작품 통계 분석(10개)</h2>
           <PopularProjectsChart />
         </div>
 
-        <div className="dashboard-card">
-          <h2 className="dashboard-title">작품별 종합 인기 점수 정유율(%)</h2>
+        <div className="project-dashboard-card">
+          <h2 className="project-dashboard-title">작품별 종합 인기 점수 점유율(%)</h2>
           <PopularProjectScore />
         </div>
       </div>

@@ -1,6 +1,10 @@
 /* 테이블 전체 틀 (컨테이너) */
 .popular-projects-table {
-  margin-top: 30px;
+  width: 100%;
+  max-width: 1230px;  /* 차트 카드와 동일 */
+  min-width: 300px;
+  margin: 0 auto;
+  box-sizing: border-box;
   border: 1px solid #ddd;
   border-radius: 8px;
   background: #fff;
@@ -11,14 +15,14 @@
 /* 표 제목 스타일 */
 .popular-projects-table h3 {
   text-align: center;
-  margin: 16px 0;
+  margin: 10px 0;
   font-size: 1.1rem;
   color: #333;
 }
 
 /* 테이블 높이 제한 + 스크롤 영역 */
 .table-wrapper {
-  max-height: 480px;  /* 10행 정도만 보이도록 고정 */
+  max-height: 300px;  /* 높이 고정 */
   overflow-y: auto;   /* 세로 스크롤바 표시 */
 }
 
@@ -39,12 +43,13 @@
 }
 
 /* th & td: 셀 공통 스타일 */
-.popular-projects-table th,
-.popular-projects-table td {
-  border: 1px solid #ddd;
-  padding: 10px;
-  text-align: center;
-  white-space: nowrap; /* 긴 텍스트 줄바꿈 방지 (한 줄 유지)  */
+/* 작품명 셀만 줄바꿈 허용하고 최대 너비 제한 */
+.popular-projects-table td:nth-child(2),
+.popular-projects-table th:nth-child(2) {
+  max-width: 200px;
+  white-space: normal;  /* 줄바꿈 허용 */
+  word-break: break-word;  /* 긴 단어도 줄바꿈 */
+  text-align: left;  /* 가독성 높이기 위해 왼쪽 정렬 */
 }
 
 /* 짝수 행 배경색 (줄무늬 효과) */
@@ -55,4 +60,22 @@
 /* 마우스 올렸을 때 효과 효과 */
 .popular-projects-table tbody tr:hover {
   background-color: #f0f0f0;
+}
+
+@media (max-width: 1380px) {
+  .popular-projects-table {
+    font-size: 12px;
+    max-width: 600px;
+  }
+
+  .popular-projects-table th,
+  .popular-projects-table td {
+    padding: 6px;
+  }
+
+  /* 작품명 셀 줄바꿈 + 가독성 개선 */
+  .popular-projects-table td:nth-child(2),
+  .popular-projects-table th:nth-child(2) {
+    max-width: 120px;
+  }
 }

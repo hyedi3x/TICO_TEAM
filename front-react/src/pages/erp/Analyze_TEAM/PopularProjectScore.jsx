@@ -90,22 +90,22 @@ const PopularProjectScore = () => {
             {
               label: "조회수(40%)",
               data: viewPercentages,
-              backgroundColor: "#007BFF", // 파란색
+              backgroundColor: "#a2d2ff", // 파란색
             },
             {
               label: "좋아요수(30%)",
               data: likePercentages,
-              backgroundColor: "#E74C3C", // 빨간색
+              backgroundColor: "#ffc8dd", // 핑크색
             },
             {
               label: "북마크수(20%)",
               data: bookmarkPercentages,
-              backgroundColor: "#F39C12", // 주황색
+              backgroundColor: "#d8e2dc", // 카키색
             },
             {
               label: "댓글수(10%)",
               data: commentPercentages,
-              backgroundColor: "#8E44AD", // 보라색
+              backgroundColor: "#cdb4db", // 보라색
             },
           ],
         });
@@ -156,7 +156,7 @@ const PopularProjectScore = () => {
   };
 
   return (
-    <div style={{ height: "400px" }}>
+    <div style={{ height: "300px" }}>
       {chartData ? (
         <Bar data={chartData} options={options} />
       ) : (

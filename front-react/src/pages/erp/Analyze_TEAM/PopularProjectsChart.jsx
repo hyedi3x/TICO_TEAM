@@ -41,22 +41,22 @@ const PopularProjectsChart = () => {
           {
             label: "조회수",
             data: sortedData.map(item => item.view_count),
-            backgroundColor: "rgba(75, 192, 192, 0.6)",
+            backgroundColor: "#a2d2ff",
           },
           {
             label: "좋아요 수",
             data: sortedData.map(item => item.like_count),
-            backgroundColor: "rgba(255, 99, 132, 0.6)",
+            backgroundColor: "#f2c6de",
           },
           {
             label: "북마크 수",
             data: sortedData.map(item => item.bookmark_count),
-            backgroundColor: "rgba(255, 206, 86, 0.6)",
+            backgroundColor: "#faedcb",
           },
           {
             label: "댓글 수",
             data: sortedData.map(item => item.comment_count),
-            backgroundColor: "rgba(153, 102, 255, 0.6)",
+            backgroundColor: "#dbcdf0",
           },
         ],
       });
