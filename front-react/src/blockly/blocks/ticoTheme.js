@@ -21,7 +21,11 @@ const ticoTheme = Blockly.Theme.defineTheme('tico_theme', {
         logic_blocks: { colourPrimary: '#CC99CC' },
         math_blocks: { colourPrimary: '#668493' },
         variable_blocks: { colourPrimary: '#A65C81' }
-    }
+    },
+    fontStyle: {
+        size: 10,
+        weight: 'normal'
+    },
 });
 
 export default ticoTheme;

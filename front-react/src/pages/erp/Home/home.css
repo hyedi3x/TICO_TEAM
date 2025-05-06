@@ -143,3 +143,21 @@
   border-radius: 6px;
 }
 
+/* 알림 컴포넌트 */
+.home-notifications {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.home-notifications h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.home-notifications .rs-list-item {
+  line-height: 1.5;
+}
+
+

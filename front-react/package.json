@@ -17,6 +17,7 @@
     "blockly": "^11.2.2",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.9",
+    "chartjs-plugin-datalabels": "^2.2.0",
     "dayjs": "^1.11.13",
     "formik": "^2.4.6",
     "html2canvas": "^1.4.1",

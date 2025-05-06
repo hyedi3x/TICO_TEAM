@@ -3,7 +3,7 @@ import { Button, Card, Tag } from 'rsuite';
 
 const resolveThumbnailUrl = (url) => {
   if (url && !url.startsWith('http')) {
-    return `https://tico.kro.kr${url}`;
+    return `http://localhost:8081${url}`;
   }
   return url || '';
 };

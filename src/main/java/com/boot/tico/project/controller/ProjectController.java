@@ -22,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.boot.tico.project.dto.ProjectDTO;
 import com.boot.tico.project.dto.ProjectObjectDTO;
-import com.boot.tico.project.dto.ProjectReportDTO;
 import com.boot.tico.project.service.ProjectService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

@@ -1,0 +1,32 @@
+/* dashboard container 속성 */
+.cs-dashboard-container {
+  width: 100%;
+  max-width: 1200px;  /* 최대 가로폭을 1200px로 제한 */
+  margin: 0 auto;     /* 가로 중앙 정렬*/
+  padding: 20px;
+  background: #fff; 
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 그림자 */
+  box-sizing: border-box; /* 패딩과 보더를 width 안에 포함 */
+}
+
+/* dashboard 제목 설정 */
+.cs-dashboard-title {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* dashboard 차트 설정 */
+.cs-dashboard-chart {
+  width: 100%;
+  height: 500px;        /* 고정 높이로 500px */
+  position: relative;   /* 내부 요소(canvas) 포지셔닝 시 기준점 역할 */
+}
+
+@media (max-width: 768px) {
+  .cs-dashboard-chart {
+    height: 300px;   /* 모바일에서는 차트 높이를 더 작게 */
+  }
+}

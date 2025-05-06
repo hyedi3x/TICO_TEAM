@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { List, Grid, Row, Col, Tabs, Modal, Button, Form, Schema, DatePicker, toaster, Message } from 'rsuite';
 import dayjs from 'dayjs';
 import MyCalendar from './MyCalendar';
@@ -297,18 +298,73 @@ const TodoList = ({ list, onItemClick }) => { // onItemClick 수정
 
 // 알림 탭 컴포넌트
 const Notifications = () => {
-  const notifications = [
-    { id: 1, message: '새로운 메시지가 도착했습니다.', time: '10:00' },
-    { id: 2, message: '프로젝트 마감일이 다가옵니다.', time: '14:00' },
-  ];
+  const [notifications, setNotifications] = useState([]);
+  const empId = localStorage.getItem('user_uuid');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!empId) return;
+
+    const fetchAdminNotifications = async () => {
+      try {
+        const res = await axiosInstance.get(`/api/notifications/${empId}`);
+        const filtered = res.data.filter(n =>
+          (n.empId === 'ALL' && !n.readByCurrentUser) ||
+          (n.empId !== 'ALL' && !n.isRead)
+        );
+        setNotifications(filtered);
+      } catch (err) {
+        console.error('🔴 관리자 알림 불러오기 실패:', err);
+      }
+    };
+
+    fetchAdminNotifications();
+  }, [empId]);
+
+  const handleClick = async (noti) => {
+    try {
+      await axiosInstance.post(`/api/notifications/read/${noti.notificationId}/${empId}`);
+      setNotifications(prev =>
+        prev.map(n =>
+          n.notificationId === noti.notificationId
+            ? (n.empId === 'ALL'
+                ? { ...n, readByCurrentUser: true }
+                : { ...n, isRead: true })
+            : n
+        )
+      );
+
+      if (noti.relatedType === 'notice') {
+        navigate(`/erpMain?view=detail&id=${noti.relatedId}`);
+      } else if (noti.relatedType === 'schedule') {
+        alert(`📌 일정 제목: ${noti.notificationTitle.replace('[일정] 마감 예정: ', '')}`);
+      } else if (noti.linkUrl) {
+        navigate(noti.linkUrl);
+      }
+    } catch (err) {
+      console.error('알림 클릭 처리 실패:', err);
+    }
+  };
 
   return (
-    <div className="notifications">
+    <div className="home-notifications">
       <h2>알림</h2>
-      <List>
-        {notifications.map(({ id, message, time }) => (
-          <List.Item key={id}>{message} ({time})</List.Item>
-        ))}
+      <List bordered>
+        {notifications.length === 0 ? (
+          <List.Item>새로운 알림이 없습니다.</List.Item>
+        ) : (
+          notifications.map((noti) => (
+            <List.Item
+              key={noti.notificationId}
+              style={{ cursor: 'pointer', fontWeight: 'bold' }}
+              onClick={() => handleClick(noti)}
+            >
+              {noti.notificationTitle}
+              <br />
+              <small>{new Date(noti.createdAt).toLocaleString()}</small>
+            </List.Item>
+          ))
+        )}
       </List>
     </div>
   );

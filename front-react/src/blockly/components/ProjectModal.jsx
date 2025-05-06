@@ -4,7 +4,7 @@ import { Button, Card, Col, Grid, Modal, Row } from 'rsuite';
 function ProjectModal({ show, onClose, projectList, onSelect }) {
   const resolveThumbnailUrl = (url) => {
     if (url.startsWith('http')) return url;
-    return `https://tico.kro.kr${url}`;
+    return `http://localhost:8081${url}`;
   };
 
   return (

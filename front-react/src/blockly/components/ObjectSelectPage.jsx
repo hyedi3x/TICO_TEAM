@@ -338,7 +338,7 @@ function ObjectSelectPage({ onComplete }) {
                     src={
                       newObjectData.previewUrl
                         ? newObjectData.previewUrl
-                        : `https://tico.kro.kr${newObjectData.blocklyObjectFilePath.startsWith('/') ? '' : '/'}${newObjectData.blocklyObjectFilePath}`
+                        : `http://localhost:8081${newObjectData.blocklyObjectFilePath.startsWith('/') ? '' : '/'}${newObjectData.blocklyObjectFilePath}`
                     }
                     alt="오브젝트 미리보기"
                     className="image-preview-box"
@@ -510,7 +510,7 @@ function ObjectSelectPage({ onComplete }) {
                     >
                       <div className="objectSelectPage-image-wrapper" style={{ position: 'relative' }}>
                         <img
-                          src={`https://tico.kro.kr${obj.blocklyObjectFilePath.startsWith('/') ? '' : '/'}${obj.blocklyObjectFilePath}`}
+                          src={`http://localhost:8081${obj.blocklyObjectFilePath.startsWith('/') ? '' : '/'}${obj.blocklyObjectFilePath}`}
                           alt={obj.blocklyObjectName}
                           className="objectSelectPage-image"
                         />
@@ -572,7 +572,7 @@ function ObjectSelectPage({ onComplete }) {
                 {/* 🖼️ 타입이 image인 경우 */}
                 {obj.type === 'image' || obj.blocklyObjectFilePath ? (
                   <img
-                    src={`https://tico.kro.kr${obj.blocklyObjectFilePath.startsWith('/') ? '' : '/'}${obj.blocklyObjectFilePath}`}
+                    src={`http://localhost:8081${obj.blocklyObjectFilePath.startsWith('/') ? '' : '/'}${obj.blocklyObjectFilePath}`}
                     alt={obj.blocklyObjectName}
                     className="objectSelectPage-selected-object-image"
                   />
