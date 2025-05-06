@@ -53,15 +53,17 @@ const PayRefundInsight = () => {
         label: "결제 수",
         data: data.map((item) => item.payment_count),
         fill: false,   // 밑부분은 채우지 않음 (기본 선 그래프)
-        borderColor: "rgba(75, 192, 192, 1)", 
+        borderColor: "#90caf9", 
         tension: 0.1,  // 선의 부드러움 정도
+        borderWidth: 1.5,     // 선 굵기 얇게
       },
       {
         label: "환불 수", 
         data: data.map((item) => item.refund_count),
         fill: false,
-        borderColor: "rgba(255, 99, 132, 1)", 
+        borderColor: "#ff4d6d", 
         tension: 0.1,
+        borderWidth: 1.5,     // 선 굵기 얇게
       },
     ],
   };

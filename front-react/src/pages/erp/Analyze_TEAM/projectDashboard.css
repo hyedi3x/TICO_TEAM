@@ -1,0 +1,57 @@
+/* 대시보드 전체 컨테이너: 세로 방향으로 차트 카드들을 정렬 */
+.project-dashboard-container {
+  display: flex; 
+  flex-direction: column;
+  gap: 20px; 
+  align-items: center; 
+  width: 100%;
+  padding: 20px; 
+  box-sizing: border-box;
+}
+
+/* 차트 카드들을 가로로 나란히 배치하는 래퍼 (좁아지면 줄바꿈) */
+.chart-wrapper {
+  display: flex; 
+  gap: 20px; 
+  flex-wrap: wrap;   /* 줄바꿈 허용 (반응형) */
+  justify-content: center;  /* 중앙 정렬 */
+  width: 100%;
+}
+
+/* 개별 차트 카드: 고정 높이, 둥근 모서리, 그림자 처리 */
+.project-dashboard-card {
+  flex: 1 1 500px;    /* 기본 너비 500px, 필요 시 늘어남 */
+  max-width: 600px;   /* 최대 너비 제한 */
+  min-width: 300px;   /* 최소 너비 제한 */
+  height: 400px;      /* 고정 높이 (차트 크기) */
+  background: #fff; 
+  border-radius: 12px;
+  padding: 20px; 
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);  /* 그림자 효과 */
+  box-sizing: border-box; 
+}
+
+/* 카드 내부 타이틀: 중앙 정렬 + 여백 */
+.project-dashboard-title {
+  text-align: center; 
+  font-size: 20px; 
+  margin-bottom: 15px;
+}
+
+/* 인기 점수 산출 기준 박스 (범례 설명용) */
+.legend-box {
+  text-align: center; 
+  font-size: 16px; 
+  color: #444; 
+  border: 1px solid #ddd;
+  padding: 10px 20px; 
+  border-radius: 8px; 
+  max-width: 800px; 
+  background: #f9f9f9;  
+}
+
+/* 범례 안의 가중치 숫자 강조 */
+.legend-box .weight {
+  color: #007bff; 
+  font-weight: bold; 
+}

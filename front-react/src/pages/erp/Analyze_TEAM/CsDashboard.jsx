@@ -33,12 +33,12 @@ const CsDashboard = () => {
       {
         label: "참여도(작품 만들기 참여)", 
         data: data.map(item => item.project_count),    // 참여도 데이터
-        backgroundColor: "rgba(75, 192, 192, 0.6)",  // 색상 (청록색 계열)
+        backgroundColor: "#abd2fa",  // 색상 (청록색 계열)
       },
       {
         label: "학습률 (블록 학습하기 참여)",  
         data: data.map(item => item.total_solved),     // 학습률 데이터
-        backgroundColor: "rgba(153, 102, 255, 0.6)", // 색상 (보라색 계열)
+        backgroundColor: "#f2c6de", // 색상 (보라색 계열)
       }
     ]
   };

@@ -3,6 +3,7 @@ import './subScriptionInsight.css';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Doughnut } from "react-chartjs-2";
+import ChartDataLabels from 'chartjs-plugin-datalabels'; // 원 바깥에 텍스트 표시 
 
 // Chart.js 구성 요소 가져오기
 import {
@@ -40,7 +41,7 @@ const SubScriptionInsight = () => {
         summary.total_users - summary.active_subscribers  // 비구독자 수
       ],
       backgroundColor: [  
-        "rgba(75, 192, 192, 0.6)",   // 구독 중: 청록색 계열
+        "#90caf9",   // 구독 중
         "rgba(201, 203, 207, 0.6)"   // 비구독: 회색 계열
       ],
       borderWidth: 1,  // 경계선 두께
@@ -63,15 +64,38 @@ const SubScriptionInsight = () => {
     }]
   };
 
+  // 공통 옵션: datalabels 플러그인 사용
+  const chartOptions = {
+    plugins: {
+      datalabels: {
+        color: '#fff', // 밝은 배경 대비를 위해 흰색
+        font: { size: 14, weight: 'bold' },
+        formatter: (value, context) => {
+          const label = context.chart.data.labels[context.dataIndex];
+          const total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+          const percentage = ((value / total) * 100).toFixed(1);
+          return `${percentage}%`;  // 퍼센트만 표시
+        },
+        anchor: 'center',
+        align: 'center',  // 도넛 내부 중앙에 배치
+      },
+      legend: { display: true },
+      tooltip: { enabled: false }
+    },
+    maintainAspectRatio: false,
+    responsive: true,
+  };
+  
+
   return (
     <div className="subscription-insight-container">
       <div className="subscription-chart-box">
         <h4 className="subscription-chart-title">현재 구독 중 비율</h4>
-        <Doughnut data={activeChartData} />
+        <Doughnut data={activeChartData} options={chartOptions} plugins={[ChartDataLabels]} />
       </div>
       <div className="subscription-chart-box">
         <h4 className="subscription-chart-title">구독 취소 이력 비율</h4>
-        <Doughnut data={canceledChartData} />
+        <Doughnut data={canceledChartData} options={chartOptions} plugins={[ChartDataLabels]} />
       </div>
     </div>
   );

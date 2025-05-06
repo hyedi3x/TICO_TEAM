@@ -1,0 +1,14 @@
+/* 전체 차트 제목 설정 */
+.popular-projects-title {
+  text-align: center;  /* 제목을 가로 중앙 정렬 */
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* 차트 전체 박스 스타일 */
+.popular-projects-chart {
+  width: 100%;
+  height: 300px;
+  position: relative;  /* 내부에 절대 위치 요소(canvas)가 있으면 기준이 되도록 relative 설정 */
+}
