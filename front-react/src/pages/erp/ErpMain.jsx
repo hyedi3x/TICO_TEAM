@@ -59,6 +59,7 @@ import NoticeAdmin from "../notice/NoticeAdmin";
 import ObjectSelectPage from "../../blockly/components/ObjectSelectPage";
 import MainModify from "../../common/MainModify";
 import ProjectManage from "../../blockly/components/ProjectManage";
+import StudyManage from "../../blockly/study/StudyManage";
 
 // 유틸리티
 import axiosInstance from "../login/social/utils/axiosInstance";
@@ -135,6 +136,7 @@ function ErpMain() {
       case "6-3": selected = "notice"; break;
       case "6-4": selected = "faq"; break;
       case "7-1": selected = "projectManage"; break;
+      case "7-2": selected = "studyManage"; break;
       case "7-3": selected = "blockEduPost"; break;
       case "7-4": selected = "EMPEduList"; break;
       case "7-5": selected = "ObjectSelectPage"; break;
@@ -353,6 +355,7 @@ function ErpMain() {
             {viewMode === "EMPEduList" && <EMPEduList />}
             {viewMode === "ObjectSelectPage" && <ObjectSelectPage />}
             {viewMode === "MainModify" && <MainModify />}
+            {viewMode === "studyManage" && <StudyManage />}
           </div>
         </Content>
       </div>
