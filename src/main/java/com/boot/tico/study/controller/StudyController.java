@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.boot.tico.project.dto.ProjectDTO;
 import com.boot.tico.study.dto.StudyDTO;
 import com.boot.tico.study.service.StudyService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -82,4 +84,32 @@ public class StudyController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+    
+	@PutMapping("/updateMeta")
+	public ResponseEntity<?> updateProjectMeta(@RequestBody StudyDTO study) {
+		service.updateProjectMeta(study);
+	    return ResponseEntity.ok().build();
+	}
+    
+    @PutMapping("/private/{studyId}")
+	public ResponseEntity<?> changePrivateStatus(@PathVariable int studyId, @RequestBody Map<String, String> body){
+		String isPrivate = body.get("isPrivate");
+		String isAgree = body.get("isAgree");
+		service.updatePrivateStatus(studyId, isPrivate, isAgree);
+		return ResponseEntity.ok().build();
+	}
+    
+    @DeleteMapping("/{studyId}")
+    public ResponseEntity<?> deleteStudy(@PathVariable int studyId) {
+        service.deleteStudyById(studyId);
+        return ResponseEntity.ok("스터디 삭제 완료");
+    }
+    
+    @PutMapping("/comment/{studyId}")
+	public ResponseEntity<?> updateCommentStatus(@PathVariable int studyId, @RequestBody Map<String, String> body) {
+	  String isComment = body.get("isComment"); // "Y" 또는 "N"
+	  service.updateCommentStatus(studyId, isComment);
+	  return ResponseEntity.ok().build();
+	}
+
 }

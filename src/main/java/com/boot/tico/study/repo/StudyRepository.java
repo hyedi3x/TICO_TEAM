@@ -20,8 +20,23 @@ public interface StudyRepository extends JpaRepository<StudyDTO, Integer> {
     @Query(value = "SELECT COUNT(*) FROM study_tb WHERE user_uuid = :userUuid AND isdelete = 'N'", nativeQuery = true)
     int countByUserUuid(@Param("userUuid") String userUuid);
     
-    @Query(value = "SELECT * FROM study_tb ORDER BY created_at DESC AND isdelete = 'N'", nativeQuery = true)
-    List<StudyDTO> findAllStudies();
+    @Query(value = """
+    		SELECT 
+			    s.study_id, 
+			    s.title, 
+			    s.introduction, 
+			    s.category, 
+			    s.difficulty, 
+			    s.duration, 
+			    s.isprivate,
+			    u.nickname,
+			    p.thumbnail_url AS thumbnailUrl
+			FROM study_tb s
+			LEFT JOIN project_tb p ON s.project_id = p.project_id
+			LEFT JOIN users u ON s.user_uuid = u.user_uuid
+			WHERE s.isdelete = 'N'
+		""", nativeQuery = true)
+    List<Object[]> findAllStudies();
     
     @Query(value = """
 	    		SELECT 
@@ -75,7 +90,7 @@ public interface StudyRepository extends JpaRepository<StudyDTO, Integer> {
     		    LEFT JOIN users u ON s.user_uuid = u.user_uuid
     		    WHERE s.isprivate = 'N'
     		      AND s.isdelete = 'N'
-    		    ORDER BY s.created_at DESC
+    		    ORDER BY s.created_at ASC
     		    """, nativeQuery = true)
 		List<Object[]> findPublicStudies();
 		
@@ -100,5 +115,10 @@ public interface StudyRepository extends JpaRepository<StudyDTO, Integer> {
 		    @Param("isagree") String isagree,
 		    @Param("isprivate") String isprivate
 		);
+		
+		@Modifying
+		@Transactional
+		@Query(value = "UPDATE study_tb SET isprivate = :isPrivate, isagree = :isAgree WHERE study_id = :studyId", nativeQuery = true)
+		void updateProjectPrivateStatusAndAgree(@Param("studyId") int studyId, @Param("isPrivate") String isPrivate, @Param("isAgree") String isAgree);
 
 }
