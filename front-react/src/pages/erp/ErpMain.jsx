@@ -230,8 +230,8 @@ function ErpMain() {
                 >
                   <Nav.Item eventKey="6-1">회원 목록 조회</Nav.Item>
                   <Nav.Item eventKey="6-2">작품 신고 목록</Nav.Item>
-                  <Nav.Item eventKey="6-3">공지사항 관리</Nav.Item>
-                  <Nav.Item eventKey="6-4">FAQ 관리</Nav.Item>
+                  <Nav.Item eventKey="6-3">공지사항 등록/관리</Nav.Item>
+                  <Nav.Item eventKey="6-4">FAQ 등록/관리</Nav.Item>
                 </Nav.Menu>
 
                 {/* 콘텐츠 관리팀 메뉴 (DEP005 부서만 활성화) */}

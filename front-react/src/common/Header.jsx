@@ -124,11 +124,15 @@ function Header() {
                   </Button>
                 </Form>
               </div>
-              {/* 로그인 / 로그아웃 */}
               {isLoggedIn ? (
-                    <Dropdown.Item onClick={() => navigate('/MypageMain')}>Mypage</Dropdown.Item>
-                <>
-                   {user?.provider !== 'employee' && (
+                 <div className="header-logged-in">
+                  {/* 직원이 아닌 경우에만 드롭다운 표시 */}
+                  {user?.provider === 'employee' ? (
+                    <div style={{ marginRight: '10px', padding: '6px 12px', borderRadius: '6px', backgroundColor: '#f8f9fa', color: 'black', fontWeight: 'bold' }}>
+                      {'Employee Account'}
+                    </div>
+                  ) : 
+                  (
                     <Dropdown style={{ marginRight: '10px' }}>
                       <Dropdown.Toggle variant="light" style={{ color: 'black' }}>
                         {user?.email || 'My Account'}
@@ -140,8 +144,8 @@ function Header() {
                       </Dropdown.Menu>
                     </Dropdown>
                   )}
-              )}
 
+                  {/* 알림 드롭다운 */}
                   <NotificationDropdown
                     userUuid={user?.user_uuid}
                     userRole={user?.provider}
@@ -154,14 +158,18 @@ function Header() {
                     }
                   />
 
+                  {/* 로그아웃 버튼 */}
                   <Button className="header-button2" variant="danger" onClick={handleLogout}>
                     로그아웃
                   </Button>
                 </div>
               ) : (
-                <Button className="header-button1"  onClick={handleLogin}>
-                  로그인
-                </Button>
+                <div className="header-logged-in">
+                  <Button className="header-button1" onClick={handleLogin}>
+                    로그인
+                  </Button>
+                </div>
+                
               )}
             </Offcanvas.Body>
           </Navbar.Offcanvas>
