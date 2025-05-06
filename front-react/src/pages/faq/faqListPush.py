@@ -48,8 +48,8 @@ def insert_qa_into_mariadb_from_file(json_file_path, limit=20):
                 # INSERT 문 실행
                 cursor.execute(
                     """
-                    INSERT INTO faq_tb (qa_id, emp_id, question, answer)
-                    VALUES (%s, '10004', %s, %s)
+                    INSERT INTO faq_tb (qa_id, emp_email, question, answer)
+                    VALUES (%s, 'linda2@gmail.com', %s, %s)
                     ON DUPLICATE KEY UPDATE answer = VALUES(answer)
                     """,
                     (qa_id, question, answer)

@@ -69,47 +69,64 @@ function Header() {
   };
 
   return (
-    <div className='header'>
-      <Navbar expand="lg" className="bg-white border-bottom" style={{ height: '90px', padding: '20px' }}>
-        <Container fluid className='main-container'>
+    <div className="header">
+      <Navbar expand="xxl" className="header-navbar"> {/* 1200px 이상에서 보이도록 설정 */}
+        <Container fluid className="header-container">
+
+          {/* 로고 */}
           <Link to="/">
             <Navbar.Brand>
               <img src={logo} alt="TICO LOGO" style={{ height: '35px' }} />
               <img src={logo1} alt="TICO LOGO" style={{ height: '45px', marginBottom: '5px' }} />
             </Navbar.Brand>
           </Link>
+
+          {/* 햄버거 버튼 */}
           <Navbar.Toggle aria-controls="offcanvasNavbar" />
-          <Navbar.Offcanvas id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel" placement="end">
+
+          {/* 오프캔버스 메뉴 (모바일용) */}
+          <Navbar.Offcanvas
+            id="offcanvasNavbar"
+            aria-labelledby="offcanvasNavbarLabel"
+            placement="end"
+          >
             <Offcanvas.Header closeButton style={{ borderBottom: '1px solid #e2e2e2' }}>
               <Offcanvas.Title id="offcanvasNavbarLabel">
                 <img src={logo1} alt="TICO LOGO" style={{ height: '45px', marginBottom: '5px' }} />
               </Offcanvas.Title>
             </Offcanvas.Header>
+
             <Offcanvas.Body>
-              <Nav className="justify-content-end flex-grow-1 pe-3">
-                <NavDropdown title="생각하기" id="offcanvasNavbarDropdown">
-                  <NavDropdown.Item href="/tutorial">티코 학습시키기</NavDropdown.Item>
-                  <NavDropdown.Item href="/eduList">블럭 학습하기</NavDropdown.Item>
-                </NavDropdown>
-                <NavDropdown title="만들기" id="offcanvasNavbarDropdown">
-                  <NavDropdown.Item href="/createBlock">작품 만들기</NavDropdown.Item>
-                </NavDropdown>
-                <NavDropdown title="공유하기" id="offcanvasNavbarDropdown">
-                  <NavDropdown.Item href="/share">작품 공유하기</NavDropdown.Item>
-                </NavDropdown>
-                <NavDropdown title="커뮤니티" id="offcanvasNavbarDropdown">
-                  <NavDropdown.Item href="/noticeList">공지사항</NavDropdown.Item>
-                  <NavDropdown.Item href="/faqlist">FAQ</NavDropdown.Item>
-                </NavDropdown>
+
+              {/* 네비게이션 메뉴 */}
+              <Nav className="justify-content-end align-items-center">
+                <Nav.Link href="/tutorial">티코 학습시키기</Nav.Link>
+                <Nav.Link href="/eduList">블럭 학습하기</Nav.Link>
+                <Nav.Link href="/createBlock">작품 만들기</Nav.Link>
+                <Nav.Link href="/share">작품 공유하기</Nav.Link>
+                <Nav.Link href="/noticeList">공지사항</Nav.Link>
+                <Nav.Link href="/faqlist">FAQ</Nav.Link>
               </Nav>
-              <Form className="d-flex" onSubmit={handleSearch}>
-                <Form.Control type="search" placeholder="Search" className="me-2" aria-label="Search" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-                <Button className='button' variant="outline-success" type='submit'>
-                  <FontAwesomeIcon icon={faMagnifyingGlass} />
-                </Button>
-              </Form>
-              {/* 로그인 상태에 따라 로그인/로그아웃 버튼 전환 */}
+
+              {/* 검색창 */}
+              <div className="header-search-container">
+                <Form className="d-flex" onSubmit={handleSearch}>
+                  <Form.Control
+                    type="search"
+                    placeholder="Search"
+                    className="header-search-input"
+                    aria-label="Search"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                  <Button className="header-button" variant="outline-success" type="submit">
+                    <FontAwesomeIcon icon={faMagnifyingGlass} />
+                  </Button>
+                </Form>
+              </div>
+              {/* 로그인 / 로그아웃 */}
               {isLoggedIn ? (
+                    <Dropdown.Item onClick={() => navigate('/MypageMain')}>Mypage</Dropdown.Item>
                 <>
                    {user?.provider !== 'employee' && (
                     <Dropdown style={{ marginRight: '10px' }}>
@@ -123,22 +140,26 @@ function Header() {
                       </Dropdown.Menu>
                     </Dropdown>
                   )}
+              )}
 
-                   <NotificationDropdown
+                  <NotificationDropdown
                     userUuid={user?.user_uuid}
-                    userRole={user?.provider} // 'employee' or other
+                    userRole={user?.provider}
                     onAllViewClick={() =>
-                      navigate(user?.provider === 'employee'
-                        ? "/erpMain?view=notifications"
-                        : "/MypageMain?tab=notifications")
+                      navigate(
+                        user?.provider === 'employee'
+                          ? "/erpMain?view=notifications"
+                          : "/MypageMain?tab=notifications"
+                      )
                     }
                   />
-                  <Button className='button2' variant="outline-danger" onClick={handleLogout}>
+
+                  <Button className="header-button2" variant="danger" onClick={handleLogout}>
                     로그아웃
                   </Button>
-                </>
+                </div>
               ) : (
-                <Button className='button1' variant="outline-success" onClick={handleLogin}>
+                <Button className="header-button1"  onClick={handleLogin}>
                   로그인
                 </Button>
               )}

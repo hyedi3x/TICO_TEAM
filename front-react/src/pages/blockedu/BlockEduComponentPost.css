@@ -147,7 +147,7 @@ textarea {
 }
 
 .e2_blocklyworkspace {
-  width: 1200px;
+  width: 1000px;
   height: 600px;
 }
 
@@ -201,7 +201,7 @@ textarea {
   width: 1200px;
   height: 600px; /* 기본 크기 */
 }
-@media (max-width: 2750px) {
+@media (max-width: 2510px) {
   .e2_combine-div {
     flex-direction: column !important;
     align-items: center !important;

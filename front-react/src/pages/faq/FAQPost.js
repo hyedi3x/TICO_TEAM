@@ -1,15 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import styles from './FAQPost.module.css'; // 외부 CSS 모듈 추가
-import axios from 'axios';
 import axiosInstance from '../login/social/utils/axiosInstance';
+import './FAQPost.css';
 
-function FAQPost() {
+function FAQPost({onClose}) {
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
-  const emp_id = localStorage.getItem("user_uuid");                 // 현재 로그인된 사용자 UUID
+  const [emp_email, setEmpEmail] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem('accessToken')) {
+      axiosInstance.get('/auth/user')
+        .then((response) => {
+          setEmpEmail(response.data?.email);
+        })
+        .catch((error) => {
+          console.error('사용자 정보 조회 실패:', error);
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('refreshToken');
+          navigate('/login');
+        });
+    }
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -17,17 +31,15 @@ function FAQPost() {
     axiosInstance.post('/api/faqPost', {
       question,
       answer,
-      emp_id
+      emp_email,
     }, {
-      headers: {
-        'Content-Type': 'application/json',
-      }
+      headers: { 'Content-Type': 'application/json' }
     })
       .then((response) => {
         if (response.status === 200) {
           alert('FAQ가 성공적으로 등록되었습니다.');
+          setQuestion('');
           setAnswer('');
-          navigate('/FAQList');
         } else {
           alert('FAQ 등록에 실패했습니다.');
         }
@@ -38,49 +50,48 @@ function FAQPost() {
       });
   };
 
-return (
-  <div className={styles.f_container}>
-    <div className={styles.f_row}>
-      <div className={styles.f_col}>
-        <div className={styles.f_card}>
-          <h2 className={styles.f_title}>FAQ 등록</h2>
-          <p className={styles.f_subtitle}>자주 묻는 질문과 답변을 입력해주세요.</p>
-
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className={styles["f_form-group"]}>
-              <Form.Label className={styles.f_label}>질문</Form.Label>
-              <Form.Control 
-                type="text" 
-                value={question} 
-                onChange={(e) => setQuestion(e.target.value)} 
-                required 
-                placeholder="예: 회원가입은 어떻게 하나요?" 
-              />
-            </Form.Group>
-
-            <Form.Group className={styles["f_form-group"]}>
-              <Form.Label className={styles.f_label}>답변</Form.Label>
-              <Form.Control 
-                as="textarea" 
-                rows={4} 
-                value={answer} 
-                onChange={(e) => setAnswer(e.target.value)} 
-                required 
-                placeholder="예: 상단 메뉴에서 회원가입 버튼을 클릭하신 후, 정보를 입력해 주세요." 
-              />
-            </Form.Group>
-
-            <div className={styles["f_btn-wrapper"]}>
-              <Button variant="success" type="submit" size="lg">
-                등록하기
-              </Button>
-            </div>
-          </Form>
+  return (
+    <div className="faq-post-wrapper">
+      <div className="faq-post-container">
+        <div className="faq-post-header-box">
+          <div className="faq-post-title">❓ FAQ 등록</div>
+          <p className="faq-post-subtitle">작성자 : {emp_email}</p>
         </div>
+
+        <Form onSubmit={handleSubmit}>
+          <Form.Group className="faq-post-form-group">
+            <Form.Label className="faq-post-label">질문</Form.Label>
+            <Form.Control
+              type="text"
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+              required
+              className="faq-post-input"
+              placeholder="예: 회원가입은 어떻게 하나요?"
+            />
+          </Form.Group>
+
+          <Form.Group className="faq-post-form-group">
+            <Form.Label className="faq-post-label">답변</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={4}
+              value={answer}
+              onChange={(e) => setAnswer(e.target.value)}
+              required
+              className="faq-post-textarea"
+              placeholder="예: 상단 메뉴에서 회원가입 버튼을 클릭하신 후, 정보를 입력해 주세요."
+            />
+          </Form.Group>
+
+          <div className="faq-post-submit-wrapper">
+            <Button type="submit" className="faq-post-submit">등록하기</Button>
+            <Button type="button" onClick={onClose} className="faq-post-close">닫기</Button>
+          </div>
+        </Form>
       </div>
     </div>
-  </div>
-);
+  );
 }
 
 export default FAQPost;

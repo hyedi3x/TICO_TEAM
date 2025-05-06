@@ -72,7 +72,7 @@ public class FAQServiceImpl {
 			// 엔티티의 값을 변경하면 자동으로 데이터베이스(DB)도 변경
 		DTOp.setAnswer(DTO.getAnswer());
 		DTOp.setQuestion(DTO.getQuestion());
-		DTOp.setModify_id(DTO.getModify_id());
+		DTOp.setModify_email(DTO.getModify_email());
 		return DTOp;
 	}
 }

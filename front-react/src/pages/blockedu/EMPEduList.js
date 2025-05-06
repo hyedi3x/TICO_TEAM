@@ -88,78 +88,91 @@ const EMPEduList = () => {
 
   return (
     <div className="quiz-wrapper">
-      <h2 className="quiz-count">총 {quizzes.length}문제</h2>
+      <div className="quiz-all-container">
+        <div className="quiz-header">
+          <span className="quiz-title">🧑‍🎓 퀴즈 목록 [ 총 {quizzes.length}문제 ]</span>
+        </div>
 
-      {/* 드롭다운 2개: 삭제 여부 / 정렬 기준 */}
-      <div className="quiz-sort-container">
-        <select
-          className="quiz-sort-select"
-          value={deleteFilter}
-          onChange={(e) => setDeleteFilter(e.target.value)}
-        >
-          <option value="DEFAULT">-- 삭제 여부 --</option>
-          <option value="N">미삭제(N)</option>
-          <option value="Y">삭제(Y)</option>
-        </select>
+        {/* 드롭다운 2개: 삭제 여부 / 정렬 기준 */}
+        <div className="quiz-sort-container">
+          <select
+            className="quiz-sort-select"
+            value={deleteFilter}
+            onChange={(e) => setDeleteFilter(e.target.value)}
+          >
+            <option value="DEFAULT">-- 삭제 여부 --</option>
+            <option value="N">미삭제(N)</option>
+            <option value="Y">삭제(Y)</option>
+          </select>
 
-        <select
-          className="quiz-sort-select"
-          value={sortOption}
-          onChange={(e) => setSortOption(e.target.value)}
-        >
-          <option value="등록순">등록순</option>
-          <option value="최신순">최신순</option>
-        </select>
-      </div>
+          <select
+            className="quiz-sort-select"
+            value={sortOption}
+            onChange={(e) => setSortOption(e.target.value)}
+          >
+            <option value="등록순">등록순</option>
+            <option value="최신순">최신순</option>
+          </select>
+        </div>
 
-      <Table striped bordered hover className="quiz-table"> {/* 줄무늬, hober시 색변경 */}
-        <thead>
-          <tr>
-            <th className="status-col">no.</th>
-            <th className="title-col">제목</th>
-            <th>난이도</th>
-            <th>링크</th>
-            <th>삭제 여부</th>
-            <th className="btn-th">관리</th>
-            <th>등록일</th>
-          </tr>
-        </thead>
-        <tbody>
-          {getSortedQuizzes().map((dto, index) => ( // 삭제 여부 판단하여 필터링 => sort로 정렬
-            <tr key={index}>
-              <td className="num-col">{dto.quiz_id}</td>
-              <td className="title-col">{dto.quiz_title}</td>
-              <td>{dto.quiz_level}</td>
-              <td>
-                <button onClick={() => navigate(`/quizput/${dto.quiz_id}`)}
-                  className="btn btn-sm btn-outline-primary"
-                > {dto.quiz_id}번 수정하기 </button>
-              </td>
-              <td>{dto.isdelete === "Y" ? "Y" : "N"}</td>
-              <td className="btn-col">
-                {dto.isdelete === "Y" ? (
-                  <> {/* 불필요한 DOM 태그 없이 하나로 묶기 */}
-                    <button
-                      className="btn btn-outline-danger btn-xs"
-                      onClick={() => manageQuiz(dto.quiz_id, 'hardDelete')}
-                    > 영구 삭제 </button>
-                    <button
-                      className="btn btn-outline-success btn-xs"
-                      onClick={() => manageQuiz(dto.quiz_id, 'restore')}
-                    > 삭제 취소 </button>
-                  </>
-                ) : (
-                  <button
-                    className="btn btn-outline-warning btn-xs"
-                    onClick={() => manageQuiz(dto.quiz_id, 'delete')}
-                  > 삭제하기 </button>
-                )}
-              </td>
-              <td>{dto.created_at?.slice(0, 10)}</td> {/* 등록일: yyyy-mm-dd 형식 */}
+        <Table striped bordered hover className="quiz-table">
+          <thead>
+            <tr>
+              <th className="status-col">no.</th>
+              <th className="title-col">제목</th>
+              <th>난이도</th>
+              <th>링크</th>
+              <th>삭제 여부</th>
+              <th className="btn-th">관리</th>
+              <th>등록일</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {getSortedQuizzes().map((dto, index) => (
+              <tr key={index}>
+                <td className="num-col">{dto.quiz_id}</td>
+                <td className="title-col">{dto.quiz_title}</td>
+                <td>{dto.quiz_level}</td>
+                <td>
+                  <button
+                    onClick={() => navigate(`/quizput/${dto.quiz_id}`)}
+                    className="btn btn-edit"
+                  >
+                    {dto.quiz_id}번 수정
+                  </button>
+                </td>
+                <td>{dto.isdelete === "Y" ? "Y" : "N"}</td>
+                <td className="btn-col">
+                  {dto.isdelete === "Y" ? (
+                    <>
+                      <button
+                        className="btn btn-delete"
+                        onClick={() => manageQuiz(dto.quiz_id, 'hardDelete')}
+                      >
+                        영구삭제
+                      </button>
+                      <button
+                        className="btn btn-restore"
+                        onClick={() => manageQuiz(dto.quiz_id, 'restore')}
+                      >
+                        삭제취소
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      className="btn btn-hide"
+                      onClick={() => manageQuiz(dto.quiz_id, 'delete')}
+                    >
+                      삭제
+                    </button>
+                  )}
+                </td>
+                <td>{dto.created_at?.slice(0, 10)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
     </div>
   );
 };

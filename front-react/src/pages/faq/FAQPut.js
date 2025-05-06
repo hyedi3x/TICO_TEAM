@@ -1,14 +1,33 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Button, Form } from 'react-bootstrap'; // 기본 버튼과 폼만 사용
+import { Modal } from 'rsuite';
 import { useNavigate } from 'react-router-dom';
-import styles from './FAQPut.module.css'; // 외부 CSS 모듈 추가
+import './FAQPut.css'; // 외부 CSS 모듈 추가
 import axiosInstance from '../login/social/utils/axiosInstance';
+import FAQPost from './FAQPost';
 
 function FAQList() {
   const [faqData, setFaqData] = useState([]); // JSON 객체를 담을 배열
   const navigate = useNavigate();
   const modCheck = useRef(0); // 변경사항 확인
-  const modify_id = localStorage.getItem("user_uuid");
+  const [modify_email, setModify_email] = useState(''); // 수정자 이메일 
+  const [showPostModal, setShowPostModal] = useState(false);
+
+  // 사용자 정보 조회
+  useEffect(() => {
+    if (localStorage.getItem('accessToken')) {
+      axiosInstance.get('/auth/user')
+        .then((response) => {
+          setModify_email(response.data?.email);
+        })
+        .catch((error) => {
+          console.error('사용자 정보 조회 실패:', error);
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('refreshToken');
+          navigate('/login');
+        });
+    }
+  }, []);
 
   useEffect(() => {
     const fetchFaqData = async () => {
@@ -49,7 +68,7 @@ function FAQList() {
     }
   };
 
-  const handleUpdate = async (qa_id, question, answer, emp_id, index) => {
+  const handleUpdate = async (qa_id, question, answer, emp_email, index) => {
     if (!question.trim() || !answer.trim()) {
       alert('질문과 답변은 모두 입력해야 합니다.');
       return;
@@ -62,8 +81,8 @@ function FAQList() {
       const response = await axiosInstance.put(`/api/faqPut/${qa_id}`, {
         question,
         answer,
-        emp_id,
-        modify_id : modify_id,
+        emp_email,
+        modify_email : modify_email,
       }, {
         headers: { 'Content-Type': 'application/json' }
       });
@@ -71,7 +90,7 @@ function FAQList() {
       setFaqData((prev) =>
         prev.map((item) =>
           item.qa_id === qa_id
-            ? { ...item, question, answer, modify_id: modify_id }
+            ? { ...item, question, answer, modify_email: modify_email }
             : item
         )
       );
@@ -84,76 +103,77 @@ function FAQList() {
     }
   };
 
-  const postChek = () => {
-    if (modCheck.current === 1) {
-      if (window.confirm("변경사항이 있습니다. 등록하기 화면으로 넘어가시겠습니까?")) {
-        navigate('/faqpost');
-      } else return false;
-    } else navigate('/faqpost');
+  const openFAQPostModal = () => {
+    setShowPostModal(true);
   };
 
   return (
-    <div className={styles.container}>
-      <h2 className={styles.title}>자주 묻는 질문 (FAQ)</h2>
-      <p className={styles.subtitle}>수정 / 삭제</p>
+    <div className="faq-wrapper">
+      <div className="faq-container">
+        <div className="faq-header-box">
+          <span className="faq-title">❓ 자주 묻는 질문 (FAQ)</span>
+          <Button className="faq-btn add-button" onClick={openFAQPostModal}>FAQ 등록</Button>
+        </div>
 
-      <div className={styles.faqList}>
-        {faqData.map((dto, index) => (
-          <div key={dto.qa_id} className={styles.faqItem}>
-            <div className={styles.faqHeader}>
-              <span className={styles.faqIndex}>{index + 1}번 항목</span>
-          
-              <div className={styles.faqButtons}>
-                작성자: {dto.emp_id} / 최종수정자: {dto.modify_id || '-'}
-                <Button
-                  className={styles.editButton}
-                  size="sm"
-                  onClick={() => handleUpdate(dto.qa_id, dto.question, dto.answer, dto.emp_id, index)}
-                >
-                  수정
-                </Button>
-          
-                <Button
-                  className={styles.deleteButton}
-                  size="sm"
-                  onClick={() => deleteCheck(dto.qa_id)}
-                >
-                  삭제
-                </Button>
+        <div className="faq-list">
+          {faqData.map((dto, index) => (
+            <div key={dto.qa_id} className="faq-item">
+              <div className="faq-header">
+                <span className="faq-index">{index + 1}번 항목</span>
+                <div className="faq-buttons">
+                  <span className="faq-writer">
+                    작성자: {dto.emp_email} / 최종수정자: {dto.modify_email || '-'}
+                  </span>
+                  <Button
+                    className="faq-btn btn-edit"
+                    size="sm"
+                    onClick={() => handleUpdate(dto.qa_id, dto.question, dto.answer, dto.emp_id, index)}
+                  >
+                    수정
+                  </Button>
+                  <Button
+                    className="faq-btn btn-delete"
+                    size="sm"
+                    onClick={() => deleteCheck(dto.qa_id)}
+                  >
+                    삭제
+                  </Button>
+                </div>
               </div>
+  
+              <Form.Control
+                type="text"
+                value={dto.question}
+                onChange={(e) => handleChange(index, 'question', e.target.value)}
+                placeholder="질문을 입력하세요"
+                className="faq-input"
+              />
+  
+              <Form.Control
+                as="textarea"
+                rows={3}
+                value={dto.answer}
+                onChange={(e) => handleChange(index, 'answer', e.target.value)}
+                placeholder="답변을 입력하세요"
+                className="faq-textarea"
+              />
             </div>
-          
-            <Form.Control
-              type="text"
-              value={dto.question}
-              onChange={(e) => handleChange(index, 'question', e.target.value)}
-              placeholder="질문을 입력하세요"
-              className={styles.faqInput}
-            />
-          
-            <Form.Control
-              as="textarea"
-              rows={3}
-              value={dto.answer}
-              onChange={(e) => handleChange(index, 'answer', e.target.value)}
-              placeholder="답변을 입력하세요"
-              className={styles.faqTextarea}
-            />
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
-      <div className={styles.addButtonWrapper}>
-        <Button
-          className={styles.addButton}
-          size="lg"
-          onClick={() => postChek()}
-        >
-          FAQ 새로 등록하기
-        </Button>
-      </div>
+      {/* 등록하기 모달 배경눌러도 안닫힘 */}
+      <Modal open={showPostModal} onClose={() => setShowPostModal(false)}
+       size="md" backdrop="static" style={{ marginTop: '50px' }}
+       className="no-padding-modal"> 
+        <Modal.Body className="no-padding-body">
+          <FAQPost onClose={() => setShowPostModal(false)} />
+        </Modal.Body>
+      </Modal>
+
     </div>
   );
+  
 }
 
 export default FAQList;

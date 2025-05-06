@@ -1,0 +1,136 @@
+/* FAQ 등록 폼 전체 래퍼 */
+.faq-post-wrapper {
+  width: 100%;
+  max-width: 700px;
+  min-width: 0px;
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+}
+
+.faq-post-container {
+  width: 100%;
+  max-width: 700px;
+  background-color: #f1f5f9;
+  border: 1px solid #e9ecef;
+  border-radius: 18px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  padding: 40px 30px;
+  text-align: center;
+}
+
+.faq-post-title {
+  margin-top: 20px;
+  padding: 0px auto;
+  font-size: 16px;
+  display: flex;
+  justify-content: left;
+  color: inherit;
+  font-family: inherit;
+  font-weight: bolder;
+}
+
+.faq-post-subtitle {
+  font-size: 15px;
+  color: #6c757d;
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: left;
+  margin-top: 10px;
+}
+
+.faq-post-label {
+  font-weight: 600;
+  font-size: 16px;
+  text-align: left;
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+
+.faq-post-input,
+.faq-post-textarea {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  resize: none;
+}
+
+.faq-post-textarea {
+  min-height: 130px;
+  background-color: #fdfdfd;
+}
+
+.faq-post-btn-wrapper {
+  text-align: center;
+  margin-top: 30px;
+}
+.faq-post-submit-wrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+.faq-post-submit {
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.faq-post-submit:hover {
+  background-color: #43a047;
+}
+.faq-post-close {
+  margin-left: 20px;
+  background-color: #e74c3c;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.faq-post-close:hover{
+  background-color: #c0392b !important;
+}
+
+@media (max-width: 768px) {
+  .rs-modal-content{
+    width: 400px !important;
+  }
+  .faq-post-container {
+    padding: 20px 15px;
+  }
+
+  .faq-post-title {
+    font-size: 14px;
+  }
+
+  .faq-post-subtitle {
+    font-size: 13px;
+  }
+
+  .faq-post-label {
+    font-size: 14px;
+  }
+
+  .faq-post-input,
+  .faq-post-textarea {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .faq-post-submit {
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+}
