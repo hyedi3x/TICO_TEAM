@@ -14,10 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.boot.tico.project.dto.ProjectDTO;
 import com.boot.tico.project.dto.ProjectObjectDTO;
-import com.boot.tico.project.dto.ProjectReportDTO;
 import com.boot.tico.project.dto.ProjectViewDTO;
 import com.boot.tico.project.repo.ProjectObjectRepository;
-import com.boot.tico.project.repo.ProjectReportRepository;
 import com.boot.tico.project.repo.ProjectRepository;
 import com.boot.tico.project.repo.ProjectViewRepository;
 
@@ -33,9 +31,6 @@ public class ProjectService {
    @Autowired
    private ProjectViewRepository viewRepository;
    
-   @Autowired
-   private ProjectReportRepository reportRepository;
-
    /**
     * [1] 프로젝트 + 오브젝트 저장
     * - 프로젝트 ID를 수동으로 생성하여 저장
@@ -218,7 +213,7 @@ public class ProjectService {
            dto.setLikeCount((Integer) row[3]);
            dto.setViewCount((Integer) row[4]);
            dto.setCommentCount((Integer) row[5]);
-           dto.setNickName((String) row[6]);
+           dto.setNickname((String) row[6]);
            list.add(dto);
        }
 
