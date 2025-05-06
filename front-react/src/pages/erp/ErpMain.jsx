@@ -9,7 +9,7 @@ import "./erpMain.css";
 
 // 아이콘
 import Icon from "@rsuite/icons/esm/Icon";
-import { FaCog, FaHome } from "react-icons/fa";
+import { FaHome } from "react-icons/fa";
 import { BsFillPeopleFill } from "react-icons/bs";
 import { MdOutlineEmojiPeople, MdPayments } from "react-icons/md";
 import { ImStatsDots } from "react-icons/im";
@@ -44,6 +44,7 @@ import SubscriptionManager from "./PAY_Team/SubscriptionManager";
 // Analyze_TEAM 관련
 import CsDashboard from "./Analyze_TEAM/CsDashboard";
 import PayDashboard from "./Analyze_TEAM/PayDashboard";
+import ProjectDashboard from "./Analyze_TEAM/ProjectDashboard";
 
 // blockedu 관련
 import BlockEduComponentPost from "../blockedu/BlockEduComponentPost";
@@ -129,6 +130,7 @@ function ErpMain() {
       case "4-2": selected = "purchaseLog"; break;
       case "5-1": selected = "payDashboard"; break;
       case "5-2": selected = "csDashboard"; break;
+      case "5-3": selected = "projectDashboard"; break;
       case "6-1": selected = "userList"; break;
       case "6-2": selected = "projectReportList"; break;
       case "6-3": selected = "notice"; break;
@@ -212,7 +214,7 @@ function ErpMain() {
                 >
                   <Nav.Item eventKey="5-1">회원 결제·환불·구독 현황</Nav.Item>
                   <Nav.Item eventKey="5-2">회원 참여도/학습률 분석</Nav.Item>
-                  <Nav.Item eventKey="5-3">콘텐츠 통계</Nav.Item>
+                  <Nav.Item eventKey="5-3">인기 작품 콘텐츠 통계</Nav.Item>
                 </Nav.Menu>
 
                 {/* 고객 지원팀 메뉴 (DEP004 부서만 활성화) */}
@@ -315,7 +317,8 @@ function ErpMain() {
             {/* Analyze_TEAM */}
             {viewMode === "payDashboard" && <PayDashboard />}
             {viewMode === "csDashboard" && <CsDashboard />}
-
+            {viewMode === "projectDashboard" && <ProjectDashboard />}
+      
             {/* CS_TEAM */}
             {viewMode === "userList" && (
               <UserList
