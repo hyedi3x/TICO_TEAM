@@ -48,7 +48,6 @@ function MyProjects() {
                 />
                 <Card.Body>
                   <Card.Title>{work.title}</Card.Title>
-                  <Card.Text>{work.description}</Card.Text>
                   <Card.Text className="project-stats">
                     👍 {work.likeCount} &nbsp;&nbsp;
                     👁️ {work.viewCount} &nbsp;&nbsp;
