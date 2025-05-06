@@ -71,7 +71,6 @@ const SubScriptionInsight = () => {
         color: '#fff', // 밝은 배경 대비를 위해 흰색
         font: { size: 14, weight: 'bold' },
         formatter: (value, context) => {
-          const label = context.chart.data.labels[context.dataIndex];
           const total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
           const percentage = ((value / total) * 100).toFixed(1);
           return `${percentage}%`;  // 퍼센트만 표시
