@@ -46,6 +46,8 @@ function ShareGallery() {
         <h5 className="fw-bold mb-2">💡 이곳은 작품을 감상하고 소통하는 공간이에요!</h5>
         <p className="text-muted" style={{ fontSize: "15px" }}>
           다른 사람들이 만든 <strong>블록코딩 작품</strong>을 감상하고 <strong>좋아요</strong>와 <strong>댓글</strong>로 소통해보세요.
+          <br />
+          자신의 작품을 <strong>공유</strong>하고 다른 사람들과 함께 소통해보아요!
         </p>
       </div>
 
