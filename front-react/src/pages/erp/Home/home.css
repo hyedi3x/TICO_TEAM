@@ -29,32 +29,20 @@
   background-color: white;
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  display: flex;
-  flex-direction: row;
   align-items: flex-start;
   text-align: left;
-  gap: 24px;
   margin-bottom: 20px;
-  justify-content: flex-start;  /* 왼쪽 정렬로 변경 */
 }
 
-/* 반응형: 화면 너비 1400px 이하일 때 회원정보 카드 column 정렬 */
-@media (max-width: 1400px) {
-  .user-info {
-    flex-direction: column;       /* 가로 → 세로 */
-    align-items: center;          /* 가운데 정렬 */
-    text-align: center;           /* 텍스트도 중앙 정렬 */
-  }
-
-  .userInfoText {
-    margin-top: 16px;             /* 프로필과 텍스트 사이 간격 */
-  }
+.profile-title {
+  font-size: 25px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-align: left;
 }
 
 /* 👤 프로필 이미지 영역 */
 .profile-image-container {
-  display: flex;
-  justify-content: center;
   margin-bottom: 20px;
 }
 
@@ -70,7 +58,7 @@
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background-color: #e0e0e0;
+  background-color: rgb(255, 255, 255);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -93,28 +81,27 @@
   margin-bottom: 20px;
 }
 
-/* 🗂 탭 스타일 */
+/* 탭 스타일 */
 .rs-nav-tabs {
-  background-color: #f5f5f5;
+  background-color: #ffffff;
   padding: 10px;
   border-radius: 8px;
 }
 
 .rs-nav-tabs .rs-nav-item {
-  font-weight: 600;
-  color: #333;
+  color: #354052;
 }
 
+/* 탭 버튼 */
 .rs-nav-tabs .rs-nav-item.rs-nav-item-active {
-  background-color: #4caf50;
-  color: white;
-  border-radius: 8px;
+  background-color: #6AB0E3;
+  color: #fff;
 }
 
 /* 🎨 일정 내용 textarea */
 .scContent {
   width: 100%;
-  border: 1px solid #e5e5ea;
+  border: 1px solid #9CD5FF;
   font-size: 14px; /* 폰트 크기 줄임 */
   padding: 8px;     /* 내부 여백 조정 */
   line-height: 1.4; /* 줄 간격 */
@@ -124,19 +111,19 @@
 
 .scContent:focus {
   outline: none;
-  border-color: #3498ff; /* 포커스 시 테두리 색상 */
-  box-shadow: 0 0 0 2px rgba(52, 152, 255, 0.2);
+  border-color: #C1E5FF; /* 포커스 시 테두리 색상 */
+  box-shadow: 0 0 0 2px #C1E5FF(52, 152, 255, 0.2);
 }
 
 /* 버튼 통일 스타일 */
 .rs-btn.rs-btn-primary {
-  background-color: #4caf50;
+  background-color: #6AB0E3;
   border: none;
   border-radius: 6px;
 }
 
 .rs-btn.rs-btn-primary:hover {
-  background-color: #43a047;
+  background-color: #5A98C9;
 }
 
 .rs-btn.rs-btn-subtle {
@@ -145,19 +132,81 @@
 
 /* 알림 컴포넌트 */
 .home-notifications {
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
+  padding: 25px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
 }
 
 .home-notifications h2 {
-  font-size: 1.5rem;
-  font-weight: bold;
+  font-size: 25px;
   margin-bottom: 15px;
+  text-align: left;
 }
 
-.home-notifications .rs-list-item {
-  line-height: 1.5;
+.home-notification-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.home-notification-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.home-notification-item:hover {
+  background-color: #f0f8ff;
+  color: #007bff;
+}
+
+.home-notification-title {
+  font-weight: 500;
+  font-size: 16px;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 70%;
+}
+
+.home-notification-date {
+  font-size: 13px;
+  color: #888;
+  white-space: nowrap;
+}
+
+/* 📦 Home 페이지 전체 레이아웃 */
+.home-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* 좌측 캘린더 + 일정 */
+.home-left {
+  flex: 1 1 500px;
+  min-width: 500px;
+}
+
+/* 우측 탭 콘텐츠 */
+.home-right {
+  flex: 1 1 500px;
+  min-width: 500px;
+}
+
+/* 화면이 작아질 경우 자동으로 세로 정렬 */
+@media (max-width: 1200px) {
+  .home-container {
+    flex-direction: column;
+  }
 }
 
 
