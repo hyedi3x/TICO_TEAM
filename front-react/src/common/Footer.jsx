@@ -5,12 +5,14 @@ import logo from '../imgs/TICO_logo_icon_gray.png';
 import { useLocation } from "react-router-dom";
 
 
-const location = useLocation();
-const isMainPage = location.pathname === '/';
+
 
 function Footer() {
-  return(
-    <footer className={`footer ${isMainPage ? 'main-footer' : ''}`}> 
+  const location = useLocation();                          // ✅ Hook은 함수 안에서 호출
+  const isMainPage = location.pathname === '/';            // ✅ 메인 페이지 여부 확인
+
+  return (
+    <footer className={`footer ${isMainPage ? 'main-footer' : ''}`}>  {/* ✅ 조건부 클래스 적용 */}
       <div className="footer-content">
         <Link to=''>
           <img
