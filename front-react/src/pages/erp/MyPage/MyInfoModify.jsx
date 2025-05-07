@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Panel, Grid, Row, Col, Input, DatePicker, Button } from "rsuite";
 import { useNavigate } from "react-router-dom";
-import "../HR_Team/adminRegister.css";
-import "../HR_Team/adminContainer.css";
+import "./myInfoModify.css";
 
 import axiosInstance from "../../login/social/utils/axiosInstance";
 
@@ -140,23 +139,19 @@ function MyInfoModify() {
 
   return (
     <div className="admin-form-container">
-      <Panel header="기본정보" className="panel-container">
+      <Panel header="내 정보 수정" className="panel-container">
+        <h5 className="section-title">기본정보</h5>
         <Grid fluid>
           <Row className="form-row2">
             <Col sm={6}>
-              <Input
-                placeholder="이름"
-                value={form.empName}
-                onChange={(v) => handleChange("empName", v)}
-              />
+              <Input placeholder="이름" value={form.empName} onChange={(v) => handleChange("empName", v)} />
             </Col>
-            <Col sm={12} style={{ position: "relative" }}>
+            <Col sm={12}>
               <Input
                 placeholder="비밀번호 재설정 (영문, 숫자, 특수문자 조합)"
                 type="password"
                 value={form.empPwd}
                 onChange={(v) => handleChange("empPwd", v)}
-                style={{ width: "100%" }}
               />
             </Col>
             <Col sm={6}>
@@ -168,33 +163,19 @@ function MyInfoModify() {
               />
             </Col>
             <Col sm={6}>
-              <Input
-                placeholder="전화번호"
-                value={form.empPhone}
-                onChange={(v) => handleChange("empPhone", v)}
-              />
+              <Input placeholder="전화번호" value={form.empPhone} onChange={(v) => handleChange("empPhone", v)} />
             </Col>
             <Col sm={6}>
-              <Input
-                placeholder="이메일"
-                value={form.empEmail}
-                onChange={(v) => handleChange("empEmail", v)}
-              />
+              <Input placeholder="이메일" value={form.empEmail} onChange={(v) => handleChange("empEmail", v)} />
             </Col>
           </Row>
         </Grid>
-      </Panel>
 
-      <Panel header="주소 정보" className="panel-container">
+        <h5 className="section-title">주소 정보</h5>
         <Grid fluid>
           <Row className="form-row2">
             <Col sm={17}>
-              <Input
-                placeholder="주소"
-                value={form.empHome}
-                onChange={(v) => handleChange("empHome", v)}
-                style={{ width: "100%" }}
-              />
+              <Input placeholder="주소" value={form.empHome} onChange={(v) => handleChange("empHome", v)} />
             </Col>
             <Col sm={6}>
               <button className="search-btn" onClick={openDaumPostcode}>
@@ -203,13 +184,13 @@ function MyInfoModify() {
             </Col>
           </Row>
         </Grid>
-      </Panel>
 
-      <div className="save-btn-wrap">
-        <Button className="submit-btn" onClick={handleSubmit} type="submit">
-          저장
-        </Button>
-      </div>
+        <div className="save-btn-wrap">
+          <Button className="submit-btn" onClick={handleSubmit}>
+            저장
+          </Button>
+        </div>
+      </Panel>
     </div>
   );
 }

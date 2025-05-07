@@ -162,8 +162,8 @@ function AdminInfo() {
         </Grid>
       </Panel>
 
-      <Panel header="사원 조회 결과" className="panel-container">
-        <div className="table-wrapper">
+      <Panel header="사원 조회 결과" className="panel-container" style={{ height: "650px"}} >
+        <div className="HR-table-wrapper">
           <Table
             height={600}
             data={searchResult}

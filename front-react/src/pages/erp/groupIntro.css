@@ -1,0 +1,18 @@
+.group-intro-container {
+  padding: 40px;
+  background-color: #f9fafb;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+  text-align: center;
+}
+
+.group-intro-container h2 {
+  font-size: 24px;
+  color: #1f2937;
+  margin-bottom: 10px;
+}
+
+.group-intro-container p {
+  font-size: 16px;
+  color: #4b5563;
+}

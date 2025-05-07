@@ -24,6 +24,7 @@
 .table-wrapper {
   max-height: 300px;  /* 높이 고정 */
   overflow-y: auto;   /* 세로 스크롤바 표시 */
+  margin: 0px 12px;
 }
 
 /* 표 전체 스타일 */

@@ -65,6 +65,9 @@ import StudyManage from "../../blockly/study/StudyManage";
 // 유틸리티
 import axiosInstance from "../login/social/utils/axiosInstance";
 
+// 대표
+import GroupIntro from "./GroupIntro";
+
 function ErpMain() {
   const [expanded, setExpanded] = useState(true); // 사이드바 확장 여부
   const [activeKey, setActiveKey] = useState("1"); // 현재 선택된 메뉴의 eventKey를 저장
@@ -123,27 +126,33 @@ function ErpMain() {
       case "1": selected = "home"; break;
       case "1-1": selected = "list"; break;
       case "1-2": selected = "create"; break;
+      case "2": selected = "group-my"; break;
       case "2-1": selected = "myinfoModify"; break;
       case "2-2": selected = "myinfoChk"; break;
       case "2-3": selected = "notifications"; break;
+      case "3": selected = "group-hr"; break;
       case "3-1": selected = "admin-register"; break;
       case "3-2": selected = "admin-info"; break;
+      case "4": selected = "group-pay"; break;
       case "4-1": selected = "subscription-manage"; break;
       case "4-2": selected = "purchaseLog"; break;
+      case "5": selected = "group-da"; break;
       case "5-1": selected = "payDashboard"; break;
       case "5-2": selected = "csDashboard"; break;
       case "5-3": selected = "projectDashboard"; break;
+      case "6": selected = "group-cs"; break;
       case "6-1": selected = "userList"; break;
       case "6-2": selected = "projectReportList"; break;
       case "6-3": selected = "notice"; break;
       case "6-4": selected = "faq"; break;
+      case "7": selected = "group-mo"; break;
       case "7-1": selected = "projectManage"; break;
       case "7-2": selected = "studyManage"; break;
       case "7-3": selected = "blockEduPost"; break;
       case "7-4": selected = "EMPEduList"; break;
       case "7-5": selected = "ObjectSelectPage"; break;
       case "7-6": selected = "MainModify"; break;
-      default: selected = "home";      
+      default: selected = "home";
     }
     setViewMode(selected);
     localStorage.setItem("viewMode", selected); // 선택된 화면 상태 저장
@@ -157,98 +166,51 @@ function ErpMain() {
         <div className="erp-sideBar">
           <Sidenav expanded={expanded} defaultOpenKeys={["1", "2"]}>
             <Sidenav.Body>
-              <Nav activeKey={activeKey} onSelect={handleNavSelect}>
-                {/* Home 메뉴 */}
-                <Nav.Menu eventKey="1" title="Home" icon={<Icon as={FaHome} />}>
+              <Nav
+                activeKey={activeKey}
+                onSelect={handleNavSelect}
+                onClickCapture={(e) => {
+                  const menu = e.target.closest('[data-key]');
+                  const key = menu?.getAttribute('data-key');
+                  if (["1","2","3","4","5","6","7"].includes(key)) {
+                    handleNavSelect(key);
+                  }
+                }}
+              >
+                <Nav.Menu eventKey="1" title="Home" icon={<Icon as={FaHome} />} data-key="1">
                   <Nav.Item eventKey="1-1">공지사항 목록</Nav.Item>
                   <Nav.Item eventKey="1-2">공지사항 등록</Nav.Item>
                 </Nav.Menu>
-
-                {/* 마이페이지 메뉴 */}
-                <Nav.Menu
-                  eventKey="2"
-                  title="마이페이지"
-                  icon={<Icon as={BsFillPeopleFill} />}
-                >
+                <Nav.Menu eventKey="2" title="마이페이지" icon={<Icon as={BsFillPeopleFill} />} data-key="2">
                   <Nav.Item eventKey="2-1">나의 정보 수정</Nav.Item>
                   <Nav.Item eventKey="2-2">나의 정보 조회</Nav.Item>
                   <Nav.Item eventKey="2-3">알림 목록</Nav.Item>
                 </Nav.Menu>
-
-                {/* 인사팀 메뉴 (DEP001 부서만 활성화) */}
-                <Nav.Menu
-                  eventKey="3"
-                  title="인사팀(HR)"
-                  icon={<Icon as={BsFillPeopleFill} />}
-                  className={
-                    empInfo.depId === "DEP001" || empInfo.depId === "DEP000"
-                      ? ""
-                      : "disabled-menu"
-                  }
-                >
+                <Nav.Menu eventKey="3" title="인사팀(HR)" icon={<Icon as={BsFillPeopleFill} />} data-key="3"
+                  className={empInfo.depId === "DEP001" || empInfo.depId === "DEP000" ? "" : "disabled-menu"}>
                   <Nav.Item eventKey="3-1">관리자 등록</Nav.Item>
                   <Nav.Item eventKey="3-2">관리자 조회/수정/삭제</Nav.Item>
                 </Nav.Menu>
-
-                {/* 결제 관리팀 메뉴 (DEP002 부서만 활성화) */}
-                <Nav.Menu
-                  eventKey="4"
-                  title="결제 관리팀(PAY)"
-                  icon={<Icon as={MdPayments} />}
-                  className={
-                    empInfo.depId === "DEP002" || empInfo.depId === "DEP001"
-                      ? ""
-                      : "disabled-menu"
-                  }
-                >
+                <Nav.Menu eventKey="4" title="결제 관리팀(PAY)" icon={<Icon as={MdPayments} />} data-key="4"
+                  className={empInfo.depId === "DEP002" || empInfo.depId === "DEP001" ? "" : "disabled-menu"}>
                   <Nav.Item eventKey="4-1">결제 회원 관리</Nav.Item>
                   <Nav.Item eventKey="4-2">결제 내역 관리</Nav.Item>
                 </Nav.Menu>
-
-                {/* 통계 분석팀 메뉴 (DEP003 부서만 활성화) */}
-                <Nav.Menu
-                  eventKey="5"
-                  title="통계 분석팀(DA)"
-                  icon={<Icon as={ImStatsDots} />}
-                  className={
-                    empInfo.depId === "DEP003" || empInfo.depId === "DEP001"
-                      ? ""
-                      : "disabled-menu"
-                  }
-                >
+                <Nav.Menu eventKey="5" title="통계 분석팀(DA)" icon={<Icon as={ImStatsDots} />} data-key="5"
+                  className={empInfo.depId === "DEP003" || empInfo.depId === "DEP001" ? "" : "disabled-menu"}>
                   <Nav.Item eventKey="5-1">회원 결제·환불·구독 현황</Nav.Item>
                   <Nav.Item eventKey="5-2">회원 참여도/학습률 분석</Nav.Item>
                   <Nav.Item eventKey="5-3">인기 작품 콘텐츠 통계</Nav.Item>
                 </Nav.Menu>
-
-                {/* 고객 지원팀 메뉴 (DEP004 부서만 활성화) */}
-                <Nav.Menu
-                  eventKey="6"
-                  title="고객 지원팀(CS)"
-                  icon={<Icon as={MdOutlineEmojiPeople} />}
-                  className={
-                    empInfo.depId === "DEP004" || empInfo.depId === "DEP001"
-                      ? ""
-                      : "disabled-menu"
-                  }
-                >
+                <Nav.Menu eventKey="6" title="고객 지원팀(CS)" icon={<Icon as={MdOutlineEmojiPeople} />} data-key="6"
+                  className={empInfo.depId === "DEP004" || empInfo.depId === "DEP001" ? "" : "disabled-menu"}>
                   <Nav.Item eventKey="6-1">회원 목록 조회</Nav.Item>
                   <Nav.Item eventKey="6-2">작품 신고 목록</Nav.Item>
                   <Nav.Item eventKey="6-3">공지사항 등록/관리</Nav.Item>
                   <Nav.Item eventKey="6-4">FAQ 등록/관리</Nav.Item>
                 </Nav.Menu>
-
-                {/* 콘텐츠 관리팀 메뉴 (DEP005 부서만 활성화) */}
-                <Nav.Menu
-                  eventKey="7"
-                  title="콘텐츠 관리팀(MO)"
-                  icon={<Icon as={TbPlayCardStarFilled} />}
-                  className={
-                    empInfo.depId === "DEP005" || empInfo.depId === "DEP001"
-                      ? ""
-                      : "disabled-menu"
-                  }
-                >
+                <Nav.Menu eventKey="7" title="콘텐츠 관리팀(MO)" icon={<Icon as={TbPlayCardStarFilled} />} data-key="7"
+                  className={empInfo.depId === "DEP005" || empInfo.depId === "DEP001" ? "" : "disabled-menu"}>
                   <Nav.Item eventKey="7-1">작품 관리</Nav.Item>
                   <Nav.Item eventKey="7-2">스터디 관리</Nav.Item>
                   <Nav.Item eventKey="7-3">블럭 학습 퀴즈 등록</Nav.Item>
@@ -322,7 +284,7 @@ function ErpMain() {
             {viewMode === "payDashboard" && <PayDashboard />}
             {viewMode === "csDashboard" && <CsDashboard />}
             {viewMode === "projectDashboard" && <ProjectDashboard />}
-      
+
             {/* CS_TEAM */}
             {viewMode === "userList" && (
               <UserList
@@ -359,6 +321,13 @@ function ErpMain() {
             {viewMode === "ObjectSelectPage" && <ObjectSelectPage />}
             {viewMode === "MainModify" && <MainModify />}
             {viewMode === "studyManage" && <StudyManage />}
+            
+            {viewMode === "group-my" && <GroupIntro title="마이페이지" subtitle="개인 정보를 수정하고 확인할 수 있습니다." />}
+            {viewMode === "group-hr" && <GroupIntro title="인사팀 페이지" subtitle="인사 정보를 관리하는 기능이 제공됩니다." />}
+            {viewMode === "group-pay" && <GroupIntro title="결제 관리팀 페이지" subtitle="결제 및 구독 관련 데이터를 확인할 수 있습니다." />}
+            {viewMode === "group-da" && <GroupIntro title="통계 분석팀 페이지" subtitle="통계를 기반으로 한 분석 기능이 제공됩니다." />}
+            {viewMode === "group-cs" && <GroupIntro title="고객 지원팀 페이지" subtitle="회원 및 콘텐츠 신고 관련 기능을 다룹니다." />}
+            {viewMode === "group-mo" && <GroupIntro title="콘텐츠 관리팀 페이지" subtitle="블록 기반 콘텐츠 및 메인 화면을 관리합니다." />}
           </div>
         </Content>
       </div>
