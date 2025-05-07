@@ -2,9 +2,12 @@
 
 /* 공지사항 수정 전체 컨테이너 */
 .notice-update-container {
-  width: 650px;
   margin: 0 auto;
   padding: 20px;
+  width: 1000px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
 }
 
 /* 각 입력 필드 그룹 */
