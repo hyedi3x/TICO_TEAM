@@ -132,7 +132,7 @@
 
 /* 드롭다운(select) */
 .notice-select {
-  padding: 6px 36px 6px 12px;
+  padding: 6px 32px 6px 16px;
   font-size: 0.95rem;
   border: 1px solid #e0e0e0;
   border-radius: 18px;
