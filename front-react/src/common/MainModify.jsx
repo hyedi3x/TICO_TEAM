@@ -157,12 +157,10 @@ function MainModify() {
           <Swiper
             slidesPerView={4}
             slidesPerGroup={1}
-            spaceBetween={30}
             navigation={true}
             modules={[Navigation]}
             className="staffSwiper mt-3"
             breakpoints={{
-              // 화면 너비가 1300px 이하일 때 슬라이드 3개 표시
               1500: {
                 slidesPerView: 4,
               },

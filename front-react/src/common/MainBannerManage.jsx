@@ -206,19 +206,18 @@ const MainBannerManage = () => {
         modules={[Navigation]}
         className="staffSwiper mt-3"
         breakpoints={{
-          3000: {
+          1500: {
             slidesPerView: 4,
           },
-          1500: {
+          1000: {
             slidesPerView: 3,
           },
-          1300: {
+          500: {
             slidesPerView: 2,
           },
-          800: {
+          300: {
             slidesPerView: 1,
           },
-
         }}
       >
         {banners.length === 0 ? (
