@@ -107,6 +107,10 @@ function FAQList() {
     setShowPostModal(true);
   };
 
+  const handleAddFAQ = (newFAQ) => {
+    setFaqData((prev) => [...prev, newFAQ]); // 새로운 FAQ 항목 추가
+  };
+
   return (
     <div className="faq-wrapper">
       <div className="faq-container">
@@ -167,7 +171,7 @@ function FAQList() {
        size="md" backdrop="static" style={{ marginTop: '50px' }}
        className="no-padding-modal"> 
         <Modal.Body className="no-padding-body">
-          <FAQPost onClose={() => setShowPostModal(false)} />
+          <FAQPost onClose={(newFAQ) => { setShowPostModal(false); handleAddFAQ(newFAQ); }} />
         </Modal.Body>
       </Modal>
 
