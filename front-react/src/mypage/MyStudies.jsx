@@ -26,6 +26,10 @@ function MyStudies() {
     return `http://localhost:8081${url}`;  // 상대경로면 도메인 붙여줌
   };
 
+  const handleCardClick = (studyId) => {
+    navigate(`/study/detail/${studyId}`); // 상세페이지로 이동
+  };
+
   return (
     <Container className="my-works py-5">
       <h2 className="mb-4 text-center">내 스터디</h2>
@@ -35,7 +39,10 @@ function MyStudies() {
         ) : (
           studies.map((study) => (
             <Col md={4} key={study.studyId} className="mb-4">
-              <Card className='project-card'>
+              <Card 
+                className='project-card'
+                onClick={() => handleCardClick(study.studyId)}
+              >
                 {/* 썸네일 이미지 */}
                 <Card.Img
                   className='thumbnail'

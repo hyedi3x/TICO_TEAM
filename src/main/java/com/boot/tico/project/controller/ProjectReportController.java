@@ -1,7 +1,5 @@
 package com.boot.tico.project.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,12 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.boot.tico.project.dto.ProjectDTO;
 import com.boot.tico.project.dto.ProjectReportDTO;
 import com.boot.tico.project.service.ProjectReportService;
 
 @RestController
-@RequestMapping("api/report")
+@RequestMapping("/api/report")
 public class ProjectReportController {
 	
 	@Autowired
