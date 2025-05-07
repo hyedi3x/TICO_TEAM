@@ -59,52 +59,57 @@ const EduList = () => {
 
   return (
     <div className="quiz-wrapper">
-      <h2 className="quiz-count">총 {quizzes.length}문제</h2>
-      {/* 드롭다운을 테이블 우측 상단에 배치 */}
-      <div className="quiz-sort-container">
-        <select
-          className="quiz-sort-select"
-          value={sortOption}
-          onChange={(e) => setSortOption(e.target.value)}
-        >
-          <option value="등록순">등록순</option>
-          <option value="최신순">최신순</option>
-          <option value="쉬움→어려움">난이도 쉬움→어려움</option>
-          <option value="어려움→쉬움">난이도 어려움→쉬움</option>
-        </select>
-      </div>
+      <div className="quiz-all-container">
+        <p className="quiz-subtitle">💡 퀴즈를 풀며 블록 코딩을 재미있게 학습해보세요!</p>
+        <div className="quiz-count">총 {quizzes.length}문제</div>
+        {/* 드롭다운을 테이블 우측 상단에 배치 */}
+        <div className="quiz-sort-container">
+          <select
+            className="quiz-sort-select"
+            value={sortOption}
+            onChange={(e) => setSortOption(e.target.value)}
+          >
+            <option value="등록순">등록순</option>
+            <option value="최신순">최신순</option>
+            <option value="쉬움→어려움">난이도 쉬움→어려움</option>
+            <option value="어려움→쉬움">난이도 어려움→쉬움</option>
+          </select>
+        </div>
 
-      <Table striped bordered hover className="quiz-table">
-        <thead>
-          <tr>
-            <th className="status-col">no.</th>
-            <th className="title-col">제목</th>
-            <th>난이도</th>
-            <th>링크</th>
-            <th>완료 여부</th>
-            <th>문제 푼 횟수</th>
-          </tr>
-        </thead>
-        <tbody>
-          {getSortedQuizzes().map((dto, index) => (
-            <tr key={index}>
-              <td className="num-col">{dto.quiz_id}</td>
-              <td className="title-col">{dto.quiz_title}</td>
-              <td>{dto.quiz_level}</td>
-              <td>
-                <button
-                  onClick={() => navigate(`/quiz/${dto.quiz_id}`)}
-                  className="btn btn-sm btn-outline-primary"
-                >
-                  {dto.quiz_id}번 풀러가기
-                </button>
-              </td>
-              <td>{isSolvedByUser(dto.quiz_id) ? "✅ 완료" : "❌ 미완료"}</td>
-              <td>{isSolvedByUser(dto.quiz_id)?.solved_count || "-"}</td>
+        <Table striped bordered hover className="quiz-table">
+          <thead>
+            <tr>
+              <th className="status-col">no.</th>
+              <th className="title-col">제목</th>
+              <th>난이도</th>
+              <th>링크</th>
+              <th>완료 여부</th>
+              <th>문제 푼 횟수</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+          {getSortedQuizzes()
+              .filter(dto => dto.isdelete === "N")
+              .map((dto, index) => (
+                <tr key={index}>
+                  <td className="num-col">{dto.quiz_id}</td>
+                  <td className="title-col">{dto.quiz_title}</td>
+                  <td>{dto.quiz_level}</td>
+                  <td>
+                    <button
+                      onClick={() => navigate(`/quiz/${dto.quiz_id}`)}
+                      className="btn btn-sm btn-outline-primary"
+                    >
+                      {dto.quiz_id}번 풀러가기
+                    </button>
+                  </td>
+                  <td>{isSolvedByUser(dto.quiz_id) ? "✅ 완료" : "❌ 미완료"}</td>
+                  <td>{isSolvedByUser(dto.quiz_id)?.solved_count || "-"}</td>
+                </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
     </div>
   );
 };

@@ -247,8 +247,8 @@ function ErpMain() {
                 >
                   <Nav.Item eventKey="7-1">작품 관리</Nav.Item>
                   <Nav.Item eventKey="7-2">스터디 관리</Nav.Item>
-                  <Nav.Item eventKey="7-3">블럭 학습 퀴즈 등록</Nav.Item>
-                  <Nav.Item eventKey="7-4">블럭 학습 퀴즈 관리 목록</Nav.Item>
+                  <Nav.Item eventKey="7-3">블록 학습 퀴즈 등록</Nav.Item>
+                  <Nav.Item eventKey="7-4">블록 학습 퀴즈 관리 목록</Nav.Item>
                   <Nav.Item eventKey="7-5">오브젝트 관리</Nav.Item>
                   <Nav.Item eventKey="7-6">메인화면 관리</Nav.Item>
                 </Nav.Menu>

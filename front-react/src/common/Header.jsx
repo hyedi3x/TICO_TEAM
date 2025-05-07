@@ -129,7 +129,7 @@ function Header() {
                   {/* 직원이 아닌 경우에만 드롭다운 표시 */}
                   {user?.provider === 'employee' ? (
                     <div style={{ marginRight: '10px', padding: '6px 12px', borderRadius: '6px', backgroundColor: '#f8f9fa', color: 'black', fontWeight: 'bold' }}>
-                      {'Employee Account'}
+                      {user?.name}
                     </div>
                   ) : 
                   (

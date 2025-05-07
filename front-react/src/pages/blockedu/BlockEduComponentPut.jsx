@@ -258,7 +258,7 @@ function BlockEduComponentPut() {
             </div>
   
             <div className="e2_button-blockly">
-              <button onClick={() => navigate("/EMPEduList")}>☰ 목록으로 돌아가기</button>
+              <button onClick={() => navigate("/EMPEduList")}>☰ 목록으로 가기</button>
               <button onClick={saveQuiz}>💾 수정하기</button>
             </div>
           </div>
