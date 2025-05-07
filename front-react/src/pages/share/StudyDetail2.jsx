@@ -28,7 +28,7 @@ function StudyDetail2() {
         setStudy(res.data);
         setIsLoading(false);
         // 제작자 정보 설정
-        const projectCreatorUuid = res.userUuid;  // project.userUuid를 사용
+        const projectCreatorUuid = res.data.userUuid;  // project.userUuid를 사용
         setCreater(projectCreatorUuid);  // 제작자 userUuid를 상태에 설정
       })
       .catch(() => {
@@ -180,7 +180,7 @@ function StudyDetail2() {
             <StudyCommentSection
               studyId={study.studyId}
               userUuid={userUuid}
-              studyCreatorUuid={study.userUuid}
+              studyCreatorUuid={creater}
               isPrivate={study.isprivate}
             />
           ) : (
