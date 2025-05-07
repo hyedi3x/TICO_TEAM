@@ -3,7 +3,7 @@ import axiosInstance from "../login/social/utils/axiosInstance";
 import "./NoticePost.css";
 import { useNavigate, useParams } from "react-router-dom";
 
-function NoticePost() {
+function NoticePost({ noticeId, onClose }) {
   const [title, setTitle] = useState("");
   const [type, setType] = useState("새로운 기능");
   const [content, setContent] = useState("");
@@ -11,7 +11,6 @@ function NoticePost() {
   const [modifyId, setModifyId] = useState(""); // 최종 수정자
 
   const navigate = useNavigate();
-  const { noticeId } = useParams(); // 수정인지 판단
 
   useEffect(() => {
     if (noticeId) {
@@ -84,7 +83,7 @@ function NoticePost() {
 
   return (
     <div className="notice-post-wrapper">
-      <h2 className="notice-post-title">{noticeId ? "공지사항 수정" : "공지사항 등록"}</h2>
+      <div className="notice-post-title">{noticeId ? "📢공지사항 수정" : "📢공지사항 등록"}</div>
       <div className="empId-div">
         작성자: {empId}
         {noticeId && (
@@ -128,6 +127,7 @@ function NoticePost() {
 
         <div className="notice-form-actions">
           <button type="submit">{noticeId ? "수정하기" : "등록하기"}</button>
+          <button  className="notice-post-close" type="button" onClick={onClose}>닫기</button>
         </div>
       </form>
     </div>

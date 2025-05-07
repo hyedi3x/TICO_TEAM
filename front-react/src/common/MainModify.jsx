@@ -8,7 +8,6 @@ import 'swiper/css/navigation';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import { Button } from 'rsuite';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import img1 from '../imgs/짱구1.jpg';
 import ChatbotWindow from '../pages/chatbot/ChatbotWindow';
 import ErpLogo from '../pages/erp/ErpLogo';
 import ProjectCard from './ProjectCard';
@@ -139,19 +138,19 @@ function MainModify() {
 
   return (
 
-    <div className='main-container' style={{minWidth: '1060px'}}>
+    <div className='main-modify-container' style={{minWidth: '1060px'}}>
       {/* MainBannerManage 컴포넌트 추가 */}
       <MainBannerManage />
 
       {/* 스태프 선정 작품 */}
       <div className='maincon mt-5'>
         <div className='bt'>
-          <h1 className="text-center fw-bold mb-4">스태프 선정 작품 등록하기</h1>
-          <p className='p mb-2'>⚠️ 작품을 추가하거나 변경한 후에는 반드시 <span className="text-success">"저장하기"</span> 버튼을 눌러야 적용됩니다. ⚠️</p>
+          <div className="faq-title mb-2">🎞️ 스태프 선정 작품 등록하기</div>
+          <p className='p mb-2'>⚠️ 작품을 추가하거나 변경한 후에는 반드시 <span className="faq-btn btn-edit">저장하기</span> 버튼을 눌러야 적용됩니다. ⚠️</p>
 
           <div className="d-flex justify-content-end align-items-center gap-2">
-            <Button appearance="ghost" onClick={handleAddStaffPick}>+ 추가하기</Button>
-            <Button appearance="ghost"  color="green" onClick={handleSaveStaffPicks}>💾 저장하기</Button>
+            <button className="faq-btn add-button" onClick={handleAddStaffPick}>+ 추가하기</button>
+            <button className="faq-btn btn-edit" onClick={handleSaveStaffPicks}>💾 저장하기</button>
           </div>
         
          
@@ -174,25 +173,22 @@ function MainModify() {
                     project={project}
                     editable = {
                       <>
-                        <Button
-                          appearance="ghost"
-                          size="sm"
-                          style={{ borderRadius: 20, padding: '0.4rem 1rem', marginRight: 8 }}
+                        <button className="faq-btn btn-edit"
                           onClick={(e) => {
                             e.stopPropagation();
                             handleOpenProjectModal(index);
                           }}
                         >
                           수정
-                        </Button>
-                        <Button appearance="ghost" color="red" size="sm" style={{ borderRadius: 20, padding: '0.4rem 1rem'}}
+                        </button>
+                        <button className="faq-btn btn-delete"
                           onClick={(e) => {
                             e.stopPropagation();
                             handleRemoveStaffPickProject(project.projectId);
                           }}
                         >
                           삭제
-                        </Button>
+                        </button>
                       </>
                     }
                     showStats={false}

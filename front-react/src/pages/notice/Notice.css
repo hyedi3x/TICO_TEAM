@@ -15,8 +15,13 @@
 }
 
 .notice-title {
-  font-size: 2rem;
-  font-weight: bold;
+  padding: 0px;
+  font-size: 16px;
+  display: flex;
+  justify-content: left;
+  color: inherit;
+  font-family: inherit;
+  font-weight: bolder;
 }
 
 .notice-search {
@@ -178,23 +183,6 @@
   gap: 8px;
 }
 
-.notice-register-btn {
-  background-color: #00b894;
-  color: white;
-  font-weight: 600;
-  border: none;
-  border-radius: 6px;
-  padding: 8px 16px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  margin-left: 12px; /* 검색창 옆 배치 시 */
-}
-
-.notice-register-btn:hover {
-  background-color: #00a383;
-}
-
 .notice-header-right {
   display: flex;
   align-items: center;
@@ -202,26 +190,62 @@
 }
 
 /*관리자용 버튼 */
-.notice-btn {
-  padding: 4px 10px;
-  border: 1px solid #ccc;
-  background: #f5f5f5;
-  font-size: 0.85rem;
-  border-radius: 20px;
+
+.notice-buttons .btn,
+.notice-header-right .btn {
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  color: white;
+  border: none;
   cursor: pointer;
-  transition: background 0.2s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  margin: 2px;
+  font-weight: bold;
+}
+.notice-header-right .btn-add{
+  background-color: #4caf50;
+}
+.notice-header-right .btn-add:hover{
+  background-color: #43a047;
+}
+.notice-buttons .btn-edit {
+  background-color: #3498db;
+}
+.notice-buttons .btn-edit:hover {
+  background-color: #2980b9;
 }
 
-.notice-btn:hover {
-  background: #e0e0e0;
+.notice-buttons .btn-delete {
+  background-color: #e74c3c;
+}
+.notice-buttons .btn-delete:hover {
+  background-color: #c0392b;
 }
 
-.notice-btn.delete {
-  background: #ffebeb;
-  border-color: #ff7f7f;
+.notice-buttons .btn-restore {
+  background-color: #00b894;
+}
+.notice-buttons .btn-restore:hover {
+  background-color: #009f7a;
 }
 
-.notice-btn.delete:hover {
-  background: #ffc1c1;
+.notice-buttons .btn-hide {
+  background-color: #f39c12;
+}
+.notice-buttons .btn-hide:hover {
+  background-color: #e67e22;
 }
 
+/* 모달 */
+.no-padding-modal2 {
+  max-width: 700px !important;
+}
+.no-padding-body2 {
+  max-width: 700px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}

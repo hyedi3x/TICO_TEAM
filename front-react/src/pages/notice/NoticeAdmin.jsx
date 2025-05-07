@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./Notice.css";
 import axiosInstance from "../login/social/utils/axiosInstance";
 import { useNavigate } from "react-router-dom";
+import { Modal } from "rsuite";
+import NoticePost from "./NoticePost";
 
 function NoticeAdmin() {
   const [search, setSearch] = useState("");
@@ -9,6 +11,9 @@ function NoticeAdmin() {
   const [filterShow, setFilterShow] = useState("all");
   const [notices, setNotices] = useState([]);
   const navigate = useNavigate();
+  const [selectedNoticeId, setSelectedNoticeId] = useState(null); // 등록이면 null, 수정이면 id
+  const [showPostModal, setShowPostModal] = useState(false);
+  
 
   const [currentPage, setCurrentPage] = useState(1);
   const perPage = 10;
@@ -87,18 +92,39 @@ function NoticeAdmin() {
   return (
     <div className="notice-container">
       <div className="notice-header-main">
-        <h2 className="notice-title">공지사항 관리</h2>
-        
+        <div className="notice-title">📢 공지사항 관리</div>
+
         <div className="notice-header-right">
           <div className="notice-search">
             <input type="text" placeholder="검색" />
             <span className="notice-search-icon">🔍</span>
           </div>
-          <button className="notice-register-btn" onClick={() => navigate('/noticePost')}>
+          <button className="btn btn-add"
+            onClick={() => {
+              setSelectedNoticeId(null);       // 새 등록이므로 null
+              setShowPostModal(true);
+            }}
+          >
             공지 등록
           </button>
         </div>
       </div>
+
+      <Modal
+        open={showPostModal}
+        onClose={() => setShowPostModal(false)}
+        size="md"
+        backdrop="static"
+        style={{ marginTop: '20px' }}
+        className="no-padding-modal2"
+      >
+        <Modal.Body className="no-padding-body2">
+          <NoticePost
+            noticeId={selectedNoticeId}
+            onClose={() => setShowPostModal(false)}
+          />
+        </Modal.Body>
+      </Modal>
 
       <hr className="notice-divider" />
 
@@ -130,13 +156,20 @@ function NoticeAdmin() {
                 <div className="notice-buttons">
                   {n.showFlag === "Y" ? (
                     <>
-                      <button className="notice-btn" onClick={() => navigate(`/noticePut/${n.noticeId}`)}>수정</button>
-                      <button className="notice-btn delete" onClick={() => handleDelete(n.noticeId)}>삭제</button>
+                      <button className="btn btn-edit"
+                        onClick={() => {
+                          setSelectedNoticeId(n.noticeId); // 수정할 ID 설정
+                          setShowPostModal(true);          // 모달 열기
+                        }}
+                      > 
+                        수정 
+                      </button>
+                      <button className="btn btn-delete" onClick={() => handleDelete(n.noticeId)}>삭제</button>
                     </>
                   ) : (
                     <>
-                      <button className="notice-btn" onClick={() => handleRestore(n.noticeId)}>삭제취소</button>
-                      <button className="notice-btn delete" onClick={() => handlePermanentDelete(n.noticeId)}>영구삭제</button>
+                      <button className="btn btn-restore" onClick={() => handleRestore(n.noticeId)}>삭제취소</button>
+                      <button className="btn btn-delete" onClick={() => handlePermanentDelete(n.noticeId)}>영구삭제</button>
                     </>
                   )}
                 </div>

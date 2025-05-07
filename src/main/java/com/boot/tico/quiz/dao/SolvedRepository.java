@@ -36,4 +36,10 @@ public interface SolvedRepository extends JpaRepository<SolvedDTO, Integer> {
 			+ "VALUES (:id, :user_uuid, :quiz_id, 1)", nativeQuery = true)
 	int insertSolvedRecord(@Param("id") int id, @Param("user_uuid") String user_uuid, @Param("quiz_id") int quiz_id);
 	
+	/**
+	 * 특정 사용자가 푼 퀴즈 개수 (중복 X → quiz_id 기준으로 카운트)
+	 */
+	@Query(value = "SELECT COUNT(*) FROM user_solved_tb WHERE user_uuid = :userUuid", nativeQuery = true)
+	int countSolvedQuizzesByUserUuid(@Param("userUuid") String userUuid);
+
 }

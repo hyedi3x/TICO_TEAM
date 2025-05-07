@@ -7,8 +7,6 @@ import axiosInstance from '../login/social/utils/axiosInstance';
 
 function FAQList() {
   const [faqData, setFaqData] = useState([]);
-  const navigate = useNavigate();
-
   useEffect(() => {
     const fetchFaqData = async () => {
       try {
@@ -30,7 +28,7 @@ function FAQList() {
   return (
     <div className={styles.f_container}>
       <h2 className="f_title">자주 묻는 질문 (FAQ)</h2>
-
+      
       <Accordion alwaysOpen className={styles.f_accordion}>
         {faqData.map((dto, index) => (
           <Accordion.Item
