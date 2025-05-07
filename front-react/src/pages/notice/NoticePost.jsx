@@ -55,7 +55,7 @@ function NoticePost({ noticeId, onClose }) {
       axiosInstance.put(`/api/noticePut/${noticeId}`, dto)
         .then(() => {
           alert("공지 수정 완료!");
-          onClose(); // 모달 닫기
+          navigate("/noticeList");
         })
         .catch(err => {
           console.error("수정 실패:", err);
