@@ -32,7 +32,6 @@ function Notice() {
       switch (sortBy) {
         case "latest": return new Date(b.createdAt) - new Date(a.createdAt);
         case "oldest": return new Date(a.createdAt) - new Date(b.createdAt);
-        case "like":   return b.likesLength - a.likesLength;
         case "view":   return b.visitLength  - a.visitLength;
         default:       return 0;
       }
