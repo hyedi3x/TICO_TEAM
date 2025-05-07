@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button, ButtonToolbar, Form, Panel, Radio, RadioGroup, SelectPicker } from 'rsuite';
 import axiosInstance from '../login/social/utils/axiosInstance';
+import StudySelector from '../../blockly/study/StudySelector';
 import './ProjectEditMeta.css'; // 동일한 스타일 사용 가능
 
 const CATEGORY_OPTIONS = [
@@ -27,6 +28,8 @@ function StudyEdit() {
   const { studyId } = useParams();
   const navigate = useNavigate();
   const [study, setStudy] = useState(null);
+  const [selectedProject, setSelectedProject] = useState(null);  // 선택된 작품
+  const [showSelector, setShowSelector] = useState(false);  // 작품 선택 모달 표시 여부
 
   useEffect(() => {
     axiosInstance.get(`/api/study/${studyId}`)
@@ -50,6 +53,7 @@ function StudyEdit() {
       ...study,
       introduction: typeof study.introduction === 'string' ? study.introduction : '',
       goal: typeof study.goal === 'string' ? study.goal : '',
+      projectId: selectedProject ? selectedProject.projectId : null,  // 선택된 작품 ID 추가
     };
     axiosInstance.put(`/api/study/updateMeta`, toSend)
       .then(() => {
@@ -95,6 +99,26 @@ function StudyEdit() {
                     placeholder="예상 소요 시간"
                     cleanable
                 />
+            </Form.Group>
+             {/* 작품 선택 (StudySelector 모달) */}
+             <Form.Group style={{ marginBottom: 22 }}>
+              <Form.ControlLabel className="project-edit-label">작품 선택</Form.ControlLabel>
+              <Button appearance="ghost" onClick={() => setShowSelector(true)}>작품 선택</Button>
+              {selectedProject && (
+                <div>
+                  <p>선택된 작품: {selectedProject.title}</p>
+                  <img src={`http://localhost:8081${selectedProject.thumbnailUrl}`} alt="작품 썸네일" style={{ width: '100px', borderRadius: '8px' }} />
+                </div>
+              )}
+            </Form.Group>
+
+            {/* 공개 여부 */}
+            <Form.Group style={{ marginBottom: 22 }}>
+              <Form.ControlLabel className="project-edit-label">공개 여부</Form.ControlLabel>
+              <Form.Control name="isprivate" accepter={RadioGroup} inline className="project-edit-input">
+                <Radio value="N" style={{ color: "#13d2b4", fontWeight: 600 }}>공개</Radio>
+                <Radio value="Y" style={{ color: "#888", fontWeight: 600 }}>비공개</Radio>
+              </Form.Control>
             </Form.Group>
             {/* 카테고리 */}
             <Form.Group style={{ marginBottom: 22 }}>
@@ -155,6 +179,13 @@ function StudyEdit() {
           </Form>
         </div>
       </Panel>
+      <StudySelector
+      isOpen={showSelector}
+      onClose={() => setShowSelector(false)}
+      onSelect={(project) => {
+        setSelectedProject(project);
+      }}
+    />
     </div>
   );
 }

@@ -175,6 +175,7 @@ public class StudyService {
             .orElseThrow(() -> new RuntimeException("해당 스터디가 존재하지 않습니다."));
         
         // 필요한 메타데이터만 갱신
+        entity.setProjectId(dto.getProjectId());
         entity.setTitle(dto.getTitle());
         entity.setCategory(dto.getCategory());
         entity.setDifficulty(dto.getDifficulty());
