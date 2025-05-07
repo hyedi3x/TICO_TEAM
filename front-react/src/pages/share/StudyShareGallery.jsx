@@ -64,8 +64,8 @@ function StudyShareGallery() {
               />
               <Card.Body>
                 <Card.Title>
-                  <div className="fw-bold text-dark">{study.title}</div>
-                  <div className="text-muted small mt-1">{study.nickname}</div>
+                  <div className="fw-bold text-dark" style={{textAlign: 'center'}}>{study.title}</div>
+                  <div className="text-muted small mt-1" style={{textAlign: 'center'}}>{study.nickname}</div>
                 </Card.Title>
                 <Card.Text className="project-stats">
                   <Badge pill bg="info" style={{ fontSize: '15px' }}>{study.difficulty}</Badge>

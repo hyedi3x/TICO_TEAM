@@ -62,8 +62,8 @@ function ShareGallery() {
               />
               <Card.Body>
                 <Card.Title>
-                  <div className="fw-bold text-dark">{project.title}</div>
-                  <div className="text-muted small mt-1">{project.nickname}</div>
+                  <div className="fw-bold text-dark" style={{textAlign: 'center'}}>{project.title}</div>
+                  <div className="text-muted small mt-1" style={{textAlign: 'center'}}>{project.nickname}</div>
                 </Card.Title>
                 <Card.Text className="project-stats">
                   👍 {project.likeCount} &nbsp;&nbsp;
