@@ -227,6 +227,7 @@ const MainBannerManage = () => {
         ) : (
           banners.map((banner, index) => (
             <SwiperSlide key={index} style={{ display: 'flex', justifyContent: 'center' }}>
+              
               <ProjectCard
                 project={{
                   projectId: banner.bannerId,
@@ -236,6 +237,9 @@ const MainBannerManage = () => {
                   likeCount : banner.likeCount,
                   bookMarkCount : banner.bookMarkCount,
                   viewCount : banner.viewCount,
+                  nickname: allProjects.find(project => `/share/detail/${project.projectId}` === banner.bannerLink)?.nickname || '',
+                  introduction: allProjects.find(project => `/share/detail/${project.projectId}` === banner.bannerLink)?.introduction || '',
+                  
                 }}
                 onSelect={() => openModal(index)}
                 showStats={false}

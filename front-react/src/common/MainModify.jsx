@@ -47,6 +47,7 @@ function MainModify() {
               thumbnailUrl: matched.thumbnailUrl,
               title: matched.title,
               introduction: matched.introduction,
+              nickname: matched.nickname,
               userUuid,
               slotIndex: pick.slotIndex
             };
