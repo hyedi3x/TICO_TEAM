@@ -20,28 +20,24 @@
 }
 /* 스와이퍼와 섹션 하단 여백 */
 .sw, .bt {
-  margin-bottom: 100px;
+  margin-bottom: 40px;
 }
 
 /* ── 스와이퍼 컨테이너를 기준으로 절대위치 ── */
 .sw {
-  position: relative;
+  /* 기존 margin-bottom 등은 놔두고… */
+  height: 340px;         /* ← 이 한 줄만 추가 */
+  overflow: hidden;      /* (필요하면) 내부 이미지 잘림 방지 */
 }
 
-/* 전체 감싸는 바깥 래퍼 */
-.main-wrapper {
-  display: flex;
-  flex-direction: column; /* 세로로 배치 */
-  align-items: center;    /* 가로 방향 가운데 정렬 */
-  justify-content: flex-start; /* 세로 방향 위쪽 정렬 */
-  padding: 20px; /* 적당한 여백 추가 */
-  position: relative;
-  width: 100%; /* 전체 너비 설정 */
-  background-image: url('../../../front-react/public/mainBack.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-color: rgba(255, 255, 255, 0.9);
+/* 인기 작품 바로 위쪽 여백을 좀 더 잡아주고 싶으면 */
+.bt1 {
+  margin-top: 40px;      /* 스태프 선정 작품 아래에서 인기 작품까지 40px */
+}
+
+.sw .swiper-wrapper,
+.sw .swiper-slide {
+  height: 100% !important;  /* wrapper 와 slide 높이도 100% 로 꽉 차도록 */
 }
 
 /* 왼쪽 사이드 채팅 */
@@ -94,9 +90,10 @@
 /* 메인 콘텐츠 */
 .main-container {
   flex: 1;
-  width: 100%; /* 메인 콘텐츠의 너비를 100%로 설정 */
+  width: 90%; /* 메인 콘텐츠의 너비를 100%로 설정 */
   max-width: 1200px; /* 최대 너비 설정 */
   padding: 0 20px;
+  margin: 0 auto;
 }
 
 .staff-card .btn {
@@ -108,13 +105,31 @@
 /* 스태프 선정작 스와이퍼 */
 .staffSwiper {
   padding: 0 8px;
+}
+
+.staffSwiper {
+  padding: 0 8px;
   position: relative; /* ✅ navigation 위치 기준 */
 }
 
+/* 1) 모든 화살표의 공통 스타일 */
 .swiper-button-next,
 .swiper-button-prev {
   color: #333 !important;
   z-index: 10;
+  background: rgba(255,255,255,0.8);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* 2) 배너(swiper.bannerSwiper)만 완전히 숨기기 */
+.bannerSwiper .swiper-button-next,
+.bannerSwiper .swiper-button-prev {
+  opacity: 0 !important;
 }
 
 .staff-card {
@@ -146,4 +161,512 @@
 /* 카드 호버 시 Y-10 이동 효과 */
 .project-card:hover {
   transform: translateY(-10px); /* y축으로 10px 위로 이동 */
+}
+
+
+.hero-section {
+  /* width: 100%;
+  min-height: 240px;
+  background: linear-gradient(120deg, #25325a 60%, #4a90e2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 0 24px 0;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  margin-top: 10px;
+  margin-bottom: 60px;   */
+
+  /* full-width hack 제거하고, main-container 폭에 맞춰 중앙 정렬 */
+   width: 100%;
+   max-width: 1200px;      /* main-container와 같은 최대 폭 */
+   margin: 60px auto 30px; /* 위 60px, 아래 60px 여백, 좌우 auto */
+   box-sizing: border-box;
+   padding: 16px 0;    /* 원하시는 경우 padding 그대로 유지 */
+
+  /* 공통 스타일은 그대로 두세요 */
+  background: linear-gradient(120deg, #25325a 60%, #4a90e2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* 모서리 둥글게 적용 */
+  border-radius: 24px;   /* 모서리 둥글게 */
+  overflow: hidden;      /* 배경이 둥근 영역 밖으로 나가지 않도록 */
+}
+
+.hero-content {
+  flex: 1;
+  color: #fff;
+  margin-left: 6vw;
+  z-index: 2;
+}
+.hero-content h1 {
+  font-size: 1.6rem;
+  font-weight: 900;
+  margin-bottom: 0.8rem;
+  letter-spacing: -1.2px;
+  line-height: 1.18;
+  background: linear-gradient(90deg, #fff 60%, #a3d977 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero-content p {
+  font-size: 0.9rem;
+  margin-bottom: 0.8rem;
+  color: #e0e6f6;
+  font-weight: 400;
+}
+.hero-brand {
+  color: #f5a623;
+  font-weight: 700;
+  font-size: 1.08em;
+  letter-spacing: 0.5px;
+}
+.hero-btn {
+  background: #fff;
+  color: #25325a;
+  border: none;
+  border-radius: 24px;
+  padding: 8px 20px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 16px 0 rgba(22,160,133,0.10);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s;
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.hero-btn:hover {
+  background: #f5a623;
+  color: #fff;
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 8px 32px 0 rgba(245,166,35,0.18);
+}
+.hero-btn-icon {
+  font-size: 1.1em;
+  margin-right: 2px;
+}
+.hero-illust {
+  width: 220px;
+  max-width: 28vw;
+  margin-right: 6vw;
+  z-index: 2;
+  animation: heroIllustIn 1.1s cubic-bezier(0.4,0,0.2,1);
+}
+@keyframes heroIllustIn {
+  from { opacity: 0; transform: translateY(40px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@media (max-width: 900px) {
+  .hero-section {
+    flex-direction: column;
+    padding: 18px 0 12px 0;
+  }
+  .hero-content {
+    margin-left: 0;
+    text-align: center;
+  }
+  .hero-illust {
+    margin: 0 auto;
+    width: 60vw;
+    max-width: 160px;
+  }
+}
+
+
+/* 화면 가로 스크롤 방지 */
+body {
+  overflow-x: hidden;
+}
+
+
+.feature-section {
+  max-width: 1200px;
+  margin: 48px auto 0 auto;
+  padding: 0 16px;
+}
+.feature-title {
+  text-align: left;
+  margin-bottom: 32px;
+}
+.feature-title h2 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  margin-bottom: 0.5em;
+  color: #222;
+}
+.feature-title p {
+  font-size: 1.0rem;
+  color: #666;
+}
+.feature-card-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+@media (min-width: 900px) {
+  .feature-card-list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+.feature-card {
+  border-radius: 28px;
+  padding: 28px 20px 18px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-height: 220px;
+  box-shadow: 0 4px 24px 0 rgba(0,0,0,0.07);
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+.feature-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 8px 32px 0 rgba(52, 152, 219, 0.13);
+}
+.feature-card-icon {
+  font-size: 2.1rem;
+  margin-bottom: 10px;
+}
+.feature-card-title {
+  font-size: 1.18rem;
+  font-weight: 700;
+  margin-bottom: 0.4em;
+}
+.feature-card-desc {
+  font-size: 1rem;
+  color: #444;
+  margin-bottom: 1.2em;
+}
+.feature-card-img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  opacity: 0.95;
+}
+.feature-yellow { background: #fffbe7; }
+.feature-blue   { background: #e6f5ff; }
+.feature-green  { background: #e6ffe7; }
+.feature-pink   { background: #ffe6f2; }
+
+/* 스와이퍼 텍스트 오버레이 스타일 */
+
+.swiper-banner-title {
+  font-size: 2.6rem;
+  font-weight: 800;
+  margin-bottom: 0.4em;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.18);
+}
+
+.swiper-banner-hashtags {
+  font-size: 1.05rem;
+  opacity: 0.92;
+  font-weight: 300;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.10);
+}
+@media (max-width: 900px) {
+  .swiper-banner-text {
+    left: 18px;
+    top: 18px;
+    max-width: 90%;
+  }
+  .swiper-banner-subtitle {
+    font-size: 1.05rem;
+  }
+}
+
+
+/* 이미지도 부모에 딱 맞춰 cover */
+.mySwiper .swiper-slide img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+/* ── 전체 swiper/container 꽉 채우기 ── */
+
+
+/* swiper-wrapper 여백 제거 */
+.mySwiper .swiper-wrapper {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* 각 슬라이드도 100% 꽉 채우기 */
+.mySwiper .swiper-slide {
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+
+/* ── 슬라이드 이미지도 둥글게 (안 해주면 내부만) ── */
+.mySwiper .swiper-slide img {
+  border-radius: 24px;  
+}
+
+/* ── 페이드 전환 효과 (Module: EffectFade) ── */
+/* 1) import { EffectFade } from 'swiper/modules'  
+   2) <Swiper effect="fade" modules={[Autoplay, Pagination, Navigation, EffectFade]} … >  
+   3) 아래 CSS: */
+.swiper-slide {
+  transition: opacity 0.8s ease;
+}
+
+
+/* ── 페이지네이션 커스텀 ── */
+.swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  background: rgba(255,255,255,0.7);
+  opacity: 1;
+}
+.swiper-pagination-bullet-active {
+  background: #f5a623;
+}
+
+/* ── 활성 슬라이드에 약간 Zoom 효과 ── */
+.mySwiper .swiper-slide-active img {
+  transform: scale(1.02);
+  transition: transform 1s ease;
+}
+
+
+/* ── 섹션 헤더 박스: 파스텔 블루 + 좌측 포인트 바 ── */
+.section-header-box {
+  /* position: relative;            
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;          
+  text-align: left;       
+  background: #bbdefb;          
+  border-radius: 12px;
+  padding: 24px 24px 24px 32px;
+  margin: 60px 0 40px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 폰트 적용 */
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;    /* 가로 중앙 정렬 */
+  text-align: center;     /* 텍스트도 중앙 정렬 */
+  background: none;       /* 배경 없애기 */
+  box-shadow: none;       /* 그림자 없애기 (필요시) */
+  padding: 24px 0;        /* 위아래 여백만 남겨두기 */
+  margin: 30px 0 40px;    /* 기존 마진 유지 */
+  border-radius: 0;       /* 모서리 둥글게 처리도 제거 */
+}
+
+
+/* 제목, 부제 텍스트는 그대로 */
+.section-header-box h1{
+  font-size: 1.9rem;
+  font-weight: 800;
+}
+.section-header-box p {
+  /* margin: 0;               
+  font-size: 0.9rem;      
+  font-weight: 150;
+  color: #555;
+  color: inherit;          
+  align-self: flex-start !important;
+  text-align: left !important; */
+  margin: 0.25em 0;
+}
+
+
+/* 구름 배경 애니메이션 */
+/* 전체 화면 배경처럼 구름 애니메이션 흘러가게 설정 */
+.cloud-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.cloud-item {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  opacity: 0.5;
+  animation-name: moveCloud;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes moveCloud {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(400vw); } /* 아주 멀리 이동하게 설정 */
+}
+
+
+/* ── 메인 배너 전용 스타일 ── */
+.banner-wrapper {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  margin-left: -50vw;
+  overflow: hidden;
+  box-sizing: border-box;
+  border-radius: 24px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  height: 340px;           /* ← 배너 높이를 340px로 고정 */
+}
+
+
+.banner-slide {
+  position: relative;
+  width: 100%;
+  height: 100%;            /* wrapper 높이에 딱 맞춰 줍니다 */
+}
+
+.banner-slide img {
+  width: 1600px;
+  height: 400px; /* 필요시 조절 */
+  object-fit: cover;
+  display: block;
+}
+
+.banner-text {
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  transform: translateY(-50%);
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+.banner-subtitle {
+  font-size: 1rem;
+  margin-bottom: 0.5em;
+  background: rgba(255,255,255,0.2);
+  padding: 4px 8px;
+  border-radius: 12px;
+  display: inline-block;
+}
+
+.banner-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+
+.bannerSwiper .swiper-pagination {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
+
+.banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 3) 필요하다면 각 슬라이드 높이/너비 조절 */
+/* 공통 coverflow 슬라이드 너비 */
+.coverflowSwiper .swiper-slide {
+  width: 260px !important;
+   /* 슬라이드 바깥 그림자가 잘리는 걸 방지 */
+  overflow: visible;
+}
+.coverflowSwiper .swiper-slide-active {
+  transform: scale(1.05) !important;
+}
+
+
+
+/* 맨 하단 글귀 */
+.campaign-section {
+  display: flex;
+  margin: 80px auto;
+  max-width: 1200px;
+  padding: 0 20px;
+  align-items: stretch; /* ⬅️ 높이 맞춤 핵심 */
+}
+/* 좌측 이미지 */
+.campaign-banner {
+  flex: 0 0 40%;
+  margin-right: 16px;  /* ← 이미지와 텍스트 컨테이너 사이 16px */
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  align-items: stretch;
+}
+
+.campaign-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+/* 우측 텍스트 목록 */
+.campaign-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* ⬅️ 세로 전체 균등 분배 */
+}
+
+/* 카드형 틀 */
+.campaign-item-box {
+  background-color: #f2f8ff;
+  padding: 12px 16px;
+  border-radius: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+/* 타이틀 줄 */
+.campaign-title-box {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.campaign-medal-icon {
+  width: 36px;
+  height: 36px;
+  margin-right: 12px;
+}
+
+.campaign-label {
+  font-weight: 700;
+  color: #2b70b7;
+  margin-bottom: 2px;
+  font-size: 0.85rem;
+}
+
+.campaign-project-title {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+/* 설명 줄 */
+.campaign-desc-text {
+  font-size: 0.9rem;
+  color: #555;
+  padding-left: 48px; /* 아이콘과 맞춰 정렬 */
 }
