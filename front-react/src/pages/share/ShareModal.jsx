@@ -39,7 +39,7 @@ function ShareModal({ show, onClose }) {
 
   const resolveThumbnailUrl = (url) => {
     if (url.startsWith('http')) return url;
-    return `http://localhost:8081${url}`;
+    return `https://tico.kro.kr/${url}`;
   };
 
   const handleChange = (field, value) => {

@@ -82,7 +82,7 @@ const ObjectUploader = ({ onSelect, fileInputId = 'uploadHiddenInput' }) => {
         {uploadedFiles.map(file => (
           <div key={file.fileId} className="objectSelectPage-upload-preview-item">
             <img
-              src={`http://localhost:8081${file.filePath.startsWith('/') ? '' : '/'}${file.filePath}`}
+              src={`https://tico.kro.kr/${file.filePath.startsWith('/') ? '' : '/'}${file.filePath}`}
               alt={file.originalFilename}
               className="objectSelectPage-upload-preview-img"
               onClick={() => onSelect({

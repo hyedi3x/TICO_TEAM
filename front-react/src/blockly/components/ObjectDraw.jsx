@@ -195,7 +195,7 @@ function ObjectDraw({ onComplete }) {
           {myDrawings.length > 0 ? myDrawings.map((drawing) => (
             <div key={drawing.drawId} className="my-drawing-item">
               <img
-                src={`http://localhost:8081${drawing.imageUrl}`}
+                src={`https://tico.kro.kr/${drawing.imageUrl}`}
                 alt={drawing.title}
                 onClick={() => handleAdd(drawing)}
                 className="clickable-drawing"

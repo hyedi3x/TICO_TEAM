@@ -103,7 +103,7 @@ function RemakeCanvas() {
   // 이미지 + Blockly 작업공간 생성 함수 (원본에서 복사)
   const callimage = (imgUrl) => {
     const img = new Image();
-    img.src = `http://localhost:8081${imgUrl}`;
+    img.src = `https://tico.kro.kr/${imgUrl}`;
     
     img.onload = () => {
       imgArr.current.push({
