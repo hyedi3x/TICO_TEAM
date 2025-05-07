@@ -101,7 +101,7 @@ function Header() {
               {/* 네비게이션 메뉴 */}
               <Nav className="justify-content-end align-items-center">
                 <Nav.Link href="/tutorial">티코 학습시키기</Nav.Link>
-                <Nav.Link href="/eduList">블럭 학습하기</Nav.Link>
+                <Nav.Link href="/eduList">블록 학습하기</Nav.Link>
                 <Nav.Link href="/createBlock">작품 만들기</Nav.Link>
                 <Nav.Link href="/share">작품 공유하기</Nav.Link>
                 <Nav.Link href="/noticeList">공지사항</Nav.Link>

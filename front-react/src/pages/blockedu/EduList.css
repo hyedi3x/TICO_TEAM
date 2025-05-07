@@ -51,11 +51,38 @@
 /* === 드롭다운 스타일 === */
 .quiz-sort-select {
   border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 6px 12px;
-  font-size: 15px;
+  border-radius: 8px;  /* 둥근 모서리 */
+  padding: 8px 15px;
+  font-size: 16px;
   outline: none;
   cursor: pointer;
+  color: #555;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+/* === 정렬 버튼 호버 스타일 === */
+.quiz-sort-select:hover {
+  border-color: #888;  /* 호버 시 테두리 색상 변경 */
+  background-color: #f9f9f9;  /* 배경색 변경 */
+}
+
+/* === 정렬 버튼 포커스 스타일 === */
+.quiz-sort-select:focus {
+  border-color: #4a90e2;  /* 포커스 시 테두리 색상 변경 */
+  background-color: #e9f5fd;  /* 배경색 변경 */
+}
+
+/* === 드롭다운 아이템 스타일 (선택된 항목 스타일) === */
+.quiz-sort-select option {
+  font-size: 16px;
+  color: #333;
+  padding: 8px;
+  background-color: #fff;
+}
+
+.quiz-sort-select option:checked {
+  background-color: #ddedff; /* 선택된 항목 배경 색상 */
+  color: #2c7cd7; /* 선택된 항목 텍스트 색상 */
 }
 
 .quiz-sort-select:focus {
@@ -183,4 +210,86 @@
     min-width: 40px;
     max-width: 100px;
   }
+}
+
+/* === 페이지네이션 버튼 === */
+.q-pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* 페이지네이션 버튼 기본 스타일 */
+.q-pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+/* === 페이지네이션 영역 === */
+.q-pagination-container {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* === 페이지 버튼 === */
+.q-pagination-container button {
+  padding: 7px 14px;
+  font-size: 15px;
+  border-radius: 50%;  /* 원형 버튼 */
+  border: 1px solid #bbb;
+  background: #fff;
+  cursor: pointer;
+  color: #333;
+  transition: all 0.2s ease;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* === 페이지 버튼 hover === */
+.q-pagination-container button:hover {
+  background-color: #f0f0f0;
+  border-color: #888;
+}
+
+/* === 현재 페이지 버튼 강조 === */
+.q-pagination-container button.active {
+  background-color: #3498db;
+  color: #fff;
+  font-weight: bold;
+  border-color: #3498db;
+}
+
+/* === 비활성화된 버튼 스타일 === */
+.q-pagination-container button.disabled {
+  opacity: 0.4;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* === 방향 버튼 (이전, 다음) 스타일 === */
+.q-pagination-container button.prev,
+.q-pagination-container button.next {
+  width: 36px;
+  height: 36px;
+  font-size: 16px;
+  background-color: #fff;
+  border-color: #bbb;
+  border-radius: 50%;
+}
+
+/* === 방향 버튼 클릭 시 강조 === */
+.q-pagination-container button.prev:hover,
+.q-pagination-container button.next:hover {
+  background-color: #f0f0f0;
 }
