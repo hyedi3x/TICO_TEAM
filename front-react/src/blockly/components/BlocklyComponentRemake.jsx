@@ -103,7 +103,7 @@ function RemakeCanvas() {
   // 이미지 + Blockly 작업공간 생성 함수 (원본에서 복사)
   const callimage = (imgUrl) => {
     const img = new Image();
-    img.src = `https://tico.kro.kr/${imgUrl}`;
+    img.src = `http://localhost:8081${imgUrl}`;
     
     img.onload = () => {
       imgArr.current.push({
@@ -608,7 +608,7 @@ function RemakeCanvas() {
               style={{ border: '1px solid', backgroundColor: 'transparent' }}
             />
           </div>
-          <div className="object-panel-container" style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', marginTop: '1rem' }}>
+          <div className="object-panel-container" style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', marginTop: '1rem', position: 'relative' }}>
             {imgArr.current.map((obj, index) => (
               <div key={index} className="object-panel-item">
                 <ObjectControlPanel
@@ -627,10 +627,57 @@ function RemakeCanvas() {
                 />
               </div>
             ))}
+            {/* 오버레이 */}
+            {/* 오버레이 */}
+            {!btn_toggle && (
+              <div style={{
+                position: "absolute",
+                top: 0, left: 0, right: 0, bottom: 0,
+                background: "rgba(0,0,0,0.3)",
+                zIndex: 999,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}>
+                <div style={{
+                  background: "#fff",
+                  borderRadius: "16px",
+                  padding: "16px 24px",
+                  fontSize: "24px",
+                  fontWeight: "bold",
+                  textAlign: "center"
+                }}>
+                  ⏹️ 정지하기 버튼을 먼저 눌러주세요!
+                </div>
+              </div>
+            )}
           </div>
         </div>
         <div className="blockly-area">
-          <div ref={blocklyDiv}></div>
+          <div ref={blocklyDiv} style={{ position: 'relative' }}>
+          {!btn_toggle && blocklyDiv && (
+              <div style={{
+                position: "absolute",
+                top: 0, left: 0, right: 0, bottom: 0,
+                background: "rgba(0,0,0,0.3)",
+                zIndex: 999,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}>
+                <div style={{
+                  background: "#fff",
+                  borderRadius: "16px",
+                  padding: "16px 24px",
+                  fontSize: "24px",
+                  fontWeight: "bold",
+                  textAlign: "center"
+                }}>
+                  ⏹️ 정지하기 버튼을 먼저 눌러주세요!
+                </div>
+              </div>
+            )}
+          </div>
           <div className="project-title-input" style={{ marginBottom: '0.5rem' }}>
             <label htmlFor="projectTitle">📝 작품명: </label>
             <input
