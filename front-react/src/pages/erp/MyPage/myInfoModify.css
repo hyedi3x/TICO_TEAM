@@ -1,0 +1,75 @@
+/* 컨테이너 전체 */
+.admin-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+/* 각 Panel */
+.panel-container {
+  width: 100%;
+  max-width: 1000px;
+  min-width: 600px;
+  background-color: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  padding: 20px 30px;
+  margin-bottom: 20px;
+}
+
+/* 행 간 간격 */
+.form-row2 {
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* 주소 검색 버튼 */
+.search-btn {
+  background-color: #6AB0E3;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.search-btn:hover {
+  background-color: #5A98C9;
+}
+
+/* 저장 버튼 영역 */
+.save-btn-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+/* 저장 버튼 */
+.submit-btn {
+  background-color: #10b981 !important;
+  width: 100px;
+  color: white !important;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #059669 !important;
+}
+
+/* 섹션 제목 */
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #374151;
+  margin: 20px 0 10px;
+}

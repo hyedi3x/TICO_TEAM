@@ -3,9 +3,8 @@
 /* 전체 컨테이너 */
 .erp-main-container {
   display: flex;
-  flex-direction: column;
-  height: 100vh;
-  background-color: #C1E5FF;/* ✅ 부드러운 전체 배경 3D556E*/
+  flex-direction: column; /* 요소들을 세로 방향으로 배치 */
+  height: 120vh; /* 뷰포트 높이 전체 사용 */
 }
 
 /* 헤더 영역 (추후 따로 스타일링 가능) */

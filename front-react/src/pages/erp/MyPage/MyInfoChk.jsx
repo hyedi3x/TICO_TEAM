@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Panel, Grid, Row, Col, Input, SelectPicker } from "rsuite";  // rsuite UI 라이브러리에서 제공하는 컴포넌트들
-import "../HR_Team/adminRegister.css";
+import "./myInfoModify.css";
 import axiosInstance from "../../login/social/utils/axiosInstance";
 
 function MyInfoChk() {

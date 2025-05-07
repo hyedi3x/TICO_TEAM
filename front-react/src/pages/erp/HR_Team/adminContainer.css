@@ -20,6 +20,8 @@
   border-top: 1px solid #ddd; /* 위쪽에 연한 회색 테두리 */
 }
 
-.table-wrapper{
+.HR-table-wrapper{
+  height: 520px;
+  overflow-y: auto;
   margin: 0px 12px;
 }
