@@ -117,13 +117,13 @@
 .swiper-button-prev {
   color: #333 !important;
   z-index: 10;
-  background: rgba(255,255,255,0.8);
+  background: transparent !important;  /* 배경색을 투명하게 설정 */
+  box-shadow: none !important;  /* 그림자 효과 제거 */
   width: 40px;
   height: 40px;
   border-radius: 50%;
   top: 50%;
   transform: translateY(-50%);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 /* 2) 배너(swiper.bannerSwiper)만 완전히 숨기기 */
