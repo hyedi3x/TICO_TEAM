@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.boot.tico.eduProject.dto.EduProjectDTO;
-import com.boot.tico.eduProject.service.EduProjectServiceImpl;
+import com.boot.tico.eduProject.service.EduProjectService;
 import com.boot.tico.quiz.controller.QuizController;
 
 @RestController //Controller + ResponseBody (Java 객체를 JSON이나 XML과 같은 형식으로 변환하여 응답 본문에 작성)
@@ -23,7 +23,7 @@ import com.boot.tico.quiz.controller.QuizController;
 public class EduProjectController {
 	
 	@Autowired
-	private EduProjectServiceImpl eduservice;
+	private EduProjectService eduservice;
 	
 	private static final Logger logger = LoggerFactory.getLogger(EduProjectController.class);
 	

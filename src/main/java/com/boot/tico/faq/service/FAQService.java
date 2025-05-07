@@ -11,7 +11,7 @@ import com.boot.tico.faq.dao.FAQRepository;
 import com.boot.tico.faq.dto.FAQDTO;
 
 @Service
-public class FAQServiceImpl {
+public class FAQService {
 	
 	@Autowired
 	private FAQRepository repo;

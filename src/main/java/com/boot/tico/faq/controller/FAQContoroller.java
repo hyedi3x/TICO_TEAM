@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.boot.tico.faq.dto.FAQDTO;
-import com.boot.tico.faq.service.FAQServiceImpl;
+import com.boot.tico.faq.service.FAQService;
 import com.boot.tico.project.controller.ProjectController;
 
 @RestController //Controller + ResponseBody (Java 객체를 JSON이나 XML과 같은 형식으로 변환하여 응답 본문에 작성)
@@ -24,7 +24,7 @@ import com.boot.tico.project.controller.ProjectController;
 public class FAQContoroller {
 	
 	@Autowired
-    private FAQServiceImpl faqService;
+    private FAQService faqService;
 	
 	private final Logger logger = LoggerFactory.getLogger(FAQContoroller.class);
 	
