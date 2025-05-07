@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Card, Button, Dropdown, Tabs, Tab } from 'react-bootstrap';
-import axiosInstance from '../login/social/utils/axiosInstance';
-import './StudyDetail2.css';
+import { Card, Col, Container, Dropdown, Row, Tab, Tabs } from 'react-bootstrap';
+import { useNavigate, useParams } from 'react-router-dom';
 import ShareCanvas from '../../blockly/components/BlocklyComponentRun';
+import axiosInstance from '../login/social/utils/axiosInstance';
 import StudyCommentSection from './StudyCommentSection';
+import './StudyDetail2.css';
 
 function StudyDetail2() {
   const [study, setStudy] = useState(null); // 상세 스터디 정보 상태
@@ -37,6 +37,32 @@ function StudyDetail2() {
       });
   };
 
+  const handleAddToMyStudy = () => {
+    if (!userUuid) {
+      alert("로그인 후 사용 가능합니다.");
+      navigate("/login");
+      return;
+    }
+
+    if (study.userUuid === userUuid) {
+      alert("자신의 스터디는 추가할 수 없습니다.");
+      return;
+    }
+
+    axiosInstance.post('/api/study/addToMyStudy', {
+      studyId: study.studyId,
+      userUuid: userUuid,
+      difficulty: study.difficulty,
+      duration: study.duration
+    })
+    .then(() => {
+      alert("스터디가 내 스터디에 추가되었습니다.");
+      // 버튼 텍스트 변경 또는 상태 업데이트
+      setStudy({ ...study, addedToMyStudy: true });
+    })
+    .catch(() => alert('스터디 추가에 실패했습니다.'));
+  };
+
   const handleDelete = () => {
     if (window.confirm('정말로 이 스터디를 삭제하시겠습니까?')) {
       axiosInstance.delete(`/api/study/${studyId}`)
@@ -54,11 +80,13 @@ function StudyDetail2() {
       ? '이 스터디를 공개로 변경할까요?'
       : '이 스터디를 비공개로 변경할까요?';
     if (window.confirm(msg)) {
-      const data = nextState === 'N' ? { isprivate: nextState } : { isprivate: nextState };
-      axiosInstance.put(`/api/study/private/${studyId}`, data)
+      const data = nextState === 'N'
+        ? { isprivate: nextState, isagree: 'Y' }
+        : { isprivate: nextState, isagree: 'N' };
+      axiosInstance.put(`/api/study/private/${study.studyId}`, data)
         .then(() => {
           alert('공개/비공개 상태가 변경되었습니다.');
-          setStudy({ ...study, isprivate: nextState });
+          setStudy({ ...study, isprivate: nextState, isagree: nextState === 'N' ? 'Y' : study.isagree });
         })
         .catch(() => alert('상태 변경에 실패했습니다.'));
     }
@@ -125,6 +153,9 @@ function StudyDetail2() {
                         <Dropdown.Menu>
                           <Dropdown.Item onClick={handleReport}>
                             신고하기
+                          </Dropdown.Item>
+                          <Dropdown.Item onClick={handleAddToMyStudy}>
+                            내 스터디에 추가
                           </Dropdown.Item>
                         </Dropdown.Menu>
                     )}
