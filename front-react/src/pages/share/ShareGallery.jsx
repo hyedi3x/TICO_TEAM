@@ -22,7 +22,7 @@ function ShareGallery() {
   };
 
   const resolveThumbnailUrl = (url) => {
-    if (url.startsWith('http')) return url; // 이미 전체 URL이면 그대로
+    if (url.startsWith('https')) return url; // 이미 전체 URL이면 그대로
     return `https://tico.kro.kr${url}`;    // 상대경로면 도메인 붙여줌
   };
 
@@ -46,6 +46,8 @@ function ShareGallery() {
         <h5 className="fw-bold mb-2">💡 이곳은 작품을 감상하고 소통하는 공간이에요!</h5>
         <p className="text-muted" style={{ fontSize: "15px" }}>
           다른 사람들이 만든 <strong>블록코딩 작품</strong>을 감상하고 <strong>좋아요</strong>와 <strong>댓글</strong>로 소통해보세요.
+          <br />
+          자신의 작품을 <strong>공유</strong>하고 다른 사람들과 함께 소통해보아요!
         </p>
       </div>
 
@@ -62,8 +64,8 @@ function ShareGallery() {
               />
               <Card.Body>
                 <Card.Title>
-                  <div className="fw-bold text-dark">{project.title}</div>
-                  <div className="text-muted small mt-1">{project.nickname}</div>
+                  <div className="fw-bold text-dark" style={{textAlign: 'center'}}>{project.title}</div>
+                  <div className="text-muted small mt-1" style={{textAlign: 'center'}}>{project.nickname}</div>
                 </Card.Title>
                 <Card.Text className="project-stats">
                   👍 {project.likeCount} &nbsp;&nbsp;

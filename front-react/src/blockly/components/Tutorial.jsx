@@ -75,19 +75,19 @@ function Tutorial() {
       {current.type === "info" ? (
         <Card className="tutorial-card text-center shadow bg-light">
           <Card.Body>
-            <Card.Title className="text-primary fs-3">{current.title}</Card.Title>
-            <Card.Text className="fs-5">{current.text}</Card.Text>
+            <Card.Title className="text-primary fs-3 mb-4">{current.title}</Card.Title>
+            <Card.Text className="fs-5 mb-4">{current.text}</Card.Text>
             <Button variant="success" className="next-btn" onClick={nextStep}>다음 👉</Button>
           </Card.Body>
         </Card>
       ) : (
         <Card className="quiz-container shadow text-center bg-warning bg-opacity-25">
           <Card.Body>
-            <Card.Title className="fs-3">🧩 퀴즈 {Math.ceil(step)}</Card.Title>
-            <Card.Text className="fs-5">{current.question}</Card.Text>
-            <Row className="mb-3">
+            <Card.Title className="fs-3 mb-4">🧩 퀴즈 {Math.ceil(step)}</Card.Title>
+            <Card.Text className="fs-5 mb-4">{current.question}</Card.Text>
+            <Row className="mb-4">
               {current.options.map((opt, i) => (
-                <Col key={i} xs={12} md={4} className="mb-2">
+                <Col key={i} xs={12} md={4} className="mb-3">
                   <Button
                     variant={isCorrect === null ? 'warning' : (opt === current.answer ? 'success' : 'secondary')}
                     className="w-100 option-btn"
@@ -100,14 +100,14 @@ function Tutorial() {
               ))}
             </Row>
             {feedback && (
-              <Alert variant={isCorrect ? 'success' : 'danger'}>{feedback}</Alert>
+              <Alert variant={isCorrect ? 'success' : 'danger'} className="mb-4">{feedback}</Alert>
             )}
             {(isCorrect || isCorrect === false) && step < steps.length - 1 && (
               <Button variant="info" className="next-btn" onClick={nextStep}>다음 문제 👉</Button>
             )}
             {step === steps.length - 1 && isCorrect && (
               <>
-                <Alert variant="success" className="mt-3">🎉 모든 튜토리얼을 끝냈어! 정말 멋져!</Alert>
+                <Alert variant="success" className="mt-3 mb-4">🎉 모든 튜토리얼을 끝냈어! 정말 멋져!</Alert>
                 <Button variant="success" className="next-btn" onClick={resetTutorial}>다시 시작하기 🔁</Button>
               </>
             )}

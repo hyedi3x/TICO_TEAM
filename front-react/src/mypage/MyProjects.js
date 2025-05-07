@@ -24,7 +24,7 @@ function MyProjects() {
   }, []);
 
   const resolveThumbnailUrl = (url) => {
-    if (url.startsWith('http')) return url; // 이미 전체 URL이면 그대로
+    if (url.startsWith('https')) return url; // 이미 전체 URL이면 그대로
     return `https://tico.kro.kr${url}`;    // 상대경로면 도메인 붙여줌
   };
 
@@ -48,7 +48,6 @@ function MyProjects() {
                 />
                 <Card.Body>
                   <Card.Title>{work.title}</Card.Title>
-                  <Card.Text>{work.description}</Card.Text>
                   <Card.Text className="project-stats">
                     👍 {work.likeCount} &nbsp;&nbsp;
                     👁️ {work.viewCount} &nbsp;&nbsp;

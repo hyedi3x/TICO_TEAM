@@ -17,7 +17,7 @@ import com.boot.tico.project.dto.ProjectReportDTO;
 import com.boot.tico.project.service.ProjectReportService;
 
 @RestController
-@RequestMapping("api/report")
+@RequestMapping("/api/report")
 public class ProjectReportController {
 	
 	@Autowired
@@ -48,5 +48,11 @@ public class ProjectReportController {
 	        : service.searchByNameOrNickname(keyword, pageable);
 
 	    return ResponseEntity.ok(result);
+	}
+	
+	 // 실제로 신고가 접수된 작품 리스트 (콘텐츠 관리팀 - 작품 관리)
+	@GetMapping("/reported-projects")
+	public ResponseEntity<?> getReportedProjects() {
+	    return ResponseEntity.ok(service.getReportedProjectList());
 	}
 }

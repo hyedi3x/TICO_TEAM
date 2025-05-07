@@ -152,7 +152,7 @@ function Main() {
 
    // 이미지 경로 처리
    const resolveThumbnailUrl = (url) => {
-    if (url && !url.startsWith('http')) {
+    if (url && !url.startsWith('https')) {
       return `https://tico.kro.kr${url}`;
     }
     return url;

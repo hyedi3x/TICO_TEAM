@@ -2,8 +2,8 @@
 .tutorial-card {
   background-color: #e0f7fa;
   border-radius: 20px;
-  padding: 50px;  /* 패딩 확장 */
-  max-width: 800px;
+  padding: 80px;  /* 패딩을 더 확장하여 카드 크기 확대 */
+  max-width: 900px;  /* 최대 너비를 적당히 확장 */
   margin: 50px auto;
   text-align: center;
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
@@ -24,34 +24,50 @@
 .quiz-container {
   background-color: #fffbe6;
   border-radius: 20px;
-  padding: 40px;  /* 패딩 확장 */
-  max-width: 800px;
-  margin: 50px auto;
+  padding: 60px;  /* 패딩 확장 */
+  max-width: 900px;  /* 최대 너비를 확장 */
+  margin: 60px auto;
   box-shadow: 0 10px 20px rgba(0,0,0,0.1);
   text-align: center;
+}
+
+/* 문제 번호와 제목 사이 여백을 적당히 설정 */
+.quiz-container .fs-3 {
+  font-size: 2.5rem;  /* 문제 번호 글씨 크기 확대 */
+  margin-bottom: 30px;  /* 문제 번호와 텍스트 간 간격 설정 */
+}
+
+/* 퀴즈 질문 텍스트 크기 키우기 */
+.quiz-container .fs-5 {
+  font-size: 1.8rem;  /* 문제 질문 크기 확대 */
+  margin-bottom: 30px;  /* 질문과 버튼 간 간격 */
 }
 
 /* 퀴즈 선택지 버튼 */
 .option-btn {
   background-color: #ffde59;
   border: none;
-  padding: 20px;  /* 버튼 크기 확대 */
-  font-size: 1.5rem;  /* 폰트 크기 확대 */
+  padding: 20px;  /* 버튼 크기 확장 */
+  font-size: 1.6rem;  /* 폰트 크기 확대 */
   border-radius: 12px;
   cursor: pointer;
   transition: 0.3s;
-  width: 100%;  /* 버튼을 꽉 채우기 */
+  width: 100%;
+  line-height: 1.5;  /* 텍스트 수직 정렬을 위해 line-height 조정 */
+  margin-bottom: 20px;  /* 버튼들 간의 간격 더 추가 */
+  text-align: center;  /* 텍스트 수평 정렬을 위해 text-align 추가 */
 }
 
 .option-btn:hover {
   background-color: #ffd000;
 }
 
-/* 피드백 */
+/* 피드백 텍스트와 버튼 사이의 간격 조정 */
 .feedback {
   margin-top: 20px;
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1.6rem;
+  margin-bottom: 20px;  /* 피드백과 버튼 사이에 여백 추가 */
 }
 
 .feedback.correct {

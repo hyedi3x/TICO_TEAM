@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
 import Header from './common/Header';
 import Main from './common/Main';
 import Footer from './common/Footer';
@@ -38,6 +39,11 @@ import Notice from './pages/notice/Notice';
 import NoticeDetail from './pages/notice/NoticeDetail';
 import NoticePost from './pages/notice/NoticePost';
 import NoticeAdmin from './pages/notice/NoticeAdmin';
+import StudyCreate from './blockly/study/StudyCreate';
+import StudyShareGallery from './pages/share/StudyShareGallery';
+import StudyDetail2 from './pages/share/StudyDetail2';
+import StudyEdit from './pages/share/StudyEdit';
+import ReportStudyForm from './pages/share/ReportStudyForm';
 
 function App() {
   return (
@@ -81,6 +87,11 @@ function App() {
           <Route path="/noticeDetail/:noticeId" element={<NoticeDetail/>}/>
           <Route path="/noticePost/" element={<NoticePost/>}/>
           <Route path="/noticePut/:noticeId" element={<NoticePost/>}/>
+          <Route path="/study" element={<StudyCreate />} />
+          <Route path="/shareStudy" element={<StudyShareGallery />} />
+          <Route path="/study/detail/:studyId" element={<StudyDetail2 />} />
+          <Route path="/study/edit/:studyId" element={<StudyEdit />} />
+          <Route path="/studyReport/:studyId" element={<ReportStudyForm />} />
         </Routes>
         <Footer />
       </BrowserRouter>

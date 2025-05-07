@@ -15,7 +15,7 @@ import { loadProjectToCanvas } from '../utils/loadProjectDetail';
 import ScoreModal from './ScoreModal';
 ;Blockly.setLocale(ko); // Blockly 언어를 한국어로 설정
 
-function ShareCanvas() {
+function ShareCanvas({projectId}) {
   /** ─────────────── Refs & States ─────────────── **/
   const canvasRef = useRef(null); // 캔버스 DOM 참조
   const imgArr = useRef([]); // 이미지 객체 리스트
@@ -58,7 +58,7 @@ function ShareCanvas() {
     canvas.width = canvas.width;// 캔버스의 너비를 다시 할당, 캔버스 내부 내용 지워짐
   };
   // 실행할 작품
-  const { projectId } = useParams();
+  // const { projectId } = useParams();
 
 // 점수창 모달
 const [showScoreModal, setShowScoreModal] = useState(false);

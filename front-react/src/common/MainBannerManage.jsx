@@ -27,7 +27,7 @@ const MainBannerManage = () => {
   // 이미지 요청
   const resolveThumbnailUrl = (url) => {
     if (!url) return '';
-    if (url.startsWith('http')) return url;
+    if (url.startsWith('https')) return url;
     return `https://tico.kro.kr${url}`;
   };
 

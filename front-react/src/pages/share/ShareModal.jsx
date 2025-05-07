@@ -38,7 +38,7 @@ function ShareModal({ show, onClose }) {
   }, [show]);
 
   const resolveThumbnailUrl = (url) => {
-    if (url.startsWith('http')) return url;
+    if (url.startsWith('https')) return url;
     return `https://tico.kro.kr${url}`;
   };
 

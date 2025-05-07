@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Card, Tag } from 'rsuite';
 
 const resolveThumbnailUrl = (url) => {
-  if (url && !url.startsWith('http')) {
+  if (url && !url.startsWith('https')) {
     return `https://tico.kro.kr${url}`;
   }
   return url || '';
