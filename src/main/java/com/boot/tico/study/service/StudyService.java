@@ -194,4 +194,34 @@ public class StudyService {
         study.setIscomment(isComment);
         repo.save(study);
     }
+    
+    @Transactional
+    public void addStudyToUser(Integer studyId, String userUuid, String duration, String difficulty) {
+        // 사용자와 스터디를 연결하는 로직
+        StudyDTO study = repo.findById(studyId)
+                .orElseThrow(() -> new RuntimeException("스터디가 존재하지 않습니다."));
+        
+        if (study.getUserUuid().equals(userUuid)) {
+            throw new RuntimeException("자신의 스터디는 추가할 수 없습니다.");
+        }
+        
+        StudyDTO newStudy = new StudyDTO();
+	    int newStudyId = repo.getLatestStudyId() + 1;
+	    
+	    newStudy.setStudyId(newStudyId);
+	    newStudy.setProjectId(study.getProjectId());
+	    newStudy.setUserUuid(userUuid);  // 사용자 UUID 추가
+	    newStudy.setTitle("[추가] " + study.getTitle());
+	    newStudy.setCategory(study.getCategory());
+	    newStudy.setIntroduction(study.getIntroduction());
+	    newStudy.setGoal(study.getGoal()); // goal 설정
+	    newStudy.setDifficulty(difficulty);  // 난이도 설정
+	    newStudy.setDuration(duration);  // 소요 시간 설정
+
+	    int studyCount = repo.countByUserUuid(userUuid);
+	    newStudy.setNumber(studyCount + 1);
+	    newStudy.setIsadded("Y");  // 'Y'로 설정
+
+        repo.save(newStudy);
+    }
 }

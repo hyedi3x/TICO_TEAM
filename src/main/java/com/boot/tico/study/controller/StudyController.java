@@ -93,8 +93,8 @@ public class StudyController {
     
     @PutMapping("/private/{studyId}")
 	public ResponseEntity<?> changePrivateStatus(@PathVariable int studyId, @RequestBody Map<String, String> body){
-		String isPrivate = body.get("isPrivate");
-		String isAgree = body.get("isAgree");
+		String isPrivate = body.get("isprivate");
+		String isAgree = body.get("isagree");
 		service.updatePrivateStatus(studyId, isPrivate, isAgree);
 		return ResponseEntity.ok().build();
 	}
@@ -111,5 +111,27 @@ public class StudyController {
 	  service.updateCommentStatus(studyId, isComment);
 	  return ResponseEntity.ok().build();
 	}
+    
+    @PostMapping("/addToMyStudy")
+    public ResponseEntity<?> addToMyStudy(@RequestBody Map<String, Object> data) {
+        try {
+            Integer studyId = (Integer) data.get("studyId");
+            String userUuid = (String) data.get("userUuid");
+            String duration = (String) data.get("duration");
+            String difficulty = (String) data.get("difficulty");
 
+            // 사용자가 다른 사람의 스터디만 추가할 수 있도록 체크
+            StudyDTO study = service.getStudyDetail(studyId);
+            if (study.getUserUuid().equals(userUuid)) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("자신의 스터디는 추가할 수 없습니다.");
+            }
+
+            service.addStudyToUser(studyId, userUuid, duration, difficulty);
+            return ResponseEntity.ok("스터디가 내 스터디에 추가되었습니다.");
+        } catch (Exception e) {
+            e.printStackTrace();  // 예외를 출력하여 상세 로그 확인
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("스터디 추가 실패: " + e.getMessage());
+        }
+    }
 }

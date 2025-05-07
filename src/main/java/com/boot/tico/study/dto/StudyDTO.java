@@ -47,6 +47,8 @@ public class StudyDTO {
 
     @Column(name = "updated_at")
     private Timestamp updatedAt;
+    
+    private String isadded;
 
     @Transient
     private String nickname;
@@ -64,6 +66,7 @@ public class StudyDTO {
         if (this.isagree == null) this.isagree = "N";
         if (this.isdelete == null) this.isdelete = "N";
         if (this.iscomment == null) this.iscomment = "Y";
+        if (this.isadded == null) this.isadded = "N";
     }
 
     @PreUpdate
@@ -74,5 +77,6 @@ public class StudyDTO {
         if (this.isagree == null) this.isagree = "N";
         if (this.isdelete == null) this.isdelete = "N";
         if (this.iscomment == null) this.iscomment = "Y";
+        if (this.isadded == null) this.isadded = "N";
     }
 }
