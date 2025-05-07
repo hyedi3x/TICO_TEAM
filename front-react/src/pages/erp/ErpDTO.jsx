@@ -46,7 +46,7 @@ function ErpDTO() {
   // 사원 정보가 준비된 경우 JSX 반환
   return (
   <div className="user-info">
-        <h3>회원 정보</h3>
+        <div className="profile-title">회원 정보</div>
         <div className="profile-image-container">
           {/* 프로필 이미지가 있는 경우 */}
           {empInfo.profileImage ? (

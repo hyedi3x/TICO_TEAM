@@ -15,13 +15,13 @@ import PurchasePage from "./PurchasePage";
 import SubscriptionState from "./SubscriptionState";
 import MyProjects from "./MyProjects";
 import UserNotification from "./UserNotification";
+import UserHome from "./UserHome";
 
 // Home 컴포넌트는 간단한 예시로 인라인 작성 (원하는 경우 별도 파일로 분리 가능)
 function MyPageHome() {
   return (
     <div className="mypage-content">
-      <h2>마이페이지 홈</h2>
-      <p>환영합니다! 여기는 마이페이지 홈입니다.</p>
+      <UserHome />
     </div>
   );
 }

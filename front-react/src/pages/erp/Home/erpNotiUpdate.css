@@ -35,7 +35,7 @@
 
 /* 저장 버튼 기본 스타일 */
 .notice-submit {
-  background-color: #4CAF50;
+  background-color: #6AB0E3;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -44,11 +44,11 @@
 }
 
 .notice-submit:hover {
-  background-color: #45a049;
+  background-color: #5A98C9;
 }
 
 .notice-button {
-  background-color: #4CAF50;
+  background-color: #6AB0E3;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -57,5 +57,5 @@
 }
 
 .notice-button:hover {
-  background-color: #45a049;
+  background-color: #5A98C9;
 }

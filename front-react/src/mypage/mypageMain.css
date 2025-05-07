@@ -1,6 +1,7 @@
 /* 전체 컨테이너 */
+
 .mypage-main-container {
-    background-color: #f8f9fa;
+    background-color: #C1E5FF;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -15,9 +16,15 @@
   
   /* 사이드바: 확장/축소 상태에 따른 너비 변경 및 애니메이션 적용 */
   .sideBar {
+    width: 240px;
+    height: 100%; /* ✅ 이거 없으면 내부 flex 높이 계산 안 됨 */
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* 스크롤 활성화 */
+    border-radius: 12px;
+    margin-left: 10px;
+    margin-top: 20px;
     transition: width 0.3s;
-    background-color: #ffffff;
-    border-right: 1px solid #e2e2e2;
   }
   
   .sideBar.expanded {
@@ -27,45 +34,104 @@
   .sideBar.collapsed {
     width: 60px;
   }
-  
-  /* 메인 콘텐츠 영역: flex 컨테이너로 남은 공간 채움 */
-  .main-content {
-    flex: 1;
-    padding: 20px;
-    transition: width 0.3s;
-  }
-  
-  /* 내부 콘텐츠 박스 스타일 */
-  .main-content-inner {
-    background-color: #ffffff;
-    padding: 20px;
-    min-height: 400px;
-    border-radius: 4px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* 공통 콘텐츠 스타일 */
-  .mypage-content h2 {
-    margin-bottom: 20px;
-    font-size: 20px;
-    font-weight: 600;
-    border-bottom: 1px solid #e2e2e2;
-    padding-bottom: 10px;
-    color: #333;
-  }
-  
-  /* 회원 탈퇴 버튼 스타일 */
-  .delete-button {
-    background-color: #dc3545;
-    color: #fff;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 15px;
-  }
-  
-  .delete-button:hover {
-    background-color: #c82333;
-  }
+
+  /* Sidenav 전체 배경 및 기본 설정 */
+.rs-sidenav-default,
+.rs-sidenav-default .rs-dropdown-toggle,
+.rs-sidenav-default .rs-sidenav-item,
+.rs-sidenav-default .rs-sidenav-toggle-button {
+  background-color: #f6fcff;
+  color: #354052;
+  border-radius: 12px;
+}
+
+/* 드롭다운 큰 타이틀 스타일 */
+.rs-nav .rs-dropdown > .rs-dropdown-toggle {
+  height: 50px;
+  vertical-align: bottom;
+  background-color: #f6fcff;
+  color: #354052;
+}
+
+.rs-nav .rs-dropdown > .rs-dropdown-toggle:hover {
+  background-color: #9CD5FF;
+  color: #354052;
+}
+
+.rs-sidenav-item:hover {
+  background-color: #9CD5FF;
+}
+
+/* 드롭다운 아이템 */
+.rs-dropdown-item {
+  padding: 11px 20px 11px 56px;
+  background-color: #eaf6ff;
+  color: #354052;
+  border-radius: 12px;
+}
+
+.rs-dropdown-item:hover {
+  background-color: #c0e4fd;
+  border-radius: 12px;
+}
+
+/* 선택된 드롭다운 아이템 */
+.rs-dropdown-item.rs-dropdown-item-active {
+  color: #354052 !important;
+}
+
+/* 일반 Nav.Item 활성화 시 */
+.rs-sidenav-item.rs-sidenav-item-active {
+  color: #354052 !important;
+  border-radius: 12px;
+}
+
+.rs-sidenav-default .rs-dropdown .rs-dropdown-toggle:hover, .rs-sidenav-default .rs-dropdown.rs-dropdown-open .rs-dropdown-toggle, .rs-sidenav-default .rs-sidenav-item:hover, .rs-sidenav-default .rs-sidenav-toggle-button:hover {
+  /* background-color: #e5e5ea; */
+  /* background-color: var(--rs-sidenav-default-hover-bg); */
+  /* color: #343434; */
+  /* color: var(--rs-sidenav-default-hover-text); */
+  background-color: #9cd5ff;
+}
+
+/* 메인 콘텐츠 영역: flex 컨테이너로 남은 공간 채움 */
+.main-content {
+  flex: 1;
+  padding: 20px;
+  transition: width 0.3s;
+}
+
+/* 내부 콘텐츠 박스 스타일 */
+.main-content-inner {
+  background-color: #f4faff;
+  padding: 20px;
+  min-height: 400px;
+  border-radius: 15px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* 공통 콘텐츠 스타일 */
+.mypage-content h2 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: 600;
+  border-bottom: 1px solid #e2e2e2;
+  padding-bottom: 10px;
+  color: #333;
+}
+
+/* 회원 탈퇴 버튼 스타일 */
+.delete-button {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.delete-button:hover {
+  background-color: #c82333;
+}
   
