@@ -252,8 +252,8 @@
 }
 .hero-illust {
   width: 220px;
-  max-width: 28vw;
-  margin-right: 6vw;
+  max-width: 300px;
+  margin-right: 40px;
   z-index: 2;
   animation: heroIllustIn 1.1s cubic-bezier(0.4,0,0.2,1);
 }
@@ -368,21 +368,12 @@ body {
 }
 
 .swiper-banner-hashtags {
-  font-size: 1.05rem;
+  font-size: 16px;
   opacity: 0.92;
   font-weight: 300;
   text-shadow: 0 1px 4px rgba(0,0,0,0.10);
 }
-@media (max-width: 900px) {
-  .swiper-banner-text {
-    left: 18px;
-    top: 18px;
-    max-width: 90%;
-  }
-  .swiper-banner-subtitle {
-    font-size: 1.05rem;
-  }
-}
+
 
 
 /* 이미지도 부모에 딱 맞춰 cover */
@@ -518,14 +509,12 @@ body {
 /* ── 메인 배너 전용 스타일 ── */
 .banner-wrapper {
   position: relative;
-  width: 100vw;
-  left: 50%;
-  margin-left: -50vw;
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
   overflow: hidden;
-  box-sizing: border-box;
-  border-radius: 24px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-  height: 340px;           /* ← 배너 높이를 340px로 고정 */
+  height: 340px;
+  border-radius: 24px; /* ✅ 모서리 둥글게 추가 */
 }
 
 
@@ -533,6 +522,7 @@ body {
   position: relative;
   width: 100%;
   height: 100%;            /* wrapper 높이에 딱 맞춰 줍니다 */
+  overflow: hidden;
 }
 
 .banner-slide img {
@@ -540,19 +530,23 @@ body {
   height: 400px; /* 필요시 조절 */
   object-fit: cover;
   display: block;
+  border-radius: 24px; /* ✅ 이미지에도 동일하게 */
 }
 
 .banner-text {
   position: absolute;
-  top: 50%;
-  left: 10%;
-  transform: translateY(-50%);
+  top: 45%;            /* 수직 위치는 퍼센트로 */
+  left: 25%;           /* 수평 위치도 퍼센트로 */
+  transform: translate(-50%, -50%); /* 정중앙 anchor 고정 */
+  width: 600px;
+  padding: 0 20px;
+  text-align: center;
   color: #fff;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  z-index: 2;
 }
 
 .banner-subtitle {
-  font-size: 1rem;
+  font-size: 32px;
   margin-bottom: 0.5em;
   background: rgba(255,255,255,0.2);
   padding: 4px 8px;
@@ -561,7 +555,7 @@ body {
 }
 
 .banner-title {
-  font-size: 2.5rem;
+  font-size: 32px;
   font-weight: 800;
   margin: 0;
 }
@@ -670,3 +664,5 @@ body {
   color: #555;
   padding-left: 48px; /* 아이콘과 맞춰 정렬 */
 }
+
+

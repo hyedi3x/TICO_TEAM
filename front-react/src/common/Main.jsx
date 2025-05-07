@@ -60,7 +60,6 @@ function Main() {
 
   // 모든 데이터 한 번에 불러오기 (병렬)
   // 모든 데이터 한 번에 불러오기 (병렬)
-   // 모든 데이터 한 번에 불러오기 (병렬)
   useEffect(() => {
     const fetchAll = async () => {
       try {
@@ -149,7 +148,7 @@ function Main() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-
+  
    // 이미지 경로 처리
    const resolveThumbnailUrl = (url) => {
     if (url && !url.startsWith('https')) {
@@ -270,7 +269,7 @@ function Main() {
               <span className="hero-btn-icon">🚀</span> 시작하기
             </button>
           </div>
-          <img src={process.env.PUBLIC_URL + '/coding_animated.gif'} alt="히어로 일러스트" className="hero-illust" />
+          <img src={process.env.PUBLIC_URL + '/main_coding5.gif'} alt="히어로 일러스트" className="hero-illust" />
         </section>
 
 
