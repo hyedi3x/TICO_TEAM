@@ -150,7 +150,7 @@ function ErpMain() {
       {/* 좌측 사이드바 + 우측 메인 콘텐츠 */}
       <div className="content-wrapper">
         {/* 사이드바 영역 */}
-        <div className="sideBar">
+        <div className="erp-sideBar">
           <Sidenav expanded={expanded} defaultOpenKeys={["1", "2"]}>
             <Sidenav.Body>
               <Nav activeKey={activeKey} onSelect={handleNavSelect}>

@@ -4,7 +4,7 @@
 
 /* 전체 공지사항 카드 박스 스타일 */
 .recent-notice-box {
-  padding: 20px;                            /* 내부 여백 */
+  padding: 25px;                            /* 내부 여백 */
   background-color: #fff;                   /* 배경색 */
   border-radius: 12px;                      /* 모서리 둥글게 */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);/* 그림자 효과 */
@@ -13,11 +13,9 @@
 
 /* 제목 스타일 */
 .recent-notice-box > h3 {
-  display: flex;
-  align-items: center;
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 16px;
+  text-align: left;
+  font-size: 25px;
+  margin-bottom: 18px;
 }
 
 /* 리스트 전체 스타일 */

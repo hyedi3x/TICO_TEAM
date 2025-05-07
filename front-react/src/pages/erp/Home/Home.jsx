@@ -193,30 +193,30 @@ const Home = ({ onNoticeClick }) => {
 
   //-------------------------------------------[ 랜더링 ] -------------------------------------------
   // 컴포넌트 JSX
+
   return (
-    <Grid fluid>
-      <Row>
-        {/* 좌측: 캘린더와 일정 목록 */}
-        <Col xs={24} md={12}>
+    <>
+      <div className="home-container">
+        {/* 좌측: 캘린더 및 일정 */}
+        <div className="home-left">
           <div className="calendar-todo">
-            {/* (1-3) 자식 컴포넌트인 Mycalendar에 props 전달 */}
             <MyCalendar onDateSelect={handleDateSelect} schedules={calendarSchedules} />
             {selectedDate && (
               <>
                 <p style={{ marginTop: '30px', fontWeight: 'bold' }}>
                   📅 {selectedDate.toLocaleDateString('ko-KR')}의 일정입니다.
                 </p>
-                <TodoList list={todoList} onItemClick={openModal} />  {/* 클릭하면 상세보기 및 수정 모달 */}
+                <TodoList list={todoList} onItemClick={openModal} />
                 <Button appearance="primary" onClick={() => openModal()} style={{ marginTop: '15px' }}>
                   일정 등록하기
                 </Button>
               </>
             )}
           </div>
-        </Col>
-
-        {/* 우측: 탭 콘텐츠 */}
-        <Col xs={24} md={12}>
+        </div>
+  
+        {/* 우측: 회원정보, 공지, 알림 */}
+        <div className="home-right">
           <div className="tabs-content">
             <Tabs defaultActiveKey="1">
               <Tabs.Tab eventKey="1" title="회원 정보"><ErpDTO /></Tabs.Tab>
@@ -224,9 +224,9 @@ const Home = ({ onNoticeClick }) => {
               <Tabs.Tab eventKey="3" title="알림"><Notifications /></Tabs.Tab>
             </Tabs>
           </div>
-        </Col>
-      </Row>
-
+        </div>
+      </div>
+  
       {/* 일정 등록/수정 모달 */}
       <Modal open={showModal} onClose={closeModal}>
         <Modal.Header>
@@ -254,8 +254,8 @@ const Home = ({ onNoticeClick }) => {
             </Form.Group>
             <Form.Group controlId="color">
               <ColorPalette
-                selectedColor={formValue.color} // 선택된 색상
-                onChange={(color) => setFormValue(prev => ({ ...prev, color }))}  // 등록, 수정 폼 갱신
+                selectedColor={formValue.color}
+                onChange={(color) => setFormValue(prev => ({ ...prev, color }))}
               />
             </Form.Group>
           </Form>
@@ -272,9 +272,9 @@ const Home = ({ onNoticeClick }) => {
           <Button onClick={closeModal} appearance="subtle">닫기</Button>
         </Modal.Footer>
       </Modal>
-    </Grid>
+    </>
   );
-};
+};  
 
 export default Home;
 
@@ -348,24 +348,26 @@ const Notifications = () => {
 
   return (
     <div className="home-notifications">
-      <h2>알림</h2>
-      <List bordered>
+      <h2>🔔 알림</h2>
+      <ul className="home-notification-list">
         {notifications.length === 0 ? (
-          <List.Item>새로운 알림이 없습니다.</List.Item>
+          <li className="home-notification-item">새로운 알림이 없습니다.</li>
         ) : (
           notifications.map((noti) => (
-            <List.Item
+            <li
               key={noti.notificationId}
-              style={{ cursor: 'pointer', fontWeight: 'bold' }}
+              className="home-notification-item"
               onClick={() => handleClick(noti)}
             >
-              {noti.notificationTitle}
-              <br />
-              <small>{new Date(noti.createdAt).toLocaleString()}</small>
-            </List.Item>
+              <span className="home-notification-title">{noti.notificationTitle}</span>
+              <span className="home-notification-date">
+                {new Date(noti.createdAt).toLocaleDateString()}
+              </span>
+            </li>
           ))
         )}
-      </List>
+      </ul>
     </div>
   );
+  
 };

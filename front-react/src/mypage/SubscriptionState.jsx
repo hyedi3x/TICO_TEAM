@@ -89,7 +89,7 @@ function SubscriptionState({ goToPurchase }) {
 
             <Message type="warning" className="subscription-note">
               이용권 환불은 고객센터 또는 관리자에게 문의해주세요. <br />
-              010-4682-4882 / anzngksduswn@naver.com
+              010-1111-2222 / tico@hotmail.com
             </Message>
 
             <ReceiptModal

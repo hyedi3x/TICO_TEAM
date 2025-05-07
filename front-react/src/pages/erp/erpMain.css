@@ -3,52 +3,112 @@
 /* 전체 컨테이너 */
 .erp-main-container {
   display: flex;
-  flex-direction: column; /* 요소들을 세로 방향으로 배치 */
-  height: 100vh; /* 뷰포트 높이 전체 사용 */
+  flex-direction: column;
+  height: 100vh;
+  background-color: #C1E5FF;/* ✅ 부드러운 전체 배경 3D556E*/
 }
 
-/* 헤더 영역은 별도 스타일 지정 가능 (원한다면) */
+/* 헤더 영역 (추후 따로 스타일링 가능) */
 .erp-main-container > header {
   flex-shrink: 0;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #D3EAF8;
+  padding: 0 20px;
 }
 
-/* 전체 페이지 레이아웃을 flexbox로 구성, 사이드바와 콘텐츠 영역 수평 배치 */
+/* 전체 페이지 레이아웃 */
 .content-wrapper {
   display: flex;
-  flex: 1; /* 남은 공간 모두 차지 */
+  flex: 1;
   overflow: hidden;
 }
 
-/* 사이드 바 */
-.sideBar {
+/* 📌 사이드 바 */
+.erp-sideBar {
   width: 240px;
-  overflow: auto;
-  /* background-color: #f4f4f4; */
+  height: 100%; /* ✅ 이거 없으면 내부 flex 높이 계산 안 됨 */
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* 스크롤 활성화 */
+  border-radius: 12px;
+  margin-left: 10px;
+  margin-top: 20px;
 }
 
-/* 사이드바 스크롤바 스타일 */
-.sideBar::-webkit-scrollbar {
-  width: 5px;
+.rs-sidenav-default, .rs-sidenav-default .rs-dropdown-toggle, .rs-sidenav-default .rs-sidenav-item, .rs-sidenav-default .rs-sidenav-toggle-button {
+  background-color: #f7f7fa;
+  background-color: var(--rs-sidenav-default-bg);
+  border-radius: 12px;
 }
-.sideBar::-webkit-scrollbar-track {
-  background-color: #f1f1f1;
+
+/* 드롭다운 큰 타이틀 */
+.rs-nav .rs-dropdown>.rs-dropdown-toggle {
+  height: 50px;
+  vertical-align: bottom;
+  background-color: #f6fcff;
+  color: #354052;
 }
-.sideBar::-webkit-scrollbar-thumb {
-  background-color: #888;
-  border-radius: 5px;
+
+.rs-nav .rs-dropdown>.rs-dropdown-toggle:hover {
+  background-color: #9CD5FF;
+  color: #354052;
 }
-.sideBar::-webkit-scrollbar-thumb:hover {
-  background-color: #555;
+
+.rs-sidenav-toggle {
+  background-color: #f6fcff !important;
+  border-radius: 12px;
+}
+
+ol, ul {
+  margin-bottom: 0px !important;
+  margin-top: 0;
+}
+
+/* 선택된 네브바 아이템 스타일 */
+.rs-dropdown-item.rs-dropdown-item-active {
+  background-color: #c0e4fd !important;  
+  color: #354052 !important;            
+  border-radius: 12px;
+}
+
+/* 네브바 드롭다운 아이템 */
+.rs-dropdown-item {
+  padding: 11px 20px 11px 56px;
+  background-color: #eaf6ff;
+  color: #354052;
+}
+
+.rs-dropdown-item:hover{
+  background-color: #c0e4fd;
+  border-radius: 12px;
+}
+
+/* 사이드바 토글 닫기 버튼 스타일 변경 */
+.rs-sidenav-toggle-button {
+  background-color: #6AB0E3 !important; /* 버튼 배경: 밝은 포인트 하늘색 */
+  color: #ffffff !important;           /* 텍스트/아이콘 색: 흰색 */
+  border: none !important;             /* 테두리 제거 */
+  border-radius: 8px !important;       /* 둥근 모서리 */
+  height: 40px !important;             /* 높이 조정 */
+  width: 40px !important;              /* 너비 조정 */
+  margin: 6px !important;             /* 위아래 마진 */
+  transition: background-color 0.3s ease;
+}
+
+.rs-sidenav-toggle-button:hover {
+  background-color: #5A98C9 !important; /* hover 시 조금 더 어두운 하늘색 */
 }
 
 /* 콘텐츠 영역 */
 .main-content2 {
-  flex: 1;
+  flex: 1 1;
   padding: 20px;
-  background-color: #f7f7fa;
-  transition: margin-left 0.3s ease;
-  height: 100%;          /* ✅ 높이 명시 */
-  overflow-y: auto;      /* ✅ 콘텐츠 넘칠 경우 스크롤 */
+  background-color: #f4faff; /* ✅ 카드 스타일 배경 */
+  transition: margin-left 0.4s ease;
+  overflow-y: auto;
+  border-radius: 12px;
+  margin: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 /* 확장/축소 애니메이션용 클래스 */
@@ -59,28 +119,30 @@
   margin-left: -170px;
 }
 
-/* rsuite 사이드바 스타일 */
-.rsuite-sidebar {
-  position: relative;
-  width: 240px;
-  transition: width 0.3s ease;
-}
-.rsuite-sidebar.collapsed {
-  width: 56px;
-}
-/* .rsuite-sidebar .rsuite-sidenav {
-  background-color: #f4f4f4;
-} */
-
-/* 콘텐츠 내부 영역 (뷰 전환용 컴포넌트들 들어가는 곳) */
+/* 콘텐츠 내부 영역 */
 .main-content-inner2 {
   width: 100%;
-  height: auto; /* ✅ 높이 자동으로 콘텐츠 따라가도록 */
+  height: auto;
   box-sizing: border-box;
 }
 
-/* disabled-menu 클래스 스타일 */
+/* 비활성 메뉴 */
 .disabled-menu {
-  pointer-events: none;  /* 클릭 이벤트를 차단 */
-  opacity: 0.5;  /* 시각적으로 비활성화된 상태처럼 보이게 */
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* 사이드바 스크롤바 스타일 */
+.erp-sideBar::-webkit-scrollbar {
+  width: 6px;
+}
+.erp-sideBar::-webkit-scrollbar-track {
+  background-color: #eaf6ff;
+}
+.erp-sideBar::-webkit-scrollbar-thumb {
+  background-color: #9CD5FF;
+  border-radius: 4px;
+}
+.erp-sideBar::-webkit-scrollbar-thumb:hover {
+  background-color: #6AB0E3;
 }

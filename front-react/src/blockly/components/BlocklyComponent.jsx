@@ -78,7 +78,7 @@ function Canvas() {
 
     selectedObjects.forEach((obj, idx) => {
       const img = new Image();
-      img.src = `http://localhost:8081${obj.blocklyObjectFilePath}`;
+      img.src = `https://tico.kro.kr${obj.blocklyObjectFilePath}`;
   
       img.onload = () => {
         if (!canvasRef.current) return;
@@ -167,7 +167,7 @@ function Canvas() {
   const callimage = (imgUrl) => {
     const img = new Image();
     // onload와 분리해서 처리할 것(src로 로드 된 후 onload가 실행되기 때문)
-    img.src = `http://localhost:8081${imgUrl}`;
+    img.src = `https://tico.kro.kr${imgUrl}`;
 
     // 객체 로드시 배열에 js객체로 변수와 속성값을 추가
     img.onload = () => {
