@@ -154,6 +154,7 @@
 
 /* 삭제 (숨기기 포함) */
 .quiz-table .btn-delete {
+  order: 2;
   background-color: #e74c3c;
 }
 .quiz-table .btn-delete:hover {
@@ -162,6 +163,7 @@
 
 /* 삭제 취소 (보이기) */
 .quiz-table .btn-restore {
+  order: 1;
   background-color: #00b894;
 }
 .quiz-table .btn-restore:hover {
