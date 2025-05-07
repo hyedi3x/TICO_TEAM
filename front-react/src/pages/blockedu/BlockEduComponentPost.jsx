@@ -272,7 +272,7 @@ function BlockEduComponentPost() {
               <button onClick={()=> captureBlocklyToImage()}>📸 캡처하기</button>
             </div>
             <div className="e2_button-blockly">
-              <button onClick={()=>navigate("/eduList")}>☰ 목록으로 돌아가기</button>
+              <button onClick={()=>navigate("/eduList")}>☰ 목록으로 이동</button>
               <button onClick={()=> saveQuiz()}>💾 저장하기</button>
             </div>
           </div>

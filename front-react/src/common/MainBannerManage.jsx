@@ -203,9 +203,22 @@ const MainBannerManage = () => {
         slidesPerView={4}
         slidesPerGroup={1}
         navigation
-        spaceBetween={30}
         modules={[Navigation]}
         className="staffSwiper mt-3"
+        breakpoints={{
+          1500: {
+            slidesPerView: 4,
+          },
+          1000: {
+            slidesPerView: 3,
+          },
+          500: {
+            slidesPerView: 2,
+          },
+          300: {
+            slidesPerView: 1,
+          },
+        }}
       >
         {banners.length === 0 ? (
           <div className="d-flex align-items-center justify-content-center w-100" style={{ height: "430px" }}>

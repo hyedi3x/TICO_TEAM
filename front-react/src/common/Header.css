@@ -17,7 +17,8 @@
   display: flex;
   justify-content: center; /* 가로 가운데 정렬 */
   align-items: center;     /* 세로 가운데 정렬 */
-  max-width: 1500px;
+  width: 100%;              /* 부모 컨테이너 너비를 100%로 설정 */
+  margin: 0 auto; 
 }
 
 /* 버튼 공통 */
@@ -142,7 +143,7 @@
   width: 100%;
 }
 .offcanvas-body .d-flex{
-  max-width: 213px;
+  max-width: 215px;
 }
 .header-search-container {
   display: flex;

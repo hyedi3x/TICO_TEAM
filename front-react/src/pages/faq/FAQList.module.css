@@ -1,43 +1,116 @@
-/* FAQ 전체 컨테이너 */
 .f_container {
-    margin-top: 50px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+    max-width: 960px;
+    margin: 60px auto;
+    padding: 0 24px;
+    font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+  }
   
-/* 제목 스타일 */
-.f_title {
+  .f_title {
+    font-size: 26px;
     text-align: center;
-    margin-bottom: 20px;
+    font-weight: 800;
+    margin-bottom: 40px;
+    color: #222;
+  }
+  
+  .f_accordion {
+    width: 100%;
+  }
+  
+  /* 아코디언 아이템 */
+  .f_item {
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    margin-bottom: 18px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+    transition: box-shadow 0.2s ease;
+  }
+  
+  .f_item:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  }
+  
+  /* 아코디언 스타일 */
+  /* 아코디언 버튼 (닫혔을때) */
+  :global(.accordion-button.collapsed) {
+    background-color: #ffffff !important;  /* 예: 연민트 */
+    color: #000000 !important;             /* 진한 초록-민트 텍스트 */
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+    box-shadow: none !important;
+    border-bottom: none !important;
+  }
+  /* 아코디언 버튼 (열렸을 때) */
+  :global(.accordion-button:not(.collapsed)) {
+    background-color: #FFEFBA  !important;
+    color: #3E2723  !important;
+    font-weight: 600 !important;
+    box-shadow: none !important;
+    border-bottom: none !important;
+  }
+  
+  /* 본문 영역 */
+  :global(.accordion-body) {
+    background-color: #FFF8E1;
+    font-size: 15.5px;
+    color: #4E342E;
+    font-weight: 500 !important;
+    line-height: 1.7;
+    padding: 20px 24px !important;
+  }
+  
+  /* 닫힌 상태 hover */
+  :global(.accordion-button:hover) {
+    background-color: #D0F0E4 !important;  /* 연민트보다 한 톤 진하게 */
+    color: #007A63 !important;             /* 진한 민트 글씨 */
+  }
+  /* 열린 상태 hover */
+  :global(.accordion-button:not(.collapsed):hover) {
+    background-color: #FFEFBA !important;  /* 연노랑보다 살짝 진하게 */
+    color: #3E2723 !important;             /* 짙은 브라운 */
+  }
+  /* 페이지네이션 영역 */
+  .f_pagination {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  /* 페이지 버튼 */
+  .f_pageBtn {
+    padding: 7px 14px;
+    font-size: 15px;
+    border-radius: 50%;
+    border: 1px solid #bbb;
+    background: #fff;
+    cursor: pointer;
+    color: #333;
+    transition: all 0.2s ease;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .f_pageBtn:hover {
+    background-color: #f0f0f0;
+    border-color: #888;
+  }
+  
+  .f_pageBtn.active {
+    background-color: #00C99C;
+    color: #fff;
     font-weight: bold;
-}
+    border-color: #00C99C;
+  }
   
-/* 아코디언 스타일 */
-.f_accordion {
-    margin-top: 20px;
-    width: 1000px;
-}
-  
-/* 아코디언 아이템 */
-.f_accordion-item {
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    overflow: hidden; /* 내부 둥글게 잘리도록 설정 */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-  
-/* 아코디언 헤더 */
-.f_accordion-header {
-    font-weight: bold;
-    background-color: #fff;
-}
-  
-/* 아코디언 바디 */
-.f_accordion-body {
-    font-weight: bold;
-    font-size: 16px;
-    background-color: #f9f9f9;
-    padding: 20px;
-}
+  /* ❌ 비활성화된 화살표 버튼 */
+  .f_pageBtn.disabled {
+    opacity: 0.4;
+    cursor: default;
+    pointer-events: none;
+  }

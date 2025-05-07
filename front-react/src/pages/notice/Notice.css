@@ -31,7 +31,7 @@
 
 .notice-search input {
   width: 100%;
-  padding: 8px 32px 8px 12px;
+  padding: 8px 32px 8px 16px;
   border: 1px solid #e2e2e2;
   border-radius: 22px;
   font-size: 1rem;
@@ -132,7 +132,7 @@
 
 /* 드롭다운(select) */
 .notice-select {
-  padding: 6px 36px 6px 12px;
+  padding: 6px 32px 6px 16px;
   font-size: 0.95rem;
   border: 1px solid #e0e0e0;
   border-radius: 18px;

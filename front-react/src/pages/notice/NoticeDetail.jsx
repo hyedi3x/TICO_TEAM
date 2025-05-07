@@ -57,10 +57,16 @@ const NoticeDetail = () => {
           <article className="notice-detail-content">
             {notice.content? notice.content : '본문 내용을 등록해주세요.'}
           </article>
+          <div className="d-flex flex-column justify-content-center align-items-center mt-3">
+            <button className="faq-btn btn-edit" onClick={() => window.history.back()}>
+              ☰목록으로
+            </button>
+          </div>
         </div>
       ) : (
         <div>로딩중...</div>
       )}
+
     </div>
   );
   

@@ -11,7 +11,7 @@ import com.boot.tico.eduProject.dao.EduProjectRepository;
 import com.boot.tico.eduProject.dto.EduProjectDTO;
 
 @Service
-public class EduProjectServiceImpl {
+public class EduProjectService {
 	
 	@Autowired
 	private EduProjectRepository repo;

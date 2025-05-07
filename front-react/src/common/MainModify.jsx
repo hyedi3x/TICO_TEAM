@@ -145,7 +145,7 @@ function MainModify() {
       {/* 스태프 선정 작품 */}
       <div className='maincon mt-5'>
         <div className='bt'>
-          <div className="faq-title mb-2">🎞️ 스태프 선정 작품 등록하기</div>
+          <div className="faq-title mb-2">🎞️ 스태프 선정 작품 관리</div>
           <p className='p mb-2'>⚠️ 작품을 추가하거나 변경한 후에는 반드시 <span className="faq-btn btn-edit">저장하기</span> 버튼을 눌러야 적용됩니다. ⚠️</p>
 
           <div className="d-flex justify-content-end align-items-center gap-2">
@@ -157,10 +157,23 @@ function MainModify() {
           <Swiper
             slidesPerView={4}
             slidesPerGroup={1}
-            spaceBetween={30}
             navigation={true}
             modules={[Navigation]}
             className="staffSwiper mt-3"
+            breakpoints={{
+              1500: {
+                slidesPerView: 4,
+              },
+              1000: {
+                slidesPerView: 3,
+              },
+              500: {
+                slidesPerView: 2,
+              },
+              300: {
+                slidesPerView: 1,
+              },
+            }}
           >
             {staffPickProjects.length === 0 ? (
               <div className="d-flex align-items-center justify-content-center w-100" style={{ height: "430px" }}>

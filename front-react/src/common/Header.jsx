@@ -73,16 +73,20 @@ function Header() {
       <Navbar expand="xxl" className="header-navbar"> {/* 1200px 이상에서 보이도록 설정 */}
         <Container fluid className="header-container">
 
-          {/* 로고 */}
-          <Link to="/">
-            <Navbar.Brand>
-              <img src={logo} alt="TICO LOGO" style={{ height: '35px' }} />
-              <img src={logo1} alt="TICO LOGO" style={{ height: '45px', marginBottom: '5px' }} />
-            </Navbar.Brand>
-          </Link>
+        <Link to="/">
+          <Navbar.Brand>
+            <img src={logo} alt="TICO LOGO" style={{ height: '35px', marginLeft:"20px" }} />
+            <img src={logo1} alt="TICO LOGO" style={{ height: '45px', marginBottom: '5px' }} />
+          </Navbar.Brand>
+        </Link>
 
           {/* 햄버거 버튼 */}
-          <Navbar.Toggle aria-controls="offcanvasNavbar" />
+          <Navbar.Toggle aria-controls="offcanvasNavbar" 
+            style={{
+              position: 'absolute',
+              right: '30px'  // 오른쪽 30px 위치
+            }} 
+          />
 
           {/* 오프캔버스 메뉴 (모바일용) */}
           <Navbar.Offcanvas
@@ -96,12 +100,14 @@ function Header() {
               </Offcanvas.Title>
             </Offcanvas.Header>
 
-            <Offcanvas.Body>
+            <Offcanvas.Body style={{ padding: '0', margin: '0 auto' }}>
+
+              {/* 로고 */}
 
               {/* 네비게이션 메뉴 */}
               <Nav className="justify-content-end align-items-center">
                 <Nav.Link href="/tutorial">티코 학습시키기</Nav.Link>
-                <Nav.Link href="/eduList">블럭 학습하기</Nav.Link>
+                <Nav.Link href="/eduList">블록 학습하기</Nav.Link>
                 <Nav.Link href="/createBlock">작품 만들기</Nav.Link>
                 <Nav.Link href="/study">스터디 만들기</Nav.Link>
                 <Nav.Link href="/share">작품 공유하기</Nav.Link>
@@ -131,7 +137,7 @@ function Header() {
                   {/* 직원이 아닌 경우에만 드롭다운 표시 */}
                   {user?.provider === 'employee' ? (
                     <div style={{ marginRight: '10px', padding: '6px 12px', borderRadius: '6px', backgroundColor: '#f8f9fa', color: 'black', fontWeight: 'bold' }}>
-                      {'Employee Account'}
+                      {user?.name}
                     </div>
                   ) : 
                   (

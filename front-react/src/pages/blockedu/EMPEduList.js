@@ -145,17 +145,19 @@ const EMPEduList = () => {
                 <td className="btn-col">
                   {dto.isdelete === "Y" ? (
                     <>
-                      <button
-                        className="btn btn-delete"
-                        onClick={() => manageQuiz(dto.quiz_id, 'hardDelete')}
-                      >
-                        영구삭제
-                      </button>
+
                       <button
                         className="btn btn-restore"
                         onClick={() => manageQuiz(dto.quiz_id, 'restore')}
                       >
                         삭제취소
+                      </button>
+                      
+                      <button
+                        className="btn btn-delete"
+                        onClick={() => manageQuiz(dto.quiz_id, 'hardDelete')}
+                      >
+                        영구삭제
                       </button>
                     </>
                   ) : (
