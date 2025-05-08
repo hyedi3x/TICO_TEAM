@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axiosInstance from '../login/social/utils/axiosInstance';
-import {Form, Button, Panel, TagInput, SelectPicker, RadioGroup, Radio, ButtonToolbar} from 'rsuite';
+import {Form, Button, Panel, TagInput, SelectPicker, RadioGroup, Radio, ButtonToolbar, Input} from 'rsuite';
 import './ProjectEditMeta.css';
 
 const CATEGORY_OPTIONS = [
@@ -19,13 +19,13 @@ function ProjectEditMeta() {
   useEffect(() => {
     axiosInstance.get(`/api/project/${projectId}`)
       .then(res => {
-        const data = res.data.project || res.data;
+        const data = res.data.project;
         setProject({
           ...data,
-          introduction: typeof data.introduction === 'string' ? data.introduction : '',
-          guide: typeof data.guide === 'string' ? data.guide : '',
-          notes: typeof data.notes === 'string' ? data.notes : '',
           tags: data.tags ? data.tags.split(',').map(t => t.trim()) : [],
+          introduction: typeof data.introduction === 'string' ? data.introduction : JSON.stringify(data.introduction ?? ''),
+          guide: typeof data.guide === 'string' ? data.guide : JSON.stringify(data.guide ?? ''),
+          notes: typeof data.notes === 'string' ? data.notes : JSON.stringify(data.notes ?? '')
         });
       })
       .catch(() => alert('프로젝트 정보를 불러오지 못했습니다.'));
@@ -120,34 +120,34 @@ function ProjectEditMeta() {
             {/* 소개 */}
             <Form.Group style={{ marginBottom: 22 }}>
               <Form.ControlLabel className="project-edit-label">소개</Form.ControlLabel>
-              <Form.Control
-                name="introduction"
+              <Input
+                as="textarea"
                 rows={3}
-                accepter="textarea"
-                className="project-edit-input"
+                name="introduction"
                 value={project.introduction}
+                onChange={(value) => setProject(prev => ({ ...prev, introduction: value }))}
               />
             </Form.Group>
             {/* 사용법 */}
             <Form.Group style={{ marginBottom: 22 }}>
               <Form.ControlLabel className="project-edit-label">사용법</Form.ControlLabel>
-              <Form.Control
-                name="guide"
+              <Input
+                as="textarea"
                 rows={3}
-                accepter="textarea"
-                className="project-edit-input"
+                name="guide"
                 value={project.guide}
+                onChange={(value) => setProject(prev => ({ ...prev, guide: value }))}
               />
             </Form.Group>
             {/* 참고사항 */}
             <Form.Group style={{ marginBottom: 32 }}>
               <Form.ControlLabel className="project-edit-label">참고사항</Form.ControlLabel>
-              <Form.Control
-                name="notes"
+              <Input
+                as="textarea"
                 rows={3}
-                accepter="textarea"
-                className="project-edit-input"
+                name="notes"
                 value={project.notes}
+                onChange={(value) => setProject(prev => ({ ...prev, notes: value }))}
               />
             </Form.Group>
             <Form.Group style={{ textAlign: "center" }}>
