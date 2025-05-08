@@ -1,9 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { Panel, Grid, Row, Col, Input, DatePicker, SelectPicker, Button } from "rsuite";    // rsuite UI 라이브러리에서 제공하는 컴포넌트들
-import { useNavigate } from 'react-router-dom'; 
+import React, { useState, useEffect } from "react";
+import {
+  Panel,
+  Grid,
+  Row,
+  Col,
+  Input,
+  DatePicker,
+  SelectPicker,
+  Button,
+} from "rsuite"; // rsuite UI 라이브러리에서 제공하는 컴포넌트들
+import { useNavigate } from "react-router-dom";
 
 import axiosInstance from "../../login/social/utils/axiosInstance";
-import "./adminRegister.css"; 
+import "./adminRegister.css";
 import "./adminContainer.css";
 
 function AdminRegister() {
@@ -12,13 +21,13 @@ function AdminRegister() {
   // 폼 변수 선언
   const [form, setForm] = useState({
     empName: "",
-    empPwd: "", 
+    empPwd: "",
     empBirth: null,
-    empPhone: "", 
+    empPhone: "",
     empHome: "",
-    empEmail: "", 
+    empEmail: "",
     depId: "",
-    jobId: "", 
+    jobId: "",
     hireDate: null,
     terminationDate: null, // 퇴사일
     salary: "",
@@ -26,46 +35,45 @@ function AdminRegister() {
 
   // 부서와 직무 옵션을 가져오기 위한 상태들
   const [departments, setDepartments] = useState([]); // 부서 목록
-  const [allJobs, setAllJobs] = useState([]);         // 전체 직무 목록
+  const [allJobs, setAllJobs] = useState([]); // 전체 직무 목록
   const [filteredJobs, setFilteredJobs] = useState([]); // 필터된 직무 목록 (부서에 따라 직무 필터링)
 
   // 컴포넌트가 처음 렌더링될 때 부서 목록과 직무 목록을 스프링 부트에서 호출
   useEffect(() => {
     // 부서 정보를 스프링 부트 서버에서 호출
-    axiosInstance.get("/api/departments")
-      .then((res) => {
-        const departmentOptions = res.data.map((dep) => ({  // SelectPicker에서 쓸 수 있게 {label, value}  형태로 가공 
-          label: dep.depName,
-          value: dep.depId
-        }));
-        setDepartments(departmentOptions); // 부서 목록 설정
+    axiosInstance.get("/api/departments").then((res) => {
+      const departmentOptions = res.data.map((dep) => ({
+        // SelectPicker에서 쓸 수 있게 {label, value}  형태로 가공
+        label: dep.depName,
+        value: dep.depId,
+      }));
+      setDepartments(departmentOptions); // 부서 목록 설정
 
-        // 부서 목록 길이가 0 이상일 때 (부서 목록을 선택 및 입력했는지 여부)
-        if (departmentOptions.length > 0) {
-          setForm((prev) => ({
-            ...prev,
-            depId: departmentOptions[0].value // 부서 목록이 로드되면 기본 값 설정
-          }));
-        }
-      });
+      // 부서 목록 길이가 0 이상일 때 (부서 목록을 선택 및 입력했는지 여부)
+      if (departmentOptions.length > 0) {
+        setForm((prev) => ({
+          ...prev,
+          depId: departmentOptions[0].value, // 부서 목록이 로드되면 기본 값 설정
+        }));
+      }
+    });
 
     // 직무 목록을 가져오는 요청
-    axiosInstance.get("/api/jobs")
-      .then((res) => setAllJobs(res.data)); // 직무 전체 목록을 가져와 저장
+    axiosInstance.get("/api/jobs").then((res) => setAllJobs(res.data)); // 직무 전체 목록을 가져와 저장
   }, []);
 
   // 부서 선택 시 해당 부서에 속한 직무 목록 필터링
   const handleDepChange = (depId) => {
-    console.log("선택된 부서 ID:", depId);  
+    console.log("선택된 부서 ID:", depId);
 
     // setForm : form 상태 업데이트, depId 선택시, jobId 초기화 (부서를 다시 선택하면 기존 선택한 직무는 초기화)
     setForm((prev) => ({ ...prev, depId, jobId: "" }));
 
     const jobsForDep = allJobs
-      .filter((job) => job.depId === depId)  // 부서 ID로 직무 필터링
-      .map((job) => ({ label: job.jobName, value: job.jobId }));  // 직무 목록을 SelectPicker에 맞게 변환
-    console.log("필터링된 직무:", jobsForDep);  // 직무 필터링된 결과 확인
-    setFilteredJobs(jobsForDep);  // 필터링된 직무 목록 상태 업데이트
+      .filter((job) => job.depId === depId) // 부서 ID로 직무 필터링
+      .map((job) => ({ label: job.jobName, value: job.jobId })); // 직무 목록을 SelectPicker에 맞게 변환
+    console.log("필터링된 직무:", jobsForDep); // 직무 필터링된 결과 확인
+    setFilteredJobs(jobsForDep); // 필터링된 직무 목록 상태 업데이트
   };
 
   // 입력 값 변화 시 폼 상태 업데이트
@@ -73,7 +81,7 @@ function AdminRegister() {
     setForm((prev) => ({ ...prev, [field]: value })); // 필드별로 상태 값 업데이트
   };
 
-  // 저장 버튼 클릭 시 
+  // 저장 버튼 클릭 시
   const handleSubmit = async () => {
     try {
       // 월급을 숫자 타입으로 변환 후 연봉 계산
@@ -81,7 +89,7 @@ function AdminRegister() {
       const annual = monthly * 12; // 연봉
       const net = annual * 0.9; // 세후 연봉 계산(10% 세금 공제 가정)
 
-      // payload : 리액트에서 스프링 부트에 보낼 변환된 데이터셋 
+      // payload : 리액트에서 스프링 부트에 보낼 변환된 데이터셋
       const payload = {
         ...form,
         salary: monthly,
@@ -90,9 +98,15 @@ function AdminRegister() {
         // form.empBirth ? ... : null | 사용자가 값을 입력 o → form.empBirth.toISOString().split("T")[0] 실행 / 입력 x → null 반환
         // toISOString() : yyyy-mm-dd 형식으로 변환 ( 날짜를 ISO 포맷 문자열)
         // .split("T")[0] : T를 기준으로 자름 (시간 정보는 필요없기 때문에)
-        empBirth: form.empBirth ? form.empBirth.toISOString().split("T")[0] : null,
-        hireDate: form.hireDate ? form.hireDate.toISOString().split("T")[0] : null, 
-        terminationDate: form.terminationDate ? form.terminationDate.toISOString().split("T")[0] : null,
+        empBirth: form.empBirth
+          ? form.empBirth.toISOString().split("T")[0]
+          : null,
+        hireDate: form.hireDate
+          ? form.hireDate.toISOString().split("T")[0]
+          : null,
+        terminationDate: form.terminationDate
+          ? form.terminationDate.toISOString().split("T")[0]
+          : null,
       };
 
       console.log("전송될 payload:", payload); // 최종 제출될 데이터 로그로 확인(디버깅 용)
@@ -108,13 +122,17 @@ function AdminRegister() {
       }
     } catch (err) {
       console.error("등록 에러:", err);
-      alert("에러 발생!"); // 에러 발생 시 알림
+      if (err.response && err.response.status === 409) {
+        alert("이미 사용 중인 이메일입니다. 다른 이메일을 입력해주세요.");
+      } else {
+        alert("에러 발생! 다시 시도해주세요.");
+      }
     }
   };
 
   // 직무 옵션을 부서에 따라 다르게 설정
   const jobOptions = form.depId
-    ? filteredJobs  // 부서가 선택된 경우 필터링된 직무 목록
+    ? filteredJobs // 부서가 선택된 경우 필터링된 직무 목록
     : allJobs.map((job) => ({ label: job.jobName, value: job.jobId })); // 모든 직무 목록
 
   // 주소 검색을 위한 Daum 우편번호 서비스 호출
@@ -129,7 +147,8 @@ function AdminRegister() {
   // Daum 우편번호 스크립트 호출
   useEffect(() => {
     const script = document.createElement("script");
-    script.src = "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
+    script.src =
+      "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
     script.async = true;
     document.body.appendChild(script); // 외부 스크립트 추가
   }, []);
@@ -248,7 +267,11 @@ function AdminRegister() {
               />
             </Col>
             <Col sm={6}>
-              <button className="search-btn" onClick={openDaumPostcode} style={{ width: "94%" }}>
+              <button
+                className="search-btn"
+                onClick={openDaumPostcode}
+                style={{ width: "94%" }}
+              >
                 주소 검색
               </button>
             </Col>
