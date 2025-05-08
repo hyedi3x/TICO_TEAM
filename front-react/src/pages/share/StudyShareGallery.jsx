@@ -47,9 +47,7 @@ function StudyShareGallery() {
       <div className="gallery-info-box text-center mb-4">
         <h5 className="fw-bold mb-2">💡 이곳은 스터디를 감상하고 소통하는 공간이에요!</h5>
         <p className="text-muted" style={{ fontSize: "15px" }}>
-          다른 사람들이 만든 <strong>스터디</strong>를 감상하고 <strong>좋아요</strong>와 <strong>댓글</strong>로 소통해보세요.
-          <br />
-          자신의 스터디를 <strong>공유</strong>해보고 다른 사람들과 함께 소통해보아요!
+          자신의 스터디를 <strong>공유</strong>하고 다른 사람들과 <strong>댓글</strong>로 소통해보세요.
         </p>
       </div>
 
