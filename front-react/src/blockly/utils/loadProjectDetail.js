@@ -71,8 +71,8 @@ export const loadProjectToCanvas = async (
   for (const obj of objects) {
     const div = document.createElement('div');
     div.id = `blockly${obj.objectIndex}`;
-    div.style.height = '800px';
-    div.style.width = '1200px';
+    div.style.height = '100%';
+    div.style.width = '100%';
     blocklyDiv.current.appendChild(div);
 
     const workspace = Blockly.inject(div, {

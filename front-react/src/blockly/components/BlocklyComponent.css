@@ -59,6 +59,11 @@
   box-shadow: 0 0 8px rgba(0,0,0,0.1);
 }
 
+.workspace{
+  width: 1000px;
+  height: 600px;
+}
+
 /* 작품명 입력창 영역 */
 .project-title-input {
   display: flex;

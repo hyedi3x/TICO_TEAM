@@ -122,8 +122,8 @@ function RemakeCanvas() {
       callImgArr();
       const blocklyDivElement = document.createElement('div');
       blocklyDivElement.id = `blockly${imgArr.current.length - 1}`;
-      blocklyDivElement.style.height = '800px';
-      blocklyDivElement.style.width = '1200px';
+      blocklyDivElement.style.height = '100%';
+      blocklyDivElement.style.width = '100%';
       blocklyDiv.current.appendChild(blocklyDivElement);
 
       const workspace = Blockly.inject(blocklyDivElement, {
@@ -608,7 +608,7 @@ function RemakeCanvas() {
               style={{ border: '1px solid', backgroundColor: 'transparent' }}
             />
           </div>
-          <div className="object-panel-container" style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', marginTop: '1rem' }}>
+          <div className="object-panel-container" style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', marginTop: '1rem', position: 'relative' }}>
             {imgArr.current.map((obj, index) => (
               <div key={index} className="object-panel-item">
                 <ObjectControlPanel
@@ -627,16 +627,62 @@ function RemakeCanvas() {
                 />
               </div>
             ))}
+            {/* 오버레이 */}
+            {/* 오버레이 */}
+            {!btn_toggle && (
+              <div style={{
+                position: "absolute",
+                top: 0, left: 0, right: 0, bottom: 0,
+                background: "rgba(0,0,0,0.3)",
+                zIndex: 999,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}>
+                <div style={{
+                  background: "#fff",
+                  borderRadius: "16px",
+                  padding: "16px 24px",
+                  fontSize: "24px",
+                  fontWeight: "bold",
+                  textAlign: "center"
+                }}>
+                  ⏹️ 정지하기 버튼을 먼저 눌러주세요!
+                </div>
+              </div>
+            )}
           </div>
         </div>
         <div className="blockly-area">
-          <div ref={blocklyDiv}></div>
+          <div ref={blocklyDiv} className="workspace" style={{ position: 'relative' }}>
+          {!btn_toggle && blocklyDiv && (
+              <div style={{
+                position: "absolute",
+                top: 0, left: 0, right: 0, bottom: 0,
+                background: "rgba(0,0,0,0.3)",
+                zIndex: 999,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}>
+                <div style={{
+                  background: "#fff",
+                  borderRadius: "16px",
+                  padding: "16px 24px",
+                  fontSize: "24px",
+                  fontWeight: "bold",
+                  textAlign: "center"
+                }}>
+                  ⏹️ 정지하기 버튼을 먼저 눌러주세요!
+                </div>
+              </div>
+            )}
+          </div>
           <div className="project-title-input" style={{ marginBottom: '0.5rem' }}>
             <label htmlFor="projectTitle">📝 작품명: </label>
             <input
               id="projectTitle"
               type="text"
-              value={projectTitle}
               onChange={(e) => setProjectTitle(e.target.value)}
               placeholder="작품 이름을 입력하세요"
             />
