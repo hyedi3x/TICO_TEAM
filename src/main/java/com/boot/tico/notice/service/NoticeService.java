@@ -46,7 +46,7 @@ public class NoticeService {
 	        maxId = 0;
 	    }
 	    noticeDTO.setNoticeId(maxId + 1);
-
+	    noticeDTO.setVisitLength(0);
 	    repo.save(noticeDTO);
 	}
 	
