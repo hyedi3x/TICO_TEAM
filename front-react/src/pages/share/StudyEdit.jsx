@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Button, ButtonToolbar, Form, Panel, Radio, RadioGroup, SelectPicker } from 'rsuite';
+import { Button, ButtonToolbar, Form, Input, Panel, Radio, RadioGroup, SelectPicker } from 'rsuite';
 import axiosInstance from '../login/social/utils/axiosInstance';
 import StudySelector from '../../blockly/study/StudySelector';
 import './ProjectEditMeta.css'; // 동일한 스타일 사용 가능
@@ -148,22 +148,22 @@ function StudyEdit() {
             </Form.Group>
             <Form.Group style={{ marginBottom: 22 }}>
               <Form.ControlLabel className="project-edit-label">소개</Form.ControlLabel>
-              <Form.Control
-                name="introduction"
+              <Input
+                as="textarea"
                 rows={3}
-                accepter="textarea"
-                className="project-edit-input"
+                name="introduction"
                 value={study.introduction}
+                onChange={(value) => setStudy(prev => ({ ...prev, introduction: value }))}
               />
             </Form.Group>
             <Form.Group style={{ marginBottom: 22 }}>
               <Form.ControlLabel className="project-edit-label">목표</Form.ControlLabel>
-              <Form.Control
-                name="goal"
+              <Input
+                as="textarea"
                 rows={3}
-                accepter="textarea"
-                className="project-edit-input"
+                name="goal"
                 value={study.goal}
+                onChange={(value) => setStudy(prev => ({ ...prev, goal: value }))}
               />
             </Form.Group>
             <Form.Group style={{ textAlign: "center" }}>
