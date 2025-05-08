@@ -12,7 +12,7 @@ import com.boot.tico.notice.dto.NoticeDTO;
 import com.boot.tico.notice.repository.NoticeRepository;
 
 @Service
-public class NoticeServiceImpl {
+public class NoticeService {
 	
 	@Autowired
 	private NoticeRepository repo;

@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.boot.tico.notice.dto.NoticeDTO;
-import com.boot.tico.notice.service.NoticeServiceImpl;
+import com.boot.tico.notice.service.NoticeService;
 
 @RestController
 @RequestMapping("/api")
 public class NoticeController {
 	
 	@Autowired
-	private NoticeServiceImpl noticeService;
+	private NoticeService noticeService;
 	
 	private final Logger logger = LoggerFactory.getLogger(NoticeController.class);
 	//공지 목록

@@ -78,25 +78,27 @@ function Main() {
         const subtitleArr = [];
         const hashtagArr = [];
 
-        bannerRes.data.forEach(banner => {
-          const bannerProjectId = parseInt(banner.bannerLink.split('/').pop()); // projectId 추출
-          const matchedProject = allProjects.find(project => project.projectId === bannerProjectId);
+        bannerRes.data
+          .filter(banner => banner.isDelete === 'N')
+          .forEach(banner => {
+            const bannerProjectId = parseInt(banner.bannerLink.split('/').pop()); // projectId 추출
+            const matchedProject = allProjects.find(project => project.projectId === bannerProjectId);
 
-          if (matchedProject) {
-            // 소개글: 30자 초과 시 자르고 ... 붙이기
-            const intro = matchedProject.introduction || "";
-            const trimmedIntro = intro.length > 30 ? intro.slice(0, 30) + "..." : intro;
-            subtitleArr.push(trimmedIntro);
+            if (matchedProject) {
+              // 소개글: 30자 초과 시 자르고 ... 붙이기
+              const intro = matchedProject.introduction || "";
+              const trimmedIntro = intro.length > 30 ? intro.slice(0, 30) + "..." : intro;
+              subtitleArr.push(trimmedIntro);
 
-            // 태그: 최대 4개만 표시, 초과 시 ' 외' 붙이기
-            const tags = matchedProject.tags
-              ? matchedProject.tags.split(',').map(tag => `#${tag.trim()}`)
-              : [];
-            const displayedTags = tags.slice(0, 4).join(' ');
-            const extraText = tags.length > 4 ? ' 외' : '';
-            hashtagArr.push(displayedTags + extraText);
-          }
-        });
+              // 태그: 최대 4개만 표시, 초과 시 ' 외' 붙이기
+              const tags = matchedProject.tags
+                ? matchedProject.tags.split(',').map(tag => `#${tag.trim()}`)
+                : [];
+              const displayedTags = tags.slice(0, 4).join(' ');
+              const extraText = tags.length > 4 ? ' 외' : '';
+              hashtagArr.push(displayedTags + extraText);
+            }
+          });
 
         setSubtitles(subtitleArr);
         setHashtags(hashtagArr);
