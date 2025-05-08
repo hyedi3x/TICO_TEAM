@@ -95,26 +95,6 @@ function ShareDetail() {
 
   const isOwner = project.userUuid === userUuid;
 
-  // 내 작품: 코드 보기
-  const handleViewCode = () => {
-    navigate('/remake', {
-      state: {
-        projectId: project.projectId,
-        mode: 'view' // 코드 보기
-      }
-    });
-  };
-
-  // 남의 작품: 리메이크하기
-  const handleRemake = () => {
-    navigate('/remake', {
-      state: {
-        remakeProjectId: project.projectId,
-        mode: 'remake' // 리메이크
-      }
-    });
-  };
-
   const handleReport = () => {
     if (!userUuid) {
       alert("로그인 후 사용 가능합니다.");
@@ -164,11 +144,6 @@ function ShareDetail() {
             </div>
             <Card.Body>
               <Card.Title as="h2" className="text-center mb-4">
-                <div className="text-center mb-3 float-start">
-                  <Button variant="info" className="me-2" onClick={isOwner ? handleViewCode : handleRemake}>
-                    {isOwner ? '코드 보기' : '리메이크하기'}
-                  </Button>
-                </div>
                 {project.title}
                 <span className={project.isPrivate === 'Y' ? "project-badge-private" : "project-badge-public"}>
                   {project.isPrivate === 'Y' ? '비공개' : '공개'}

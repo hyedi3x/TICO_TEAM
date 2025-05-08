@@ -109,8 +109,8 @@ function Header() {
                 <Nav.Link href="/tutorial">티코 학습시키기</Nav.Link>
                 <Nav.Link href="/eduList">블록 학습하기</Nav.Link>
                 <Nav.Link href="/createBlock">작품 만들기</Nav.Link>
-                <Nav.Link href="/study">스터디 만들기</Nav.Link>
                 <Nav.Link href="/share">작품 공유하기</Nav.Link>
+                <Nav.Link href="/study">스터디 만들기</Nav.Link>
                 <Nav.Link href="/shareStudy">스터디 공유하기</Nav.Link>
                 <Nav.Link href="/noticeList">공지사항</Nav.Link>
                 <Nav.Link href="/faqlist">FAQ</Nav.Link>

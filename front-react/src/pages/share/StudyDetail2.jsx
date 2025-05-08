@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Col, Container, Dropdown, Row, Tab, Tabs } from 'react-bootstrap';
+import { Card, Col, Container, Dropdown, Row, Tab, Tabs, Button } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import ShareCanvas from '../../blockly/components/BlocklyComponentRun';
 import axiosInstance from '../login/social/utils/axiosInstance';
@@ -103,6 +103,26 @@ function StudyDetail2() {
       .catch(() => alert('상태 변경에 실패했습니다.'));
   };
 
+  // 내 작품: 코드 보기
+  const handleViewCode = () => {
+    navigate('/remake', {
+      state: {
+        projectId: study.projectId,
+        mode: 'view' // 코드 보기
+      }
+    });
+  };
+
+  // 남의 작품: 리메이크하기
+  const handleRemake = () => {
+    navigate('/remake', {
+      state: {
+        remakeProjectId: study.projectId,
+        mode: 'remake' // 리메이크
+      }
+    });
+  };
+
   const handleReport = () => {
     if (!userUuid) {
       alert("로그인 후 사용 가능합니다.");
@@ -125,6 +145,11 @@ function StudyDetail2() {
             <Card.Body>
               <Card.Title as="h2" className="text-center mb-4" style={{ fontSize: '2rem', fontWeight: 'bold' }}>
                 <ShareCanvas projectId={study.projectId} />
+                <div className="text-center mb-3 float-start">
+                  <Button variant="info" className="me-2" onClick={isOwner ? handleViewCode : handleRemake}>
+                    {isOwner ? '코드 보기' : '리메이크하기'}
+                  </Button>
+                </div>
                 {study.title}
                 <span 
                   className={`study-badge ${study.isprivate === 'Y' ? 'study-badge-private' : 'study-badge-public'}`}>

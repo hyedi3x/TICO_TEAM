@@ -1,7 +1,12 @@
 .edit-profile-form {
-    max-width: 500px;
-    margin-top: 20px;
-  }
+  margin: auto;
+  margin-top: 20px;
+  width: 500px;
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 40px 20px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
   
   .form-row {
     display: flex;
@@ -21,7 +26,7 @@
   }
   
   .save-button {
-    background-color: #007bff;
+    background-color: #6AB0E3;
     color: #fff;
     border: none;
     padding: 10px 16px;
@@ -30,6 +35,6 @@
   }
   
   .save-button:hover {
-    background-color: #0056b3;
+    background-color: #5A98C9;
   }
   

@@ -53,6 +53,7 @@ public interface ProjectRepository extends JpaRepository<ProjectDTO, Integer>{
 		    FROM project_tb p
 		    LEFT JOIN users u ON p.user_uuid = u.user_uuid
 		    WHERE p.isprivate = 'N' AND p.isdelete = 'N'
+			ORDER BY p.updated_at DESC
 		""", nativeQuery = true)
 		List<Object[]> findByIsPrivate();
 	

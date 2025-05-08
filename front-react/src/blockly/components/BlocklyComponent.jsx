@@ -99,8 +99,8 @@ function Canvas() {
         // Blockly 작업공간 생성
         const blocklyDivElement = document.createElement('div');
         blocklyDivElement.id = `blockly${imgArr.current.length - 1}`;
-        blocklyDivElement.style.height = '800px';
-        blocklyDivElement.style.width = '1200px';
+        blocklyDivElement.style.height = '100%';
+        blocklyDivElement.style.width = '100%';
         blocklyDiv.current.appendChild(blocklyDivElement);
 
         const workspace = Blockly.inject(blocklyDivElement, {
@@ -192,8 +192,8 @@ function Canvas() {
       // Blockly 작업공간 DOM 생성 및 주입
       const blocklyDivElement = document.createElement('div');
       blocklyDivElement.id = `blockly${imgArr.current.length-1}`;
-      blocklyDivElement.style.height = '800px';
-      blocklyDivElement.style.width = '1200px';
+      blocklyDivElement.style.height = '100%';
+      blocklyDivElement.style.width = '100%';
       blocklyDiv.current.appendChild(blocklyDivElement); // 부모요소.appendChild(추가할 자식요소) : HTML div 하위에 해당 작업공간 추가
 
       // 작업공간 주입
@@ -833,7 +833,7 @@ function Canvas() {
 
         {/* Blockly 작업공간 */}
         <div className="blockly-area">
-          <div ref={blocklyDiv} style={{ position: 'relative' }}>
+          <div ref={blocklyDiv} className="workspace" style={{ position: 'relative' }}>
             {!btn_toggle && blocklyDiv && (
               <div style={{
                 position: "absolute",
