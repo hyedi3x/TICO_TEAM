@@ -187,30 +187,30 @@ function ErpMain() {
                   <Nav.Item eventKey="2-3">알림 목록</Nav.Item>
                 </Nav.Menu>
                 <Nav.Menu eventKey="3" title="인사팀(HR)" icon={<Icon as={BsFillPeopleFill} />} data-key="3"
-                  className={empInfo.depId === "DEP001" || empInfo.depId === "DEP000" ? "" : "disabled-menu"}>
+                  className={empInfo.depId === "DEP001" ? "" : "disabled-menu"}>
                   <Nav.Item eventKey="3-1">관리자 등록</Nav.Item>
                   <Nav.Item eventKey="3-2">관리자 조회/수정/삭제</Nav.Item>
                 </Nav.Menu>
                 <Nav.Menu eventKey="4" title="결제 관리팀(PAY)" icon={<Icon as={MdPayments} />} data-key="4"
-                  className={empInfo.depId === "DEP002" || empInfo.depId === "DEP001" ? "" : "disabled-menu"}>
+                  className={empInfo.depId === "DEP002" ? "" : "disabled-menu"}>
                   <Nav.Item eventKey="4-1">결제 회원 관리</Nav.Item>
                   <Nav.Item eventKey="4-2">결제 내역 관리</Nav.Item>
                 </Nav.Menu>
                 <Nav.Menu eventKey="5" title="통계 분석팀(DA)" icon={<Icon as={ImStatsDots} />} data-key="5"
-                  className={empInfo.depId === "DEP003" || empInfo.depId === "DEP001" ? "" : "disabled-menu"}>
+                  className={empInfo.depId === "DEP003" ? "" : "disabled-menu"}>
                   <Nav.Item eventKey="5-1">회원 결제·환불·구독 현황</Nav.Item>
                   <Nav.Item eventKey="5-2">회원 참여도/학습률 분석</Nav.Item>
                   <Nav.Item eventKey="5-3">인기 작품 콘텐츠 통계</Nav.Item>
                 </Nav.Menu>
                 <Nav.Menu eventKey="6" title="고객 지원팀(CS)" icon={<Icon as={MdOutlineEmojiPeople} />} data-key="6"
-                  className={empInfo.depId === "DEP004" || empInfo.depId === "DEP001" ? "" : "disabled-menu"}>
+                  className={empInfo.depId === "DEP004" ? "" : "disabled-menu"}>
                   <Nav.Item eventKey="6-1">회원 목록 조회</Nav.Item>
                   <Nav.Item eventKey="6-2">작품 신고 목록</Nav.Item>
                   <Nav.Item eventKey="6-3">공지사항 등록/관리</Nav.Item>
                   <Nav.Item eventKey="6-4">FAQ 등록/관리</Nav.Item>
                 </Nav.Menu>
                 <Nav.Menu eventKey="7" title="콘텐츠 관리팀(MO)" icon={<Icon as={TbPlayCardStarFilled} />} data-key="7"
-                  className={empInfo.depId === "DEP005" || empInfo.depId === "DEP001" ? "" : "disabled-menu"}>
+                  className={empInfo.depId === "DEP005" ? "" : "disabled-menu"}>
                   <Nav.Item eventKey="7-1">작품 관리</Nav.Item>
                   <Nav.Item eventKey="7-2">스터디 관리</Nav.Item>
                   <Nav.Item eventKey="7-3">블록 학습 퀴즈 등록</Nav.Item>
