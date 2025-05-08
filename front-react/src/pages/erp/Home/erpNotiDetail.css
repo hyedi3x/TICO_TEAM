@@ -88,7 +88,7 @@
   /* 버튼 공통 스타일 */
   .notice-button {
     padding: 8px 16px;
-    margin-left: 10px;
+    /* margin-left: 10px; */
     border: 1px solid #ccc;
     border-radius: 4px;
     background-color: #4CAF50;
