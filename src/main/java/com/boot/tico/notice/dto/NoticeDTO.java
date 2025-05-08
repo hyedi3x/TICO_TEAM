@@ -55,6 +55,9 @@ public class NoticeDTO {
         if (this.showFlag == null) {
             this.showFlag = "Y";
         }
+        if (this.visitLength == null) {
+            this.visitLength = 0;
+        }
     }
 	
 }

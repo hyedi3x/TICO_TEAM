@@ -31,7 +31,8 @@ public class NoticeService {
 		Optional<NoticeDTO> dto = repo.findById(noticeId);
 		if (dto.isPresent()) {
 	        NoticeDTO notice = dto.get();
-	        notice.setVisitLength(notice.getVisitLength() + 1);
+	        int currentCount = notice.getVisitLength() != null ? notice.getVisitLength() : 0;
+	        notice.setVisitLength(currentCount + 1);
 	        repo.save(notice); // ✅ 수정한 내용을 다시 저장해줘야 한다.
 	        return "성공";
 	    } else {

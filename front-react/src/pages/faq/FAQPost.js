@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../login/social/utils/axiosInstance';
 import './FAQPost.css';
 
-function FAQPost({onClose}) {
+function FAQPost({ onClose }) {
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
   const [emp_email, setEmpEmail] = useState('');
@@ -40,16 +40,7 @@ function FAQPost({onClose}) {
           alert('FAQ가 성공적으로 등록되었습니다.');
           setQuestion('');
           setAnswer('');
-          
-          const newFAQ = {
-            qa_id: response.data.qa_id,  // 응답에서 받은 ID 사용
-            question: question,
-            answer: answer,
-            emp_email: emp_email,
-          };
-  
-          // 부모 컴포넌트에 새로운 FAQ 항목 전달
-          onClose(newFAQ);
+          navigate('/faqList'); // FAQ 목록 페이지로 이동
           
         } else {
           alert('FAQ 등록에 실패했습니다.');

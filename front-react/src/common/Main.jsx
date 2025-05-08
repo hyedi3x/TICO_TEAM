@@ -130,7 +130,8 @@ function Main() {
         });
         setPopularProjects(popularWithNicknames.slice(0, 10));
         // banner
-        setBanners(bannerRes.data.sort((a, b) => a.displayOrder - b.displayOrder));
+        const filteredBanners = bannerRes.data.filter(banner => banner.isDelete === 'N');
+        setBanners(filteredBanners.sort((a, b) => a.displayOrder - b.displayOrder));
         // 로딩 완료
         setIsLoaded(true);
       } catch (err) {
