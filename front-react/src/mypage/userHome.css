@@ -21,7 +21,7 @@
 /* 레이아웃 */
 .grid-layout {
   display: flex;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   gap: 30px;
   margin: auto;
 }
