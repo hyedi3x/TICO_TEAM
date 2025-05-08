@@ -103,22 +103,11 @@ function StudyDetail2() {
       .catch(() => alert('상태 변경에 실패했습니다.'));
   };
 
-  // 내 작품: 코드 보기
   const handleViewCode = () => {
     navigate('/remake', {
       state: {
         projectId: study.projectId,
-        mode: 'view' // 코드 보기
-      }
-    });
-  };
-
-  // 남의 작품: 리메이크하기
-  const handleRemake = () => {
-    navigate('/remake', {
-      state: {
-        remakeProjectId: study.projectId,
-        mode: 'remake' // 리메이크
+        mode: 'view'
       }
     });
   };
@@ -146,8 +135,8 @@ function StudyDetail2() {
               <Card.Title as="h2" className="text-center mb-4" style={{ fontSize: '2rem', fontWeight: 'bold' }}>
                 <ShareCanvas projectId={study.projectId} />
                 <div className="text-center mb-3 float-start">
-                  <Button variant="info" className="me-2" onClick={isOwner ? handleViewCode : handleRemake}>
-                    {isOwner ? '코드 보기' : '리메이크하기'}
+                  <Button variant="info" className="me-2" onClick={handleViewCode}>
+                    코드 보기
                   </Button>
                 </div>
                 {study.title}

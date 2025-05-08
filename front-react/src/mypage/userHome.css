@@ -16,6 +16,7 @@
   max-width: 1780px;
   display: flex;
   flex-direction: column;
+  margin: auto;
 }
 
 /* 레이아웃 */
@@ -74,7 +75,7 @@
 
 /* 🧑‍ 사용자 프로필 */
 .profile-box {
-  max-width: 410px;
+  width: 500px;
   padding: 20px;
   background-color: #fff;
   border-radius: var(--radius);
@@ -123,6 +124,7 @@
   border-radius: var(--radius);
   box-shadow: var(--shadow-light);
   padding: 20px;
+  width: 700px;
 }
 
 .quick-actions h4 {
@@ -186,7 +188,7 @@
 
 /* 🪙 이용권 */
 .subscription-progress {
-  max-width: 410px;
+  /* max-width: 410px; */
   background-color: #fff;
   border-radius: var(--radius);
   box-shadow: var(--shadow-light);

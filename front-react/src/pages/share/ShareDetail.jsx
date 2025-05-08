@@ -134,6 +134,15 @@ function ShareDetail() {
       .catch(() => alert('상태 변경에 실패했습니다.'));
   };
 
+  const handleRemake = () => {
+    navigate('/remake', {
+      state: {
+        remakeProjectId: projectId,
+        mode: 'remake'
+      }
+    });
+  };
+
   return (
     <Container className="share-detail-container py-5">
       <Row className="justify-content-center">
@@ -144,6 +153,11 @@ function ShareDetail() {
             </div>
             <Card.Body>
               <Card.Title as="h2" className="text-center mb-4">
+                <div className="text-center mb-3 float-start">
+                  <Button variant="info" className="me-2" onClick={handleRemake}>
+                    리메이크하기
+                  </Button>
+                </div>
                 {project.title}
                 <span className={project.isPrivate === 'Y' ? "project-badge-private" : "project-badge-public"}>
                   {project.isPrivate === 'Y' ? '비공개' : '공개'}
