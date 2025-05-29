@@ -39,7 +39,7 @@ services:
       - ./python/chatbot/.env:/app/.env  
       - /home/ec2-user/TICO_TEAM/python/chatbot/my-project-tico-d3f43b48a318.json:/app/my-project-tico-d3f43b48a318.json
       - ./python/chatbot/static/audio_files:/app/chatbot/static/audio_files
-
+    depends_on: []  # 이거 안하면 172.26.0.2로 잡힘, 172.31.2.248로 호스트하기 위해 필요함
 
   # ------------------------
   # 4) Spring Boot
@@ -56,3 +56,4 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mariadb://${DB_HOST}:${DB_PORT}/${DB_NAME}   # JDBC 형식의 DB 접속 URL (MariaDB 기준)
       - SPRING_DATASOURCE_USERNAME=${DB_USER}   # DB 사용자명 (Spring에서 사용됨)
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}  # DB 비밀번호
+    depends_on: []  # 이거 안하면 172.26.0.2로 잡힘, 172.31.2.248로 호스트하기 위해 필요함
