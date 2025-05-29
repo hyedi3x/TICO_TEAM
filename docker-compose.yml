@@ -29,12 +29,17 @@ services:
     expose:
       - "5000"  # 내부망에서만 접근 가능
     environment:
-      - GOOGLE_APPLICATION_CREDENTIALS=/app/my-project-tico-d3f43b48a318.json
-      - DB_PORT=3306
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/my-project-tico-d3f43b48a318.json  # GCP 서비스 계정 키 경로 (예: Firebase, STT 등 사용 시 필요)
+      - DB_HOST=${DB_HOST}               # DB 서버 주소 (예: EC2 내부 IP 또는 호스트명)
+      - DB_PORT=${DB_PORT}               # DB 서버 포트 (일반적으로 3306 for MariaDB)
+      - DB_USER=${DB_USER}               # DB 사용자명 (예: root)
+      - DB_PASSWORD=${DB_PASSWORD}       # DB 비밀번호
+      - DB_NAME=${DB_NAME}               # 연결할 DB 이름
     volumes:
       - ./python/chatbot/.env:/app/.env  
       - /home/ec2-user/TICO_TEAM/python/chatbot/my-project-tico-d3f43b48a318.json:/app/my-project-tico-d3f43b48a318.json
       - ./python/chatbot/static/audio_files:/app/chatbot/static/audio_files
+
 
   # ------------------------
   # 4) Spring Boot
@@ -47,3 +52,7 @@ services:
       - "8081:8081"
     volumes:
       - /home/ec2-user/TICO_TEAM/uploads:/uploads
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://${DB_HOST}:${DB_PORT}/${DB_NAME}   # JDBC 형식의 DB 접속 URL (MariaDB 기준)
+      - SPRING_DATASOURCE_USERNAME=${DB_USER}   # DB 사용자명 (Spring에서 사용됨)
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}  # DB 비밀번호
